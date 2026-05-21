@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class VehicleFavouriteScreen extends StatefulWidget {
-  const VehicleFavouriteScreen({super.key});
+class VehicleFavoriteScreen extends StatefulWidget {
+  const VehicleFavoriteScreen({super.key});
 
   @override
-  VehicleFavouriteScreenState createState() => VehicleFavouriteScreenState();
+  VehicleFavoriteScreenState createState() => VehicleFavoriteScreenState();
 }
 
-class VehicleFavouriteScreenState extends State<VehicleFavouriteScreen> with SingleTickerProviderStateMixin {
+class VehicleFavoriteScreenState extends State<VehicleFavoriteScreen> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {

@@ -1,8 +1,8 @@
 import 'package:sixam_mart/common/widgets/cart_count_view.dart';
-import 'package:sixam_mart/common/widgets/custom_favourite_widget.dart';
+import 'package:sixam_mart/common/widgets/custom_favorite_widget.dart';
 import 'package:sixam_mart/common/widgets/hover/on_hover.dart';
 import 'package:sixam_mart/common/widgets/hover/text_hover.dart';
-import 'package:sixam_mart/features/favourite/controllers/favourite_controller.dart';
+import 'package:sixam_mart/features/favorite/controllers/favorite_controller.dart';
 import 'package:sixam_mart/features/item/controllers/item_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
@@ -239,9 +239,9 @@ class WebItemWidget extends StatelessWidget {
 
                 Positioned(
                   top: 10, right: 10,
-                  child: GetBuilder<FavouriteController>(builder: (favouriteController) {
-                    bool isWished = isStore ? favouriteController.wishStoreIdList.contains(store!.id) : favouriteController.wishItemIdList.contains(item!.id);
-                    return CustomFavouriteWidget(
+                  child: GetBuilder<FavoriteController>(builder: (favoriteController) {
+                    bool isWished = isStore ? favoriteController.wishStoreIdList.contains(store!.id) : favoriteController.wishItemIdList.contains(item!.id);
+                    return CustomFavoriteWidget(
                       isWished: isWished,
                       isStore: isStore,
                       store: store,

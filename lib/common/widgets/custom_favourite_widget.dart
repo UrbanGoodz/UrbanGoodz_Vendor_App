@@ -2,25 +2,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
-import 'package:sixam_mart/features/favourite/controllers/favourite_controller.dart';
+import 'package:sixam_mart/features/favorite/controllers/favorite_controller.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
 import 'package:sixam_mart/features/store/domain/models/store_model.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
 
-class CustomFavouriteWidget extends StatefulWidget {
+class CustomFavoriteWidget extends StatefulWidget {
   final Store? store;
   final Item? item;
   final bool isStore;
   final bool isWished;
   final double? size;
   final int? storeId;
-  const CustomFavouriteWidget({super.key, this.store, this.item, this.isStore = false, required this.isWished, this.size = 25, this.storeId});
+  const CustomFavoriteWidget({super.key, this.store, this.item, this.isStore = false, required this.isWished, this.size = 25, this.storeId});
 
   @override
-  State<CustomFavouriteWidget> createState() => _CustomFavouriteWidgetState();
+  State<CustomFavoriteWidget> createState() => _CustomFavoriteWidgetState();
 }
 
-class _CustomFavouriteWidgetState extends State<CustomFavouriteWidget> with SingleTickerProviderStateMixin {
+class _CustomFavoriteWidgetState extends State<CustomFavoriteWidget> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
 
@@ -45,9 +45,9 @@ class _CustomFavouriteWidgetState extends State<CustomFavouriteWidget> with Sing
   Widget build(BuildContext context) {
     return InkWell(
       splashColor: Colors.transparent,
-      onTap: Get.find<FavouriteController>().isRemoving ? null : () {
+      onTap: Get.find<FavoriteController>().isRemoving ? null : () {
         if(AuthHelper.isLoggedIn()) {
-          _decideWished(widget.isWished, Get.find<FavouriteController>());
+          _decideWished(widget.isWished, Get.find<FavoriteController>());
         }else {
           showCustomSnackBar('you_are_not_logged_in'.tr, getXSnackBar: true);
         }
@@ -60,13 +60,13 @@ class _CustomFavouriteWidgetState extends State<CustomFavouriteWidget> with Sing
     );
   }
 
-  void _decideWished(bool isWished, FavouriteController favouriteController) {
+  void _decideWished(bool isWished, FavoriteController favoriteController) {
     if(widget.isStore) {
-      isWished ? favouriteController.removeFromFavouriteList(widget.storeId ?? widget.store?.id, true)
-          : favouriteController.addToFavouriteList(null, widget.storeId ?? widget.store?.id, true);
+      isWished ? favoriteController.removeFromFavoriteList(widget.storeId ?? widget.store?.id, true)
+          : favoriteController.addToFavoriteList(null, widget.storeId ?? widget.store?.id, true);
     }else {
-      isWished ? favouriteController.removeFromFavouriteList(widget.item?.id, false)
-          : favouriteController.addToFavouriteList(widget.item, null, false);
+      isWished ? favoriteController.removeFromFavoriteList(widget.item?.id, false)
+          : favoriteController.addToFavoriteList(widget.item, null, false);
     }
   }
 }

@@ -1,7 +1,7 @@
 import 'package:sixam_mart/features/auth/widgets/auth_dialog_widget.dart';
 import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
 import 'package:sixam_mart/features/profile/controllers/profile_controller.dart';
-import 'package:sixam_mart/features/favourite/controllers/favourite_controller.dart';
+import 'package:sixam_mart/features/favorite/controllers/favorite_controller.dart';
 import 'package:sixam_mart/features/menu/domain/models/menu_model.dart';
 import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
@@ -37,7 +37,7 @@ class MenuButtonWidget extends StatelessWidget {
               Get.find<AuthController>().clearSharedData();
               Get.find<AuthController>().socialLogout();
               Get.find<CartController>().clearCartList();
-              Get.find<FavouriteController>().removeFavourite();
+              Get.find<FavoriteController>().removeFavorite();
               if(!ResponsiveHelper.isDesktop(context)) {
                 Get.offAllNamed(RouteHelper.getSignInRoute(RouteHelper.splash));
               } else{
@@ -46,7 +46,7 @@ class MenuButtonWidget extends StatelessWidget {
             }), useSafeArea: false);
           }else {
             if (!ResponsiveHelper.isDesktop(context)) {
-              Get.find<FavouriteController>().removeFavourite();
+              Get.find<FavoriteController>().removeFavorite();
               Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main));
             } else{
               Get.dialog(const Center(child: AuthDialogWidget(exitFromApp: false, backFromThis: false)));

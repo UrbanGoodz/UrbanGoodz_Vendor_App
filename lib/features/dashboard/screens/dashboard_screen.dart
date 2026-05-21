@@ -22,7 +22,7 @@ import 'package:sixam_mart/features/dashboard/widgets/bottom_nav_item_widget.dar
 import 'package:sixam_mart/features/parcel/controllers/parcel_controller.dart';
 import 'package:sixam_mart/features/store/controllers/store_controller.dart';
 import 'package:sixam_mart/features/rental_module/rental_cart_screen/taxi_cart_screen.dart';
-import 'package:sixam_mart/features/rental_module/rental_favourite/screens/vehicle_favourite_screen.dart';
+import 'package:sixam_mart/features/rental_module/rental_favorite/screens/vehicle_favorite_screen.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
@@ -35,7 +35,7 @@ import 'package:sixam_mart/common/widgets/custom_dialog.dart';
 import 'package:sixam_mart/features/checkout/widgets/congratulation_dialogue.dart';
 import 'package:sixam_mart/features/dashboard/widgets/address_bottom_sheet_widget.dart';
 import 'package:sixam_mart/features/dashboard/widgets/parcel_bottom_sheet_widget.dart';
-import 'package:sixam_mart/features/favourite/screens/favourite_screen.dart';
+import 'package:sixam_mart/features/favorite/screens/favorite_screen.dart';
 import 'package:sixam_mart/features/home/screens/home_screen.dart';
 import 'package:sixam_mart/features/menu/screens/menu_screen.dart';
 import 'package:sixam_mart/features/order/screens/order_screen.dart';
@@ -111,7 +111,7 @@ class DashboardScreenState extends State<DashboardScreen> {
 
     _screens = [
       const HomeScreen(),
-      const FavouriteScreen(),
+      const FavoriteScreen(),
       const SizedBox(),
       const OrderScreen(),
       const MenuScreen()
@@ -227,9 +227,9 @@ class DashboardScreenState extends State<DashboardScreen> {
                               _screens = [
                                 const HomeScreen(),
                                 isParcel ? const AddressScreen(fromDashboard: true)
-                                    : isTaxi ? const VehicleFavouriteScreen()
+                                    : isTaxi ? const VehicleFavoriteScreen()
                                     : isRide ? OrderScreen(index: isTaxi ? 'trips' : 'rides')
-                                    : const FavouriteScreen(),
+                                    : const FavoriteScreen(),
                                 const SizedBox(),
                                 isRide ? OfferScreen(selectedIndex: widget.rideOfferIndex) : OrderScreen(index: isTaxi ? 'trips' : 'orders'),
                                 const MenuScreen()
@@ -294,9 +294,9 @@ class DashboardScreenState extends State<DashboardScreen> {
                                             onTap: () => _setPage(0),
                                           ),
                                           BottomNavItemWidget(
-                                            title: isParcel ? 'address'.tr : isTaxi ? 'wishlist'.tr : isRide ? 'my_activity'.tr  : 'favourite'.tr,
-                                            selectedIcon: isParcel ? Images.addressSelect : isRide ? Images.orderSelect : Images.favouriteSelect,
-                                            unSelectedIcon: isParcel ? Images.addressUnselect : isRide ? Images.orderUnselect : Images.favouriteUnselect,
+                                            title: isParcel ? 'address'.tr : isTaxi ? 'wishlist'.tr : isRide ? 'my_activity'.tr  : 'favorite'.tr,
+                                            selectedIcon: isParcel ? Images.addressSelect : isRide ? Images.orderSelect : Images.favoriteSelect,
+                                            unSelectedIcon: isParcel ? Images.addressUnselect : isRide ? Images.orderUnselect : Images.favoriteUnselect,
                                             isSelected: _pageIndex == 1, onTap: () => _setPage(1),
                                           ),
                                           Container(width: size.width * 0.2),

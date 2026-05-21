@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
-import 'package:sixam_mart/features/rental_module/rental_favourite/domain/services/taxi_favourite_service_interface.dart';
+import 'package:sixam_mart/features/rental_module/rental_favorite/domain/services/taxi_favorite_service_interface.dart';
 
-class TaxiFavouriteController extends GetxController implements GetxService {
-  final TaxiFavouriteServiceInterface taxiFavouriteServiceInterface;
+class TaxiFavoriteController extends GetxController implements GetxService {
+  final TaxiFavoriteServiceInterface taxiFavoriteServiceInterface;
 
-  TaxiFavouriteController({required this.taxiFavouriteServiceInterface});
+  TaxiFavoriteController({required this.taxiFavoriteServiceInterface});
 
-  Future<void> getFavouriteTaxiList() async {}
+  Future<void> getFavoriteTaxiList() async {}
 }

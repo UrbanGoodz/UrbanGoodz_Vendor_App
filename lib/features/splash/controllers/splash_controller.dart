@@ -11,7 +11,7 @@ import 'package:sixam_mart/features/item/controllers/item_controller.dart';
 import 'package:sixam_mart/features/notification/domain/models/notification_body_model.dart';
 import 'package:sixam_mart/features/profile/controllers/profile_controller.dart';
 import 'package:sixam_mart/features/store/controllers/store_controller.dart';
-import 'package:sixam_mart/features/favourite/controllers/favourite_controller.dart';
+import 'package:sixam_mart/features/favorite/controllers/favorite_controller.dart';
 import 'package:sixam_mart/api/api_client.dart';
 import 'package:sixam_mart/features/splash/domain/models/landing_model.dart' hide DownloadUserAppLinks;
 import 'package:sixam_mart/common/models/config_model.dart' hide DownloadUserAppLinks;
@@ -19,7 +19,7 @@ import 'package:sixam_mart/common/models/module_model.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/features/address/controllers/address_controller.dart';
 import 'package:sixam_mart/features/rental_module/rental_cart_screen/controllers/taxi_cart_controller.dart';
-import 'package:sixam_mart/features/rental_module/rental_favourite/controllers/taxi_favourite_controller.dart';
+import 'package:sixam_mart/features/rental_module/rental_favorite/controllers/taxi_favorite_controller.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
 import 'package:sixam_mart/features/home/screens/home_screen.dart';
@@ -165,7 +165,7 @@ class SplashController extends GetxController implements GetxService {
     if (Get.find<AuthController>().isLoggedIn()) {
       Get.find<AuthController>().updateToken();
       if(Get.find<SplashController>().module != null && Get.find<SplashController>().module!.moduleType.toString() != AppConstants.ride ) {
-        await Get.find<FavouriteController>().getFavouriteList();
+        await Get.find<FavoriteController>().getFavoriteList();
       }
     }
   }
@@ -256,9 +256,9 @@ class SplashController extends GetxController implements GetxService {
       if(Get.find<SplashController>().module != null) {
         Get.find<HomeController>().getCashBackOfferList();
         if(module?.moduleType.toString() == AppConstants.taxi) {
-          Get.find<TaxiFavouriteController>().getFavouriteTaxiList();
+          Get.find<TaxiFavoriteController>().getFavoriteTaxiList();
         } else if(module?.moduleType.toString() != AppConstants.ride) {
-          Get.find<FavouriteController>().getFavouriteList();
+          Get.find<FavoriteController>().getFavoriteList();
         }
       } else if (_cacheModule != null && _cacheModule!.moduleType.toString() == AppConstants.taxi){
         Get.find<TaxiCartController>().getCarCartList();

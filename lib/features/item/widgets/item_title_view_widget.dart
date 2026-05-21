@@ -5,7 +5,7 @@ import 'package:sixam_mart/common/widgets/custom_asset_image_widget.dart';
 import 'package:sixam_mart/common/widgets/custom_tool_tip_widget.dart';
 import 'package:sixam_mart/features/item/controllers/item_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
-import 'package:sixam_mart/features/favourite/controllers/favourite_controller.dart';
+import 'package:sixam_mart/features/favorite/controllers/favorite_controller.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/helper/price_converter.dart';
@@ -222,22 +222,22 @@ class ItemTitleViewWidget extends StatelessWidget {
               color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
             ),
-            child: GetBuilder<FavouriteController>(
-                builder: (favouriteController) {
+            child: GetBuilder<FavoriteController>(
+                builder: (favoriteController) {
                   return InkWell(
                     onTap: () {
                       if(AuthHelper.isLoggedIn()){
-                        if(favouriteController.wishItemIdList.contains(itemController.item!.id)) {
-                          favouriteController.removeFromFavouriteList(itemController.item!.id, false);
+                        if(favoriteController.wishItemIdList.contains(itemController.item!.id)) {
+                          favoriteController.removeFromFavoriteList(itemController.item!.id, false);
                         }else {
-                          favouriteController.addToFavouriteList(itemController.item, null, false);
+                          favoriteController.addToFavoriteList(itemController.item, null, false);
                         }
                       }else {
                         showCustomSnackBar('you_are_not_logged_in'.tr);
                       }
                     },
                     child: Icon(
-                      favouriteController.wishItemIdList.contains(itemController.item!.id) ? Icons.favorite : Icons.favorite_border, size: 25,
+                      favoriteController.wishItemIdList.contains(itemController.item!.id) ? Icons.favorite : Icons.favorite_border, size: 25,
                       color: Theme.of(context).primaryColor,
                     ),
                   );

@@ -2,24 +2,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
-import 'package:sixam_mart/features/favourite/controllers/favourite_controller.dart';
+import 'package:sixam_mart/features/favorite/controllers/favorite_controller.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
 
-class AddFavouriteView extends StatefulWidget {
+class AddFavoriteView extends StatefulWidget {
   final Item? item;
   final double? top, right;
   final double? left;
   final int? storeId;
   final bool interceptPointers;
-  const AddFavouriteView({super.key, required this.item, this.top = 15, this.right = 15, this.left, this.storeId, this.interceptPointers = false});
+  const AddFavoriteView({super.key, required this.item, this.top = 15, this.right = 15, this.left, this.storeId, this.interceptPointers = false});
 
   @override
-  State<AddFavouriteView> createState() => _AddFavouriteViewState();
+  State<AddFavoriteView> createState() => _AddFavoriteViewState();
 }
 
-class _AddFavouriteViewState extends State<AddFavouriteView> with SingleTickerProviderStateMixin {
+class _AddFavoriteViewState extends State<AddFavoriteView> with SingleTickerProviderStateMixin {
 
   late final AnimationController _controller;
 
@@ -44,20 +44,20 @@ class _AddFavouriteViewState extends State<AddFavouriteView> with SingleTickerPr
   Widget build(BuildContext context) {
     return Positioned(
       top: widget.top, right: widget.right, left: widget.left,
-      child: GetBuilder<FavouriteController>(builder: (favouriteController) {
+      child: GetBuilder<FavoriteController>(builder: (favoriteController) {
         bool isWished;
         if(widget.storeId != null) {
-          isWished = favouriteController.wishStoreIdList.contains(widget.storeId);
+          isWished = favoriteController.wishStoreIdList.contains(widget.storeId);
         } else {
-          isWished = favouriteController.wishItemIdList.contains(widget.item!.id);
+          isWished = favoriteController.wishItemIdList.contains(widget.item!.id);
         }
-        Widget favouriteButton = InkWell(
-          onTap: favouriteController.isRemoving ? null : () {
+        Widget favoriteButton = InkWell(
+          onTap: favoriteController.isRemoving ? null : () {
             if(AuthHelper.isLoggedIn()) {
               if(widget.storeId != null) {
-                isWished ? favouriteController.removeFromFavouriteList(widget.storeId, true) : favouriteController.addToFavouriteList(null, widget.storeId, true);
+                isWished ? favoriteController.removeFromFavoriteList(widget.storeId, true) : favoriteController.addToFavoriteList(null, widget.storeId, true);
               } else {
-                isWished ? favouriteController.removeFromFavouriteList(widget.item!.id, false) : favouriteController.addToFavouriteList(widget.item, null, false);
+                isWished ? favoriteController.removeFromFavoriteList(widget.item!.id, false) : favoriteController.addToFavoriteList(widget.item, null, false);
               }
             }else {
               showCustomSnackBar('you_are_not_logged_in'.tr);
@@ -69,7 +69,7 @@ class _AddFavouriteViewState extends State<AddFavouriteView> with SingleTickerPr
             child: Icon(isWished ? CupertinoIcons.heart_solid : CupertinoIcons.heart, color: isWished ? Theme.of(context).primaryColor : Theme.of(context).primaryColor.withValues(alpha: 0.3), size: 25),
           ),
         );
-        return PointerInterceptor(intercepting: widget.interceptPointers, child: favouriteButton);
+        return PointerInterceptor(intercepting: widget.interceptPointers, child: favoriteButton);
       }),
     );
   }

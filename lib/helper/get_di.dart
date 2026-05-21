@@ -44,11 +44,11 @@ import 'package:sixam_mart/features/chat/domain/services/chat_service_interface.
 import 'package:sixam_mart/features/coupon/controllers/coupon_controller.dart';
 import 'package:sixam_mart/features/coupon/domain/services/coupon_service.dart';
 import 'package:sixam_mart/features/coupon/domain/services/coupon_service_interface.dart';
-import 'package:sixam_mart/features/favourite/controllers/favourite_controller.dart';
-import 'package:sixam_mart/features/favourite/domain/repositories/favourite_repository.dart';
-import 'package:sixam_mart/features/favourite/domain/repositories/favourite_repository_interface.dart';
-import 'package:sixam_mart/features/favourite/domain/services/favourite_service.dart';
-import 'package:sixam_mart/features/favourite/domain/services/favourite_service_interface.dart';
+import 'package:sixam_mart/features/favorite/controllers/favorite_controller.dart';
+import 'package:sixam_mart/features/favorite/domain/repositories/favorite_repository.dart';
+import 'package:sixam_mart/features/favorite/domain/repositories/favorite_repository_interface.dart';
+import 'package:sixam_mart/features/favorite/domain/services/favorite_service.dart';
+import 'package:sixam_mart/features/favorite/domain/services/favorite_service_interface.dart';
 import 'package:sixam_mart/features/flash_sale/controllers/flash_sale_controller.dart';
 import 'package:sixam_mart/features/flash_sale/domain/repositories/flash_sale_repository.dart';
 import 'package:sixam_mart/features/flash_sale/domain/repositories/flash_sale_repository_interface.dart';
@@ -187,11 +187,11 @@ import 'package:sixam_mart/features/rental_module/rental_cart_screen/domain/repo
 import 'package:sixam_mart/features/rental_module/rental_cart_screen/domain/repository/taxi_cart_repository_interface.dart';
 import 'package:sixam_mart/features/rental_module/rental_cart_screen/domain/services/taxi_cart_service.dart';
 import 'package:sixam_mart/features/rental_module/rental_cart_screen/domain/services/taxi_cart_service_interface.dart';
-import 'package:sixam_mart/features/rental_module/rental_favourite/controllers/taxi_favourite_controller.dart';
-import 'package:sixam_mart/features/rental_module/rental_favourite/domain/repositories/taxi_favourite_repository.dart';
-import 'package:sixam_mart/features/rental_module/rental_favourite/domain/repositories/taxi_favourite_repository_interface.dart';
-import 'package:sixam_mart/features/rental_module/rental_favourite/domain/services/taxi_favourite_service.dart';
-import 'package:sixam_mart/features/rental_module/rental_favourite/domain/services/taxi_favourite_service_interface.dart';
+import 'package:sixam_mart/features/rental_module/rental_favorite/controllers/taxi_favorite_controller.dart';
+import 'package:sixam_mart/features/rental_module/rental_favorite/domain/repositories/taxi_favorite_repository.dart';
+import 'package:sixam_mart/features/rental_module/rental_favorite/domain/repositories/taxi_favorite_repository_interface.dart';
+import 'package:sixam_mart/features/rental_module/rental_favorite/domain/services/taxi_favorite_service.dart';
+import 'package:sixam_mart/features/rental_module/rental_favorite/domain/services/taxi_favorite_service_interface.dart';
 import 'package:sixam_mart/features/rental_module/rental_location_screen/domain/repository/taxi_repository.dart';
 import 'package:sixam_mart/features/rental_module/rental_location_screen/domain/repository/taxi_repository_interface.dart';
 import 'package:sixam_mart/features/rental_module/rental_location_screen/domain/services/taxi_location_service.dart';
@@ -287,8 +287,8 @@ Future<Map<String, Map<String, String>>> init() async {
   CouponRepositoryInterface couponRepositoryInterface = CouponRepository(apiClient: Get.find());
   Get.lazyPut(() => couponRepositoryInterface);
 
-  FavouriteRepositoryInterface favouriteRepositoryInterface = FavouriteRepository(apiClient: Get.find());
-  Get.lazyPut(() => favouriteRepositoryInterface);
+  FavoriteRepositoryInterface favoriteRepositoryInterface = FavoriteRepository(apiClient: Get.find());
+  Get.lazyPut(() => favoriteRepositoryInterface);
 
   FlashSaleRepositoryInterface flashSaleRepositoryInterface = FlashSaleRepository(apiClient: Get.find());
   Get.lazyPut(() => flashSaleRepositoryInterface);
@@ -371,8 +371,8 @@ Future<Map<String, Map<String, String>>> init() async {
   TaxiOrderRepositoryInterface taxiOrderRepositoryInterface = TaxiOrderRepository(apiClient: Get.find());
   Get.lazyPut(() => taxiOrderRepositoryInterface);
 
-  TaxiFavouriteRepositoryInterface taxiFavouriteRepositoryInterface = TaxiFavouriteRepository(apiClient: Get.find(), sharedPreferences: Get.find());
-  Get.lazyPut(() => taxiFavouriteRepositoryInterface);
+  TaxiFavoriteRepositoryInterface taxiFavoriteRepositoryInterface = TaxiFavoriteRepository(apiClient: Get.find(), sharedPreferences: Get.find());
+  Get.lazyPut(() => taxiFavoriteRepositoryInterface);
 
   SearchLocationRepositoryInterface searchLocationRepositoryInterface = SearchLocationRepository(apiClient: Get.find(), sharedPreferences: Get.find());
   Get.lazyPut(() => searchLocationRepositoryInterface);
@@ -435,8 +435,8 @@ Future<Map<String, Map<String, String>>> init() async {
   CouponServiceInterface couponServiceInterface = CouponService(couponRepositoryInterface: Get.find());
   Get.lazyPut(() => couponServiceInterface);
 
-  FavouriteServiceInterface favouriteServiceInterface = FavouriteService(favouriteRepositoryInterface: Get.find());
-  Get.lazyPut(() => favouriteServiceInterface);
+  FavoriteServiceInterface favoriteServiceInterface = FavoriteService(favoriteRepositoryInterface: Get.find());
+  Get.lazyPut(() => favoriteServiceInterface);
 
   HomeServiceInterface homeServiceInterface = HomeService(homeRepositoryInterface: Get.find());
   Get.lazyPut(() => homeServiceInterface);
@@ -516,8 +516,8 @@ Future<Map<String, Map<String, String>>> init() async {
   TaxiOrderServiceInterface taxiOrderServiceInterface = TaxiOrderService(taxiOrderRepositoryInterface: Get.find());
   Get.lazyPut(() => taxiOrderServiceInterface);
 
-  TaxiFavouriteServiceInterface taxiFavouriteServiceInterface = TaxiFavouriteService(taxiFavouriteRepositoryInterface: Get.find());
-  Get.lazyPut(() => taxiFavouriteServiceInterface);
+  TaxiFavoriteServiceInterface taxiFavoriteServiceInterface = TaxiFavoriteService(taxiFavoriteRepositoryInterface: Get.find());
+  Get.lazyPut(() => taxiFavoriteServiceInterface);
 
   SearchLocationServiceInterface searchLocationServiceInterface = SearchLocationService(searchLocationRepositoryInterface: Get.find());
   Get.lazyPut(() => searchLocationServiceInterface);
@@ -556,7 +556,7 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => ItemController(itemServiceInterface: Get.find()));
   Get.lazyPut(() => CartController(cartServiceInterface: Get.find()));
   Get.lazyPut(() => StoreController(storeServiceInterface: Get.find()));
-  Get.lazyPut(() => FavouriteController(favouriteServiceInterface: Get.find()));
+  Get.lazyPut(() => FavoriteController(favoriteServiceInterface: Get.find()));
   Get.lazyPut(() => HomeController(homeServiceInterface: Get.find()));
   Get.lazyPut(() => ReelsController(reelsServiceInterface: Get.find()), fenix: true);
   Get.lazyPut(() => SearchController(searchServiceInterface: Get.find()));
@@ -583,7 +583,7 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => TaxiCartController(taxiCartServiceInterface: Get.find()));
   Get.lazyPut(() => TaxiVendorController(taxiVendorServiceInterface: Get.find()));
   Get.lazyPut(() => TaxiOrderController(taxiOrderServiceInterface: Get.find()));
-  Get.lazyPut(() => TaxiFavouriteController(taxiFavouriteServiceInterface: Get.find()));
+  Get.lazyPut(() => TaxiFavoriteController(taxiFavoriteServiceInterface: Get.find()));
 
   /// Ride Module
   Get.lazyPut(() => SearchLocationController(searchLocationServiceInterface: Get.find(), locationServiceInterface: Get.find()));

@@ -31,7 +31,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../../common/widgets/add_favourite_view.dart';
+import '../../../common/widgets/add_favorite_view.dart';
 import '../../../common/widgets/discount_tag.dart';
 
 class DetailsWebViewWidget extends StatefulWidget {
@@ -146,7 +146,7 @@ class _DetailsWebViewWidgetState extends State<DetailsWebViewWidget> {
                                 freeDelivery: false,
                               ),
 
-                              AddFavouriteView(item: itemController.item, interceptPointers: shouldInterceptMediaPointers),
+                              AddFavoriteView(item: itemController.item, interceptPointers: shouldInterceptMediaPointers),
 
                               mediaList.length > 1 ? Positioned(
                                 left: 10, top: Get.size.height * 0.5 / 2 - 30,
