@@ -1,0 +1,7 @@
+# macOS metadata
+.DS_Store
+__MACOSX/
+
+# local editor/system files
+*.swp
+*.swo
