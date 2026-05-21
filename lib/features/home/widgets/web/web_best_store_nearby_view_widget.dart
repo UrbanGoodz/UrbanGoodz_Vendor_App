@@ -17,7 +17,7 @@ import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/images.dart';
 import 'package:sixam_mart/util/styles.dart';
-import 'package:sixam_mart/common/widgets/add_favourite_view.dart';
+import 'package:sixam_mart/common/widgets/add_favorite_view.dart';
 import 'package:sixam_mart/common/widgets/card_design/store_card.dart';
 import 'package:sixam_mart/common/widgets/custom_image.dart';
 import 'package:sixam_mart/common/widgets/discount_tag.dart';
@@ -278,7 +278,7 @@ class _WebBestStoreNearbyViewWidgetState extends State<WebBestStoreNearbyViewWid
                                           ]),
                                         ),
 
-                                        AddFavouriteView(
+                                        AddFavoriteView(
                                           left: Get.find<LocalizationController>().isLtr ? null : 15,
                                           right: Get.find<LocalizationController>().isLtr ? 15 : null,
                                           item: Item(id: storeList[index].id),

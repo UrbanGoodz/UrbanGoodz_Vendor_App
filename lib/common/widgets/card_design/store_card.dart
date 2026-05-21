@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:sixam_mart/common/widgets/add_favourite_view.dart';
+import 'package:sixam_mart/common/widgets/add_favorite_view.dart';
 import 'package:sixam_mart/common/widgets/custom_ink_well.dart';
 import 'package:sixam_mart/common/widgets/hover/text_hover.dart';
 import 'package:sixam_mart/common/widgets/not_available_widget.dart';
@@ -214,7 +214,7 @@ class StoreCard extends StatelessWidget {
                   ),
                 ]),
 
-                AddFavouriteView(
+                AddFavoriteView(
                   top: 0,
                   left: Get.find<LocalizationController>().isLtr ? null : 0,
                   right: Get.find<LocalizationController>().isLtr ? 0 : null,

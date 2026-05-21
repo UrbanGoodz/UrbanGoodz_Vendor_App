@@ -197,8 +197,8 @@ class Images {
   static const String parcelInstructionIcon = 'assets/image/parcel_instruction_icon.png';
   static const String homeUnselect = 'assets/image/home_unselect.png';
   static const String homeSelect = 'assets/image/home_select.png';
-  static const String favouriteUnselect = 'assets/image/favourite_unselect.png';
-  static const String favouriteSelect = 'assets/image/favourite_select.png';
+  static const String favoriteUnselect = 'assets/image/favorite_unselect.png';
+  static const String favoriteSelect = 'assets/image/favorite_select.png';
   static const String orderUnselect = 'assets/image/order_unselect.png';
   static const String orderSelect = 'assets/image/order_select.png';
   static const String menu = 'assets/image/menu.png';

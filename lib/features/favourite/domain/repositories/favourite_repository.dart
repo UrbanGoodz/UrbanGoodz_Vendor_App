@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 import 'package:sixam_mart/common/models/response_model.dart';
 import 'package:sixam_mart/api/api_client.dart';
-import 'package:sixam_mart/features/favourite/domain/repositories/favourite_repository_interface.dart';
+import 'package:sixam_mart/features/favorite/domain/repositories/favorite_repository_interface.dart';
 import 'package:sixam_mart/util/app_constants.dart';
 
-class FavouriteRepository implements FavouriteRepositoryInterface<ResponseModel> {
+class FavoriteRepository implements FavoriteRepositoryInterface<ResponseModel> {
   final ApiClient apiClient;
-  FavouriteRepository({required this.apiClient});
+  FavoriteRepository({required this.apiClient});
 
   @override
   Future<Response> getList({int? offset}) async {

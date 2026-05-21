@@ -1,5 +1,5 @@
 import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
-import 'package:sixam_mart/features/favourite/controllers/favourite_controller.dart';
+import 'package:sixam_mart/features/favorite/controllers/favorite_controller.dart';
 import 'package:sixam_mart/features/chat/domain/models/conversation_model.dart';
 import 'package:sixam_mart/common/models/response_model.dart';
 import 'package:sixam_mart/features/location/controllers/location_controller.dart';
@@ -147,7 +147,7 @@ class ProfileController extends GetxController implements GetxService {
       if(Get.find<AuthController>().isActiveRememberMe) {
         Get.find<AuthController>().toggleRememberMe();
       }
-      Get.find<FavouriteController>().removeFavourite();
+      Get.find<FavoriteController>().removeFavorite();
       setForceFullyUserEmpty();
       showCustomSnackBar('your_account_remove_successfully'.tr, isError: false);
       _isLoading = false;

@@ -62,7 +62,7 @@ import 'package:sixam_mart/features/payment/screens/payment_screen.dart';
 import 'package:sixam_mart/features/payment/screens/payment_webview_screen.dart';
 import 'package:sixam_mart/features/coupon/screens/coupon_screen.dart';
 import 'package:sixam_mart/features/dashboard/screens/dashboard_screen.dart';
-import 'package:sixam_mart/features/favourite/screens/favourite_screen.dart';
+import 'package:sixam_mart/features/favorite/screens/favorite_screen.dart';
 import 'package:sixam_mart/features/flash_sale/screens/flash_sale_details_screen.dart';
 import 'package:sixam_mart/features/item/screens/item_campaign_screen.dart';
 import 'package:sixam_mart/features/item/screens/item_details_screen.dart';
@@ -175,7 +175,7 @@ class RouteHelper {
   static const String offlinePaymentScreen = '/offline-payment-screen';
   static const String flashSaleDetailsScreen = '/flash-sale-details-screen';
   static const String guestTrackOrderScreen = '/guest-track-order-screen';
-  static const String favourite = '/favourite';
+  static const String favorite = '/favorite';
   static const String brands = '/brands';
   static const String brandsItemScreen = '/brand-item';
 
@@ -366,7 +366,7 @@ class RouteHelper {
   }
   static String getFlashSaleDetailsScreen(int id) => '$flashSaleDetailsScreen?id=$id&module=${ModuleHelper.getModule()?.slug ?? ModuleHelper.getModule()?.id}';
   static String getGuestTrackOrderScreen(String orderId, String number) => '$guestTrackOrderScreen?order_id=$orderId&number=$number';
-  static String getFavouriteScreen() => favourite;
+  static String getFavoriteScreen() => favorite;
   static String getBrandsScreen() => '$brands?module=${ModuleHelper.getModule()?.slug ?? ModuleHelper.getModule()?.id}';
   static String getBrandsItemScreen(int brandId, String brandName, {required String slug, int? moduleId}) {
     return '$brandsItemScreen/$slug?brandId=$brandId&brandName=$brandName&module=${moduleId ?? ModuleHelper.getModule()?.slug ?? ModuleHelper.getModule()?.id}';
@@ -458,7 +458,7 @@ class RouteHelper {
       );
     }),
     GetPage(name: interest, page: () => const InterestScreen()),
-    GetPage(name: main, page: () => getRoute(DashboardScreen(pageIndex: Get.parameters['page'] == 'home' ? 0 : Get.parameters['page'] == 'favourite' ? 1 : Get.parameters['page'] == 'cart' ? 2 : Get.parameters['page'] == 'order' ? 3 : Get.parameters['page'] == 'menu' ? 4 : 0))),
+    GetPage(name: main, page: () => getRoute(DashboardScreen(pageIndex: Get.parameters['page'] == 'home' ? 0 : Get.parameters['page'] == 'favorite' ? 1 : Get.parameters['page'] == 'cart' ? 2 : Get.parameters['page'] == 'order' ? 3 : Get.parameters['page'] == 'menu' ? 4 : 0))),
 
     GetPage(name: forgotPassword, page: () => const ForgetPassScreen()),
 
@@ -853,7 +853,7 @@ class RouteHelper {
     GetPage(name: guestTrackOrderScreen, page: () => GuestTrackOrderScreen(
       orderId: Get.parameters['order_id']!, number: Get.parameters['number']!,
     )),
-    GetPage(name: favourite, page: () => const FavouriteScreen()),
+    GetPage(name: favorite, page: () => const FavoriteScreen()),
     GetPage(name: brands, page: () {
       return _waitForModule(
         Get.parameters['module'], const BrandsScreen(),

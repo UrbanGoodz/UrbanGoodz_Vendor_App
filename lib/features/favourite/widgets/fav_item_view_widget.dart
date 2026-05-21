@@ -1,4 +1,4 @@
-import 'package:sixam_mart/features/favourite/controllers/favourite_controller.dart';
+import 'package:sixam_mart/features/favorite/controllers/favorite_controller.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/common/widgets/footer_view.dart';
@@ -14,10 +14,10 @@ class FavItemViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GetBuilder<FavouriteController>(builder: (favouriteController) {
+      body: GetBuilder<FavoriteController>(builder: (favoriteController) {
         return RefreshIndicator(
           onRefresh: () async {
-            await favouriteController.getFavouriteList();
+            await favoriteController.getFavoriteList();
           },
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
@@ -27,7 +27,7 @@ class FavItemViewWidget extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.only(bottom: ResponsiveHelper.isDesktop(context) ? 0 : 80.0),
                   child: ItemsView(
-                    isStore: isStore, items: favouriteController.wishItemList, stores: favouriteController.wishStoreList,
+                    isStore: isStore, items: favoriteController.wishItemList, stores: favoriteController.wishStoreList,
                     noDataText: 'no_wish_data_found'.tr, isFeatured: true,
                   ),
                 ),

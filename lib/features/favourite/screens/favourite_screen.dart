@@ -1,6 +1,6 @@
 import 'package:sixam_mart/common/widgets/web_page_title_widget.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
-import 'package:sixam_mart/features/favourite/controllers/favourite_controller.dart';
+import 'package:sixam_mart/features/favorite/controllers/favorite_controller.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
@@ -8,18 +8,18 @@ import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/common/widgets/custom_app_bar.dart';
 import 'package:sixam_mart/common/widgets/menu_drawer.dart';
 import 'package:sixam_mart/common/widgets/not_logged_in_screen.dart';
-import 'package:sixam_mart/features/favourite/widgets/fav_item_view_widget.dart';
+import 'package:sixam_mart/features/favorite/widgets/fav_item_view_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class FavouriteScreen extends StatefulWidget {
-  const FavouriteScreen({super.key});
+class FavoriteScreen extends StatefulWidget {
+  const FavoriteScreen({super.key});
 
   @override
-  FavouriteScreenState createState() => FavouriteScreenState();
+  FavoriteScreenState createState() => FavoriteScreenState();
 }
 
-class FavouriteScreenState extends State<FavouriteScreen> with SingleTickerProviderStateMixin {
+class FavoriteScreenState extends State<FavoriteScreen> with SingleTickerProviderStateMixin {
   TabController? _tabController;
 
   @override
@@ -33,18 +33,18 @@ class FavouriteScreenState extends State<FavouriteScreen> with SingleTickerProvi
 
   void initCall(){
     if(AuthHelper.isLoggedIn()) {
-      Get.find<FavouriteController>().getFavouriteList();
+      Get.find<FavoriteController>().getFavoriteList();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'favourite'.tr, backButton: false),
+      appBar: CustomAppBar(title: 'favorite'.tr, backButton: false),
       endDrawer: const MenuDrawer(),endDrawerEnableOpenDragGesture: false,
       body: AuthHelper.isLoggedIn() ? SafeArea(child: Column(children: [
 
-        WebScreenTitleWidget(title: 'favourite'.tr),
+        WebScreenTitleWidget(title: 'favorite'.tr),
 
         SizedBox(
           width: Dimensions.webMaxWidth,

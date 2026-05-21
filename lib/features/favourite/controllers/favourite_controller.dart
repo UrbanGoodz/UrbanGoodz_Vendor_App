@@ -5,11 +5,11 @@ import 'package:sixam_mart/features/item/domain/models/item_model.dart';
 import 'package:sixam_mart/features/store/domain/models/store_model.dart';
 import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
 import 'package:get/get.dart';
-import 'package:sixam_mart/features/favourite/domain/services/favourite_service_interface.dart';
+import 'package:sixam_mart/features/favorite/domain/services/favorite_service_interface.dart';
 
-class FavouriteController extends GetxController implements GetxService {
-  final FavouriteServiceInterface favouriteServiceInterface;
-  FavouriteController({required this.favouriteServiceInterface});
+class FavoriteController extends GetxController implements GetxService {
+  final FavoriteServiceInterface favoriteServiceInterface;
+  FavoriteController({required this.favoriteServiceInterface});
 
   List<Item?>? _wishItemList;
   List<Item?>? get wishItemList => _wishItemList;
@@ -26,7 +26,7 @@ class FavouriteController extends GetxController implements GetxService {
   bool _isRemoving = false;
   bool get isRemoving => _isRemoving;
 
-  void addToFavouriteList(Item? product, int? storeID, bool isStore, {bool getXSnackBar = false}) async {
+  void addToFavoriteList(Item? product, int? storeID, bool isStore, {bool getXSnackBar = false}) async {
     _isRemoving = true;
     update();
     if(isStore) {
@@ -38,7 +38,7 @@ class FavouriteController extends GetxController implements GetxService {
       _wishItemList!.add(product);
       _wishItemIdList.add(product!.id);
     }
-    ResponseModel responseModel = await favouriteServiceInterface.addFavouriteList(isStore ? storeID : product!.id, isStore);
+    ResponseModel responseModel = await favoriteServiceInterface.addFavoriteList(isStore ? storeID : product!.id, isStore);
     if (responseModel.isSuccess) {
       showCustomSnackBar(responseModel.message, isError: false, getXSnackBar: getXSnackBar);
     } else {
@@ -61,7 +61,7 @@ class FavouriteController extends GetxController implements GetxService {
     update();
   }
 
-  void removeFromFavouriteList(int? id, bool isStore, {bool getXSnackBar = false}) async {
+  void removeFromFavoriteList(int? id, bool isStore, {bool getXSnackBar = false}) async {
     _isRemoving = true;
     update();
 
@@ -86,7 +86,7 @@ class FavouriteController extends GetxController implements GetxService {
         _wishItemList!.removeAt(idIndex);
       }
     }
-    ResponseModel responseModel = await favouriteServiceInterface.removeFavouriteList(id, isStore);
+    ResponseModel responseModel = await favoriteServiceInterface.removeFavoriteList(id, isStore);
     if (responseModel.isSuccess) {
       showCustomSnackBar(responseModel.message, isError: false, getXSnackBar: getXSnackBar);
     }
@@ -104,10 +104,10 @@ class FavouriteController extends GetxController implements GetxService {
     update();
   }
 
-  Future<void> getFavouriteList() async {
+  Future<void> getFavoriteList() async {
     _wishItemList = null;
     _wishStoreList = null;
-    Response response = await favouriteServiceInterface.getFavouriteList();
+    Response response = await favoriteServiceInterface.getFavoriteList();
     if (response.statusCode == 200) {
       update();
       _wishItemList = [];
@@ -122,8 +122,8 @@ class FavouriteController extends GetxController implements GetxService {
 
             Item i = Item.fromJson(item);
             if(Get.find<SplashController>().module == null){
-              _wishItemList!.addAll(favouriteServiceInterface.wishItemList(i));
-              _wishItemIdList.addAll(favouriteServiceInterface.wishItemIdList(i));
+              _wishItemList!.addAll(favoriteServiceInterface.wishItemList(i));
+              _wishItemIdList.addAll(favoriteServiceInterface.wishItemIdList(i));
             }else{
               _wishItemList!.add(i);
               _wishItemIdList.add(i.id);
@@ -134,8 +134,8 @@ class FavouriteController extends GetxController implements GetxService {
 
       response.body['store'].forEach((store) async {
         if(Get.find<SplashController>().module == null){
-          _wishStoreList!.addAll(favouriteServiceInterface.wishStoreList(store));
-          _wishStoreIdList.addAll(favouriteServiceInterface.wishStoreIdList(store));
+          _wishStoreList!.addAll(favoriteServiceInterface.wishStoreList(store));
+          _wishStoreIdList.addAll(favoriteServiceInterface.wishStoreIdList(store));
         }else{
           Store? s;
           try{
@@ -153,7 +153,7 @@ class FavouriteController extends GetxController implements GetxService {
     update();
   }
 
-  void removeFavourite() {
+  void removeFavorite() {
     _wishItemIdList = [];
     _wishStoreIdList = [];
   }

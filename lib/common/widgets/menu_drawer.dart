@@ -7,7 +7,7 @@ import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
 import 'package:sixam_mart/features/language/controllers/language_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/profile/controllers/profile_controller.dart';
-import 'package:sixam_mart/features/favourite/controllers/favourite_controller.dart';
+import 'package:sixam_mart/features/favorite/controllers/favorite_controller.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
@@ -151,7 +151,7 @@ class MenuDrawerState extends State<MenuDrawer> with SingleTickerProviderStateMi
           await Get.find<AuthController>().clearSharedData();
           Get.find<CartController>().clearCartList();
           Get.find<AuthController>().socialLogout();
-          Get.find<FavouriteController>().removeFavourite();
+          Get.find<FavoriteController>().removeFavorite();
           if(ResponsiveHelper.isDesktop(Get.context)) {
             Get.offAllNamed(RouteHelper.getInitialRoute());
           }else{
@@ -159,7 +159,7 @@ class MenuDrawerState extends State<MenuDrawer> with SingleTickerProviderStateMi
           }
         }), useSafeArea: false);
       }else {
-        Get.find<FavouriteController>().removeFavourite();
+        Get.find<FavoriteController>().removeFavorite();
         if(ResponsiveHelper.isDesktop(context)){
           Get.dialog(const Center(child: AuthDialogWidget(exitFromApp: false, backFromThis: false)), barrierDismissible: false);
         }else{
