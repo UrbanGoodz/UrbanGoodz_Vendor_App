@@ -30,3 +30,4 @@
 - Run `flutter pub get`, `flutter analyze`, and `flutter test` in a Flutter-enabled CI/dev environment.
 - Audit configuration and secrets handling before production deployment.
 - Triage and apply safe dependency upgrades with regression testing.
+
