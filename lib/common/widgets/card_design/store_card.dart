@@ -41,11 +41,11 @@ class StoreCard extends StatelessWidget {
     return Stack(children: [
 
       Container(
-        width: 300,
+        width: 340,
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-          boxShadow: ResponsiveHelper.isMobile(context) ? [BoxShadow(color: Theme.of(context).disabledColor.withValues(alpha: 0.2), blurRadius: 5, spreadRadius: 1)] : null,
+          borderRadius: BorderRadius.circular(22),
+          boxShadow: ResponsiveHelper.isMobile(context) ? [BoxShadow(color: Theme.of(context).disabledColor.withValues(alpha: 0.2), blurRadius: 18, spreadRadius: 2)] : null,
         ),
         child: CustomInkWell(
           onTap: () {
@@ -62,8 +62,8 @@ class StoreCard extends StatelessWidget {
               arguments: StoreScreen(store: store, fromModule: false),
             );
           },
-          padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-          radius: Dimensions.radiusDefault,
+          padding: const EdgeInsets.all(18),
+          radius: 22,
           child: TextHover(
             builder: (hovered) {
               return Stack(children: [
@@ -77,30 +77,30 @@ class StoreCard extends StatelessWidget {
                       Stack(
                         children: [
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                            borderRadius: BorderRadius.circular(20),
                             child: CustomImage(
                               isHovered: hovered,
                               image: '${store.logoFullUrl}',
-                              height: 50, width: 50, fit: BoxFit.cover,
+                              height: 72, width: 72, fit: BoxFit.cover,
                             ),
                           ),
 
                           isAvailable ? const SizedBox() : NotAvailableWidget(isStore: true, store: store, fontSize: Dimensions.fontSizeExtraSmall, isAllSideRound: true),
                         ],
                       ),
-                      const SizedBox(width: Dimensions.paddingSizeSmall),
+                      const SizedBox(width: 10),
 
                       Expanded(
                         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
                           Row(children: [
-                            Text(store.name ?? '', style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                            Text(store.name ?? '', style: robotoMedium.copyWith(fontSize: 18),
                               maxLines: 1, overflow: TextOverflow.ellipsis,
                             ),
-                            SizedBox(width: 8),
+                            SizedBox(width: 18),
                             store.verifiedSeller == 1 ? Image.asset(Images.verifiedBadge, width: 12, height: 12) : SizedBox.shrink()
                           ]),
-                          const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                          const SizedBox(),
 
                           !isPharmacy ? store.ratingCount! > 0 ? RatingBar(
                             rating: store.avgRating,
@@ -109,7 +109,7 @@ class StoreCard extends StatelessWidget {
                           ) : const SizedBox() : Row(children: [
 
                             Icon(Icons.storefront, size: 15, color: Theme.of(context).primaryColor),
-                            const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                            const SizedBox(width: 10),
 
                             Expanded(
                               child: Text(store.address ?? '',
@@ -119,12 +119,12 @@ class StoreCard extends StatelessWidget {
                             ),
 
                           ]),
-                          const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                          const SizedBox(height: 10),
 
                           !isPharmacy ? Row(children: [
 
                             Icon(Icons.storefront, size: 15, color: Theme.of(context).primaryColor),
-                            const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                            const SizedBox(width: 10),
 
                             Flexible(
                               child: Text(store.address ?? '',
@@ -149,10 +149,10 @@ class StoreCard extends StatelessWidget {
                       ),
                       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                         Row(children: [
-                          const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                          const SizedBox(width: 10),
 
                           Image.asset(Images.distanceLine, height: 15, width: 15, color: Theme.of(context).disabledColor,),
-                          const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                          const SizedBox(width: 10),
 
                           Text('${distance > 100 ? '100+' : distance.toStringAsFixed(2)} ${'km'.tr}', style: robotoBold.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall)),
                           const SizedBox(width: Dimensions.paddingSizeExtraSmall),
@@ -163,7 +163,7 @@ class StoreCard extends StatelessWidget {
                         Container(
                           decoration: BoxDecoration(
                             color: Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
+                            borderRadius: BorderRadius.circular(22),
                           ),
                           padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: 3),
                           child: Text(
@@ -181,7 +181,7 @@ class StoreCard extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: 3),
                         decoration: BoxDecoration(
                           color: Theme.of(context).disabledColor.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
+                          borderRadius: BorderRadius.circular(22),
                         ),
                         child: Row(children: [
 
@@ -200,7 +200,7 @@ class StoreCard extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: 3),
                         decoration: BoxDecoration(
                           color: Theme.of(context).cardColor,
-                          borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
+                          borderRadius: BorderRadius.circular(20),
                         ),
                         child: Row(children: [
 
