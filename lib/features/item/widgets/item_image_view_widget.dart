@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/common/widgets/discount_tag.dart';
-import 'package:sixam_mart/features/favorite/controllers/favorite_controller.dart';
+import 'package:sixam_mart/features/favourite/controllers/favourite_controller.dart';
 import 'package:sixam_mart/features/item/controllers/item_controller.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
@@ -135,22 +135,22 @@ class ItemImageViewWidget extends StatelessWidget {
                 color: Theme.of(context).disabledColor.withValues(alpha: 0.05),
                 borderRadius: BorderRadius.circular(50),
               ),
-              child: GetBuilder<FavoriteController>(builder: (favoriteController) {
+              child: GetBuilder<FavouriteController>(builder: (favouriteController) {
                 return InkWell(
                   onTap: () {
                     if(AuthHelper.isLoggedIn()){
-                      if(favoriteController.wishItemIdList.contains(item!.id)) {
-                        favoriteController.removeFromFavoriteList(item!.id, false);
+                      if(favouriteController.wishItemIdList.contains(item!.id)) {
+                        favouriteController.removeFromFavouriteList(item!.id, false);
                       }else {
-                        favoriteController.addToFavoriteList(item, null, false);
+                        favouriteController.addToFavouriteList(item, null, false);
                       }
                     }else {
                       showCustomSnackBar('you_are_not_logged_in'.tr);
                     }
                   },
                   child: Icon(
-                    favoriteController.wishItemIdList.contains(item!.id) ? Icons.favorite : Icons.favorite_border, size: 25,
-                    color: favoriteController.wishItemIdList.contains(item!.id) ? Theme.of(context).primaryColor : Theme.of(context).disabledColor,
+                    favouriteController.wishItemIdList.contains(item!.id) ? Icons.favorite : Icons.favorite_border, size: 25,
+                    color: favouriteController.wishItemIdList.contains(item!.id) ? Theme.of(context).primaryColor : Theme.of(context).disabledColor,
                   ),
                 );
               }),

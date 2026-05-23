@@ -5,7 +5,7 @@ import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
 import 'package:sixam_mart/features/item/controllers/item_controller.dart';
 import 'package:sixam_mart/features/location/controllers/location_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
-import 'package:sixam_mart/features/favorite/controllers/favorite_controller.dart';
+import 'package:sixam_mart/features/favourite/controllers/favourite_controller.dart';
 import 'package:sixam_mart/features/checkout/domain/models/place_order_body_model.dart';
 import 'package:sixam_mart/features/cart/domain/models/cart_model.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
@@ -348,12 +348,12 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                             ),
 
                             Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, crossAxisAlignment: CrossAxisAlignment.end, children: [
-                              widget.isCampaign ? const SizedBox(height: 25) : GetBuilder<FavoriteController>(builder: (wishList) {
+                              widget.isCampaign ? const SizedBox(height: 25) : GetBuilder<FavouriteController>(builder: (wishList) {
                                 return InkWell(
                                   onTap: () {
                                     if(AuthHelper.isLoggedIn()) {
-                                      wishList.wishItemIdList.contains(item.id) ? wishList.removeFromFavoriteList(item.id, false, getXSnackBar: true)
-                                          : wishList.addToFavoriteList(item, null, false, getXSnackBar: true);
+                                      wishList.wishItemIdList.contains(item.id) ? wishList.removeFromFavouriteList(item.id, false, getXSnackBar: true)
+                                          : wishList.addToFavouriteList(item, null, false, getXSnackBar: true);
                                     }else {
                                       showCustomSnackBar('you_are_not_logged_in'.tr, getXSnackBar: true);
                                     }

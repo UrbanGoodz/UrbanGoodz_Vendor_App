@@ -74,7 +74,7 @@ class Packages {
     def = json['default'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    color = json['color'];
+    color = json['colour'];
   }
 
   Map<String, dynamic> toJson() {
@@ -94,7 +94,7 @@ class Packages {
     data['default'] = def;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
-    data['color'] = color;
+    data['colour'] = color;
     return data;
   }
 }

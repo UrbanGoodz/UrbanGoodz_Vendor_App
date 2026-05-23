@@ -1,7 +1,7 @@
 import 'package:sixam_mart/common/widgets/custom_ink_well.dart';
 import 'package:sixam_mart/features/store/controllers/store_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
-import 'package:sixam_mart/features/favorite/controllers/favorite_controller.dart';
+import 'package:sixam_mart/features/favourite/controllers/favourite_controller.dart';
 import 'package:sixam_mart/common/models/module_model.dart';
 import 'package:sixam_mart/features/store/domain/models/store_model.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
@@ -98,13 +98,13 @@ class PopularStoreView extends StatelessWidget {
                           storeController.isOpenNow(storeList[index]) ? const SizedBox() : const NotAvailableWidget(isStore: true),
                           Positioned(
                             top: Dimensions.paddingSizeExtraSmall, right: Dimensions.paddingSizeExtraSmall,
-                            child: GetBuilder<FavoriteController>(builder: (favoriteController) {
-                              bool isWished = favoriteController.wishStoreIdList.contains(storeList[index].id);
+                            child: GetBuilder<FavouriteController>(builder: (favouriteController) {
+                              bool isWished = favouriteController.wishStoreIdList.contains(storeList[index].id);
                               return InkWell(
                                 onTap: () {
                                   if(AuthHelper.isLoggedIn()) {
-                                    isWished ? favoriteController.removeFromFavoriteList(storeList[index].id, true)
-                                        : favoriteController.addToFavoriteList(null, storeList[index].id, true);
+                                    isWished ? favouriteController.removeFromFavouriteList(storeList[index].id, true)
+                                        : favouriteController.addToFavouriteList(null, storeList[index].id, true);
                                   }else {
                                     showCustomSnackBar('you_are_not_logged_in'.tr);
                                   }

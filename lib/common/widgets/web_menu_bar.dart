@@ -307,9 +307,9 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
                 }),
                 const SizedBox(width: 20),
 
-                MenuButton(title: 'favorite'.tr, onTap: () {
+                MenuButton(title: 'favourite'.tr, onTap: () {
                   // if(AddressHelper.getUserAddressFromSharedPref() != null) {
-                    Get.toNamed(RouteHelper.getFavoriteScreen());
+                    Get.toNamed(RouteHelper.getFavouriteScreen());
                   // } else {
                   //   showCustomSnackBar('please_select_address_first'.tr,);
                   // }

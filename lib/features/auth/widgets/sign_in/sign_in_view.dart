@@ -13,7 +13,7 @@ import 'package:sixam_mart/features/auth/screens/new_user_setup_screen.dart';
 import 'package:sixam_mart/features/auth/widgets/sign_in/manual_login_widget.dart';
 import 'package:sixam_mart/features/auth/widgets/sign_in/otp_login_widget.dart';
 import 'package:sixam_mart/features/auth/widgets/social_login_widget.dart';
-import 'package:sixam_mart/features/favorite/controllers/favorite_controller.dart';
+import 'package:sixam_mart/features/favourite/controllers/favourite_controller.dart';
 import 'package:sixam_mart/features/location/controllers/location_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/verification/domein/enum/verification_type_enum.dart';
@@ -289,7 +289,7 @@ class _SignInViewState extends State<SignInView> {
       Get.find<AddressController>().getAddressList();
     }
     if(GetPlatform.isWeb){
-      // await Get.find<FavoriteController>().getFavoriteList();
+      // await Get.find<FavouriteController>().getFavouriteList();
     }
     if(status.authResponseModel != null && !status.authResponseModel!.isPhoneVerified!) {
       List<int> encoded = utf8.encode(password);
@@ -327,7 +327,7 @@ class _SignInViewState extends State<SignInView> {
       authController.clearOtpUserNumber();
     }
     if(GetPlatform.isWeb && response.authResponseModel == null){
-      await Get.find<FavoriteController>().getFavoriteList();
+      await Get.find<FavouriteController>().getFavouriteList();
     }
     if(response.authResponseModel != null && !response.authResponseModel!.isPhoneVerified!) {
       if(Get.find<SplashController>().configModel!.firebaseOtpVerification!) {

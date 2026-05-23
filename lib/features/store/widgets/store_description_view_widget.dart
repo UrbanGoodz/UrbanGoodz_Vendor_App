@@ -1,6 +1,6 @@
 import 'package:sixam_mart/features/store/controllers/store_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
-import 'package:sixam_mart/features/favorite/controllers/favorite_controller.dart';
+import 'package:sixam_mart/features/favourite/controllers/favourite_controller.dart';
 import 'package:sixam_mart/features/address/domain/models/address_model.dart';
 import 'package:sixam_mart/features/store/domain/models/store_model.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
@@ -80,13 +80,13 @@ class StoreDescriptionViewWidget extends StatelessWidget {
             //   ) : Icon(Icons.search, color: Theme.of(context).primaryColor),
             // ) : const SizedBox(),
             // const SizedBox(width: Dimensions.paddingSizeSmall),
-            GetBuilder<FavoriteController>(builder: (favoriteController) {
-              bool isWished = favoriteController.wishStoreIdList.contains(store!.id);
+            GetBuilder<FavouriteController>(builder: (favouriteController) {
+              bool isWished = favouriteController.wishStoreIdList.contains(store!.id);
               return InkWell(
                 onTap: () {
                   if(AuthHelper.isLoggedIn()) {
-                    isWished ? favoriteController.removeFromFavoriteList(store!.id, true)
-                        : favoriteController.addToFavoriteList(null, store?.id, true);
+                    isWished ? favouriteController.removeFromFavouriteList(store!.id, true)
+                        : favouriteController.addToFavouriteList(null, store?.id, true);
                   }else {
                     showCustomSnackBar('you_are_not_logged_in'.tr);
                   }

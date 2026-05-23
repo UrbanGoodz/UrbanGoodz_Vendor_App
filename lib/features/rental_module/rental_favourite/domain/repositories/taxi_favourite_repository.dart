@@ -1,11 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sixam_mart/api/api_client.dart';
-import 'package:sixam_mart/features/rental_module/rental_favorite/domain/repositories/taxi_favorite_repository_interface.dart';
+import 'package:sixam_mart/features/rental_module/rental_favourite/domain/repositories/taxi_favourite_repository_interface.dart';
 
-class TaxiFavoriteRepository implements TaxiFavoriteRepositoryInterface {
+class TaxiFavouriteRepository implements TaxiFavouriteRepositoryInterface {
   final ApiClient apiClient;
   final SharedPreferences sharedPreferences;
-  TaxiFavoriteRepository({required this.sharedPreferences, required this.apiClient});
+  TaxiFavouriteRepository({required this.sharedPreferences, required this.apiClient});
   
 
   @override

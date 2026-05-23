@@ -8,7 +8,7 @@ import 'package:sixam_mart/helper/price_converter.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
-import 'package:sixam_mart/common/widgets/add_favorite_view.dart';
+import 'package:sixam_mart/common/widgets/add_favourite_view.dart';
 import 'package:sixam_mart/common/widgets/cart_count_view.dart';
 import 'package:sixam_mart/common/widgets/custom_image.dart';
 import 'package:sixam_mart/common/widgets/discount_tag.dart';
@@ -58,7 +58,7 @@ class FlashProductCardWidget extends StatelessWidget {
 
               OrganicTag(item: product.item!, placeInImage: false),
 
-              AddFavoriteView(
+              AddFavouriteView(
                 top: 5, right: 5,
                 item: product.item!,
               ),

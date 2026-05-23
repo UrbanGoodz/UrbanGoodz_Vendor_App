@@ -2,27 +2,27 @@ import 'package:get/get.dart';
 import 'package:sixam_mart/common/models/response_model.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
 import 'package:sixam_mart/features/store/domain/models/store_model.dart';
-import 'package:sixam_mart/features/favorite/domain/repositories/favorite_repository_interface.dart';
-import 'package:sixam_mart/features/favorite/domain/services/favorite_service_interface.dart';
+import 'package:sixam_mart/features/favourite/domain/repositories/favourite_repository_interface.dart';
+import 'package:sixam_mart/features/favourite/domain/services/favourite_service_interface.dart';
 import 'package:sixam_mart/helper/address_helper.dart';
 
-class FavoriteService implements FavoriteServiceInterface {
-  final FavoriteRepositoryInterface favoriteRepositoryInterface;
-  FavoriteService({required this.favoriteRepositoryInterface});
+class FavouriteService implements FavouriteServiceInterface {
+  final FavouriteRepositoryInterface favouriteRepositoryInterface;
+  FavouriteService({required this.favouriteRepositoryInterface});
 
   @override
-  Future<Response> getFavoriteList() async {
-    return await favoriteRepositoryInterface.getList();
+  Future<Response> getFavouriteList() async {
+    return await favouriteRepositoryInterface.getList();
   }
 
   @override
-  Future<ResponseModel> addFavoriteList(int? id, bool isStore) async {
-    return await favoriteRepositoryInterface.add(null, isStore: isStore, id: id);
+  Future<ResponseModel> addFavouriteList(int? id, bool isStore) async {
+    return await favouriteRepositoryInterface.add(null, isStore: isStore, id: id);
   }
 
   @override
-  Future<ResponseModel> removeFavoriteList(int? id, bool isStore) async {
-    return await favoriteRepositoryInterface.delete(id, isStore: isStore);
+  Future<ResponseModel> removeFavouriteList(int? id, bool isStore) async {
+    return await favouriteRepositoryInterface.delete(id, isStore: isStore);
   }
 
   @override

@@ -4,7 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:sixam_mart/common/controllers/theme_controller.dart';
 import 'package:sixam_mart/common/models/module_model.dart';
-import 'package:sixam_mart/common/widgets/add_favorite_view.dart';
+import 'package:sixam_mart/common/widgets/add_favourite_view.dart';
 import 'package:sixam_mart/common/widgets/card_design/store_card_with_distance.dart';
 import 'package:sixam_mart/common/widgets/custom_image.dart';
 import 'package:sixam_mart/common/widgets/hover/on_hover.dart';
@@ -379,7 +379,7 @@ class _WebTopOffersNearMeState extends State<WebTopOffersNearMe> {
                     ),
                   ) : const SizedBox(),
 
-                  AddFavoriteView(
+                  AddFavouriteView(
                     left: Get.find<LocalizationController>().isLtr ? null : 15,
                     right: Get.find<LocalizationController>().isLtr ? 15 : null,
                     item: null, storeId: store.id,

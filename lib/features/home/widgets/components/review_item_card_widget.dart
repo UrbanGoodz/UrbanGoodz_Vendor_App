@@ -11,7 +11,7 @@ import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/images.dart';
 import 'package:sixam_mart/util/styles.dart';
-import 'package:sixam_mart/common/widgets/add_favorite_view.dart';
+import 'package:sixam_mart/common/widgets/add_favourite_view.dart';
 import 'package:sixam_mart/common/widgets/cart_count_view.dart';
 import 'package:sixam_mart/common/widgets/custom_image.dart';
 import 'package:sixam_mart/common/widgets/discount_tag.dart';
@@ -63,7 +63,7 @@ class ReviewItemCard extends StatelessWidget {
                       ),
                     ),
 
-                    AddFavoriteView(
+                    AddFavouriteView(
                       item: item!,
                     ),
 
@@ -154,7 +154,7 @@ class ReviewItemCard extends StatelessWidget {
                     ),
                   ),
 
-                  AddFavoriteView(
+                  AddFavouriteView(
                     top: 10, right: 10,
                     item: item!,
                   ),

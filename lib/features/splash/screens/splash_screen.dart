@@ -123,7 +123,7 @@ class SplashScreenState extends State<SplashScreen> {
   //   Get.find<AuthController>().updateToken();
   //   if (AddressHelper.getUserAddressFromSharedPref() != null) {
   //     if(Get.find<SplashController>().module != null) {
-  //       await Get.find<FavoriteController>().getFavoriteList();
+  //       await Get.find<FavouriteController>().getFavouriteList();
   //     }
   //     Get.offNamed(RouteHelper.getInitialRoute(fromSplash: true));
   //   } else {

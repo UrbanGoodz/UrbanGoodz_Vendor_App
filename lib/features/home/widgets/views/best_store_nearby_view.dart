@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
-import 'package:sixam_mart/common/widgets/add_favorite_view.dart';
+import 'package:sixam_mart/common/widgets/add_favourite_view.dart';
 import 'package:sixam_mart/common/widgets/card_design/store_card.dart';
 import 'package:sixam_mart/common/widgets/card_design/store_card_with_distance.dart';
 import 'package:sixam_mart/common/widgets/custom_ink_well.dart';
@@ -268,7 +268,7 @@ class BestStoreNearbyView extends StatelessWidget {
                               ),
                             ),
 
-                            AddFavoriteView(
+                            AddFavouriteView(
                               top: 40,
                               left: Get.find<LocalizationController>().isLtr ? null : 15,
                               right: Get.find<LocalizationController>().isLtr ? 15 : null,

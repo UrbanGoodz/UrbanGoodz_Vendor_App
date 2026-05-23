@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
-import 'package:sixam_mart/common/widgets/add_favorite_view.dart';
+import 'package:sixam_mart/common/widgets/add_favourite_view.dart';
 import 'package:sixam_mart/common/widgets/custom_ink_well.dart';
 import 'package:sixam_mart/common/widgets/hover/text_hover.dart';
 import 'package:sixam_mart/features/language/controllers/language_controller.dart';
@@ -77,7 +77,7 @@ class StoreCardWidget extends StatelessWidget {
                       ),
                       isAvailable ? const SizedBox() : NotAvailableWidget(isStore: true, store: store, fontSize: Dimensions.fontSizeExtraSmall, isAllSideRound: false),
 
-                      AddFavoriteView(
+                      AddFavouriteView(
                         top: Dimensions.paddingSizeSmall, right: Dimensions.paddingSizeSmall,
                         item: null, storeId: store!.id,
                       ),

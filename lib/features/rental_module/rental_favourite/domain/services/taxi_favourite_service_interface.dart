@@ -1,3 +1,3 @@
 
-abstract class TaxiFavoriteServiceInterface {
+abstract class TaxiFavouriteServiceInterface {
 }

@@ -12,7 +12,7 @@ import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/images.dart';
 import 'package:sixam_mart/util/styles.dart';
-import 'package:sixam_mart/common/widgets/add_favorite_view.dart';
+import 'package:sixam_mart/common/widgets/add_favourite_view.dart';
 import 'package:sixam_mart/common/widgets/cart_count_view.dart';
 import 'package:sixam_mart/common/widgets/custom_image.dart';
 import 'package:sixam_mart/common/widgets/discount_tag.dart';
@@ -76,7 +76,7 @@ class ItemThatYouLoveCard extends StatelessWidget {
                       ),
                     ) : const SizedBox(),
 
-                    AddFavoriteView(
+                    AddFavouriteView(
                       item: item,
                     ),
 

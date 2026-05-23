@@ -11,7 +11,7 @@ import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/images.dart';
 import 'package:sixam_mart/util/styles.dart';
-import 'package:sixam_mart/common/widgets/add_favorite_view.dart';
+import 'package:sixam_mart/common/widgets/add_favourite_view.dart';
 import 'package:sixam_mart/common/widgets/custom_image.dart';
 import 'package:sixam_mart/common/widgets/hover/on_hover.dart';
 import 'package:sixam_mart/common/widgets/rating_bar.dart';
@@ -238,7 +238,7 @@ class _WebNewOnMartViewWidgetState extends State<WebNewOnMartViewWidget> {
                                 ),
                               ),
 
-                              AddFavoriteView(
+                              AddFavouriteView(
                                 left: Get.find<LocalizationController>().isLtr ? null : 15,
                                 right: Get.find<LocalizationController>().isLtr ? 15 : null,
                                 item: null, storeId: storeList[index].id,

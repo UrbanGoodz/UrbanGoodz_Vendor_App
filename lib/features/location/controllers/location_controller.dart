@@ -19,7 +19,7 @@ import 'package:sixam_mart/features/profile/controllers/profile_controller.dart'
 import 'package:sixam_mart/features/ride_share_module/ride_location/controllers/search_location_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/store/controllers/store_controller.dart';
-import 'package:sixam_mart/features/favorite/controllers/favorite_controller.dart';
+import 'package:sixam_mart/features/favourite/controllers/favourite_controller.dart';
 import 'package:sixam_mart/common/models/module_model.dart';
 import 'package:sixam_mart/features/location/domain/models/prediction_model.dart';
 import 'package:sixam_mart/features/address/controllers/address_controller.dart';
@@ -391,7 +391,7 @@ class LocationController extends GetxController implements GetxService {
 
     if(AuthHelper.isLoggedIn()) {
       if(Get.find<SplashController>().module != null && Get.find<SplashController>().module!.moduleType.toString() != AppConstants.ride) {
-        await Get.find<FavoriteController>().getFavoriteList();
+        await Get.find<FavouriteController>().getFavouriteList();
       } else {
         print('======config data call from location controller');
         Get.find<SplashController>().getConfigData();

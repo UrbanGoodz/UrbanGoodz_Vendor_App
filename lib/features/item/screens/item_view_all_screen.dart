@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:sixam_mart/common/controllers/theme_controller.dart';
 import 'package:sixam_mart/common/enums/data_source_enum.dart';
-import 'package:sixam_mart/common/widgets/add_favorite_view.dart';
+import 'package:sixam_mart/common/widgets/add_favourite_view.dart';
 import 'package:sixam_mart/common/widgets/cart_widget.dart';
 import 'package:sixam_mart/common/widgets/custom_bottom_sheet_widget.dart';
 import 'package:sixam_mart/common/widgets/custom_card.dart';
@@ -356,7 +356,7 @@ class ItemCardWidget extends StatelessWidget {
 
                 Get.find<ItemController>().isAvailable(item) ? const SizedBox() : const NotAvailableWidget(radius: Dimensions.radiusDefault, isAllSideRound: true),
 
-                AddFavoriteView(
+                AddFavouriteView(
                   top: 5, right: 5,
                   item: item,
                 ),
