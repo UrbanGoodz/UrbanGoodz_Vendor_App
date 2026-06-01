@@ -83,7 +83,6 @@ class HomeScreen extends StatefulWidget {
         Get.find<BrandsController>().getBrandList();
       }
       Get.find<BannerController>().getPromotionalBannerList(reload);
-      Get.find<ReelsController>().getReelsList(offset: 1);
       Get.find<ItemController>().getDiscountedItemList(offset: '1', firstTimeCategoryLoad: true);
       Get.find<ItemController>().getPopularItemList(offset: '1', firstTimeCategoryLoad: true);
       Get.find<ItemController>().getReviewedItemList(offset: '1', firstTimeCategoryLoad: true);
@@ -146,6 +145,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
       if((Get.find<ProfileController>().userInfoModel?.isValidForDiscount??false) && Get.find<SplashController>().showReferBottomSheet) {
         _showReferBottomSheet();
+      }
+    });
+
+    // Defer ReelsController.getReelsList until after the first frame to avoid
+    // setState() or markNeedsBuild() called during build error
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if(mounted && Get.find<SplashController>().module != null
+          && Get.find<SplashController>().module!.moduleType.toString() != AppConstants.ride
+          && !Get.find<SplashController>().configModel!.moduleConfig!.module!.isParcel!
+          && !Get.find<SplashController>().configModel!.moduleConfig!.module!.isTaxi!) {
+        Get.find<ReelsController>().getReelsList(offset: 1);
       }
     });
 
