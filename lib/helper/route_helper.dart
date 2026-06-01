@@ -94,6 +94,7 @@ import 'package:sixam_mart/features/review/screens/review_screen.dart';
 import 'package:sixam_mart/features/search/screens/search_screen.dart';
 import 'package:sixam_mart/features/splash/screens/splash_screen.dart';
 import 'package:sixam_mart/features/support/screens/support_screen.dart';
+import 'package:sixam_mart/features/urban_goodz/screens/black_owned_spotlight_screen.dart';
 import 'package:sixam_mart/features/urban_goodz/screens/urban_goodz_ai_screen.dart';
 import 'package:sixam_mart/features/update/screens/update_screen.dart';
 import 'package:flutter/material.dart';
@@ -117,6 +118,7 @@ class RouteHelper {
   static const String resetPassword = '/reset-password';
   static const String search = '/search';
   static const String urbanGoodzAI = '/urban-goodz-ai';
+  static const String blackOwnedSpotlight = '/black-owned-spotlight';
   static const String store = '/store';
   static const String orderDetails = '/order-details';
   static const String profile = '/profile';
@@ -230,6 +232,7 @@ class RouteHelper {
   static String getResetPasswordRoute({String? phone, String? email, required String token, required String page}) => '$resetPassword?phone=$phone&token=$token&page=$page&email=$email';
   static String getSearchRoute({String? queryText}) => '$search?query=${queryText ?? ''}&module=${ModuleHelper.getModule()?.slug ?? ModuleHelper.getModule()?.id}';
   static String getUrbanGoodzAIRoute() => urbanGoodzAI;
+  static String getBlackOwnedSpotlightRoute() => blackOwnedSpotlight;
 
   static String getStoreRoute({required int? id, required String page, required String slug, String? moduleId, bool fromDeeplink = false}) {
     return '$store/$slug?id=$id&page=$page&module=${moduleId ?? ModuleHelper.getModule()?.slug ?? ModuleHelper.getModule()?.id}${fromDeeplink ? '&from_deeplink=true' : ''}';
@@ -477,6 +480,7 @@ class RouteHelper {
       ),
     )),
     GetPage(name: urbanGoodzAI, page: () => UrbanGoodzAiScreen()),
+    GetPage(name: blackOwnedSpotlight, page: () => const BlackOwnedSpotlightScreen()),
     GetPage(name: '$store/:slug', page: () {
       return getRoute(
         _waitForModule(

@@ -370,7 +370,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
-        onTap: () => Get.toNamed(RouteHelper.getAllStoreRoute('nearby', isNearbyStore: true)),
+        onTap: () => Get.toNamed(RouteHelper.getBlackOwnedSpotlightRoute()),
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
