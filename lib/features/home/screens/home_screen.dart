@@ -259,25 +259,25 @@ class _HomeScreenState extends State<HomeScreen> {
         vertical: Dimensions.paddingSizeSmall,
       ),
       child: InkWell(
-        borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+        borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
         onTap: () => Get.toNamed(RouteHelper.getSearchRoute()),
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-            border: Border.all(color: Theme.of(context).disabledColor.withValues(alpha: 0.2), width: 0.5),
-            boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 8, offset: const Offset(0, 3))],
+            borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
+            border: Border.all(color: Theme.of(context).dividerColor.withValues(alpha: 0.18), width: 0.5),
+            boxShadow: [BoxShadow(color: Theme.of(context).shadowColor.withValues(alpha: 0.08), blurRadius: 12, offset: const Offset(0, 5))],
           ),
-          child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
             Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(12),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.16),
+                borderRadius: BorderRadius.circular(16),
               ),
-              padding: const EdgeInsets.all(12),
-              child: Icon(Icons.smart_toy, size: 24, color: Theme.of(context).primaryColor),
+              padding: const EdgeInsets.all(14),
+              child: Icon(Icons.smart_toy, size: 28, color: Theme.of(context).primaryColor),
             ),
             const SizedBox(width: Dimensions.paddingSizeLarge),
             Expanded(
@@ -285,21 +285,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text(
                   'Ask Urban Goodz AI',
                   style: robotoMedium.copyWith(
-                    fontSize: Dimensions.fontSizeLarge,
+                    fontSize: Dimensions.fontSizeExtraLarge,
                     color: Theme.of(context).textTheme.bodyLarge!.color,
                   ),
                 ),
-                const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                const SizedBox(height: Dimensions.paddingSizeSmall),
                 Text(
                   'Find food, groceries, rentals, local shops, or deals near you',
                   style: robotoRegular.copyWith(
-                    fontSize: Dimensions.fontSizeSmall,
+                    fontSize: Dimensions.fontSizeDefault,
+                    height: 1.45,
                     color: Theme.of(context).disabledColor,
                   ),
                 ),
               ]),
             ),
-            Icon(Icons.chevron_right, color: Theme.of(context).disabledColor),
+            Icon(Icons.arrow_forward_ios, size: 18, color: Theme.of(context).disabledColor),
           ]),
         ),
       ),
@@ -313,25 +314,25 @@ class _HomeScreenState extends State<HomeScreen> {
         vertical: Dimensions.paddingSizeSmall,
       ),
       child: InkWell(
-        borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+        borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
         onTap: () => Get.toNamed(RouteHelper.getLoyaltyRoute()),
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-            border: Border.all(color: Theme.of(context).disabledColor.withValues(alpha: 0.2), width: 0.5),
-            boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 8, offset: const Offset(0, 3))],
+            borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
+            border: Border.all(color: Theme.of(context).dividerColor.withValues(alpha: 0.18), width: 0.5),
+            boxShadow: [BoxShadow(color: Theme.of(context).shadowColor.withValues(alpha: 0.08), blurRadius: 12, offset: const Offset(0, 5))],
           ),
-          child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
             Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(12),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.16),
+                borderRadius: BorderRadius.circular(16),
               ),
-              padding: const EdgeInsets.all(12),
-              child: Icon(Icons.workspace_premium, size: 24, color: Theme.of(context).primaryColor),
+              padding: const EdgeInsets.all(14),
+              child: Icon(Icons.workspace_premium, size: 28, color: Theme.of(context).primaryColor),
             ),
             const SizedBox(width: Dimensions.paddingSizeLarge),
             Expanded(
@@ -339,21 +340,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text(
                   'Urban Goodz+',
                   style: robotoMedium.copyWith(
-                    fontSize: Dimensions.fontSizeLarge,
+                    fontSize: Dimensions.fontSizeExtraLarge,
                     color: Theme.of(context).textTheme.bodyLarge!.color,
                   ),
                 ),
-                const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                const SizedBox(height: Dimensions.paddingSizeSmall),
                 Text(
                   'Earn rewards, unlock local deals, and get member perks',
                   style: robotoRegular.copyWith(
-                    fontSize: Dimensions.fontSizeSmall,
+                    fontSize: Dimensions.fontSizeDefault,
+                    height: 1.45,
                     color: Theme.of(context).disabledColor,
                   ),
                 ),
               ]),
             ),
-            Icon(Icons.chevron_right, color: Theme.of(context).disabledColor),
+            Icon(Icons.arrow_forward_ios, size: 18, color: Theme.of(context).disabledColor),
           ]),
         ),
       ),
@@ -367,25 +369,25 @@ class _HomeScreenState extends State<HomeScreen> {
         vertical: Dimensions.paddingSizeSmall,
       ),
       child: InkWell(
-        borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+        borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
         onTap: () => Get.toNamed(RouteHelper.getAllStoreRoute('nearby', isNearbyStore: true)),
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-            border: Border.all(color: Theme.of(context).disabledColor.withValues(alpha: 0.2), width: 0.5),
-            boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 8, offset: const Offset(0, 3))],
+            borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
+            border: Border.all(color: Theme.of(context).dividerColor.withValues(alpha: 0.18), width: 0.5),
+            boxShadow: [BoxShadow(color: Theme.of(context).shadowColor.withValues(alpha: 0.08), blurRadius: 12, offset: const Offset(0, 5))],
           ),
-          child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
             Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(12),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.16),
+                borderRadius: BorderRadius.circular(16),
               ),
-              padding: const EdgeInsets.all(12),
-              child: Icon(Icons.storefront, size: 24, color: Theme.of(context).primaryColor),
+              padding: const EdgeInsets.all(14),
+              child: Icon(Icons.local_fire_department, size: 28, color: Theme.of(context).primaryColor),
             ),
             const SizedBox(width: Dimensions.paddingSizeLarge),
             Expanded(
@@ -393,21 +395,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text(
                   'Black-Owned Spotlight',
                   style: robotoMedium.copyWith(
-                    fontSize: Dimensions.fontSizeLarge,
+                    fontSize: Dimensions.fontSizeExtraLarge,
                     color: Theme.of(context).textTheme.bodyLarge!.color,
                   ),
                 ),
-                const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                const SizedBox(height: Dimensions.paddingSizeSmall),
                 Text(
                   'Discover local brands, shops, restaurants, and creators near you',
                   style: robotoRegular.copyWith(
-                    fontSize: Dimensions.fontSizeSmall,
+                    fontSize: Dimensions.fontSizeDefault,
+                    height: 1.45,
                     color: Theme.of(context).disabledColor,
                   ),
                 ),
               ]),
             ),
-            Icon(Icons.chevron_right, color: Theme.of(context).disabledColor),
+            Icon(Icons.arrow_forward_ios, size: 18, color: Theme.of(context).disabledColor),
           ]),
         ),
       ),
@@ -421,25 +424,25 @@ class _HomeScreenState extends State<HomeScreen> {
         vertical: Dimensions.paddingSizeSmall,
       ),
       child: InkWell(
-        borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+        borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
         onTap: () => Get.toNamed(RouteHelper.getInitialRoute(moduleId: AppConstants.taxi)),
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-            border: Border.all(color: Theme.of(context).disabledColor.withValues(alpha: 0.2), width: 0.5),
-            boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 8, offset: const Offset(0, 3))],
+            borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
+            border: Border.all(color: Theme.of(context).dividerColor.withValues(alpha: 0.18), width: 0.5),
+            boxShadow: [BoxShadow(color: Theme.of(context).shadowColor.withValues(alpha: 0.08), blurRadius: 12, offset: const Offset(0, 5))],
           ),
-          child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
             Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(12),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.16),
+                borderRadius: BorderRadius.circular(16),
               ),
-              padding: const EdgeInsets.all(12),
-              child: Icon(Icons.key, size: 24, color: Theme.of(context).primaryColor),
+              padding: const EdgeInsets.all(14),
+              child: Icon(Icons.directions_car, size: 28, color: Theme.of(context).primaryColor),
             ),
             const SizedBox(width: Dimensions.paddingSizeLarge),
             Expanded(
@@ -447,21 +450,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text(
                   'Rentals Near You',
                   style: robotoMedium.copyWith(
-                    fontSize: Dimensions.fontSizeLarge,
+                    fontSize: Dimensions.fontSizeExtraLarge,
                     color: Theme.of(context).textTheme.bodyLarge!.color,
                   ),
                 ),
-                const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                const SizedBox(height: Dimensions.paddingSizeSmall),
                 Text(
                   'Book cars, equipment, spaces, and local rentals by the day',
                   style: robotoRegular.copyWith(
-                    fontSize: Dimensions.fontSizeSmall,
+                    fontSize: Dimensions.fontSizeDefault,
+                    height: 1.45,
                     color: Theme.of(context).disabledColor,
                   ),
                 ),
               ]),
             ),
-            Icon(Icons.chevron_right, color: Theme.of(context).disabledColor),
+            Icon(Icons.arrow_forward_ios, size: 18, color: Theme.of(context).disabledColor),
           ]),
         ),
       ),
@@ -475,25 +479,25 @@ class _HomeScreenState extends State<HomeScreen> {
         vertical: Dimensions.paddingSizeSmall,
       ),
       child: InkWell(
-        borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+        borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
         onTap: () => Get.toNamed(RouteHelper.getSearchRoute(queryText: 'events')),
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-            border: Border.all(color: Theme.of(context).disabledColor.withValues(alpha: 0.2), width: 0.5),
-            boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 8, offset: const Offset(0, 3))],
+            borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
+            border: Border.all(color: Theme.of(context).dividerColor.withValues(alpha: 0.18), width: 0.5),
+            boxShadow: [BoxShadow(color: Theme.of(context).shadowColor.withValues(alpha: 0.08), blurRadius: 12, offset: const Offset(0, 5))],
           ),
-          child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
             Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(12),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.16),
+                borderRadius: BorderRadius.circular(16),
               ),
-              padding: const EdgeInsets.all(12),
-              child: Icon(Icons.event, size: 24, color: Theme.of(context).primaryColor),
+              padding: const EdgeInsets.all(14),
+              child: Icon(Icons.event_available, size: 28, color: Theme.of(context).primaryColor),
             ),
             const SizedBox(width: Dimensions.paddingSizeLarge),
             Expanded(
@@ -501,21 +505,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text(
                   'Local Events & Creators',
                   style: robotoMedium.copyWith(
-                    fontSize: Dimensions.fontSizeLarge,
+                    fontSize: Dimensions.fontSizeExtraLarge,
                     color: Theme.of(context).textTheme.bodyLarge!.color,
                   ),
                 ),
-                const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                const SizedBox(height: Dimensions.paddingSizeSmall),
                 Text(
                   'Find community events, pop-ups, creators, and local experiences near you',
                   style: robotoRegular.copyWith(
-                    fontSize: Dimensions.fontSizeSmall,
+                    fontSize: Dimensions.fontSizeDefault,
+                    height: 1.45,
                     color: Theme.of(context).disabledColor,
                   ),
                 ),
               ]),
             ),
-            Icon(Icons.chevron_right, color: Theme.of(context).disabledColor),
+            Icon(Icons.arrow_forward_ios, size: 18, color: Theme.of(context).disabledColor),
           ]),
         ),
       ),
@@ -864,3 +869,4 @@ class SliverDelegate extends SliverPersistentHeaderDelegate {
     return oldDelegate.maxExtent != height || oldDelegate.minExtent != height || child != oldDelegate.child;
   }
 }
+
