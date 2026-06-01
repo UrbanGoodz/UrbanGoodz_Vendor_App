@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
+import 'package:sixam_mart/helper/route_helper.dart';
+import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
 
@@ -83,7 +85,28 @@ class UrbanGoodzAiScreen extends StatelessWidget {
                   label: Text(option, style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
                   backgroundColor: theme.primaryColor.withValues(alpha: 0.14),
                   labelStyle: robotoRegular.copyWith(color: theme.primaryColor),
-                  onPressed: () {},
+                  onPressed: () {
+                    switch (option) {
+                      case 'Food':
+                        Navigator.pushNamed(context, RouteHelper.getSearchRoute(queryText: 'food'));
+                        break;
+                      case 'Groceries':
+                        Navigator.pushNamed(context, RouteHelper.getSearchRoute(queryText: 'groceries'));
+                        break;
+                      case 'Rentals':
+                        Navigator.pushNamed(context, RouteHelper.getInitialRoute(moduleId: AppConstants.taxi));
+                        break;
+                      case 'Black-owned shops':
+                        Navigator.pushNamed(context, RouteHelper.getAllStoreRoute('nearby', isNearbyStore: true));
+                        break;
+                      case 'Events':
+                        Navigator.pushNamed(context, RouteHelper.getSearchRoute(queryText: 'events'));
+                        break;
+                      case 'Deals near me':
+                        Navigator.pushNamed(context, RouteHelper.getSearchRoute(queryText: 'deals'));
+                        break;
+                    }
+                  },
                 );
               }).toList(),
             ),
