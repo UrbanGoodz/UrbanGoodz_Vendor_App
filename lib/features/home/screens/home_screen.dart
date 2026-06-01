@@ -446,6 +446,56 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Widget _buildLocalEventsCard(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeSmall : Dimensions.paddingSizeDefault,
+        vertical: Dimensions.paddingSizeSmall,
+      ),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+          border: Border.all(color: Theme.of(context).disabledColor.withValues(alpha: 0.2), width: 0.5),
+          boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 8, offset: const Offset(0, 3))],
+        ),
+        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            padding: const EdgeInsets.all(12),
+            child: Icon(Icons.event, size: 24, color: Theme.of(context).primaryColor),
+          ),
+          const SizedBox(width: Dimensions.paddingSizeLarge),
+          Expanded(
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(
+                'Local Events & Creators',
+                style: robotoMedium.copyWith(
+                  fontSize: Dimensions.fontSizeLarge,
+                  color: Theme.of(context).textTheme.bodyLarge!.color,
+                ),
+              ),
+              const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+              Text(
+                'Find community events, pop-ups, creators, and local experiences near you',
+                style: robotoRegular.copyWith(
+                  fontSize: Dimensions.fontSizeSmall,
+                  color: Theme.of(context).disabledColor,
+                ),
+              ),
+            ]),
+          ),
+          Icon(Icons.chevron_right, color: Theme.of(context).disabledColor),
+        ]),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<SplashController>(builder: (splashController) {
@@ -675,6 +725,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     SliverToBoxAdapter(child: _buildMembershipCard(context)),
                     SliverToBoxAdapter(child: _buildSpotlightCard(context)),
                     SliverToBoxAdapter(child: _buildRentalsCard(context)),
+                    SliverToBoxAdapter(child: _buildLocalEventsCard(context)),
                   ],
 
                   SliverToBoxAdapter(
