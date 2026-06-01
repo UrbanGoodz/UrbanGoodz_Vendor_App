@@ -36,27 +36,19 @@ class ItemCard extends StatelessWidget {
       isItem: true,
       child: Stack(children: [
         Container(
-          width: 240,
+          width: 200,
           decoration: BoxDecoration(
-  borderRadius: BorderRadius.circular(22),
-  color: Theme.of(context).cardColor,
-  boxShadow: [
-    BoxShadow(
-      color: Colors.black.withValues(alpha: 0.08),
-      blurRadius: 18,
-      spreadRadius: 2,
-      offset: const Offset(0, 6),
-    ),
-  ],
-),        
- child: CustomInkWell(
+            borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
+            color: Theme.of(context).cardColor,
+          ),
+          child: CustomInkWell(
             onTap: () => Get.find<ItemController>().navigateToItemPage(item, context),
             radius: Dimensions.radiusLarge,
             child: TextHover(
               builder: (isHovered) {
                 return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Expanded(
-                    flex: 6,
+                    flex: 5,
                     child: Stack(children: [
                       Padding(
                         padding: EdgeInsets.only(top: isPopularItem ? Dimensions.paddingSizeExtraSmall : 0,
@@ -64,10 +56,10 @@ class ItemCard extends StatelessWidget {
                             right: isPopularItem ? Dimensions.paddingSizeExtraSmall : 0),
                         child: ClipRRect(
                           borderRadius: BorderRadius.only(
-                            topLeft: const Radius.circular(22),
-                            topRight: const Radius.circular(22),
-                            bottomLeft: Radius.circular(isPopularItem ? 22 : 0),
-                            bottomRight: Radius.circular(isPopularItem ? 22 : 0),
+                            topLeft: const Radius.circular(Dimensions.radiusLarge),
+                            topRight: const Radius.circular(Dimensions.radiusLarge),
+                            bottomLeft: Radius.circular(isPopularItem ? Dimensions.radiusLarge : 0),
+                            bottomRight: Radius.circular(isPopularItem ? Dimensions.radiusLarge : 0),
                           ),
                           child: CustomImage(
                             isHovered: isHovered,
@@ -144,11 +136,9 @@ class ItemCard extends StatelessWidget {
                                 item.verifiedSeller == 1 ? Image.asset(Images.verifiedBadge, width: 14, height: 14) : SizedBox.shrink()
                               ],
                             )
-                                : Text(item.name ?? '',
-    style: robotoBold.copyWith(fontSize: 17),
-    maxLines: 1,
-    overflow: TextOverflow.ellipsis,
-  ),                            (isFood || isShop) ? Flexible(
+                                : Text(item.name ?? '', style: robotoBold, maxLines: 1, overflow: TextOverflow.ellipsis),
+
+                            (isFood || isShop) ? Flexible(
                               child: Text(
                                 item.name ?? '',
                                 style: robotoBold, maxLines: 1, overflow: TextOverflow.ellipsis,
@@ -157,7 +147,7 @@ class ItemCard extends StatelessWidget {
                               Icon(Icons.star, size: 14, color: Colors.orange),
                               const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
-                              Text(item.avgRating!.toStringAsFixed(1), style: robotoRegular.copyWith(fontSize: 13),),
+                              Text(item.avgRating!.toStringAsFixed(1), style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
                               const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
                               Text("(${item.ratingCount})", style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor)),
@@ -168,10 +158,8 @@ class ItemCard extends StatelessWidget {
                               Icon(Icons.star, size: 14, color: Colors.orange),
                               const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
-                              Text(
-  item.avgRating!.toStringAsFixed(1),
-  style: robotoRegular.copyWith(fontSize: 13),
-),                              const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                              Text(item.avgRating!.toStringAsFixed(1), style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
+                              const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
                               Text("(${item.ratingCount})", style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor)),
 
@@ -191,15 +179,14 @@ class ItemCard extends StatelessWidget {
 
                             Text(
                               PriceConverter.convertPrice(
-    Get.find<ItemController>().getStartingPrice(item),
-    discount: discount,
-    discountType: discountType,
-  ),
-  textDirection: TextDirection.ltr,
-  style: robotoBold.copyWith(fontSize: 18),
-),
+                                Get.find<ItemController>().getStartingPrice(item), discount: discount,
+                                discountType: discountType,
+                              ),
+                              textDirection: TextDirection.ltr, style: robotoMedium,
+                            ),
 
-const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                            const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+
                           ]),
                         ),
 
@@ -209,15 +196,15 @@ const SizedBox(height: Dimensions.paddingSizeExtraSmall),
                             item: item,
                             index: index,
                             child: Container(
-                              height: 48, width: 48,
+                              height: 35, width: 38,
                               decoration: BoxDecoration(
                                 color: Theme.of(context).primaryColor,
                                 borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  bottomRight: Radius.circular(20),
+                                  topLeft: Radius.circular(Dimensions.radiusLarge),
+                                  bottomRight: Radius.circular(Dimensions.radiusLarge),
                                 ),
                               ),
-                              child: Icon(isPopularItemCart ? Icons.add_shopping_cart : Icons.add, color: Theme.of(context).cardColor, size: 24),
+                              child: Icon(isPopularItemCart ? Icons.add_shopping_cart : Icons.add, color: Theme.of(context).cardColor, size: 20),
                             ),
                           ),
                         ) : const SizedBox(),
