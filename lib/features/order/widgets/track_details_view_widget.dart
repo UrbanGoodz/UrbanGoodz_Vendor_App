@@ -93,7 +93,7 @@ class TrackDetailsViewWidget extends StatelessWidget {
         ) : Column(children: [
           Image.asset(Images.route, height: 20, width: 20, color: Theme.of(context).primaryColor),
           Text(
-            '${distance.toStringAsFixed(2)} ${'km'.tr}',
+            AppConstants.formattedDistance(distance),
             style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
           ),
           const SizedBox(height: Dimensions.paddingSizeSmall),

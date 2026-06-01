@@ -224,7 +224,7 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
                         const SizedBox(width: Dimensions.paddingSizeDefault),
                         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                           Text(
-                            parcelController.distance == -1 ? 'calculating'.tr : '${parcelController.distance!.toStringAsFixed(2)} ${'km'.tr}',
+                            parcelController.distance == -1 ? 'calculating'.tr : AppConstants.formattedDistance(parcelController.distance!),
                             style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge),
                           ),
                           Text('distance'.tr, style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.5))),

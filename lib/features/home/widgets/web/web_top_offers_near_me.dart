@@ -317,7 +317,7 @@ class _WebTopOffersNearMeState extends State<WebTopOffersNearMe> {
                                   const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
                                   Text(
-                                    '${distance > 100 ? '100+' : distance.toStringAsFixed(2)} ${'km'.tr}',
+                                    AppConstants.formattedDistance(distance),
                                     style: robotoBold.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).primaryColor),
                                   ),
                                   const SizedBox(width: Dimensions.paddingSizeExtraSmall),
@@ -404,7 +404,7 @@ class _WebTopOffersNearMeState extends State<WebTopOffersNearMe> {
         const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
         Text(
-          '${distance > 100 ? '100+' : distance.toStringAsFixed(2)} ${'km'.tr}',
+          AppConstants.formattedDistance(distance),
           style: robotoBold.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).disabledColor),
         ),
         const SizedBox(width: Dimensions.paddingSizeExtraSmall),

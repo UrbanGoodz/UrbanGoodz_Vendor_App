@@ -16,6 +16,22 @@ class AppConstants {
   static const String googleServerClientId = '491987943015-agln6biv84krpnngdphj87jkko7r9lb8.apps.googleusercontent.com';
   static const String pusherBroadcustUrl = '/api/v1/broadcasting/user-auth';
 
+  static const double _milePerKm = 0.621371;
+
+  static bool get isUSDistanceSystem => Get.locale?.countryCode == 'US';
+
+  static double distanceInDisplayUnit(double distanceInKm) => isUSDistanceSystem ? distanceInKm * _milePerKm : distanceInKm;
+
+  static String distanceUnitLabel() => isUSDistanceSystem ? 'mi' : 'km'.tr;
+
+  static String formattedDistance(double distanceInKm, {int decimals = 2, double overflowThreshold = 100}) {
+    final double displayDistance = distanceInDisplayUnit(distanceInKm);
+    final String value = displayDistance > overflowThreshold ? '${overflowThreshold.toStringAsFixed(0)}+' : displayDistance.toStringAsFixed(decimals);
+    return '$value ${distanceUnitLabel()}';
+  }
+
+  static String perDistanceLabel() => isUSDistanceSystem ? 'per_mile'.tr : 'per_km'.tr;
+
   static const String baseUrl = 'https://6ammart-admin.6amtech.com';
   static const String categoryUri = '/api/v1/categories';
   static const String bannerUri = '/api/v1/banners';

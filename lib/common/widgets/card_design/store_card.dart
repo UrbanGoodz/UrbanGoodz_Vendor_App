@@ -154,7 +154,7 @@ class StoreCard extends StatelessWidget {
                           Image.asset(Images.distanceLine, height: 15, width: 15, color: Theme.of(context).disabledColor,),
                           const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
-                          Text('${distance > 100 ? '100+' : distance.toStringAsFixed(2)} ${'km'.tr}', style: robotoBold.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall)),
+                          Text(AppConstants.formattedDistance(distance), style: robotoBold.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall)),
                           const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
                           Text('from_you'.tr, style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall)),
@@ -188,7 +188,7 @@ class StoreCard extends StatelessWidget {
                           Image.asset(Images.distanceLine, height: 15, width: 15, color: Theme.of(context).textTheme.bodyLarge!.color,),
                           const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
-                          Text('${distance > 100 ? '100+' : distance.toStringAsFixed(2)} ${'km'.tr}', style: robotoBold.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color, fontSize: Dimensions.fontSizeSmall)),
+                          Text(AppConstants.formattedDistance(distance), style: robotoBold.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color, fontSize: Dimensions.fontSizeSmall)),
                           const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
                           Text('from_you'.tr, style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color, fontSize: Dimensions.fontSizeSmall)),

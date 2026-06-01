@@ -211,7 +211,7 @@ class _WebNewOnMartViewWidgetState extends State<WebNewOnMartViewWidget> {
                                             const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
                                             Text(
-                                              '${distance > 100 ? '100+' : distance.toStringAsFixed(2)} ${'km'.tr}',
+                                              AppConstants.formattedDistance(distance),
                                               style: robotoBold.copyWith(color: Theme.of(context).primaryColor),
                                             ),
                                             const SizedBox(width: Dimensions.paddingSizeExtraSmall),
