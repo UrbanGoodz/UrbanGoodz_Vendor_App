@@ -106,6 +106,24 @@ flutter:
     - assets/json/
 
   fonts:
+    - family: ThygaSemirounded
+      fonts:
+        - asset: assets/font/Thyga-Semirounded.ttf
+          weight: 400
+        - asset: assets/font/Thyga-Semirounded.ttf
+          weight: 500
+        - asset: assets/font/Thyga-Semirounded.ttf
+          weight: 600
+        - asset: assets/font/Thyga-Semirounded.ttf
+          weight: 700
+        - asset: assets/font/Thyga-Semirounded.ttf
+          weight: 900
+    - family: ArialNova
+      fonts:
+        - asset: assets/font/Arial-Nova-Regular.ttf
+          weight: 400
+        - asset: assets/font/Arial-Nova-Bold.ttf
+          weight: 700
     - family: Roboto
       fonts:
         - asset: assets/font/Roboto-Regular.ttf
@@ -116,3 +134,4 @@ flutter:
           weight: 700
         - asset: assets/font/Roboto-Black.ttf
           weight: 900
+

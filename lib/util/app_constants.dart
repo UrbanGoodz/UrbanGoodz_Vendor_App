@@ -7,7 +7,7 @@ class AppConstants {
   static const String appName = 'Urban Goodz';
   static const double appVersion = 3.9; ///Flutter sdk 3.41.8
 
-  static const String fontFamily = 'Roboto';
+  static const String fontFamily = 'ArialNova';
   static const bool payInWevView = false;
   static const int balanceInputLen = 10;
   static const String webHostedUrl = 'https://6ammart-web.6amtech.com';
@@ -512,3 +512,5 @@ class AppConstants {
   static const String distanceWise = 'distance_wise';
   static const String dayWise = 'day_wise';
 }
+
+
