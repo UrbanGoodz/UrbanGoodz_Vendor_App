@@ -1,0 +1,118 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sixam_mart/helper/route_helper.dart';
+import 'package:sixam_mart/util/dimensions.dart';
+import 'package:sixam_mart/util/styles.dart';
+
+class LocalEventsCreatorsScreen extends StatelessWidget {
+  const LocalEventsCreatorsScreen({super.key});
+
+  static const List<_LocalEventCreator> _items = [
+    _LocalEventCreator('Pop-up Market', 'Houston, TX'),
+    _LocalEventCreator('Local Creator Showcase', 'Near you'),
+    _LocalEventCreator('Community Food Event', 'Downtown Houston'),
+    _LocalEventCreator('Vendor Networking Mixer', 'Houston area'),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Local Events & Creators')),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(
+              'Discover community events, pop-ups, creators, and local experiences near you.',
+              style: robotoRegular.copyWith(
+                fontSize: Dimensions.fontSizeDefault,
+                color: Theme.of(context).disabledColor,
+                height: 1.45,
+              ),
+            ),
+            const SizedBox(height: Dimensions.paddingSizeLarge),
+
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: Dimensions.paddingSizeDefault,
+                vertical: Dimensions.paddingSizeSmall,
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+              ),
+              child: Row(children: [
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    'Event/Creator',
+                    style: robotoBold.copyWith(fontSize: Dimensions.fontSizeDefault),
+                  ),
+                ),
+                const SizedBox(width: Dimensions.paddingSizeSmall),
+                Expanded(
+                  child: Text(
+                    'Location',
+                    style: robotoBold.copyWith(fontSize: Dimensions.fontSizeDefault),
+                  ),
+                ),
+              ]),
+            ),
+
+            const SizedBox(height: Dimensions.paddingSizeSmall),
+
+            Expanded(
+              child: ListView.separated(
+                itemCount: _items.length,
+                separatorBuilder: (_, index) => const SizedBox(height: Dimensions.paddingSizeSmall),
+                itemBuilder: (context, index) {
+                  final item = _items[index];
+
+                  return InkWell(
+                    borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                    onTap: () => Get.toNamed(RouteHelper.getSearchRoute(queryText: item.title)),
+                    child: Container(
+                      padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).cardColor,
+                        borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                        border: Border.all(color: Theme.of(context).dividerColor.withValues(alpha: 0.25)),
+                      ),
+                      child: Row(children: [
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            item.title,
+                            style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeDefault),
+                          ),
+                        ),
+                        const SizedBox(width: Dimensions.paddingSizeSmall),
+                        Expanded(
+                          child: Text(
+                            item.location,
+                            style: robotoRegular.copyWith(
+                              fontSize: Dimensions.fontSizeSmall,
+                              color: Theme.of(context).disabledColor,
+                            ),
+                          ),
+                        ),
+                      ]),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ]),
+        ),
+      ),
+    );
+  }
+}
+
+class _LocalEventCreator {
+  final String title;
+  final String location;
+
+  const _LocalEventCreator(this.title, this.location);
+}
+
