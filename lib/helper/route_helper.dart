@@ -96,6 +96,7 @@ import 'package:sixam_mart/features/splash/screens/splash_screen.dart';
 import 'package:sixam_mart/features/support/screens/support_screen.dart';
 import 'package:sixam_mart/features/urban_goodz/screens/black_owned_spotlight_screen.dart';
 import 'package:sixam_mart/features/urban_goodz/screens/urban_goodz_ai_screen.dart';
+import 'package:sixam_mart/features/urban_goodz/screens/urban_goodz_plus_screen.dart';
 import 'package:sixam_mart/features/update/screens/update_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -119,6 +120,7 @@ class RouteHelper {
   static const String search = '/search';
   static const String urbanGoodzAI = '/urban-goodz-ai';
   static const String blackOwnedSpotlight = '/black-owned-spotlight';
+  static const String urbanGoodzPlus = '/urban-goodz-plus';
   static const String store = '/store';
   static const String orderDetails = '/order-details';
   static const String profile = '/profile';
@@ -233,6 +235,7 @@ class RouteHelper {
   static String getSearchRoute({String? queryText}) => '$search?query=${queryText ?? ''}&module=${ModuleHelper.getModule()?.slug ?? ModuleHelper.getModule()?.id}';
   static String getUrbanGoodzAIRoute() => urbanGoodzAI;
   static String getBlackOwnedSpotlightRoute() => blackOwnedSpotlight;
+  static String getUrbanGoodzPlusRoute() => urbanGoodzPlus;
 
   static String getStoreRoute({required int? id, required String page, required String slug, String? moduleId, bool fromDeeplink = false}) {
     return '$store/$slug?id=$id&page=$page&module=${moduleId ?? ModuleHelper.getModule()?.slug ?? ModuleHelper.getModule()?.id}${fromDeeplink ? '&from_deeplink=true' : ''}';
@@ -481,6 +484,7 @@ class RouteHelper {
     )),
     GetPage(name: urbanGoodzAI, page: () => UrbanGoodzAiScreen()),
     GetPage(name: blackOwnedSpotlight, page: () => const BlackOwnedSpotlightScreen()),
+    GetPage(name: urbanGoodzPlus, page: () => const UrbanGoodzPlusScreen()),
     GetPage(name: '$store/:slug', page: () {
       return getRoute(
         _waitForModule(
@@ -1074,3 +1078,4 @@ Future<void> _moduleCheck(String moduleSlug, ApiClient apiClient, SharedPreferen
   }
 
 }
+

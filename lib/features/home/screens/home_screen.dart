@@ -315,7 +315,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
-        onTap: () => Get.toNamed(RouteHelper.getLoyaltyRoute()),
+        onTap: () => Get.toNamed(RouteHelper.getUrbanGoodzPlusRoute()),
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
@@ -869,3 +869,4 @@ class SliverDelegate extends SliverPersistentHeaderDelegate {
     return oldDelegate.maxExtent != height || oldDelegate.minExtent != height || child != oldDelegate.child;
   }
 }
+
