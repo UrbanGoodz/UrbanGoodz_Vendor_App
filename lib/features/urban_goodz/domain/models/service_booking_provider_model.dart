@@ -1,0 +1,1 @@
+class ServiceBookingProviderModel {final String name; final String category; final double rating; final String nextAvailable; final String priceLabel; const ServiceBookingProviderModel({required this.name,required this.category,required this.rating,required this.nextAvailable,required this.priceLabel});}
