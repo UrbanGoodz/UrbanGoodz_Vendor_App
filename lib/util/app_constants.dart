@@ -348,6 +348,40 @@ class AppConstants {
   static const String reelLikeUri = '/api/v1/customer/reels/like';
   static const String reelVisitUri = '/api/v1/customer/reels/visit';
 
+  /// Urban Goodz
+  static const String ugEarnMoneyOpportunitiesUri = '/api/urban-goodz/earn-money/opportunities';
+  static const String ugLogisticsJobsUri = '/api/urban-goodz/logistics/jobs';
+  static const String ugLoadBoardLoadsUri = '/api/urban-goodz/load-board/loads';
+  static const String ugMedicalCourierJobsUri = '/api/urban-goodz/medical-courier/jobs';
+  static const String ugBookAnythingRecordsUri = '/api/urban-goodz/book-anything/records';
+  static const String ugBookAnythingRequestUri = '/api/urban-goodz/book-anything/request';
+  static const String ugEventsUri = '/api/urban-goodz/events';
+  static const String ugDiscoverySearchCaptureUri = '/api/urban-goodz/discovery/search-capture';
+  static const String ugDiscoveryEntitiesUri = '/api/urban-goodz/discovery/entities';
+  static const String ugDiscoveryOpportunitiesUri = '/api/urban-goodz/discovery/opportunities';
+  static const String ugAiConciergeUri = '/api/urban-goodz/ai/concierge';
+  static const String ugAiIntentUri = '/api/urban-goodz/ai/intent';
+  static const String ugAiRecommendationsUri = '/api/urban-goodz/ai/recommendations';
+  static const String ugIdentityProfilesUri = '/api/urban-goodz/identity/profiles';
+  static const String ugFitProfileUri = '/api/urban-goodz/identity/fit-profile';
+  static const String ugIdentityGrantsUri = '/api/urban-goodz/identity/grants';
+  static const String ugClaimsUri = '/api/urban-goodz/identity/claims';
+  static const String ugTrustAssetsUri = '/api/urban-goodz/trust/assets';
+  static const String ugReelsActionUri = '/api/urban-goodz/reels/action';
+  static const String ugReelsConversionUri = '/api/urban-goodz/reels/conversion';
+  static const String ugReelsOpportunitiesUri = '/api/urban-goodz/reels/opportunities';
+  static const String ugReelsAnalyticsUri = '/api/urban-goodz/reels/analytics';
+  static const String ugOpportunityNetworkListUri = '/api/urban-goodz/opportunities';
+  static const String ugOpportunityNetworkDetailUri = '/api/urban-goodz/opportunities';
+  static const String ugOpportunityNetworkAcceptUri = '/api/urban-goodz/opportunities/accept';
+  static const String ugOpportunityNetworkDeclineUri = '/api/urban-goodz/opportunities/decline';
+  static const String ugOpportunityNetworkCompleteUri = '/api/urban-goodz/opportunities/complete';
+  static const String ugRevenueAttributionsUri = '/api/urban-goodz/revenue/attributions';
+  static const String ugRevenueRecordUri = '/api/urban-goodz/revenue/record';
+  static const String ugRevenueAnalyticsUri = '/api/urban-goodz/revenue/analytics';
+  static const String ugRevenueRosUri = '/api/urban-goodz/revenue/ros';
+  static const String ugRevenueUgesUri = '/api/urban-goodz/revenue/uges';
+
 
   /// Shared Key
   static const String theme = '6ammart_theme';
@@ -428,89 +462,3 @@ class AppConstants {
     ChooseUsModel(icon: Images.landingExcellent, title: 'excellent_shopping_experience'),
     ChooseUsModel(icon: Images.landingCheckout, title: 'easy_checkout_and_payment_system'),
   ];
-
-  /// order status..
-  static const String pending = 'pending';
-  static const String accepted = 'accepted';
-  static const String processing = 'processing';
-  static const String confirmed = 'confirmed';
-  static const String handover = 'handover';
-  static const String pickedUp = 'picked_up';
-  static const String delivered = 'delivered';
-  static const String canceled = 'canceled';
-  static const String failed = 'failed';
-  static const String refunded = 'refunded';
-  static const String returned = 'returned';
-
-  /// Rider_module.
-  static const String ongoing = 'ongoing';
-  static const String completed = 'completed';
-  static const String cancelled = 'cancelled';
-
-  ///modules..
-  static const String pharmacy = 'pharmacy';
-  static const String food = 'food';
-  static const String parcel = 'parcel';
-  static const String ecommerce = 'ecommerce';
-  static const String grocery = 'grocery';
-  static const String taxi = 'rental';
-  static const String ride = 'ride-share';
-  static const String service = 'service';
-
-  ///ride share map zoom
-  static const double mapZoom = 20;
-
-  ///
-  static const int idleDebounceDuration = 800;
-
-  static List<LanguageModel> languages = [
-    LanguageModel(imageUrl: Images.english, languageName: 'English', countryCode: 'US', languageCode: 'en'),
-    LanguageModel(imageUrl: Images.arabic, languageName: 'عربى', countryCode: 'SA', languageCode: 'ar'),
-    LanguageModel(imageUrl: Images.spanish, languageName: 'Spanish', countryCode: 'ES', languageCode: 'es'),
-    LanguageModel(imageUrl: Images.bengali, languageName: 'Bengali', countryCode: 'BN', languageCode: 'bn'),
-  ];
-
-  static List<String> joinDropdown = [
-    'join_us',
-    'become_a_seller',
-    'become_a_delivery_man',
-    'join_as_a_rider',
-  ];
-
-  static final List<Map<String, String>> walletTransactionSortingList = [
-    {
-      'title' : 'all_transactions',
-      'value' : 'all'
-    },
-    {
-      'title' : 'order_transactions',
-      'value' : 'order'
-    },
-    {
-      'title' : 'converted_from_loyalty_point',
-      'value' : 'loyalty_point'
-    },
-    {
-      'title' : 'added_via_payment_method',
-      'value' : 'add_fund'
-    },
-    {
-      'title' : 'earned_by_referral',
-      'value' : 'referrer'
-    },
-    {
-      'title' : 'cash_back_transactions',
-      'value' : 'CashBack'
-    },
-  ];
-
-  //taxi seats..
-  static List<String> seats = ['1-4', '5-8', '9-13', '14+'];
-
-  ///Rental Type
-  static const String hourly = 'hourly';
-  static const String distanceWise = 'distance_wise';
-  static const String dayWise = 'day_wise';
-}
-
-
