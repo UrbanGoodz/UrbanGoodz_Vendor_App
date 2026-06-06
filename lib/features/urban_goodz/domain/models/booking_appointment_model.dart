@@ -1,0 +1,1 @@
+class BookingAppointmentModel {final String provider; final String appointmentTime; const BookingAppointmentModel({required this.provider,required this.appointmentTime});}
