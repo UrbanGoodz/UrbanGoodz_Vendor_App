@@ -10,20 +10,39 @@ Required where applicable:
 - service_area
 - latitude
 - longitude
-- isNationwide
+- is_active
+- is_launch_market
+- is_nationwide
+
+Houston is the first real live launch zone and initial production market.
+
+Houston should be represented as:
+- zone_name: Houston
+- city: Houston
+- state: TX
+- is_active: true
+- is_launch_market: true
+- is_nationwide: false
+
+If no other zone is selected, Houston may be used as the default active zone for launch operations.
+Do not label Houston content as demo, sample, placeholder, fake data, or test market.
+
+Nationwide content should use:
+- is_nationwide: true
+- zone_id: null or all-zones depending on existing app conventions
 
 Modules:
-- Earn Money: opportunities, referrals, campaigns
-- Logistics: pickup_zone_id, dropoff_zone_id, multi-zone routes
-- Medical Courier: pickup_zone_id, dropoff_zone_id, healthcare accounts
-- Bookings: providers and appointments by zone
-- Creator Commerce: local, multi-zone, nationwide creators and reels
-- Community Marketplace: groups and posts by zone
-- Business Discovery: demand records and merchant leads by zone
-- Order Anywhere: requests and auto-created merchants by zone
-- Rentals: inventory and delivery zones
-- Services: provider service areas across one or more zones
-- Food: continue using native 6amMart zone logic
+- Earn Money: opportunities, referrals, and campaigns must be zone-based or nationwide.
+- Logistics: loads require pickup_zone_id and dropoff_zone_id; enterprise routes may be multi-zone or nationwide.
+- Medical Courier: jobs require pickup_zone_id and dropoff_zone_id; STAT jobs filter eligible nearby drivers by zone/location.
+- Bookings: providers and appointments resolve by zone/service area; mobile providers may support multiple zones.
+- Creator Commerce: creators and reels may be local, multi-zone, or nationwide.
+- Community Marketplace: groups and posts are zone-based and nationwide-capable.
+- Business Discovery: demand records, discovered businesses, and leads must track zone_id.
+- Order Anywhere: requests and auto-created businesses must capture zone_id.
+- Rentals: inventory and delivery/pickup zones must be supported.
+- Retail: stores, products, and discovery should inherit vendor/store zone logic.
+- Services: providers and service areas may include multiple zones.
+- Food: continue using native 6amMart zone logic.
 
-Houston may be used as launch-market demo data only.
-Architecture must support nationwide expansion.
+Architecture must support nationwide expansion while allowing Houston to operate immediately as a real production launch market.
