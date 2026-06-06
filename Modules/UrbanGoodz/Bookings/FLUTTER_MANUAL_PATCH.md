@@ -1,0 +1,1 @@
+Manual patch only. Do not overwrite route_helper.dart, menu_screen.dart, or app_constants.dart. Add Book Services route, menu item, endpoint, and rename book_services_screen_placeholder.dart when safe integration becomes available.
