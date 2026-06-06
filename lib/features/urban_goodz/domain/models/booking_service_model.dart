@@ -1,0 +1,1 @@
+class BookingServiceModel {final String serviceName; final String depositLabel; const BookingServiceModel({required this.serviceName,required this.depositLabel});}
