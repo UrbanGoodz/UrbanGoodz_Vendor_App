@@ -256,9 +256,17 @@ class _MenuScreenState extends State<MenuScreen> {
 
                     (Get.find<SplashController>().configModel!.refEarningStatus == 1 ) ? PortionWidget(
                         icon: Images.referIcon, title: 'refer_and_earn'.tr, route: RouteHelper.getReferAndEarnRoute(),
+                      hideDivider: false,
+                    ) : const SizedBox(),
+
+                    PortionWidget(icon: Images.dmIcon, title: 'Earn Money', route: RouteHelper.getUrbanGoodzEarnMoneyRoute()),
+                    PortionWidget(icon: Images.dmIcon, title: 'Logistics', route: RouteHelper.getUrbanGoodzLogisticsRoute()),
+                    PortionWidget(icon: Images.dmIcon, title: 'Load Board', route: RouteHelper.getUrbanGoodzLoadBoardRoute()),
+                    PortionWidget(icon: Images.dmIcon, title: 'Medical Courier', route: RouteHelper.getUrbanGoodzMedicalCourierRoute()),
+                    PortionWidget(icon: Images.storeIcon, title: 'Book Services', route: RouteHelper.getUrbanGoodzBookServicesRoute(),
                       hideDivider: (Get.find<SplashController>().configModel!.toggleDmRegistration! && !ResponsiveHelper.isDesktop(context)) ||
                           (Get.find<SplashController>().configModel!.toggleStoreRegistration! && !ResponsiveHelper.isDesktop(context)) ? false : true,
-                    ) : const SizedBox(),
+                    ),
 
                     (Get.find<SplashController>().configModel!.toggleDmRegistration! && !ResponsiveHelper.isDesktop(context)) ? PortionWidget(
                         icon: Images.dmIcon, title: 'join_as_a_delivery_man'.tr, route: RouteHelper.getDeliverymanRegistrationRoute(),
