@@ -101,7 +101,7 @@ class _OrderAnywhereStatusScreenState extends State<OrderAnywhereStatusScreen> {
               _sectionLabel('Payment'),
               const SizedBox(height: 8),
 
-              if (req.requestStatus.isPreDispatch || req.paymentStatus == OrderAnywherePaymentStatus.unpaid) ...[
+              if (req.paymentStatus == OrderAnywherePaymentStatus.unpaid && req.requestStatus.isPreDispatch) ...[
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
