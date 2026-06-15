@@ -8,64 +8,36 @@ class OrderAnywhereService implements OrderAnywhereServiceInterface {
 
   @override
   Future<List<OrderAnywhereRequestModel>> getMyRequests() async {
-    try {
-      return await orderAnywhereRepositoryInterface.getMyRequests();
-    } catch (e) {
-      return [];
-    }
+    return await orderAnywhereRepositoryInterface.getMyRequests();
   }
 
   @override
   Future<OrderAnywhereRequestModel?> getRequestById(String id) async {
-    try {
-      return await orderAnywhereRepositoryInterface.getRequestById(id);
-    } catch (e) {
-      return null;
-    }
+    return await orderAnywhereRepositoryInterface.getRequestById(id);
   }
 
   @override
   Future<OrderAnywhereRequestModel?> submitRequest(OrderAnywhereRequestModel request) async {
-    try {
-      return await orderAnywhereRepositoryInterface.submitRequest(request);
-    } catch (e) {
-      return null;
-    }
+    return await orderAnywhereRepositoryInterface.submitRequest(request);
   }
 
   @override
   Future<bool> markPaymentTest(String requestId) async {
-    try {
-      return await orderAnywhereRepositoryInterface.markPaymentTest(requestId);
-    } catch (e) {
-      return false;
-    }
+    return await orderAnywhereRepositoryInterface.markPaymentTest(requestId);
   }
 
   @override
-  Future<bool> uploadReceipt(String requestId, String? imagePath) async {
-    try {
-      return await orderAnywhereRepositoryInterface.uploadReceipt(requestId, imagePath);
-    } catch (e) {
-      return false;
-    }
+  Future<bool> uploadReceipt(String requestId, String? imagePath, {double? receiptAmount, String? receiptNotes}) async {
+    return await orderAnywhereRepositoryInterface.uploadReceipt(requestId, imagePath, receiptAmount: receiptAmount, receiptNotes: receiptNotes);
   }
 
   @override
   Future<bool> cancelRequest(String requestId) async {
-    try {
-      return await orderAnywhereRepositoryInterface.cancelRequest(requestId);
-    } catch (e) {
-      return false;
-    }
+    return await orderAnywhereRepositoryInterface.cancelRequest(requestId);
   }
 
   @override
   Future<double> getEstimatedDeliveryFee(String? address) async {
-    try {
-      return await orderAnywhereRepositoryInterface.getEstimatedDeliveryFee(address);
-    } catch (e) {
-      return 7.99;
-    }
+    return await orderAnywhereRepositoryInterface.getEstimatedDeliveryFee(address);
   }
 }

@@ -104,8 +104,8 @@ class OrderAnywhereController extends GetxController implements GetxService {
       urgency: selectedUrgency,
       consentGiven: consentGiven,
       tip: tip,
-      estimatedDeliveryFee: _currentRequest.estimatedDeliveryFee,
-      estimatedServiceFee: _currentRequest.estimatedServiceFeeCalculated,
+      deliveryFee: _currentRequest.deliveryFee,
+      serviceFee: _currentRequest.serviceFeeCalculated,
     );
     _currentRequest.recalculateTotal();
   }
@@ -128,16 +128,12 @@ class OrderAnywhereController extends GetxController implements GetxService {
         _currentRequest = result;
         Get.offNamed(RouteHelper.getOrderAnywhereStatusRoute(_currentRequest.id ?? ''));
       } else {
-        _errorMessage = 'Backend connection pending — request saved locally.';
-        _currentRequest = _currentRequest.copyWith(
-          id: 'local_${DateTime.now().millisecondsSinceEpoch}',
-          status: OrderAnywhereStatus.draft,
-          createdAt: DateTime.now().toIso8601String(),
-        );
-        Get.offNamed(RouteHelper.getOrderAnywhereStatusRoute(_currentRequest.id ?? ''));
+        _errorMessage = 'Backend endpoint pending. This tester build cannot submit live Order Anywhere requests yet.';
+        update();
       }
     } catch (e) {
-      _errorMessage = 'Failed to submit request: $e';
+      _errorMessage = e.toString();
+      update();
     }
 
     _isSubmitting = false;
@@ -149,15 +145,19 @@ class OrderAnywhereController extends GetxController implements GetxService {
       final success = await orderAnywhereServiceInterface.markPaymentTest(_currentRequest.id ?? '');
       if (success) {
         _currentRequest = _currentRequest.copyWith(
-          status: OrderAnywhereStatus.paidTest,
-          paymentStatus: 'paid_test',
+          requestStatus: OrderAnywhereRequestStatus.submitted,
+          paymentStatus: OrderAnywherePaymentStatus.paidTest,
         );
         update();
         Get.snackbar('TEST PAYMENT', 'TEST PAYMENT ONLY — NOT PRODUCTION',
           backgroundColor: Colors.orange, colorText: Colors.white);
+      } else {
+        Get.snackbar('Error', 'Backend endpoint pending. Cannot process test payment.',
+          backgroundColor: Colors.red, colorText: Colors.white);
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to process test payment: $e');
+      Get.snackbar('Error', 'Backend endpoint pending. Cannot process test payment.',
+        backgroundColor: Colors.red, colorText: Colors.white);
     }
   }
 
@@ -166,12 +166,13 @@ class OrderAnywhereController extends GetxController implements GetxService {
       final success = await orderAnywhereServiceInterface.cancelRequest(_currentRequest.id ?? '');
       if (success) {
         _currentRequest = _currentRequest.copyWith(
-          status: OrderAnywhereStatus.cancelled,
+          requestStatus: OrderAnywhereRequestStatus.cancelled,
         );
         update();
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to cancel: $e');
+      Get.snackbar('Error', 'Backend endpoint pending. Cannot cancel request.',
+        backgroundColor: Colors.red, colorText: Colors.white);
     }
   }
 
@@ -179,7 +180,10 @@ class OrderAnywhereController extends GetxController implements GetxService {
     try {
       _myRequests = await orderAnywhereServiceInterface.getMyRequests();
       update();
-    } catch (_) {}
+    } catch (e) {
+      _errorMessage = e.toString();
+      update();
+    }
   }
 
   Future<void> loadRequestById(String id) async {
@@ -189,7 +193,10 @@ class OrderAnywhereController extends GetxController implements GetxService {
         _currentRequest = result;
         update();
       }
-    } catch (_) {}
+    } catch (e) {
+      _errorMessage = e.toString();
+      update();
+    }
   }
 
   @override

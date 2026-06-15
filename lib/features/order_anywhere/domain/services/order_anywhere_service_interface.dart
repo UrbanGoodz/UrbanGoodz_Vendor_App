@@ -5,7 +5,7 @@ abstract class OrderAnywhereServiceInterface {
   Future<OrderAnywhereRequestModel?> getRequestById(String id);
   Future<OrderAnywhereRequestModel?> submitRequest(OrderAnywhereRequestModel request);
   Future<bool> markPaymentTest(String requestId);
-  Future<bool> uploadReceipt(String requestId, String? imagePath);
+  Future<bool> uploadReceipt(String requestId, String? imagePath, {double? receiptAmount, String? receiptNotes});
   Future<bool> cancelRequest(String requestId);
   Future<double> getEstimatedDeliveryFee(String? address);
 }

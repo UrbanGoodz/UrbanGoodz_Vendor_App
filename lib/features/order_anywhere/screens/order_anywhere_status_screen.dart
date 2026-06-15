@@ -79,13 +79,13 @@ class _OrderAnywhereStatusScreenState extends State<OrderAnywhereStatusScreen> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
-                    color: _statusColor(req.status).withValues(alpha: 0.1),
+                    color: _statusColor(req.requestStatus).withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: _statusColor(req.status)),
+                    border: Border.all(color: _statusColor(req.requestStatus)),
                   ),
                   child: Text(
-                    req.status.value.replaceAll('_', ' ').toUpperCase(),
-                    style: TextStyle(fontWeight: FontWeight.bold, color: _statusColor(req.status)),
+                    req.requestStatus.value.replaceAll('_', ' ').toUpperCase(),
+                    style: TextStyle(fontWeight: FontWeight.bold, color: _statusColor(req.requestStatus)),
                   ),
                 ),
               ),
@@ -95,13 +95,13 @@ class _OrderAnywhereStatusScreenState extends State<OrderAnywhereStatusScreen> {
 
               const SizedBox(height: 20),
 
-              _buildStatusTimeline(req.status),
+              _buildStatusTimeline(req.requestStatus),
 
               const SizedBox(height: 20),
               _sectionLabel('Payment'),
               const SizedBox(height: 8),
 
-              if (req.status.isPreDispatch || req.paymentStatus == 'unpaid') ...[
+              if (req.requestStatus.isPreDispatch || req.paymentStatus == OrderAnywherePaymentStatus.unpaid) ...[
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
@@ -134,8 +134,8 @@ class _OrderAnywhereStatusScreenState extends State<OrderAnywhereStatusScreen> {
                 ),
               ],
 
-              if (req.status == OrderAnywhereStatus.paidTest ||
-                  req.status == OrderAnywhereStatus.submitted) ...[
+              if (req.requestStatus == OrderAnywhereRequestStatus.submitted ||
+                  req.paymentStatus == OrderAnywherePaymentStatus.paidTest) ...[
                 const SizedBox(height: 12),
                 Container(
                   padding: const EdgeInsets.all(12),
@@ -213,15 +213,15 @@ class _OrderAnywhereStatusScreenState extends State<OrderAnywhereStatusScreen> {
     );
   }
 
-  Widget _buildStatusTimeline(OrderAnywhereStatus current) {
+  Widget _buildStatusTimeline(OrderAnywhereRequestStatus current) {
     final steps = [
-      OrderAnywhereStatus.draft,
-      OrderAnywhereStatus.pendingPayment,
-      OrderAnywhereStatus.paidTest,
-      OrderAnywhereStatus.driverAssigned,
-      OrderAnywhereStatus.purchasing,
-      OrderAnywhereStatus.outForDelivery,
-      OrderAnywhereStatus.delivered,
+      OrderAnywhereRequestStatus.draft,
+      OrderAnywhereRequestStatus.pendingPayment,
+      OrderAnywhereRequestStatus.submitted,
+      OrderAnywhereRequestStatus.driverAssigned,
+      OrderAnywhereRequestStatus.purchasing,
+      OrderAnywhereRequestStatus.outForDelivery,
+      OrderAnywhereRequestStatus.delivered,
     ];
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -276,13 +276,13 @@ class _OrderAnywhereStatusScreenState extends State<OrderAnywhereStatusScreen> {
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         _receiptRow('Estimated Total', '\$${req.estimatedTotal.toStringAsFixed(2)}'),
-        _receiptRow('Actual Receipt Amount', req.receiptActualAmount != null
-            ? '\$${req.receiptActualAmount!.toStringAsFixed(2)}'
+        _receiptRow('Actual Receipt Amount', req.receiptAmount != null
+            ? '\$${req.receiptAmount!.toStringAsFixed(2)}'
             : 'Pending'),
         _receiptRow('Difference', req.receiptDifference != null
             ? '\$${req.receiptDifference!.toStringAsFixed(2)}'
             : 'Pending'),
-        _receiptRow('Admin Reconciliation', req.receiptReconciliationStatus ?? 'Pending backend'),
+        _receiptRow('Admin Reconciliation', req.reconciliationStatus ?? 'Pending backend'),
         const Divider(height: 16),
         const Text(
           'Receipt upload and final reconciliation are required before production launch.',
@@ -306,29 +306,28 @@ class _OrderAnywhereStatusScreenState extends State<OrderAnywhereStatusScreen> {
     return Text(text, style: TextStyle(fontSize: Dimensions.fontSizeLarge, fontWeight: FontWeight.w600, color: AppConstants.ugBlack));
   }
 
-  Color _statusColor(OrderAnywhereStatus status) {
+  Color _statusColor(OrderAnywhereRequestStatus status) {
     switch (status) {
-      case OrderAnywhereStatus.draft:
-      case OrderAnywhereStatus.pendingPayment:
+      case OrderAnywhereRequestStatus.draft:
+      case OrderAnywhereRequestStatus.pendingPayment:
         return Colors.orange;
-      case OrderAnywhereStatus.paidTest:
-      case OrderAnywhereStatus.submitted:
+      case OrderAnywhereRequestStatus.submitted:
         return Colors.blue;
-      case OrderAnywhereStatus.driverPending:
-      case OrderAnywhereStatus.driverAssigned:
-      case OrderAnywhereStatus.purchasing:
+      case OrderAnywhereRequestStatus.driverPending:
+      case OrderAnywhereRequestStatus.driverAssigned:
+      case OrderAnywhereRequestStatus.purchasing:
         return Colors.purple;
-      case OrderAnywhereStatus.receiptUploaded:
-      case OrderAnywhereStatus.adjustmentRequired:
+      case OrderAnywhereRequestStatus.receiptUploaded:
+      case OrderAnywhereRequestStatus.adjustmentRequired:
         return Colors.amber;
-      case OrderAnywhereStatus.outForDelivery:
+      case OrderAnywhereRequestStatus.outForDelivery:
         return Colors.teal;
-      case OrderAnywhereStatus.delivered:
-      case OrderAnywhereStatus.completed:
+      case OrderAnywhereRequestStatus.delivered:
+      case OrderAnywhereRequestStatus.completed:
         return Colors.green;
-      case OrderAnywhereStatus.cancelled:
+      case OrderAnywhereRequestStatus.cancelled:
         return Colors.red;
-      case OrderAnywhereStatus.refunded:
+      case OrderAnywhereRequestStatus.refunded:
         return Colors.grey;
     }
   }

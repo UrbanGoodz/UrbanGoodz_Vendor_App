@@ -1,7 +1,6 @@
-enum OrderAnywhereStatus {
+enum OrderAnywhereRequestStatus {
   draft,
   pendingPayment,
-  paidTest,
   submitted,
   driverPending,
   driverAssigned,
@@ -16,52 +15,83 @@ enum OrderAnywhereStatus {
 
   String get value {
     switch (this) {
-      case OrderAnywhereStatus.draft: return 'draft';
-      case OrderAnywhereStatus.pendingPayment: return 'pending_payment';
-      case OrderAnywhereStatus.paidTest: return 'paid_test';
-      case OrderAnywhereStatus.submitted: return 'submitted';
-      case OrderAnywhereStatus.driverPending: return 'driver_pending';
-      case OrderAnywhereStatus.driverAssigned: return 'driver_assigned';
-      case OrderAnywhereStatus.purchasing: return 'purchasing';
-      case OrderAnywhereStatus.receiptUploaded: return 'receipt_uploaded';
-      case OrderAnywhereStatus.adjustmentRequired: return 'adjustment_required';
-      case OrderAnywhereStatus.outForDelivery: return 'out_for_delivery';
-      case OrderAnywhereStatus.delivered: return 'delivered';
-      case OrderAnywhereStatus.completed: return 'completed';
-      case OrderAnywhereStatus.cancelled: return 'cancelled';
-      case OrderAnywhereStatus.refunded: return 'refunded';
+      case OrderAnywhereRequestStatus.draft: return 'draft';
+      case OrderAnywhereRequestStatus.pendingPayment: return 'pending_payment';
+      case OrderAnywhereRequestStatus.submitted: return 'submitted';
+      case OrderAnywhereRequestStatus.driverPending: return 'driver_pending';
+      case OrderAnywhereRequestStatus.driverAssigned: return 'driver_assigned';
+      case OrderAnywhereRequestStatus.purchasing: return 'purchasing';
+      case OrderAnywhereRequestStatus.receiptUploaded: return 'receipt_uploaded';
+      case OrderAnywhereRequestStatus.adjustmentRequired: return 'adjustment_required';
+      case OrderAnywhereRequestStatus.outForDelivery: return 'out_for_delivery';
+      case OrderAnywhereRequestStatus.delivered: return 'delivered';
+      case OrderAnywhereRequestStatus.completed: return 'completed';
+      case OrderAnywhereRequestStatus.cancelled: return 'cancelled';
+      case OrderAnywhereRequestStatus.refunded: return 'refunded';
     }
   }
 
-  static OrderAnywhereStatus fromString(String s) {
+  static OrderAnywhereRequestStatus fromString(String s) {
     switch (s) {
-      case 'draft': return OrderAnywhereStatus.draft;
-      case 'pending_payment': return OrderAnywhereStatus.pendingPayment;
-      case 'paid_test': return OrderAnywhereStatus.paidTest;
-      case 'submitted': return OrderAnywhereStatus.submitted;
-      case 'driver_pending': return OrderAnywhereStatus.driverPending;
-      case 'driver_assigned': return OrderAnywhereStatus.driverAssigned;
-      case 'purchasing': return OrderAnywhereStatus.purchasing;
-      case 'receipt_uploaded': return OrderAnywhereStatus.receiptUploaded;
-      case 'adjustment_required': return OrderAnywhereStatus.adjustmentRequired;
-      case 'out_for_delivery': return OrderAnywhereStatus.outForDelivery;
-      case 'delivered': return OrderAnywhereStatus.delivered;
-      case 'completed': return OrderAnywhereStatus.completed;
-      case 'cancelled': return OrderAnywhereStatus.cancelled;
-      case 'refunded': return OrderAnywhereStatus.refunded;
-      default: return OrderAnywhereStatus.draft;
+      case 'draft': return OrderAnywhereRequestStatus.draft;
+      case 'pending_payment': return OrderAnywhereRequestStatus.pendingPayment;
+      case 'submitted': return OrderAnywhereRequestStatus.submitted;
+      case 'driver_pending': return OrderAnywhereRequestStatus.driverPending;
+      case 'driver_assigned': return OrderAnywhereRequestStatus.driverAssigned;
+      case 'purchasing': return OrderAnywhereRequestStatus.purchasing;
+      case 'receipt_uploaded': return OrderAnywhereRequestStatus.receiptUploaded;
+      case 'adjustment_required': return OrderAnywhereRequestStatus.adjustmentRequired;
+      case 'out_for_delivery': return OrderAnywhereRequestStatus.outForDelivery;
+      case 'delivered': return OrderAnywhereRequestStatus.delivered;
+      case 'completed': return OrderAnywhereRequestStatus.completed;
+      case 'cancelled': return OrderAnywhereRequestStatus.cancelled;
+      case 'refunded': return OrderAnywhereRequestStatus.refunded;
+      default: return OrderAnywhereRequestStatus.draft;
     }
   }
 
   bool get isPreDispatch =>
-      this == OrderAnywhereStatus.draft ||
-      this == OrderAnywhereStatus.pendingPayment ||
-      this == OrderAnywhereStatus.paidTest ||
-      this == OrderAnywhereStatus.submitted;
+      this == OrderAnywhereRequestStatus.draft ||
+      this == OrderAnywhereRequestStatus.pendingPayment ||
+      this == OrderAnywhereRequestStatus.submitted;
 
   bool get isDispatchAllowed =>
-      this == OrderAnywhereStatus.paidTest ||
-      this == OrderAnywhereStatus.submitted;
+      this == OrderAnywhereRequestStatus.submitted;
+}
+
+enum OrderAnywherePaymentStatus {
+  unpaid,
+  pendingPayment,
+  authorized,
+  paid,
+  paidTest,
+  refunded,
+  failed;
+
+  String get value {
+    switch (this) {
+      case OrderAnywherePaymentStatus.unpaid: return 'unpaid';
+      case OrderAnywherePaymentStatus.pendingPayment: return 'pending_payment';
+      case OrderAnywherePaymentStatus.authorized: return 'authorized';
+      case OrderAnywherePaymentStatus.paid: return 'paid';
+      case OrderAnywherePaymentStatus.paidTest: return 'paid_test';
+      case OrderAnywherePaymentStatus.refunded: return 'refunded';
+      case OrderAnywherePaymentStatus.failed: return 'failed';
+    }
+  }
+
+  static OrderAnywherePaymentStatus fromString(String s) {
+    switch (s) {
+      case 'unpaid': return OrderAnywherePaymentStatus.unpaid;
+      case 'pending_payment': return OrderAnywherePaymentStatus.pendingPayment;
+      case 'authorized': return OrderAnywherePaymentStatus.authorized;
+      case 'paid': return OrderAnywherePaymentStatus.paid;
+      case 'paid_test': return OrderAnywherePaymentStatus.paidTest;
+      case 'refunded': return OrderAnywherePaymentStatus.refunded;
+      case 'failed': return OrderAnywherePaymentStatus.failed;
+      default: return OrderAnywherePaymentStatus.unpaid;
+    }
+  }
 }
 
 enum OrderAnywherePickupPreference {
@@ -94,9 +124,12 @@ enum OrderAnywhereUrgency { standard, asap, scheduled;
 
 class OrderAnywhereRequestModel {
   String? id;
-  OrderAnywhereStatus status;
+  String? customerId;
+  OrderAnywhereRequestStatus requestStatus;
   String businessName;
   String? businessAddress;
+  bool businessAddressUnknown;
+  String? assignedDriverId;
   String itemName;
   String? itemDescription;
   int quantity;
@@ -109,25 +142,30 @@ class OrderAnywhereRequestModel {
   OrderAnywhereUrgency urgency;
   bool consentGiven;
 
-  double estimatedDeliveryFee;
-  double estimatedServiceFee;
+  double deliveryFee;
+  double serviceFee;
   double tip;
   double estimatedTotal;
 
-  String paymentStatus;
+  OrderAnywherePaymentStatus paymentStatus;
 
-  double? receiptActualAmount;
+  double? receiptAmount;
   double? receiptDifference;
-  String? receiptReconciliationStatus;
+  String? receiptImage;
+  String? receiptNotes;
+  String? reconciliationStatus;
 
   String? createdAt;
   String? updatedAt;
 
   OrderAnywhereRequestModel({
     this.id,
-    this.status = OrderAnywhereStatus.draft,
+    this.customerId,
+    this.requestStatus = OrderAnywhereRequestStatus.draft,
     this.businessName = '',
     this.businessAddress,
+    this.businessAddressUnknown = false,
+    this.assignedDriverId,
     this.itemName = '',
     this.itemDescription,
     this.quantity = 1,
@@ -139,23 +177,28 @@ class OrderAnywhereRequestModel {
     this.imagePath,
     this.urgency = OrderAnywhereUrgency.standard,
     this.consentGiven = false,
-    this.estimatedDeliveryFee = 7.99,
-    this.estimatedServiceFee = 5.0,
+    this.deliveryFee = 7.99,
+    this.serviceFee = 5.0,
     this.tip = 0.0,
     this.estimatedTotal = 0.0,
-    this.paymentStatus = 'unpaid',
-    this.receiptActualAmount,
+    this.paymentStatus = OrderAnywherePaymentStatus.unpaid,
+    this.receiptAmount,
     this.receiptDifference,
-    this.receiptReconciliationStatus,
+    this.receiptImage,
+    this.receiptNotes,
+    this.reconciliationStatus,
     this.createdAt,
     this.updatedAt,
   });
 
   OrderAnywhereRequestModel copyWith({
     String? id,
-    OrderAnywhereStatus? status,
+    String? customerId,
+    OrderAnywhereRequestStatus? requestStatus,
     String? businessName,
     String? businessAddress,
+    bool? businessAddressUnknown,
+    String? assignedDriverId,
     String? itemName,
     String? itemDescription,
     int? quantity,
@@ -167,22 +210,27 @@ class OrderAnywhereRequestModel {
     String? imagePath,
     OrderAnywhereUrgency? urgency,
     bool? consentGiven,
-    double? estimatedDeliveryFee,
-    double? estimatedServiceFee,
+    double? deliveryFee,
+    double? serviceFee,
     double? tip,
     double? estimatedTotal,
-    String? paymentStatus,
-    double? receiptActualAmount,
+    OrderAnywherePaymentStatus? paymentStatus,
+    double? receiptAmount,
     double? receiptDifference,
-    String? receiptReconciliationStatus,
+    String? receiptImage,
+    String? receiptNotes,
+    String? reconciliationStatus,
     String? createdAt,
     String? updatedAt,
   }) {
     return OrderAnywhereRequestModel(
       id: id ?? this.id,
-      status: status ?? this.status,
+      customerId: customerId ?? this.customerId,
+      requestStatus: requestStatus ?? this.requestStatus,
       businessName: businessName ?? this.businessName,
       businessAddress: businessAddress ?? this.businessAddress,
+      businessAddressUnknown: businessAddressUnknown ?? this.businessAddressUnknown,
+      assignedDriverId: assignedDriverId ?? this.assignedDriverId,
       itemName: itemName ?? this.itemName,
       itemDescription: itemDescription ?? this.itemDescription,
       quantity: quantity ?? this.quantity,
@@ -194,14 +242,16 @@ class OrderAnywhereRequestModel {
       imagePath: imagePath ?? this.imagePath,
       urgency: urgency ?? this.urgency,
       consentGiven: consentGiven ?? this.consentGiven,
-      estimatedDeliveryFee: estimatedDeliveryFee ?? this.estimatedDeliveryFee,
-      estimatedServiceFee: estimatedServiceFee ?? this.estimatedServiceFee,
+      deliveryFee: deliveryFee ?? this.deliveryFee,
+      serviceFee: serviceFee ?? this.serviceFee,
       tip: tip ?? this.tip,
       estimatedTotal: estimatedTotal ?? this.estimatedTotal,
       paymentStatus: paymentStatus ?? this.paymentStatus,
-      receiptActualAmount: receiptActualAmount ?? this.receiptActualAmount,
+      receiptAmount: receiptAmount ?? this.receiptAmount,
       receiptDifference: receiptDifference ?? this.receiptDifference,
-      receiptReconciliationStatus: receiptReconciliationStatus ?? this.receiptReconciliationStatus,
+      receiptImage: receiptImage ?? this.receiptImage,
+      receiptNotes: receiptNotes ?? this.receiptNotes,
+      reconciliationStatus: reconciliationStatus ?? this.reconciliationStatus,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -210,9 +260,14 @@ class OrderAnywhereRequestModel {
   factory OrderAnywhereRequestModel.fromJson(Map<String, dynamic> json) {
     return OrderAnywhereRequestModel(
       id: json['id']?.toString(),
-      status: json['status'] != null ? OrderAnywhereStatus.fromString(json['status']) : OrderAnywhereStatus.draft,
+      customerId: json['customer_id']?.toString(),
+      requestStatus: json['request_status'] != null
+          ? OrderAnywhereRequestStatus.fromString(json['request_status'])
+          : OrderAnywhereRequestStatus.draft,
       businessName: json['business_name'] ?? '',
       businessAddress: json['business_address'],
+      businessAddressUnknown: json['business_address_unknown'] == true,
+      assignedDriverId: json['assigned_driver_id']?.toString(),
       itemName: json['item_name'] ?? '',
       itemDescription: json['item_description'],
       quantity: json['quantity'] != null ? (json['quantity'] is int ? json['quantity'] : int.tryParse(json['quantity'].toString()) ?? 1) : 1,
@@ -232,14 +287,18 @@ class OrderAnywhereRequestModel {
               orElse: () => OrderAnywhereUrgency.standard)
           : OrderAnywhereUrgency.standard,
       consentGiven: json['consent_given'] == true,
-      estimatedDeliveryFee: json['estimated_delivery_fee'] != null ? (json['estimated_delivery_fee'] is double ? json['estimated_delivery_fee'] : double.tryParse(json['estimated_delivery_fee'].toString()) ?? 7.99) : 7.99,
-      estimatedServiceFee: json['estimated_service_fee'] != null ? (json['estimated_service_fee'] is double ? json['estimated_service_fee'] : double.tryParse(json['estimated_service_fee'].toString()) ?? 5.0) : 5.0,
+      deliveryFee: json['delivery_fee'] != null ? (json['delivery_fee'] is double ? json['delivery_fee'] : double.tryParse(json['delivery_fee'].toString()) ?? 7.99) : 7.99,
+      serviceFee: json['service_fee'] != null ? (json['service_fee'] is double ? json['service_fee'] : double.tryParse(json['service_fee'].toString()) ?? 5.0) : 5.0,
       tip: json['tip'] != null ? (json['tip'] is double ? json['tip'] : double.tryParse(json['tip'].toString()) ?? 0.0) : 0.0,
       estimatedTotal: json['estimated_total'] != null ? (json['estimated_total'] is double ? json['estimated_total'] : double.tryParse(json['estimated_total'].toString()) ?? 0.0) : 0.0,
-      paymentStatus: json['payment_status'] ?? 'unpaid',
-      receiptActualAmount: json['receipt_actual_amount'] != null ? (json['receipt_actual_amount'] is double ? json['receipt_actual_amount'] : double.tryParse(json['receipt_actual_amount'].toString())) : null,
+      paymentStatus: json['payment_status'] != null
+          ? OrderAnywherePaymentStatus.fromString(json['payment_status'])
+          : OrderAnywherePaymentStatus.unpaid,
+      receiptAmount: json['receipt_amount'] != null ? (json['receipt_amount'] is double ? json['receipt_amount'] : double.tryParse(json['receipt_amount'].toString())) : null,
       receiptDifference: json['receipt_difference'] != null ? (json['receipt_difference'] is double ? json['receipt_difference'] : double.tryParse(json['receipt_difference'].toString())) : null,
-      receiptReconciliationStatus: json['receipt_reconciliation_status'],
+      receiptImage: json['receipt_image'],
+      receiptNotes: json['receipt_notes'],
+      reconciliationStatus: json['reconciliation_status'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
     );
@@ -248,9 +307,12 @@ class OrderAnywhereRequestModel {
   Map<String, dynamic> toJson() {
     return {
       if (id != null) 'id': id,
-      'status': status.value,
+      if (customerId != null) 'customer_id': customerId,
+      'request_status': requestStatus.value,
       'business_name': businessName,
       if (businessAddress != null) 'business_address': businessAddress,
+      'business_address_unknown': businessAddressUnknown,
+      if (assignedDriverId != null) 'assigned_driver_id': assignedDriverId,
       'item_name': itemName,
       if (itemDescription != null) 'item_description': itemDescription,
       'quantity': quantity,
@@ -262,23 +324,25 @@ class OrderAnywhereRequestModel {
       if (imagePath != null) 'image_path': imagePath,
       'urgency': urgency.name,
       'consent_given': consentGiven,
-      'estimated_delivery_fee': estimatedDeliveryFee,
-      'estimated_service_fee': estimatedServiceFee,
+      'delivery_fee': deliveryFee,
+      'service_fee': serviceFee,
       'tip': tip,
       'estimated_total': estimatedTotal,
-      'payment_status': paymentStatus,
-      if (receiptActualAmount != null) 'receipt_actual_amount': receiptActualAmount,
+      'payment_status': paymentStatus.value,
+      if (receiptAmount != null) 'receipt_amount': receiptAmount,
       if (receiptDifference != null) 'receipt_difference': receiptDifference,
-      if (receiptReconciliationStatus != null) 'receipt_reconciliation_status': receiptReconciliationStatus,
+      if (receiptImage != null) 'receipt_image': receiptImage,
+      if (receiptNotes != null) 'receipt_notes': receiptNotes,
+      if (reconciliationStatus != null) 'reconciliation_status': reconciliationStatus,
     };
   }
 
   void recalculateTotal() {
-    estimatedTotal = estimatedItemCost + estimatedDeliveryFee + estimatedServiceFee + tip;
+    estimatedTotal = (estimatedItemCost * quantity) + deliveryFee + serviceFee + tip;
   }
 
-  double get estimatedServiceFeeCalculated {
-    final pct = estimatedItemCost * 0.15;
+  double get serviceFeeCalculated {
+    final pct = (estimatedItemCost * quantity) * 0.15;
     return pct < 5.0 ? 5.0 : pct;
   }
 }

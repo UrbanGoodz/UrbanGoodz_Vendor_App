@@ -19,8 +19,8 @@ class OrderAnywhereReviewScreen extends StatelessWidget {
       ),
       body: GetBuilder<OrderAnywhereController>(builder: (ctrl) {
         final req = ctrl.currentRequest;
-        final serviceFee = req.estimatedServiceFeeCalculated;
-        final deliveryFee = req.estimatedDeliveryFee;
+        final serviceFee = req.serviceFeeCalculated;
+        final deliveryFee = req.deliveryFee;
         final tip = req.tip;
         final itemCost = req.estimatedItemCost * req.quantity;
         final total = itemCost + deliveryFee + serviceFee + tip;

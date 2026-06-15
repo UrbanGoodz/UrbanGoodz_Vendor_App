@@ -279,12 +279,9 @@ class AppConstants {
   /// Order Anywhere
   static const String orderAnywhereRequestUri = '/api/v1/order-anywhere/requests';
   static const String orderAnywhereListUri = '/api/v1/order-anywhere/customer/requests';
-  static const String orderAnywherePaymentUri = '/api/v1/order-anywhere/requests/payment';
-  static const String orderAnywhereReceiptUri = '/api/v1/order-anywhere/requests/receipt';
-  static const String orderAnywhereCancelUri = '/api/v1/order-anywhere/requests/cancel';
   static const String orderAnywhereEstimateUri = '/api/v1/order-anywhere/requests/estimate';
   static const String orderAnywhereDriverAvailableUri = '/api/v1/order-anywhere/driver/available';
-  static const String orderAnywhereDriverAcceptUri = '/api/v1/order-anywhere/driver/accept';
+  static const String orderAnywhereDriverAcceptUri = '/api/v1/order-anywhere/driver';
   static const String orderAnywhereAdminReconciliationUri = '/api/v1/order-anywhere/admin/reconciliation';
 
   /// service module
