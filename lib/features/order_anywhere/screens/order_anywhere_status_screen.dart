@@ -1,0 +1,335 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sixam_mart/features/order_anywhere/controllers/order_anywhere_controller.dart';
+import 'package:sixam_mart/features/order_anywhere/domain/models/order_anywhere_request_model.dart';
+import 'package:sixam_mart/util/app_constants.dart';
+import 'package:sixam_mart/util/dimensions.dart';
+import 'package:sixam_mart/features/order_anywhere/widgets/order_anywhere_summary_card.dart';
+
+class OrderAnywhereStatusScreen extends StatefulWidget {
+  final String requestId;
+  const OrderAnywhereStatusScreen({super.key, required this.requestId});
+
+  @override
+  State<OrderAnywhereStatusScreen> createState() => _OrderAnywhereStatusScreenState();
+}
+
+class _OrderAnywhereStatusScreenState extends State<OrderAnywhereStatusScreen> {
+  late OrderAnywhereController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = Get.find<OrderAnywhereController>();
+    controller.loadRequestById(widget.requestId);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppConstants.canvas,
+      appBar: AppBar(
+        title: const Text('Request Status'),
+        backgroundColor: AppConstants.ugBlack,
+        foregroundColor: AppConstants.ugWhite,
+        actions: [
+          Center(
+            child: Container(
+              margin: const EdgeInsets.only(right: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+              decoration: BoxDecoration(
+                color: AppConstants.seasoningOrange,
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: const Text('PREVIEW',
+                style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppConstants.ugWhite)),
+            ),
+          ),
+        ],
+      ),
+      body: GetBuilder<OrderAnywhereController>(builder: (ctrl) {
+        final req = ctrl.currentRequest;
+        return SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AppConstants.seasoningOrange.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: AppConstants.seasoningOrange.withValues(alpha: 0.3)),
+                ),
+                child: const Row(children: [
+                  Icon(Icons.info_outline, color: AppConstants.seasoningOrange, size: 18),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Preview request flow. Test mode only. Live payments and dispatch are not enabled yet.',
+                      style: TextStyle(fontSize: 12, color: AppConstants.ugBlack),
+                    ),
+                  ),
+                ]),
+              ),
+
+              const SizedBox(height: 20),
+
+              Center(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: _statusColor(req.status).withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: _statusColor(req.status)),
+                  ),
+                  child: Text(
+                    req.status.value.replaceAll('_', ' ').toUpperCase(),
+                    style: TextStyle(fontWeight: FontWeight.bold, color: _statusColor(req.status)),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+              OrderAnywhereSummaryCard(request: req),
+
+              const SizedBox(height: 20),
+
+              _buildStatusTimeline(req.status),
+
+              const SizedBox(height: 20),
+              _sectionLabel('Payment'),
+              const SizedBox(height: 8),
+
+              if (req.status.isPreDispatch || req.paymentStatus == 'unpaid') ...[
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.orange.shade50,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.orange.shade200),
+                  ),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    const Text('Payment Required Before Dispatch',
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                    const SizedBox(height: 4),
+                    const Text(
+                      'COD is not available for Order Anywhere. Use TEST PAYMENT below to simulate pre-payment.',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        icon: const Icon(Icons.payment, size: 18),
+                        label: const Text('TEST PAYMENT ONLY — NOT PRODUCTION'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange,
+                          foregroundColor: Colors.white,
+                        ),
+                        onPressed: () => ctrl.markTestPayment(),
+                      ),
+                    ),
+                  ]),
+                ),
+              ],
+
+              if (req.status == OrderAnywhereStatus.paidTest ||
+                  req.status == OrderAnywhereStatus.submitted) ...[
+                const SizedBox(height: 12),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.green.shade50,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.green.shade200),
+                  ),
+                  child: const Row(children: [
+                    Icon(Icons.check_circle, color: Colors.green, size: 18),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: Text('Test payment recorded. Driver dispatch would be allowed in production.',
+                          style: TextStyle(fontSize: 12)),
+                    ),
+                  ]),
+                ),
+              ],
+
+              const SizedBox(height: 20),
+              _sectionLabel('Receipt & Reconciliation'),
+              const SizedBox(height: 8),
+              _buildReceiptSection(req),
+
+              const SizedBox(height: 20),
+              _sectionLabel('Driver Dispatch'),
+              const SizedBox(height: 8),
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade100,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.grey.shade300),
+                ),
+                child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Row(children: [
+                    Icon(Icons.local_shipping, size: 18, color: Colors.grey),
+                    SizedBox(width: 8),
+                    Text('Dispatch Status: Pending Backend',
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                  ]),
+                  SizedBox(height: 8),
+                  Text(
+                    '/*\n'
+                    ' * SAFETY: Order Anywhere requests must NOT appear in driver feed\n'
+                    ' * unless payment_status is paid or authorized.\n'
+                    ' * COD is NOT allowed for Order Anywhere.\n'
+                    ' * Admin reconciliation is required after receipt upload.\n'
+                    ' */',
+                    style: TextStyle(fontSize: 11, fontFamily: 'monospace', color: Color(0xFF616161)),
+                  ),
+                ]),
+              ),
+
+              const SizedBox(height: 24),
+
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.red,
+                    side: const BorderSide(color: Colors.red),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  ),
+                  onPressed: () => ctrl.cancelRequest(),
+                  child: const Text('Cancel Request'),
+                ),
+              ),
+
+              const SizedBox(height: 40),
+            ],
+          ),
+        );
+      }),
+    );
+  }
+
+  Widget _buildStatusTimeline(OrderAnywhereStatus current) {
+    final steps = [
+      OrderAnywhereStatus.draft,
+      OrderAnywhereStatus.pendingPayment,
+      OrderAnywhereStatus.paidTest,
+      OrderAnywhereStatus.driverAssigned,
+      OrderAnywhereStatus.purchasing,
+      OrderAnywhereStatus.outForDelivery,
+      OrderAnywhereStatus.delivered,
+    ];
+
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      _sectionLabel('Status Timeline'),
+      const SizedBox(height: 8),
+      ...steps.map((step) {
+        final index = steps.indexOf(step);
+        final currentIndex = steps.indexOf(current);
+        final isComplete = currentIndex >= index;
+        final isCurrent = current == step;
+        return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Column(children: [
+            Container(
+              width: 20, height: 20,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: isComplete ? AppConstants.seasoningOrange : Colors.grey.shade300,
+              ),
+              child: Center(
+                child: isComplete
+                    ? const Icon(Icons.check, size: 12, color: Colors.white)
+                    : Text('${index + 1}', style: TextStyle(fontSize: 10, color: Colors.grey.shade600)),
+              ),
+            ),
+            if (index < steps.length - 1)
+              Container(width: 2, height: 24, color: isComplete ? AppConstants.seasoningOrange : Colors.grey.shade300),
+          ]),
+          const SizedBox(width: 12),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: Text(
+              step.value.replaceAll('_', ' ').toUpperCase(),
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
+                color: isComplete ? AppConstants.ugBlack : Colors.grey,
+              ),
+            ),
+          ),
+        ]);
+      }),
+    ]);
+  }
+
+  Widget _buildReceiptSection(OrderAnywhereRequestModel req) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.amber.shade50,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.amber.shade200),
+      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        _receiptRow('Estimated Total', '\$${req.estimatedTotal.toStringAsFixed(2)}'),
+        _receiptRow('Actual Receipt Amount', req.receiptActualAmount != null
+            ? '\$${req.receiptActualAmount!.toStringAsFixed(2)}'
+            : 'Pending'),
+        _receiptRow('Difference', req.receiptDifference != null
+            ? '\$${req.receiptDifference!.toStringAsFixed(2)}'
+            : 'Pending'),
+        _receiptRow('Admin Reconciliation', req.receiptReconciliationStatus ?? 'Pending backend'),
+        const Divider(height: 16),
+        const Text(
+          'Receipt upload and final reconciliation are required before production launch.',
+          style: TextStyle(fontSize: 11, fontStyle: FontStyle.italic),
+        ),
+      ]),
+    );
+  }
+
+  Widget _receiptRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Text(label, style: const TextStyle(fontSize: 12)),
+        Text(value, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500)),
+      ]),
+    );
+  }
+
+  Widget _sectionLabel(String text) {
+    return Text(text, style: TextStyle(fontSize: Dimensions.fontSizeLarge, fontWeight: FontWeight.w600, color: AppConstants.ugBlack));
+  }
+
+  Color _statusColor(OrderAnywhereStatus status) {
+    switch (status) {
+      case OrderAnywhereStatus.draft:
+      case OrderAnywhereStatus.pendingPayment:
+        return Colors.orange;
+      case OrderAnywhereStatus.paidTest:
+      case OrderAnywhereStatus.submitted:
+        return Colors.blue;
+      case OrderAnywhereStatus.driverPending:
+      case OrderAnywhereStatus.driverAssigned:
+      case OrderAnywhereStatus.purchasing:
+        return Colors.purple;
+      case OrderAnywhereStatus.receiptUploaded:
+      case OrderAnywhereStatus.adjustmentRequired:
+        return Colors.amber;
+      case OrderAnywhereStatus.outForDelivery:
+        return Colors.teal;
+      case OrderAnywhereStatus.delivered:
+      case OrderAnywhereStatus.completed:
+        return Colors.green;
+      case OrderAnywhereStatus.cancelled:
+        return Colors.red;
+      case OrderAnywhereStatus.refunded:
+        return Colors.grey;
+    }
+  }
+}

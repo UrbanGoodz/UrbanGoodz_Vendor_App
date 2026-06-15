@@ -276,6 +276,17 @@ class AppConstants {
   static const String bannerCountUpdate = '/api/v1/rideshare/customer/banner/update-redirection-count';
   static const String updateLiveLocation = '/api/v1/rideshare/user/store-live-location';
 
+  /// Order Anywhere
+  static const String orderAnywhereRequestUri = '/api/v1/order-anywhere/requests';
+  static const String orderAnywhereListUri = '/api/v1/order-anywhere/customer/requests';
+  static const String orderAnywherePaymentUri = '/api/v1/order-anywhere/requests/payment';
+  static const String orderAnywhereReceiptUri = '/api/v1/order-anywhere/requests/receipt';
+  static const String orderAnywhereCancelUri = '/api/v1/order-anywhere/requests/cancel';
+  static const String orderAnywhereEstimateUri = '/api/v1/order-anywhere/requests/estimate';
+  static const String orderAnywhereDriverAvailableUri = '/api/v1/order-anywhere/driver/available';
+  static const String orderAnywhereDriverAcceptUri = '/api/v1/order-anywhere/driver/accept';
+  static const String orderAnywhereAdminReconciliationUri = '/api/v1/order-anywhere/admin/reconciliation';
+
   /// service module
   static const String getServiceBannerUri = '/api/v1/service/customer/banner?limit=50&offset=1';
   static const String getServiceCategoryUri = '/api/v1/service/customer/category?limit=20&offset=1';

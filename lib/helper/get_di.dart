@@ -116,6 +116,11 @@ import 'package:sixam_mart/features/notification/domain/repository/notification_
 import 'package:sixam_mart/features/notification/domain/repository/notification_repository_interface.dart';
 import 'package:sixam_mart/features/notification/domain/service/notification_service.dart';
 import 'package:sixam_mart/features/notification/domain/service/notification_service_interface.dart';
+import 'package:sixam_mart/features/order_anywhere/controllers/order_anywhere_controller.dart';
+import 'package:sixam_mart/features/order_anywhere/domain/services/order_anywhere_service_interface.dart';
+import 'package:sixam_mart/features/order_anywhere/domain/services/order_anywhere_service.dart';
+import 'package:sixam_mart/features/order_anywhere/domain/repositories/order_anywhere_repository_interface.dart';
+import 'package:sixam_mart/features/order_anywhere/domain/repositories/order_anywhere_repository.dart';
 import 'package:sixam_mart/features/onboard/controllers/onboard_controller.dart';
 import 'package:sixam_mart/features/onboard/domain/repository/onboard_repository.dart';
 import 'package:sixam_mart/features/onboard/domain/repository/onboard_repository_interface.dart';
@@ -388,6 +393,9 @@ Future<Map<String, Map<String, String>>> init() async {
   TripRepositoryInterface tripRepositoryInterface = TripRepository(apiClient: Get.find());
   Get.lazyPut(() => tripRepositoryInterface);
 
+  OrderAnywhereRepositoryInterface orderAnywhereRepositoryInterface = OrderAnywhereRepository(apiClient: Get.find());
+  Get.lazyPut(() => orderAnywhereRepositoryInterface);
+
   SafetyAlertRepositoryInterface safetyAlertRepositoryInterface = SafetyAlertRepository(apiClient: Get.find());
   Get.lazyPut(() => safetyAlertRepositoryInterface);
 
@@ -539,6 +547,9 @@ Future<Map<String, Map<String, String>>> init() async {
   RidePaymentServiceInterface ridePaymentServiceInterface = RidePaymentService(ridePaymentRepositoryInterface: Get.find());
   Get.lazyPut(() => ridePaymentServiceInterface);
 
+  OrderAnywhereServiceInterface orderAnywhereServiceInterface = OrderAnywhereService(orderAnywhereRepositoryInterface: Get.find());
+  Get.lazyPut(() => orderAnywhereServiceInterface);
+
 
   /// Controller
   Get.lazyPut(() => ThemeController(sharedPreferences: Get.find()));
@@ -584,6 +595,8 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => TaxiVendorController(taxiVendorServiceInterface: Get.find()));
   Get.lazyPut(() => TaxiOrderController(taxiOrderServiceInterface: Get.find()));
   Get.lazyPut(() => TaxiFavouriteController(taxiFavouriteServiceInterface: Get.find()));
+
+  Get.lazyPut(() => OrderAnywhereController(orderAnywhereServiceInterface: Get.find()));
 
   /// Ride Module
   Get.lazyPut(() => SearchLocationController(searchLocationServiceInterface: Get.find(), locationServiceInterface: Get.find()));

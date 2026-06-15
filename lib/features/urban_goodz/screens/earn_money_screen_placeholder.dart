@@ -36,7 +36,7 @@ class EarnMoneyScreen extends StatelessWidget {
               case '4' : return () => Get.toNamed(RouteHelper.getUrbanGoodzLoadBoardRoute());
               case '5' : return () => Get.toNamed(RouteHelper.getUrbanGoodzMedicalCourierRoute());
               case '10': return () => Get.toNamed(RouteHelper.getUrbanGoodzBookServicesRoute());
-              case '2' : return () => Get.toNamed(RouteHelper.getSearchRoute());
+              case '2' : return () => Get.toNamed(RouteHelper.getOrderAnywhereRequestRoute());
               default  : return null;
             }
           }

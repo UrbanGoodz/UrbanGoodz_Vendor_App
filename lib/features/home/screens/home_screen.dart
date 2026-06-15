@@ -315,7 +315,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
-        onTap: () => Get.toNamed(RouteHelper.getSearchRoute()),
+        onTap: () => Get.toNamed(RouteHelper.getOrderAnywhereRequestRoute()),
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
@@ -361,7 +361,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: Dimensions.paddingSizeSmall),
                 Text(
-                  'Preview — request flow is not yet available. This card shows the planned feature direction.',
+                  'Request items from any business. Preview — test mode only.',
                   style: robotoRegular.copyWith(
                     fontSize: Dimensions.fontSizeDefault,
                     height: 1.45,
