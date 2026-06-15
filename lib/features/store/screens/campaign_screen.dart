@@ -42,7 +42,7 @@ class _CampaignScreenState extends State<CampaignScreen> {
 
             ResponsiveHelper.isDesktop(context) ? SliverToBoxAdapter(
               child: Container(
-                color: const Color(0xFF171A29),
+                color: const Color(0xFF161616),
                 padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge, vertical: Dimensions.paddingSizeExtraLarge),
                 alignment: Alignment.center,
                 child: Center(

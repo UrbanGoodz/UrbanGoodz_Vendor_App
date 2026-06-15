@@ -159,7 +159,7 @@ class StoreDescriptionViewWidget extends StatelessWidget {
            onTap: () => Get.toNamed(RouteHelper.getStoreReviewRoute(store!.id, store!.name, store!, slug: store!.slug ?? store!.name!)),
            child: Column(children: [
              Row(children: [
-               Icon(Icons.star, color: Colors.orange, size: 20),
+               Icon(Icons.star, color: const Color(0xFFED9914), size: 20),
                const SizedBox(width: Dimensions.paddingSizeExtraSmall),
                Text(
                  store!.avgRating!.toStringAsFixed(1),
@@ -221,7 +221,7 @@ class StoreDescriptionViewWidget extends StatelessWidget {
          onTap: () => Get.toNamed(RouteHelper.getStoreReviewRoute(store!.id, store!.name, store!, slug: store!.slug ?? store!.name!)),
          child: Column(children: [
            Row(children: [
-             Icon(Icons.star, color: Colors.orange, size: 20),
+             Icon(Icons.star, color: const Color(0xFFED9914), size: 20),
              const SizedBox(width: Dimensions.paddingSizeExtraSmall),
              Text(
                store!.avgRating!.toStringAsFixed(1),

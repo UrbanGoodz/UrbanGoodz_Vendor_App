@@ -215,7 +215,7 @@ class WebItemWidget extends StatelessWidget {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      Icon(Icons.star, color: Colors.orange, size: 12),
+                                      Icon(Icons.star, color: const Color(0xFFED9914), size: 12),
                                       const SizedBox(width: Dimensions.paddingSizeExtraSmall),
                                       Text(
                                         item!.ratingCount.toString(),

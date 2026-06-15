@@ -307,6 +307,85 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Widget _buildOrderAnywhereCard(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeSmall : Dimensions.paddingSizeDefault,
+        vertical: Dimensions.paddingSizeSmall,
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
+        onTap: () => Get.toNamed(RouteHelper.getSearchRoute()),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
+            border: Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.3), width: 1),
+            boxShadow: [BoxShadow(color: Theme.of(context).shadowColor.withValues(alpha: 0.08), blurRadius: 12, offset: const Offset(0, 5))],
+          ),
+          child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.16),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              padding: const EdgeInsets.all(14),
+              child: Icon(Icons.add_location_alt, size: 28, color: Theme.of(context).primaryColor),
+            ),
+            const SizedBox(width: Dimensions.paddingSizeLarge),
+            Expanded(
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Row(
+                  children: [
+                    Text(
+                      'Order Anywhere',
+                      style: robotoMedium.copyWith(
+                        fontSize: Dimensions.fontSizeExtraLarge,
+                        color: Theme.of(context).textTheme.bodyLarge!.color,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE5E276),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: const Text('PREVIEW',
+                        style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: Color(0xFF161616)),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: Dimensions.paddingSizeSmall),
+                Text(
+                  'Preview — request flow is not yet available. This card shows the planned feature direction.',
+                  style: robotoRegular.copyWith(
+                    fontSize: Dimensions.fontSizeDefault,
+                    height: 1.45,
+                    color: Theme.of(context).disabledColor,
+                  ),
+                ),
+              ]),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Text('Start Request',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white),
+              ),
+            ),
+          ]),
+        ),
+      ),
+    );
+  }
+
   Widget _buildMembershipCard(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -753,6 +832,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   if (!showMobileModule && !isTaxi && !isRide) ...[
                     SliverToBoxAdapter(child: _buildAIConciergeCard(context)),
+                    SliverToBoxAdapter(child: _buildOrderAnywhereCard(context)),
                     SliverToBoxAdapter(child: _buildMembershipCard(context)),
                     SliverToBoxAdapter(child: _buildSpotlightCard(context)),
                     SliverToBoxAdapter(child: _buildRentalsCard(context)),

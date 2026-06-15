@@ -129,7 +129,7 @@ class _StoreScreenState extends State<StoreScreen> {
 
                 ResponsiveHelper.isDesktop(context) ? SliverToBoxAdapter(
                   child: Container(
-                    color: const Color(0xFF171A29),
+                    color: const Color(0xFF161616),
                     padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
                     alignment: Alignment.center,
                     child: Center(child: SizedBox(width: Dimensions.webMaxWidth, child: Padding(

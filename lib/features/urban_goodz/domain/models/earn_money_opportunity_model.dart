@@ -10,6 +10,8 @@ class EarnMoneyOpportunityModel {
   final String scheduleLabel;
   final IconData icon;
   final bool recommended;
+  final bool isBeta;
+  final bool isFeatured;
 
   const EarnMoneyOpportunityModel({
     required this.id,
@@ -21,6 +23,8 @@ class EarnMoneyOpportunityModel {
     required this.scheduleLabel,
     required this.icon,
     this.recommended = false,
+    this.isBeta = false,
+    this.isFeatured = false,
   });
 
   factory EarnMoneyOpportunityModel.fromJson(Map<String, dynamic> json) {
@@ -34,6 +38,8 @@ class EarnMoneyOpportunityModel {
       scheduleLabel: json['schedule_label']?.toString() ?? json['scheduleLabel']?.toString() ?? 'Flexible',
       icon: iconForType(json['type']?.toString() ?? ''),
       recommended: json['recommended'] == true || json['is_recommended'] == true,
+      isBeta: json['beta'] == true,
+      isFeatured: json['featured'] == true,
     );
   }
 
@@ -47,6 +53,8 @@ class EarnMoneyOpportunityModel {
       'distance_label': distanceLabel,
       'schedule_label': scheduleLabel,
       'recommended': recommended,
+      'beta': isBeta,
+      'featured': isFeatured,
     };
   }
 
@@ -61,6 +69,7 @@ class EarnMoneyOpportunityModel {
     if (normalized.contains('creator')) return Icons.video_camera_back_outlined;
     if (normalized.contains('merchant') || normalized.contains('referral')) return Icons.handshake_outlined;
     if (normalized.contains('service')) return Icons.home_repair_service_outlined;
+    if (normalized.contains('fashion') || normalized.contains('tailoring')) return Icons.cut_outlined;
     return Icons.work_outline;
   }
 }

@@ -120,8 +120,7 @@ class _MyAppState extends State<MyApp> {
 
     _route();
     
-    _initialRoute = GetPlatform.isWeb ? RouteHelper.getInitialRoute() : RouteHelper.getSplashRoute(widget.body, deeplinkRoute);
-
+_initialRoute = GetPlatform.isWeb ? RouteHelper.getInitialRoute() : RouteHelper.getSplashRoute(widget.body, deeplinkRoute);
   }
 
   void _initAppLinks() async {
@@ -137,7 +136,7 @@ class _MyAppState extends State<MyApp> {
       }
     }, onError: (err) {
       if (kDebugMode) {
-        print('catch Error in initAppLinksStream: $err');
+        print('catchreturn Error in initAppLinksStream: $err');
       }
     });
   }

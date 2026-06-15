@@ -98,6 +98,12 @@ import 'package:sixam_mart/features/urban_goodz/screens/black_owned_spotlight_sc
 import 'package:sixam_mart/features/urban_goodz/screens/urban_goodz_ai_screen.dart';
 import 'package:sixam_mart/features/urban_goodz/screens/urban_goodz_plus_screen.dart';
 import 'package:sixam_mart/features/urban_goodz/screens/local_events_creators_screen.dart';
+import 'package:sixam_mart/features/urban_goodz/screens/earn_money_screen_placeholder.dart';
+import 'package:sixam_mart/features/urban_goodz/screens/logistics_load_board_screen_placeholder.dart';
+import 'package:sixam_mart/features/urban_goodz/screens/medical_courier_screen_placeholder.dart';
+import 'package:sixam_mart/features/urban_goodz/screens/book_services_screen_placeholder.dart';
+import 'package:sixam_mart/features/urban_goodz/screens/community_marketplace_screen_placeholder.dart';
+import 'package:sixam_mart/features/urban_goodz/screens/creator_commerce_screen_placeholder.dart';
 import 'package:sixam_mart/features/update/screens/update_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -123,6 +129,13 @@ class RouteHelper {
   static const String blackOwnedSpotlight = '/black-owned-spotlight';
   static const String urbanGoodzPlus = '/urban-goodz-plus';
   static const String localEventsCreators = '/local-events-creators';
+  static const String urbanGoodzEarnMoney = '/urban-goodz-earn-money';
+  static const String urbanGoodzLogistics = '/urban-goodz-logistics';
+  static const String urbanGoodzLoadBoard = '/urban-goodz-load-board';
+  static const String urbanGoodzMedicalCourier = '/urban-goodz-medical-courier';
+  static const String urbanGoodzBookServices = '/urban-goodz-book-services';
+  static const String urbanGoodzCommunityMarketplace = '/urban-goodz-community-marketplace';
+  static const String urbanGoodzCreatorCommerce = '/urban-goodz-creator-commerce';
   static const String store = '/store';
   static const String orderDetails = '/order-details';
   static const String profile = '/profile';
@@ -239,6 +252,13 @@ class RouteHelper {
   static String getBlackOwnedSpotlightRoute() => blackOwnedSpotlight;
   static String getUrbanGoodzPlusRoute() => urbanGoodzPlus;
   static String getLocalEventsCreatorsRoute() => localEventsCreators;
+  static String getUrbanGoodzEarnMoneyRoute() => urbanGoodzEarnMoney;
+  static String getUrbanGoodzLogisticsRoute() => urbanGoodzLogistics;
+  static String getUrbanGoodzLoadBoardRoute() => urbanGoodzLoadBoard;
+  static String getUrbanGoodzMedicalCourierRoute() => urbanGoodzMedicalCourier;
+  static String getUrbanGoodzBookServicesRoute() => urbanGoodzBookServices;
+  static String getUrbanGoodzCommunityMarketplaceRoute() => urbanGoodzCommunityMarketplace;
+  static String getUrbanGoodzCreatorCommerceRoute() => urbanGoodzCreatorCommerce;
 
   static String getStoreRoute({required int? id, required String page, required String slug, String? moduleId, bool fromDeeplink = false}) {
     return '$store/$slug?id=$id&page=$page&module=${moduleId ?? ModuleHelper.getModule()?.slug ?? ModuleHelper.getModule()?.id}${fromDeeplink ? '&from_deeplink=true' : ''}';
@@ -489,6 +509,13 @@ class RouteHelper {
     GetPage(name: blackOwnedSpotlight, page: () => const BlackOwnedSpotlightScreen()),
     GetPage(name: urbanGoodzPlus, page: () => const UrbanGoodzPlusScreen()),
     GetPage(name: localEventsCreators, page: () => const LocalEventsCreatorsScreen()),
+    GetPage(name: urbanGoodzEarnMoney, page: () => const EarnMoneyScreen()),
+    GetPage(name: urbanGoodzLogistics, page: () => const LogisticsLoadBoardScreen()),
+    GetPage(name: urbanGoodzLoadBoard, page: () => const LogisticsLoadBoardScreen()),
+    GetPage(name: urbanGoodzMedicalCourier, page: () => const MedicalCourierScreen()),
+    GetPage(name: urbanGoodzBookServices, page: () => const BookServicesScreen()),
+    GetPage(name: urbanGoodzCommunityMarketplace, page: () => const CommunityMarketplaceScreen()),
+    GetPage(name: urbanGoodzCreatorCommerce, page: () => const CreatorCommerceScreen()),
     GetPage(name: '$store/:slug', page: () {
       return getRoute(
         _waitForModule(

@@ -184,9 +184,10 @@ class LocationController extends GetxController implements GetxService {
     if(!updateInAddress){
       update();
     }
+    print('ZONE_CHECK: lat=$lat lng=$lng');
     ZoneResponseModel responseModel = await locationServiceInterface.getZone(lat, lng, handleError: handleError);
     _inZone = responseModel.isSuccess;
-    print('====in zone: $_inZone');
+    print('ZONE_CHECK: inZone=$_inZone statusCode=${responseModel.statusCode} zoneIds=${responseModel.zoneIds} message=${responseModel.message}');
 
       _zoneID = responseModel.zoneIds.isNotEmpty ? responseModel.zoneIds[0] : 0;
       if(updateInAddress && responseModel.isSuccess) {
@@ -562,7 +563,36 @@ class LocationController extends GetxController implements GetxService {
     }
   }
 
+  // REMOVE BEFORE PRODUCTION - temporary MVP web testing bypass
+  void _webBypassHoustonLocation(String page) async {
+    _pickPosition = Position(
+      latitude: 29.7604, longitude: -95.3698,
+      timestamp: DateTime.now(), accuracy: 1, altitude: 1, heading: 1, speed: 1, speedAccuracy: 1, altitudeAccuracy: 1, headingAccuracy: 1,
+    );
+    _pickAddress = 'Houston, TX';
+    _inZone = true;
+    _buttonDisabled = false;
+    _zoneID = 1;
+    update();
+
+    AddressModel address = AddressModel(
+      latitude: '29.7604', longitude: '-95.3698',
+      addressType: 'my_location', address: 'Houston, TX',
+      zoneId: 1, zoneIds: [1],
+    );
+    await AddressHelper.saveUserAddressInSharedPref(address);
+    locationServiceInterface.handleRoute(false, page, false);
+  }
+  // END REMOVE BEFORE PRODUCTION
+
   void _checkPermission(String page) async {
+
+    // REMOVE BEFORE PRODUCTION - temporary MVP web testing bypass
+    if (kIsWeb) {
+      _webBypassHoustonLocation(page);
+      return;
+    }
+    // END REMOVE BEFORE PRODUCTION
 
     bool hasInternet = await checkInternet();
     if (!hasInternet) {

@@ -603,12 +603,12 @@ class CheckoutButton extends StatelessWidget {
               (!isDesktop && storeController.store != null && !storeController.store!.freeDelivery! && (Get.find<SplashController>().configModel?.adminFreeDelivery?.status == true && (Get.find<SplashController>().configModel?.adminFreeDelivery?.type != null && Get.find<SplashController>().configModel?.adminFreeDelivery?.type == 'free_delivery_by_order_amount') && (Get.find<SplashController>().configModel!.adminFreeDelivery?.freeDeliveryOver != null)) && percentage < 1)
               ? Column(children: [
                   Row(children: [
-                    Image.asset(Images.percentTag, height: 20, width: 20, color: Colors.orange,),
+                    Image.asset(Images.percentTag, height: 20, width: 20, color: const Color(0xFFED9914),),
                     const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
                     Text(
                       PriceConverter.convertPrice(Get.find<SplashController>().configModel!.adminFreeDelivery!.freeDeliveryOver! - cartController.subTotal),
-                      style: robotoMedium.copyWith(color: Colors.orange), textDirection: TextDirection.ltr,
+                      style: robotoMedium.copyWith(color: const Color(0xFFED9914)), textDirection: TextDirection.ltr,
                     ),
                     const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
@@ -619,7 +619,7 @@ class CheckoutButton extends StatelessWidget {
                 LinearProgressIndicator(
                   backgroundColor: Theme.of(context).disabledColor.withValues(alpha: 0.2),
                   value: percentage,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+                  valueColor: AlwaysStoppedAnimation<Color>(const Color(0xFFED9914)),
                 ),
               ]) : const SizedBox(),
 
@@ -720,14 +720,14 @@ class CheckoutButton extends StatelessWidget {
 
               isDesktop && Get.find<SplashController>().getModuleConfig(cartController.cartList[0].item!.moduleType).newVariation! && storeController.store != null && storeController.store!.deliveryTime != null ? Container(
                 decoration: BoxDecoration(
-                  color: Colors.orange.withValues(alpha: 0.1),
+                  color: const Color(0xFFED9914).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                 ),
                 width: double.infinity,
                 padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                 margin: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
                 child: Row(children: [
-                  Image.asset(Images.carDelivery, height: 20, width: 20, color: Colors.orange),
+                  Image.asset(Images.carDelivery, height: 20, width: 20, color: const Color(0xFFED9914)),
                   const SizedBox(width: Dimensions.paddingSizeSmall),
                   RichText(text: TextSpan(children: [
                     TextSpan(text: '${'estimated_delivery_time'.tr} : ', style: robotoMedium.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.5))),
@@ -742,12 +742,12 @@ class CheckoutButton extends StatelessWidget {
                     const SizedBox(height: Dimensions.paddingSizeSmall),
 
                 Row(children: [
-                  Image.asset(Images.percentTag, height: 20, width: 20, color: Colors.orange,),
+                  Image.asset(Images.percentTag, height: 20, width: 20, color: const Color(0xFFED9914),),
                   const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
                   Text(
                     PriceConverter.convertPrice(Get.find<SplashController>().configModel!.adminFreeDelivery!.freeDeliveryOver! - cartController.subTotal),
-                    style: robotoMedium.copyWith(color: Colors.orange), textDirection: TextDirection.ltr,
+                    style: robotoMedium.copyWith(color: const Color(0xFFED9914)), textDirection: TextDirection.ltr,
                   ),
                   const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
@@ -758,7 +758,7 @@ class CheckoutButton extends StatelessWidget {
                 LinearProgressIndicator(
                   backgroundColor: Theme.of(context).disabledColor.withValues(alpha: 0.2),
                   value: percentage,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+                  valueColor: AlwaysStoppedAnimation<Color>(const Color(0xFFED9914)),
                 ),
               ]) : const SizedBox(),
               isDesktop ? const SizedBox(height: Dimensions.paddingSizeSmall) : const SizedBox(),

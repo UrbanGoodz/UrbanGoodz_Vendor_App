@@ -479,7 +479,7 @@ class _PaymentMethodBottomSheetState extends State<PaymentMethodBottomSheet> {
           ),
 
           if(checkoutController.paymentMethodIndex == 1)
-            Text('* ${'please_select_a_option_to_pay_remain_billing_amount'.tr}', style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: const Color(0xFFE74B4B))),
+            Text('* ${'please_select_a_option_to_pay_remain_billing_amount'.tr}', style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: const Color(0xFFED9914))),
           const SizedBox(height: Dimensions.paddingSizeSmall),
         ]),
 

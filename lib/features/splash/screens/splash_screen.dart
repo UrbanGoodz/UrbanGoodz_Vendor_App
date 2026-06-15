@@ -11,6 +11,7 @@ import 'package:sixam_mart/util/images.dart';
 import 'package:sixam_mart/common/widgets/no_internet_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sixam_mart/helper/route_helper.dart';
 
 class SplashScreen extends StatefulWidget {
   final NotificationBodyModel? body;
@@ -57,7 +58,9 @@ class SplashScreenState extends State<SplashScreen> {
     }
     // _route();
     print('=========here coming-----2-->> ${Get.find<SplashController>().deeplinkRoute == null}');
-    if(Get.find<SplashController>().deeplinkRoute == null) {
+    if(Get.find<SplashController>().deeplinkRoute == null) {Future.delayed(const Duration(seconds: 2), () {
+  Get.offNamed(RouteHelper.getUrbanGoodzEarnMoneyRoute());
+});
       Get.find<SplashController>().getConfigData(notificationBody: widget.body);
     }
   }
@@ -169,17 +172,50 @@ class SplashScreenState extends State<SplashScreen> {
 
     return Scaffold(
       key: _globalKey,
-      body: GetBuilder<SplashController>(builder: (splashController) {
-        return Center(
-          child: splashController.hasConnection ? Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.asset(Images.logo, width: 200),
-              const SizedBox(height: Dimensions.paddingSizeSmall),
-            ],
-          ) : NoInternetScreen(child: SplashScreen(body: widget.body, deeplinkUrl: widget.deeplinkUrl)),
-        );
-      }),
+    body: GetBuilder<SplashController>(builder: (splashController) {
+  return Stack(
+    children: [
+      Center(
+        child: splashController.hasConnection ? Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(Images.logo, width: 200),
+            const SizedBox(height: Dimensions.paddingSizeSmall),
+          ],
+        ) : NoInternetScreen(child: SplashScreen(body: widget.body, deeplinkUrl: widget.deeplinkUrl)),
+      ),
+      Positioned(
+        top: 0,
+        left: 0,
+        right: 0,
+        child: Material(
+          elevation: 8,
+          color: Colors.redAccent,
+          child: SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  const Text('Urban Goodz Dev Access', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                  ElevatedButton(onPressed: () => Get.toNamed(RouteHelper.getUrbanGoodzEarnMoneyRoute()), child: const Text('Earn Money')),
+                  ElevatedButton(onPressed: () => Get.toNamed(RouteHelper.getUrbanGoodzLogisticsRoute()), child: const Text('Logistics')),
+                  ElevatedButton(onPressed: () => Get.toNamed(RouteHelper.getUrbanGoodzLoadBoardRoute()), child: const Text('Load Board')),
+                  ElevatedButton(onPressed: () => Get.toNamed(RouteHelper.getUrbanGoodzMedicalCourierRoute()), child: const Text('Medical Courier')),
+                  ElevatedButton(onPressed: () => Get.toNamed(RouteHelper.getUrbanGoodzBookServicesRoute()), child: const Text('Book Services')),
+                  ElevatedButton(onPressed: () => Get.toNamed(RouteHelper.getUrbanGoodzCommunityMarketplaceRoute()), child: const Text('Community')),
+                  ElevatedButton(onPressed: () => Get.toNamed(RouteHelper.getUrbanGoodzCreatorCommerceRoute()), child: const Text('Creator')),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
+}),
     );
   }
 }

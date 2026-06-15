@@ -116,7 +116,7 @@ class ItemThatYouLoveCard extends StatelessWidget {
                       if(item.ratingCount! > 0)
                       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
 
-                        Icon(Icons.star, size: 15, color: Colors.orange),
+                        Icon(Icons.star, size: 15, color: const Color(0xFFED9914)),
                         const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
                         Text(item.avgRating!.toStringAsFixed(1), style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),

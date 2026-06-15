@@ -229,7 +229,7 @@ class _WebBestStoreNearbyViewWidgetState extends State<WebBestStoreNearbyViewWid
 
                                                     Row(children: [
 
-                                                      Icon(Icons.star, size: 15, color: Colors.orange),
+                                                      Icon(Icons.star, size: 15, color: const Color(0xFFED9914)),
                                                       const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
                                                       Text(storeList[index].avgRating!.toStringAsFixed(1), style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),

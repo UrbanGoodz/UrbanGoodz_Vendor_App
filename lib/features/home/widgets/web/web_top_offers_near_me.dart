@@ -258,7 +258,7 @@ class _WebTopOffersNearMeState extends State<WebTopOffersNearMe> {
                                   size: 12,
                                 ) : Row(mainAxisAlignment: MainAxisAlignment.start, children: [
 
-                                  Icon(Icons.star, color: Colors.orange, size: 14),
+                                  Icon(Icons.star, color: const Color(0xFFED9914), size: 14),
                                   const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
                                   Text('${store.avgRating}', style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall)),

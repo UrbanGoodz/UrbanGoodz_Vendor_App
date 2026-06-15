@@ -141,7 +141,7 @@ class CustomCard extends StatelessWidget {
             Expanded(child: Text(mainText, style: subtitle != null ? robotoBold.copyWith(fontSize: Dimensions.fontSizeDefault)
                 : robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color?.withValues(alpha: 0.6)))),
             Container(width: 35, height: 35,
-              decoration: BoxDecoration(color:  const Color(0xFF4CAF50), shape: BoxShape.circle,),
+              decoration: BoxDecoration(color:  const Color(0xFFED9914), shape: BoxShape.circle,),
               child: GestureDetector(
                 onTap: onActionPressed,
                 child: Icon(icon, color: Colors.white, size: Dimensions.paddingSizeLarge),

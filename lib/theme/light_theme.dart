@@ -4,15 +4,15 @@ import 'package:sixam_mart/util/app_constants.dart';
 ThemeData light({Color color = const Color(0xFFED9914)}) => ThemeData(
   fontFamily: AppConstants.fontFamily,
   primaryColor: color,
-  secondaryHeaderColor: const Color(0xFF161616),
-  disabledColor: const Color(0xFF9F9F9F),
+  secondaryHeaderColor: AppConstants.ugBlack,
+  disabledColor: AppConstants.canvas,
   brightness: Brightness.light,
-  hintColor: const Color(0xFF9F9F9F),
-  scaffoldBackgroundColor: const Color(0xFFE2D3BF),
-  canvasColor: const Color(0xFFE2D3BF),
-  cardColor: Colors.white,
-  shadowColor: Colors.black.withValues(alpha: 0.03),
-  textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom(foregroundColor: const Color(0xFFED9914))),
+  hintColor: AppConstants.canvas.withValues(alpha: 0.6),
+  scaffoldBackgroundColor: AppConstants.canvas,
+  canvasColor: AppConstants.canvas,
+  cardColor: AppConstants.ugWhite,
+  shadowColor: AppConstants.ugBlack.withValues(alpha: 0.03),
+  textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom(foregroundColor: AppConstants.seasoningOrange)),
   popupMenuTheme: const PopupMenuThemeData(color: Colors.white, surfaceTintColor: Colors.white),
   dialogTheme: const DialogThemeData(surfaceTintColor: Colors.white),
   floatingActionButtonTheme: FloatingActionButtonThemeData(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(500))),
@@ -20,9 +20,9 @@ ThemeData light({Color color = const Color(0xFFED9914)}) => ThemeData(
     surfaceTintColor: Colors.white, height: 60,
     padding: EdgeInsets.symmetric(vertical: 5),
   ),
-  dividerTheme: const DividerThemeData(thickness: 0.2, color: Color(0xFFA0A4A8)),
-  tabBarTheme: const TabBarThemeData(dividerColor: Colors.transparent), colorScheme: ColorScheme.light(primary: const Color(0xFFED9914), secondary: const Color(0xFF161616)).copyWith(
-      surface: Colors.white).copyWith(error: const Color(0xFFE84D4F)).copyWith(surface: const Color(0xFFE2D3BF)),
+  dividerTheme: DividerThemeData(thickness: 0.2, color: AppConstants.ugBlack.withValues(alpha: 0.15)),
+  tabBarTheme: const TabBarThemeData(dividerColor: Colors.transparent), colorScheme: ColorScheme.light(primary: AppConstants.seasoningOrange, secondary: AppConstants.ugBlack).copyWith(
+      surface: AppConstants.ugWhite).copyWith(error: AppConstants.seasoningOrange).copyWith(surface: AppConstants.canvas),
 );
 
 const Map<String, Color> buttonBackgroundColorMap ={

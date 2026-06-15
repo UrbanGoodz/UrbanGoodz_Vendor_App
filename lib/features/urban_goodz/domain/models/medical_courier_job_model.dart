@@ -10,7 +10,7 @@ class MedicalCourierJobModel {
   final String payLabel;
   final String scheduleLabel;
   final String complianceLabel;
-  final IconData icon;
+  final IconData? icon;
   final bool statDelivery;
 
   const MedicalCourierJobModel({
@@ -23,7 +23,7 @@ class MedicalCourierJobModel {
     required this.payLabel,
     required this.scheduleLabel,
     required this.complianceLabel,
-    required this.icon,
+    this.icon,
     this.statDelivery = false,
   });
 

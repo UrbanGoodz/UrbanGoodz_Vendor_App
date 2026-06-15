@@ -233,6 +233,33 @@ class _MenuScreenState extends State<MenuScreen> {
                 )
               ]),
 
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: Dimensions.paddingSizeDefault, right: Dimensions.paddingSizeDefault),
+                  child: Text(
+                    'Urban Goodz',
+                    style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).disabledColor),
+                  ),
+                ),
+
+                Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                    boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge, vertical: Dimensions.paddingSizeDefault),
+                  margin: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                  child: Column(children: [
+                    PortionWidget(icon: Images.dmIcon, title: 'Earn Money', route: RouteHelper.getUrbanGoodzEarnMoneyRoute()),
+                    PortionWidget(icon: Images.dmIcon, title: 'Logistics', route: RouteHelper.getUrbanGoodzLogisticsRoute()),
+                    PortionWidget(icon: Images.dmIcon, title: 'Load Board', route: RouteHelper.getUrbanGoodzLoadBoardRoute()),
+                    PortionWidget(icon: Images.dmIcon, title: 'Medical Courier', route: RouteHelper.getUrbanGoodzMedicalCourierRoute()),
+                    PortionWidget(icon: Images.storeIcon, title: 'Book Services', route: RouteHelper.getUrbanGoodzBookServicesRoute(), hideDivider: true),
+                  ]),
+                )
+              ]),
+
               (Get.find<SplashController>().configModel!.refEarningStatus == 1 ) || (Get.find<SplashController>().configModel!.toggleDmRegistration! && !ResponsiveHelper.isDesktop(context)) ||
                   (Get.find<SplashController>().configModel!.toggleStoreRegistration! && !ResponsiveHelper.isDesktop(context)) ?
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -256,17 +283,8 @@ class _MenuScreenState extends State<MenuScreen> {
 
                     (Get.find<SplashController>().configModel!.refEarningStatus == 1 ) ? PortionWidget(
                         icon: Images.referIcon, title: 'refer_and_earn'.tr, route: RouteHelper.getReferAndEarnRoute(),
-                      hideDivider: false,
+                      hideDivider: (Get.find<SplashController>().configModel!.toggleDmRegistration! && !ResponsiveHelper.isDesktop(context)) ? false : true,
                     ) : const SizedBox(),
-
-                    PortionWidget(icon: Images.dmIcon, title: 'Earn Money', route: RouteHelper.getUrbanGoodzEarnMoneyRoute()),
-                    PortionWidget(icon: Images.dmIcon, title: 'Logistics', route: RouteHelper.getUrbanGoodzLogisticsRoute()),
-                    PortionWidget(icon: Images.dmIcon, title: 'Load Board', route: RouteHelper.getUrbanGoodzLoadBoardRoute()),
-                    PortionWidget(icon: Images.dmIcon, title: 'Medical Courier', route: RouteHelper.getUrbanGoodzMedicalCourierRoute()),
-                    PortionWidget(icon: Images.storeIcon, title: 'Book Services', route: RouteHelper.getUrbanGoodzBookServicesRoute(),
-                      hideDivider: (Get.find<SplashController>().configModel!.toggleDmRegistration! && !ResponsiveHelper.isDesktop(context)) ||
-                          (Get.find<SplashController>().configModel!.toggleStoreRegistration! && !ResponsiveHelper.isDesktop(context)) ? false : true,
-                    ),
 
                     (Get.find<SplashController>().configModel!.toggleDmRegistration! && !ResponsiveHelper.isDesktop(context)) ? PortionWidget(
                         icon: Images.dmIcon, title: 'join_as_a_delivery_man'.tr, route: RouteHelper.getDeliverymanRegistrationRoute(),

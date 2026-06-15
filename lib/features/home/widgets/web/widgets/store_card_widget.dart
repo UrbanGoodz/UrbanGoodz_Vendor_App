@@ -94,7 +94,7 @@ class StoreCardWidget extends StatelessWidget {
                             boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
                           ),
                           child: Row(children: [
-                            Icon(Icons.star, size: 15, color: Colors.orange),
+                            Icon(Icons.star, size: 15, color: const Color(0xFFED9914)),
                             const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
                             Text(

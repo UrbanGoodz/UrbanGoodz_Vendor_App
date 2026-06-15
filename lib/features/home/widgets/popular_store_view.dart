@@ -147,7 +147,7 @@ class PopularStoreView extends StatelessWidget {
 
                               storeList[index].ratingCount != null && storeList[index].ratingCount! > 0 ? RichText(
                                 text: TextSpan(children: [
-                                  TextSpan(text: '★ ', style: robotoBold.copyWith(color: Colors.orange)),
+                                  TextSpan(text: '★ ', style: robotoBold.copyWith(color: const Color(0xFFED9914))),
                                   TextSpan(
                                     text: '${storeList[index].avgRating}',
                                     style: robotoBold.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color, fontSize: Dimensions.fontSizeSmall),

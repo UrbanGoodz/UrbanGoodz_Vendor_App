@@ -12,7 +12,7 @@ class ExtraDiscountViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return (extraDiscount > 0) ? Container(
-      color: const Color(0xFFFFF6CA),
+      color: const Color(0xFFE5E276),
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge, vertical: Dimensions.paddingSizeSmall),
       child: Row(

@@ -156,7 +156,7 @@ class VerificationScreenState extends State<VerificationScreen> {
                     selectedFillColor: Colors.white,
                     inactiveFillColor: Theme.of(context).cardColor,
                     inactiveColor: Theme.of(context).disabledColor.withValues(alpha: 0.6),
-                    activeColor: hasError ? Colors.orange : Theme.of(context).disabledColor,
+                    activeColor: hasError ? const Color(0xFFED9914) : Theme.of(context).disabledColor,
                     activeFillColor: Theme.of(context).cardColor,
                     inactiveBorderWidth: borderWidth,
                     selectedBorderWidth: borderWidth,

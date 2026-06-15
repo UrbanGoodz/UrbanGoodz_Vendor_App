@@ -83,7 +83,7 @@ class LandingModel {
       });
     }
     downloadUserAppLinks = json['download_user_app_links'] != null ? DownloadUserAppLinks.fromJson(json['download_user_app_links']) : null;
-    availableZoneStatus = json['available_zone_status'];
+    availableZoneStatus = int.tryParse(json['available_zone_status']?.toString() ?? '');
     availableZoneTitle = json['available_zone_title'];
     availableZoneShortDescription = json['available_zone_short_description'];
     availableZoneImage = json['available_zone_image'];
@@ -94,8 +94,8 @@ class LandingModel {
         availableZoneList!.add(AvailableZoneList.fromJson(v));
       });
     }
-    joinSellerStatus = json['join_seller_status'];
-    joinDeliveryManStatus = json['join_delivery_man_status'];
+    joinSellerStatus = int.tryParse(json['join_seller_status']?.toString() ?? '');
+    joinDeliveryManStatus = int.tryParse(json['join_delivery_man_status']?.toString() ?? '');
   }
 
   Map<String, dynamic> toJson() {
@@ -157,10 +157,10 @@ class SpecialCriterias {
   });
 
   SpecialCriterias.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = int.tryParse(json['id']?.toString() ?? '');
     title = json['title'];
     imageFullUrl = json['image_full_url'];
-    status = json['status'];
+    status = int.tryParse(json['status']?.toString() ?? '');
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     if (json['translations'] != null) {
@@ -208,9 +208,9 @@ class Translations {
   });
 
   Translations.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = int.tryParse(json['id']?.toString() ?? '');
     translationableType = json['translationable_type'];
-    translationableId = json['translationable_id'];
+    translationableId = int.tryParse(json['translationable_id']?.toString() ?? '');
     locale = json['locale'];
     key = json['key'];
     value = json['value'];
@@ -271,7 +271,7 @@ class AvailableZoneList {
   AvailableZoneList({this.id, this.name, this.displayName, this.modules});
 
   AvailableZoneList.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = int.tryParse(json['id']?.toString() ?? '');
     name = json['name'];
     displayName = json['display_name'];
     modules = json['modules'].cast<String>();

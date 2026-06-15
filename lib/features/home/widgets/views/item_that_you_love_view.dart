@@ -283,7 +283,7 @@ class _ItemThatYouLoveShimmerViewState extends State<ItemThatYouLoveShimmerView>
 
                                       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
 
-                                        Icon(Icons.star, size: 15, color: Colors.orange),
+                                        Icon(Icons.star, size: 15, color: const Color(0xFFED9914)),
                                         const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
                                         Container(

@@ -99,7 +99,7 @@ class ReviewItemCard extends StatelessWidget {
                       Text(item!.name!, maxLines: 1, overflow: TextOverflow.ellipsis, style: robotoBold),
 
                       item!.ratingCount! > 0 ? Row(mainAxisAlignment: isFeatured ? MainAxisAlignment.start : MainAxisAlignment.center, children: [
-                        Icon(Icons.star, size: 14, color: Colors.orange),
+                        Icon(Icons.star, size: 14, color: const Color(0xFFED9914)),
                         const SizedBox(width: Dimensions.paddingSizeExtraSmall),
                         Text(item!.avgRating!.toStringAsFixed(1), style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
                         const SizedBox(width: Dimensions.paddingSizeExtraSmall),
@@ -211,7 +211,7 @@ class ReviewItemCard extends StatelessWidget {
                               Text(item?.name ?? '', maxLines: 1, overflow: TextOverflow.ellipsis, style: robotoBold),
 
                               item!.ratingCount! > 0 ? Row(mainAxisAlignment: isFeatured ? MainAxisAlignment.start : MainAxisAlignment.center, children: [
-                                Icon(Icons.star, size: 14, color: Colors.orange),
+                                Icon(Icons.star, size: 14, color: const Color(0xFFED9914)),
                                 const SizedBox(width: Dimensions.paddingSizeExtraSmall),
                                 Text(item!.avgRating!.toStringAsFixed(1), style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
                                 const SizedBox(width: Dimensions.paddingSizeExtraSmall),
@@ -245,7 +245,7 @@ class ReviewItemCard extends StatelessWidget {
                               Text(item!.name!, style: robotoBold, maxLines: 1, overflow: TextOverflow.ellipsis),
 
                               item!.ratingCount! > 0 ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                Icon(Icons.star, size: 15, color: Colors.orange),
+                                Icon(Icons.star, size: 15, color: const Color(0xFFED9914)),
                                 const SizedBox(width: Dimensions.paddingSizeExtraSmall),
                                 Text(item!.avgRating!.toStringAsFixed(1), style: robotoRegular),
                                 const SizedBox(width: Dimensions.paddingSizeExtraSmall),
