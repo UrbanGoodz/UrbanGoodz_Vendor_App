@@ -38,6 +38,9 @@ class StoreBannerWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
               child: CustomImage(
                 image: '${storeController.storeBanners![index].imageFullUrl}',
+                isStoreCover: true,
+                storeName: storeController.store?.name,
+                storeModuleId: storeController.store?.moduleId,
               ),
             ),
           );

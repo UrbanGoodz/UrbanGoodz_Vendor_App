@@ -138,7 +138,7 @@ class _ItemViewAllScreenState extends State<ItemViewAllScreen> {
                       controller: itemController.searchController,
                       isFocused: false,
                       radius: 50,
-                      hint: 'search_your_desired_item'.tr,
+                      hint: 'Search products, services, rentals, businesses, events...',
                       prefixIcon: CupertinoIcons.search,
                       suffixIcon: itemController.isSearching ? CupertinoIcons.clear_thick : null,
                       iconPressed: () {

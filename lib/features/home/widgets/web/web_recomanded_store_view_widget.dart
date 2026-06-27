@@ -67,6 +67,9 @@ class WebRecommendedStoreView extends StatelessWidget {
                               isHovered: hovered,
                               image: '${storeController.recommendedStoreList![index].logoFullUrl}',
                               fit: BoxFit.cover, height: 50, width: 70,
+                              isStoreLogo: true,
+                              storeName: storeController.recommendedStoreList![index].name,
+                              storeModuleId: storeController.recommendedStoreList![index].moduleId,
                             ),
                           ),
                         );
@@ -105,6 +108,9 @@ class WebRecommendedStoreView extends StatelessWidget {
                             isHovered: hovered,
                             image: '${storeController.recommendedStoreList!.first.logoFullUrl}',
                             fit: BoxFit.cover, height: 60, width: 60,
+                            isStoreLogo: true,
+                            storeName: storeController.recommendedStoreList!.first.name,
+                            storeModuleId: storeController.recommendedStoreList!.first.moduleId,
                           ),
                         ),
                       );
@@ -144,6 +150,9 @@ class WebRecommendedStoreView extends StatelessWidget {
                             isHovered: hovered,
                             image: '${storeController.recommendedStoreList![index].logoFullUrl}',
                             fit: BoxFit.cover, height: 60, width: double.infinity,
+                            isStoreLogo: true,
+                            storeName: storeController.recommendedStoreList![index].name,
+                            storeModuleId: storeController.recommendedStoreList![index].moduleId,
                           ),
                         ),
                       );

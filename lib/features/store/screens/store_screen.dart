@@ -143,6 +143,9 @@ class _StoreScreenState extends State<StoreScreen> {
                                 CustomImage(
                                   fit: BoxFit.cover, height: 240, width: 590,
                                   image: store?.coverPhotoFullUrl ?? '',
+                                  isStoreCover: true,
+                                  storeName: store?.name,
+                                  storeModuleId: store?.moduleId,
                                 ),
 
                                 store?.discount != null ? Positioned(
@@ -251,6 +254,9 @@ class _StoreScreenState extends State<StoreScreen> {
                                           CustomImage(
                                             image: '${store.logoFullUrl}',
                                             height: 60 - (scrollingRate * 15), width: 70 - (scrollingRate * 15), fit: BoxFit.cover,
+                                            isStoreLogo: true,
+                                            storeName: store.name,
+                                            storeModuleId: store.moduleId,
                                           ),
 
                                           storeController.isStoreOpenNow(store.active!, store.schedules) ? const SizedBox() : Positioned(
@@ -359,6 +365,9 @@ class _StoreScreenState extends State<StoreScreen> {
                     background: CustomImage(
                       fit: BoxFit.cover,
                       image: '${store!.coverPhotoFullUrl}',
+                      isStoreCover: true,
+                      storeName: store.name,
+                      storeModuleId: store.moduleId,
                     ),
                   ),
                   actions: const [SizedBox()],

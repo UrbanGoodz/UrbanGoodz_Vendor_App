@@ -291,7 +291,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: Dimensions.paddingSizeSmall),
                 Text(
-                  'Find food, groceries, rentals, local shops, or deals near you',
+                  'Find products, services, rentals, local businesses, events, and opportunities near you.',
                   style: robotoRegular.copyWith(
                     fontSize: Dimensions.fontSizeDefault,
                     height: 1.45,
@@ -818,7 +818,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             const SizedBox(width: Dimensions.paddingSizeExtraSmall),
                             Expanded(child: Text(
-                              Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText! ? 'search_food_or_restaurant'.tr : 'search_item_or_store'.tr,
+                              'Search products, services, rentals, businesses, events...',
                               style: robotoRegular.copyWith(
                                 fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor,
                               ),

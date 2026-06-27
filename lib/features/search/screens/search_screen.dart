@@ -105,8 +105,7 @@ class SearchScreenState extends State<SearchScreen> with TickerProviderStateMixi
                         return SearchFieldWidget(
                           controller: _searchController,
                           radius: 50,
-                          hint: Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText!
-                              ? 'search_food_or_restaurant'.tr : 'search_item_or_store'.tr,
+                          hint: 'Search products, services, rentals, businesses, events...',
                           suffixIcon: searchController.searchHomeText!.isNotEmpty ? Icons.cancel : Icons.keyboard_voice_sharp,
                           iconColor: Theme.of(context).disabledColor,
                           filledColor: Theme.of(context).colorScheme.surface,
@@ -208,8 +207,7 @@ class SearchScreenState extends State<SearchScreen> with TickerProviderStateMixi
                     controller: _searchController,
                     radius: 40,
                     filledColor: Theme.of(context).disabledColor.withValues(alpha: 0.05),
-                    hint: Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText!
-                        ? 'search_food_or_restaurant'.tr : 'search_item_or_store'.tr,
+                    hint: 'Search products, services, rentals, businesses, events...',
                     suffixIcon: _searchController.text.isNotEmpty ? Icons.clear : Icons.keyboard_voice_sharp,
                     prefixIcon: CupertinoIcons.search,
                     iconPressed: () async {
@@ -428,8 +426,7 @@ class SearchScreenState extends State<SearchScreen> with TickerProviderStateMixi
 
   void searchData() {
     if (_searchController.text.trim().isEmpty) {
-      showCustomSnackBar(Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText!
-        ? 'search_food_or_restaurant'.tr : 'search_item_or_store'.tr);
+      showCustomSnackBar('Search products, services, rentals, businesses, events...');
     } else {
       _actionSearch(true, _searchController.text, true);
     }
@@ -440,8 +437,7 @@ class SearchScreenState extends State<SearchScreen> with TickerProviderStateMixi
       if(queryText!.isNotEmpty) {
         Get.find<search.SearchController>().searchData(queryText, fromHome);
       } else {
-        showCustomSnackBar(Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText!
-            ? 'search_food_or_restaurant'.tr : 'search_item_or_store'.tr);
+        showCustomSnackBar('Search products, services, rentals, businesses, events...');
       }
     } else {
       List<double?> prices = [];

@@ -88,6 +88,9 @@ class PopularStoreView extends StatelessWidget {
                             child: CustomImage(
                               image: '${storeList[index].coverPhotoFullUrl}',
                               height: 90, width: 200, fit: BoxFit.cover,
+                              isStoreCover: true,
+                              storeName: storeList[index].name,
+                              storeModuleId: storeList[index].moduleId,
                             ),
                           ),
                           DiscountTag(

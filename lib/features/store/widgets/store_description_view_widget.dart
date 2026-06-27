@@ -42,6 +42,9 @@ class StoreDescriptionViewWidget extends StatelessWidget {
             CustomImage(
               image: '${store!.logoFullUrl}',
               height: ResponsiveHelper.isDesktop(context) ? 140 : 60, width: ResponsiveHelper.isDesktop(context) ? 140 : 70, fit: BoxFit.cover,
+              isStoreLogo: true,
+              storeName: store!.name,
+              storeModuleId: store!.moduleId,
             ),
             isAvailable ? const SizedBox() : Positioned(
               bottom: 0, left: 0, right: 0,

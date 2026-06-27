@@ -42,6 +42,9 @@ class PopularStoreCard extends StatelessWidget {
                     isHovered: hovered,
                     image: '${store.coverPhotoFullUrl}',
                     fit: BoxFit.cover, width: double.infinity, height: 170,
+                    isStoreCover: true,
+                    storeName: store.name,
+                    storeModuleId: store.moduleId,
                   ),
 
                   Positioned(
@@ -74,6 +77,9 @@ class PopularStoreCard extends StatelessWidget {
                                   child: CustomImage(
                                     image: '${store.logoFullUrl}',
                                     height: 40, width: 40,
+                                    isStoreLogo: true,
+                                    storeName: store.name,
+                                    storeModuleId: store.moduleId,
                                   ),
                                 ),
                               ),

@@ -64,6 +64,8 @@ class CategoryView extends StatelessWidget {
                                       child: CustomImage(
                                         image: '${categoryController.categoryList![index].imageFullUrl}',
                                         height: 75, width: 75, fit: BoxFit.cover,
+                                        isCategory: true,
+                                        categoryName: categoryController.categoryList![index].name,
                                       ),
                                     ),
 
@@ -200,6 +202,8 @@ class PharmacyCategoryView extends StatelessWidget {
                           child: CustomImage(
                             image: '${categoryController.categoryList![index].imageFullUrl}',
                             height: 60, width: double.infinity, fit: BoxFit.cover,
+                            isCategory: true,
+                            categoryName: categoryController.categoryList![index].name,
                           ),
                         ),
 
@@ -295,6 +299,8 @@ class FoodCategoryView extends StatelessWidget {
                             child: CustomImage(
                               image: '${categoryController.categoryList![index].imageFullUrl}',
                               height: 60, width: double.infinity, fit: BoxFit.cover,
+                              isCategory: true,
+                              categoryName: categoryController.categoryList![index].name,
                             ),
                           ),
 

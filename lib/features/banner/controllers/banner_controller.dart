@@ -2,6 +2,8 @@ import 'package:sixam_mart/common/enums/data_source_enum.dart';
 import 'package:sixam_mart/features/banner/domain/models/banner_model.dart';
 import 'package:sixam_mart/features/banner/domain/models/others_banner_model.dart';
 import 'package:sixam_mart/features/banner/domain/models/promotional_banner_model.dart';
+import 'package:sixam_mart/features/item/domain/models/basic_campaign_model.dart';
+import 'package:sixam_mart/features/store/domain/models/store_model.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/features/banner/domain/services/banner_service_interface.dart';
@@ -37,6 +39,46 @@ class BannerController extends GetxController implements GetxService {
   PromotionalBanner? _promotionalBanner;
   PromotionalBanner? get promotionalBanner => _promotionalBanner;
 
+  static const List<String> _rentalKeywords = [
+    'rent your dream car', 'luxury car', 'car for rent', 'best car',
+    'vehicle rental', 'rent car', 'car rental', 'rent a car',
+    'dream car', 'book now',
+  ];
+
+  bool get _isTestDomain {
+    try {
+      return Uri.base.host == 'test.urbangoodzdelivery.com';
+    } catch (_) {
+      return false;
+    }
+  }
+
+  bool _isRentalBanner(dynamic data) {
+    if (data is Banner) {
+      String searchable = '${data.title ?? ''} ${data.type ?? ''} ${data.imageFullUrl ?? ''} ${data.link ?? ''}'.toLowerCase();
+      for (var kw in _rentalKeywords) {
+        if (searchable.contains(kw)) return true;
+      }
+    }
+    if (data is BasicCampaignModel) {
+      String searchable = '${data.title ?? ''} ${data.imageFullUrl ?? ''} ${data.description ?? ''}'.toLowerCase();
+      for (var kw in _rentalKeywords) {
+        if (searchable.contains(kw)) return true;
+      }
+    }
+    return false;
+  }
+
+  void _filterRentalBanners(List<String?>? imageList, List<dynamic>? dataList) {
+    if (!_isTestDomain || imageList == null || dataList == null) return;
+    for (int i = dataList.length - 1; i >= 0; i--) {
+      if (_isRentalBanner(dataList[i])) {
+        imageList.removeAt(i);
+        dataList.removeAt(i);
+      }
+    }
+  }
+
   Future<void> getFeaturedBanner() async {
     BannerModel? bannerModel = await bannerServiceInterface.getFeaturedBannerList();
     if (bannerModel != null) {
@@ -69,6 +111,7 @@ class BannerController extends GetxController implements GetxService {
           _featuredBannerDataList!.add(null);
         }
       }
+      _filterRentalBanners(_featuredBannerList, _featuredBannerDataList);
     }
     update();
   }
@@ -126,6 +169,7 @@ class BannerController extends GetxController implements GetxService {
           _bannerDataList!.add(null);
         }
       }
+      _filterRentalBanners(_bannerImageList, _bannerDataList);
     }
     update();
   }

@@ -25,7 +25,7 @@ class FavItemViewWidget extends StatelessWidget {
               child: SizedBox(
                 width: Dimensions.webMaxWidth,
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: ResponsiveHelper.isDesktop(context) ? 0 : 80.0),
+                  padding: EdgeInsets.only(bottom: ResponsiveHelper.isDesktop(context) ? 0 : 100.0),
                   child: ItemsView(
                     isStore: isStore, items: favouriteController.wishItemList, stores: favouriteController.wishStoreList,
                     noDataText: 'no_wish_data_found'.tr, isFeatured: true,

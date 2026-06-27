@@ -1,6 +1,5 @@
 import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:sixam_mart/api/api_client.dart';
 import 'package:sixam_mart/features/checkout/domain/models/surge_price_model.dart';
 import 'package:sixam_mart/features/checkout/domain/models/saved_prescription_model.dart';

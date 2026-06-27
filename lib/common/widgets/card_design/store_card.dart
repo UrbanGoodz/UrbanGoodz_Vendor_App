@@ -82,6 +82,9 @@ class StoreCard extends StatelessWidget {
                               isHovered: hovered,
                               image: '${store.logoFullUrl}',
                               height: 50, width: 50, fit: BoxFit.cover,
+                              isStoreLogo: true,
+                              storeName: store.name,
+                              storeModuleId: store.moduleId,
                             ),
                           ),
 

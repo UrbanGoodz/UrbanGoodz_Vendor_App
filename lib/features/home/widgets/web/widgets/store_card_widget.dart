@@ -70,6 +70,9 @@ class StoreCardWidget extends StatelessWidget {
                           isHovered: hovered,
                           image: '${store!.coverPhotoFullUrl}',
                           height: 120, width: double.infinity, fit: BoxFit.cover,
+                          isStoreCover: true,
+                          storeName: store!.name,
+                          storeModuleId: store!.moduleId,
                         ),
                       ),
                       DiscountTag(

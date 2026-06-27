@@ -22,13 +22,13 @@ class CategoryView extends StatelessWidget {
       bool isPharmacy = splashController.module != null && splashController.module!.moduleType.toString() == 'pharmacy';
       bool isFood = splashController.module != null && splashController.module!.moduleType.toString() == 'food';
 
-        return GetBuilder<CategoryController>(builder: (categoryController) {
+          return GetBuilder<CategoryController>(builder: (categoryController) {
           return (categoryController.categoryList != null && categoryController.categoryList!.isEmpty) ? const SizedBox() : isPharmacy ? PharmacyCategoryView(categoryController: categoryController) : isFood ? FoodCategoryView(categoryController: categoryController) : Column(
             children: [
               Row(children: [
                 Expanded(
                   child: SizedBox(
-                    height: 130,
+                    height: 140,
                     child: categoryController.categoryList != null ? ListView.builder(
                       controller: scrollController,
                       itemCount: categoryController.categoryList!.length > 15 ? 15 : categoryController.categoryList!.length,
@@ -44,10 +44,10 @@ class CategoryView extends StatelessWidget {
                               slug: categoryController.categoryList![index].slug??'',
                             )),
                             child: SizedBox(
-                              width: 60,
+                              width: 70,
                               child: Column(children: [
                                 Container(
-                                  height: 50, width: 50,
+                                  height: 60, width: 60,
                                   margin: EdgeInsets.only(
                                     left: index == 0 ? 0 : Dimensions.paddingSizeExtraSmall,
                                     right: Dimensions.paddingSizeExtraSmall,
@@ -57,7 +57,9 @@ class CategoryView extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                                       child: CustomImage(
                                         image: '${categoryController.categoryList![index].imageFullUrl}',
-                                        height: 50, width: 50, fit: BoxFit.cover,
+                                        height: 60, width: 60, fit: BoxFit.cover,
+                                        isCategory: true,
+                                        categoryName: categoryController.categoryList![index].name,
                                       ),
                                     ),
                                   ]),
@@ -157,6 +159,8 @@ class PharmacyCategoryView extends StatelessWidget {
                       child: CustomImage(
                         image: '${categoryController.categoryList![index].imageFullUrl}',
                         height: 60, width: double.infinity, fit: BoxFit.cover,
+                        isCategory: true,
+                        categoryName: categoryController.categoryList![index].name,
                       ),
                     ),
                     const SizedBox(height: Dimensions.paddingSizeSmall),
@@ -213,6 +217,8 @@ class FoodCategoryView extends StatelessWidget {
                         child: CustomImage(
                           image: '${categoryController.categoryList![index].imageFullUrl}',
                           height: 60, width: double.infinity, fit: BoxFit.cover,
+                          isCategory: true,
+                          categoryName: categoryController.categoryList![index].name,
                         ),
                       ),
                       const SizedBox(height: Dimensions.paddingSizeSmall),
@@ -242,7 +248,7 @@ class CategoryShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 75,
+      height: 85,
       child: ListView.builder(
         itemCount: 14,
         padding: const EdgeInsets.only(left: Dimensions.paddingSizeSmall),
@@ -257,7 +263,7 @@ class CategoryShimmer extends StatelessWidget {
               enabled: categoryController.categoryList == null,
               child: Column(children: [
                 Container(
-                  height: 50, width: 50,
+                  height: 60, width: 60,
                   decoration: BoxDecoration(
                     color: Colors.grey[300],
                     borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
@@ -281,7 +287,7 @@ class CategoryAllShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 75,
+      height: 85,
       child: Padding(
         padding: const EdgeInsets.only(right: Dimensions.paddingSizeSmall),
         child: Shimmer(
@@ -289,7 +295,7 @@ class CategoryAllShimmer extends StatelessWidget {
           enabled: categoryController.categoryList == null,
           child: Column(children: [
             Container(
-              height: 50, width: 50,
+              height: 60, width: 60,
               decoration: BoxDecoration(
                 color: Colors.grey[300],
                 borderRadius: BorderRadius.circular(Dimensions.radiusSmall),

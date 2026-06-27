@@ -12,6 +12,12 @@ class ModuleModel {
   String? createdAt;
   String? updatedAt;
   List<ModuleZoneData>? zones;
+  String? thumbnail;
+  String? icon;
+  String? image;
+  String? imageFullUrl;
+  String? coverImage;
+  String? coverImageFullUrl;
 
   ModuleModel({
     this.id,
@@ -26,6 +32,12 @@ class ModuleModel {
     this.createdAt,
     this.updatedAt,
     this.zones,
+    this.thumbnail,
+    this.icon,
+    this.image,
+    this.imageFullUrl,
+    this.coverImage,
+    this.coverImageFullUrl,
   });
 
   ModuleModel.fromJson(Map<String, dynamic> json) {
@@ -44,6 +56,12 @@ class ModuleModel {
       zones = <ModuleZoneData>[];
       json['zones'].forEach((v) => zones!.add(ModuleZoneData.fromJson(v)));
     }
+    thumbnail = json['thumbnail'];
+    icon = json['icon'];
+    image = json['image'];
+    imageFullUrl = json['image_full_url'];
+    coverImage = json['cover_image'];
+    coverImageFullUrl = json['cover_image_full_url'];
   }
 
   Map<String, dynamic> toJson() {
@@ -62,6 +80,12 @@ class ModuleModel {
     if (zones != null) {
       data['zones'] = zones!.map((v) => v.toJson()).toList();
     }
+    data['thumbnail'] = thumbnail;
+    data['icon'] = icon;
+    data['image'] = image;
+    data['image_full_url'] = imageFullUrl;
+    data['cover_image'] = coverImage;
+    data['cover_image_full_url'] = coverImageFullUrl;
     return data;
   }
 }

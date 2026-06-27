@@ -72,6 +72,9 @@ class StoreCardWithDistance extends StatelessWidget {
                           isHovered: hovered,
                           image: '${store.coverPhotoFullUrl}',
                           fit: BoxFit.cover, height: double.infinity, width: double.infinity,
+                          isStoreCover: true,
+                          storeName: store.name,
+                          storeModuleId: store.moduleId,
                         ),
 
                        !fromTopOffers! ? DiscountTag(
@@ -295,6 +298,9 @@ class StoreCardWithDistance extends StatelessWidget {
                   child: CustomImage(
                     image: '${store.logoFullUrl}',
                     fit: BoxFit.cover, height: double.infinity, width: double.infinity,
+                    isStoreLogo: true,
+                    storeName: store.name,
+                    storeModuleId: store.moduleId,
                   ),
                 ),
               ),

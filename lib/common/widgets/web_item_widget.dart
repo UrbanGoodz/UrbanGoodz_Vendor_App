@@ -114,6 +114,9 @@ class WebItemWidget extends StatelessWidget {
                             isHovered: hovered,
                             image: '${isStore ? store != null ? store!.logoFullUrl : '' : item!.imageFullUrl}',
                             height: desktop ? 140 : length == null ? 100 : 65, width: desktop ? isStore ? 275 : double.infinity : 80, fit: BoxFit.cover,
+                            isStoreLogo: isStore,
+                            storeName: isStore ? store?.name : null,
+                            storeModuleId: isStore ? store?.moduleId : null,
                           ),
                         ),
 

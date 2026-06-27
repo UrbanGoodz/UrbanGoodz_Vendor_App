@@ -31,7 +31,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import 'package:sixam_mart/common/widgets/custom_image.dart';
-import '../../features/item/widgets/item_image_view_widget.dart';
 import '../../features/item/widgets/item_media_dialog.dart';
 
 class ItemBottomSheet extends StatefulWidget {

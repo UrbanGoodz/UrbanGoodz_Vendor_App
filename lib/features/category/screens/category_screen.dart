@@ -48,7 +48,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 shrinkWrap: true,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: ResponsiveHelper.isDesktop(context) ? 6 : ResponsiveHelper.isTab(context) ? 4 : 3,
-                  childAspectRatio: (1/1),
+                  childAspectRatio: ResponsiveHelper.isDesktop(context) ? 1.25 : 1.15,
                   mainAxisSpacing: Dimensions.paddingSizeSmall,
                   crossAxisSpacing: Dimensions.paddingSizeSmall,
                 ),
@@ -72,8 +72,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                           child: CustomImage(
-                            height: 50, width: 50, fit: BoxFit.cover,
+                            height: ResponsiveHelper.isDesktop(context) ? 90 : 58,
+                            width: ResponsiveHelper.isDesktop(context) ? 90 : 58,
+                            fit: BoxFit.contain,
                             image: '${catController.categoryList![index].imageFullUrl}',
+                            isCategory: true,
+                            categoryName: catController.categoryList![index].name,
                           ),
                         ),
                         const SizedBox(height: Dimensions.paddingSizeExtraSmall),

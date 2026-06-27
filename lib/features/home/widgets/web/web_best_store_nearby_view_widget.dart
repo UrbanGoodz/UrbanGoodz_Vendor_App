@@ -200,6 +200,9 @@ class _WebBestStoreNearbyViewWidgetState extends State<WebBestStoreNearbyViewWid
                                                         isHovered: hovered,
                                                         image: '${storeList[index].logoFullUrl}',
                                                         fit: BoxFit.cover, height: double.infinity, width: double.infinity,
+                                                        isStoreLogo: true,
+                                                        storeName: storeList[index].name,
+                                                        storeModuleId: storeList[index].moduleId,
                                                       ),
                                                     ),
 

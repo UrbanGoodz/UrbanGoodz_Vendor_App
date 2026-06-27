@@ -180,7 +180,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text('back_press_again_to_exit'.tr, style: const TextStyle(color: Colors.white)),
                     behavior: SnackBarBehavior.floating,
-                    backgroundColor: Colors.green,
+                    backgroundColor: const Color(0xFFED9914),
                     duration: const Duration(seconds: 2),
                     margin: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                   ));
@@ -294,7 +294,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                                             onTap: () => _setPage(0),
                                           ),
                                           BottomNavItemWidget(
-                                            title: isParcel ? 'address'.tr : isTaxi ? 'wishlist'.tr : isRide ? 'my_activity'.tr  : 'favourite'.tr,
+                                            title: isParcel ? 'address'.tr : isTaxi ? 'wishlist'.tr : isRide ? 'my_activity'.tr  : 'Favorites',
                                             selectedIcon: isParcel ? Images.addressSelect : isRide ? Images.orderSelect : Images.favouriteSelect,
                                             unSelectedIcon: isParcel ? Images.addressUnselect : isRide ? Images.orderUnselect : Images.favouriteUnselect,
                                             isSelected: _pageIndex == 1, onTap: () => _setPage(1),
