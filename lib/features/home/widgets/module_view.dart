@@ -1,7 +1,6 @@
 import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:sixam_mart/common/widgets/address_widget.dart';
 import 'package:sixam_mart/common/widgets/custom_ink_well.dart';
-import 'package:sixam_mart/features/banner/controllers/banner_controller.dart';
 import 'package:sixam_mart/features/location/controllers/location_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/address/controllers/address_controller.dart';
@@ -16,7 +15,6 @@ import 'package:sixam_mart/common/widgets/custom_loader.dart';
 import 'package:sixam_mart/common/widgets/title_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sixam_mart/features/home/widgets/banner_view.dart';
 import 'package:sixam_mart/features/home/widgets/popular_store_view.dart';
 import 'package:sixam_mart/features/home/widgets/module_preview_panel.dart';
 
@@ -27,39 +25,64 @@ class ModuleView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isDesktop = ResponsiveHelper.isDesktop(context);
-    final int moduleColumns = isDesktop ? 4 : (ResponsiveHelper.isTab(context) ? 3 : 2);
-    final double moduleImageSize = isDesktop ? 122 : (ResponsiveHelper.isTab(context) ? 96 : 80);
+    final int moduleColumns = isDesktop
+        ? 4
+        : (ResponsiveHelper.isTab(context) ? 3 : 2);
+    final List<int> visibleModuleIndexes = splashController.moduleList == null
+        ? <int>[]
+        : visibleUrbanGoodzModuleIndexes(splashController.moduleList!);
+    final bool hasLocalArt =
+        splashController.moduleList == null
+        ? false
+        : visibleModuleIndexes.any(
+            (moduleIndex) => modulePreviewImage(
+              splashController.moduleList![moduleIndex],
+            ).contains('urban_goodz_modules/'),
+          );
+
+    final double moduleImageBoxSize = isDesktop
+        ? (hasLocalArt ? 172 : 132)
+        : (ResponsiveHelper.isTab(context)
+              ? (hasLocalArt ? 144 : 108)
+              : (hasLocalArt ? 116 : 92));
+
+    final double wideImageAreaHeight = isDesktop
+        ? 140
+        : (ResponsiveHelper.isTab(context) ? 118 : 100);
+
+    final double gridRatio = isDesktop
+        ? (hasLocalArt ? 1.02 : 1.25)
+        : (ResponsiveHelper.isTab(context)
+              ? (hasLocalArt ? 0.95 : 1.2)
+              : (hasLocalArt ? 0.82 : 1.05));
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        GetBuilder<BannerController>(
-          builder: (bannerController) {
-            return const BannerView(isFeatured: true);
-          },
-        ),
-        SizedBox(height: Dimensions.paddingSizeDefault),
-
         splashController.moduleList != null
-            ? splashController.moduleList!.isNotEmpty
+            ? visibleModuleIndexes.isNotEmpty
                   ? GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: moduleColumns,
                         mainAxisSpacing: Dimensions.paddingSizeSmall,
                         crossAxisSpacing: Dimensions.paddingSizeSmall,
-                        childAspectRatio: isDesktop ? 1.25 : (ResponsiveHelper.isTab(context) ? 1.2 : 1.05),
+                        childAspectRatio: gridRatio,
                       ),
                       padding: const EdgeInsets.all(
                         Dimensions.paddingSizeSmall,
                       ),
-                      itemCount: splashController.moduleList!.length,
+                      itemCount: visibleModuleIndexes.length,
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        final module = splashController.moduleList![index];
+                        final int moduleIndex = visibleModuleIndexes[index];
+                        final module = splashController.moduleList![moduleIndex];
                         final String moduleImage = modulePreviewImage(module);
                         final String moduleDescription =
                             modulePreviewDescription(module);
+                        final bool isLocalModuleArt = moduleImage.contains(
+                          'urban_goodz_modules/',
+                        );
 
                         return Container(
                           decoration: BoxDecoration(
@@ -88,7 +111,10 @@ class ModuleView extends StatelessWidget {
                               context,
                               module: module,
                               onOpen: () =>
-                                  splashController.switchModule(index, true),
+                                  splashController.switchModule(
+                                    moduleIndex,
+                                    true,
+                                  ),
                             ),
                             radius: Dimensions.radiusDefault,
                             child: Padding(
@@ -98,20 +124,35 @@ class ModuleView extends StatelessWidget {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(
-                                      Dimensions.radiusSmall,
-                                    ),
-                                    child: Container(
-                                      color: const Color(
-                                        0xFFE2D3BF,
-                                      ).withValues(alpha: 0.25),
-                                      padding: const EdgeInsets.all(6),
-                                      child: CustomImage(
-                                        image: moduleImage,
-                                        height: moduleImageSize,
-                                        width: double.infinity,
-                                        fit: BoxFit.contain,
+                                  Center(
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(
+                                        Dimensions.radiusSmall,
+                                      ),
+                                      child: Container(
+                                        height: isLocalModuleArt
+                                            ? moduleImageBoxSize
+                                            : wideImageAreaHeight,
+                                        width: isLocalModuleArt
+                                            ? moduleImageBoxSize
+                                            : double.infinity,
+                                        alignment: Alignment.center,
+                                        color: const Color(
+                                          0xFFE2D3BF,
+                                        ).withValues(alpha: 0.25),
+                                        padding: EdgeInsets.all(
+                                          isLocalModuleArt ? 4 : 8,
+                                        ),
+                                        child: CustomImage(
+                                          image: moduleImage,
+                                          height: isLocalModuleArt
+                                              ? moduleImageBoxSize - 8
+                                              : wideImageAreaHeight - 16,
+                                          width: isLocalModuleArt
+                                              ? moduleImageBoxSize - 8
+                                              : double.infinity,
+                                          fit: BoxFit.contain,
+                                        ),
                                       ),
                                     ),
                                   ),

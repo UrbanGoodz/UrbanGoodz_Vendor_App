@@ -120,6 +120,43 @@ class CustomImage extends StatelessWidget {
     return needles.any(value.contains);
   }
 
+  static String _moduleArtworkKey(Iterable<String?> parts) {
+    return parts
+        .whereType<String>()
+        .join(' ')
+        .toLowerCase()
+        .replaceAll(RegExp(r'[_\-/]+'), ' ')
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .trim();
+  }
+
+  static bool _containsModulePhrase(String key, String phrase) {
+    final String normalizedPhrase = phrase
+        .toLowerCase()
+        .replaceAll(RegExp(r'[_\-/]+'), ' ')
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .trim();
+    if (normalizedPhrase.isEmpty) return false;
+    return RegExp(
+      '(^|\\s)${RegExp.escape(normalizedPhrase)}(\\s|\$)',
+    ).hasMatch(key);
+  }
+
+  static bool _isCarRentalModuleKey(String key) {
+    return const [
+      'car rental',
+      'car rentals',
+      'rental',
+      'rentals',
+      'vehicle rental',
+      'vehicle rentals',
+      'rent a car',
+      'car',
+      'auto rental',
+      'transportation',
+    ].any((phrase) => _containsModulePhrase(key, phrase));
+  }
+
   static String? _getValidBackendModuleArt(dynamic module) {
     if (module == null) return null;
     final String? cover = module.coverImageFullUrl;
@@ -140,24 +177,7 @@ class CustomImage extends StatelessWidget {
     String? categoryName,
     String? moduleSlug,
   }) {
-    // 1. Try to find the module's real backend cover/banner artwork first
     final SplashController splashController = Get.find<SplashController>();
-    if (moduleId != null && splashController.moduleList != null) {
-      for (var m in splashController.moduleList!) {
-        if (m.id == moduleId) {
-          final String? realArt = _getValidBackendModuleArt(m);
-          if (realArt != null) return realArt;
-          break;
-        }
-      }
-    }
-    final activeModule = splashController.module;
-    if (activeModule != null) {
-      final String? realArt = _getValidBackendModuleArt(activeModule);
-      if (realArt != null) return realArt;
-    }
-
-    // 2. Map context keywords to local assets
     final List<String?> parts = [
       moduleName,
       moduleType,
@@ -165,18 +185,53 @@ class CustomImage extends StatelessWidget {
       categoryName,
       moduleSlug,
     ];
-    if (moduleName == null && moduleType == null && moduleId == null && moduleSlug == null && activeModule != null) {
+    dynamic matchingModule;
+
+    if (moduleId != null && splashController.moduleList != null) {
+      for (var m in splashController.moduleList!) {
+        if (m.id == moduleId) {
+          matchingModule = m;
+          parts.add(m.moduleName);
+          parts.add(m.moduleType);
+          parts.add(m.slug);
+          break;
+        }
+      }
+    }
+
+    final activeModule = splashController.module;
+    if (moduleName == null &&
+        moduleType == null &&
+        moduleId == null &&
+        moduleSlug == null &&
+        activeModule != null) {
       parts.add(activeModule.moduleName);
       parts.add(activeModule.moduleType);
       parts.add(activeModule.id?.toString());
       parts.add(activeModule.slug);
     }
-    final String key = parts.whereType<String>().join(' ').toLowerCase();
+
+    final String key = _moduleArtworkKey(parts);
+
+    if (_isCarRentalModuleKey(key)) {
+      return 'assets/image/urban_goodz_modules/car_rental.png';
+    }
+
+    // Try to find the module's real backend cover/banner artwork after
+    // Car Rental has had a chance to use its approved local tester asset.
+    if (matchingModule != null) {
+      final String? realArt = _getValidBackendModuleArt(matchingModule);
+      if (realArt != null) return realArt;
+    }
+    if (activeModule != null) {
+      final String? realArt = _getValidBackendModuleArt(activeModule);
+      if (realArt != null) return realArt;
+    }
 
     if (_containsAny(key, const ['food truck', 'foodtruck', 'truckz'])) {
       return 'assets/image/urban_goodz_modules/food_trucks.png';
     }
-    if (_containsAny(key, const ['pharmacy', 'health', 'wellness', 'medical', 'baby care', 'vitamins', 'personal care'])) {
+    if (_containsAny(key, const ['pharmacy', 'health', 'wellness', 'medical', 'baby care', 'vitamins'])) {
       return 'assets/image/urban_goodz_modules/pharmacy_health.png';
     }
     if (_containsAny(key, const ['thc', 'cbd', 'smoke', 'pre-roll', 'grinder', 'glassware', 'rolling papers', 'batteries', 'storage containers', 'accessories', 'cannabis', 'hemp'])) {
@@ -194,8 +249,20 @@ class CustomImage extends StatelessWidget {
     if (_containsAny(key, const ['event', 'creator', 'pop-up', 'pop up'])) {
       return 'assets/image/urban_goodz_modules/local_events_creators.png';
     }
-    if (_containsAny(key, const ['rental', 'car rental', 'vehicle'])) {
+    if (_containsAny(key, const ['rental', 'car rental', 'vehicle', 'car rentals'])) {
       return 'assets/image/urban_goodz_modules/car_rental.png';
+    }
+    if (_containsAny(key, const ['restaurant', 'food', 'bakery', 'dining', 'cafe', 'brick and mortar', 'restaurants'])) {
+      return 'assets/image/urban_goodz_modules/restaurants_brick_mortar.png';
+    }
+    if (_containsAny(key, const ['grocery', 'groceries', 'market', 'supermarket', 'produce', 'markets'])) {
+      return 'assets/image/urban_goodz_modules/grocery_markets.png';
+    }
+    if (_containsAny(key, const ['retail', 'shopping', 'clothing', 'apparel', 'store', 'mall', 'boutique', 'electronic', 'shoppings'])) {
+      return 'assets/image/urban_goodz_modules/retail_shopping.png';
+    }
+    if (_containsAny(key, const ['beauty', 'personal care', 'beauty supply', 'hair provider', 'salon', 'cosmetics', 'personalcare'])) {
+      return 'assets/image/urban_goodz_modules/beauty_personal_care.png';
     }
 
     return null;
@@ -316,6 +383,41 @@ class CustomImage extends StatelessWidget {
         (activeModuleCover.isNotEmpty && selectedImage == activeModuleCover) ||
         (activeModuleImage.isNotEmpty && selectedImage == activeModuleImage);
     final BoxFit finalFit = isModuleArt ? BoxFit.contain : (fit ?? BoxFit.cover);
+
+    if (isModuleArt && kDebugMode) {
+      String mName = '';
+      String mType = '';
+      String mSlug = '';
+      String mId = '';
+      final SplashController splashController = Get.find<SplashController>();
+      if (storeModuleId != null && splashController.moduleList != null) {
+        for (var m in splashController.moduleList!) {
+          if (m.id == storeModuleId) {
+            mName = m.moduleName ?? '';
+            mType = m.moduleType ?? '';
+            mSlug = m.slug ?? '';
+            mId = m.id?.toString() ?? '';
+            break;
+          }
+        }
+      }
+      if (mName.isEmpty && splashController.module != null) {
+        mName = splashController.module!.moduleName ?? '';
+        mType = splashController.module!.moduleType ?? '';
+        mSlug = splashController.module!.slug ?? '';
+        mId = splashController.module!.id?.toString() ?? '';
+      }
+      final String source = selectedImage.startsWith('assets/') ? 'local_asset' : 'backend_network';
+
+      debugPrint('[UG_MODULE_CARD_ART]');
+      debugPrint('moduleName: $mName');
+      debugPrint('moduleType: $mType');
+      debugPrint('moduleId: $mId');
+      debugPrint('moduleSlug: $mSlug');
+      debugPrint('selectedImage: $selectedImage');
+      debugPrint('source: $source');
+      debugPrint('renderMode: $renderMode');
+    }
 
     Widget getFallbackErrorWidget(String fallbackAsset) {
       if (isCategory) {

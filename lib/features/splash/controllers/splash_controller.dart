@@ -293,7 +293,7 @@ class SplashController extends GetxController implements GetxService {
     if (moduleList != null) {
       _moduleList = [];
       for (var module in moduleList) {
-        if(module.moduleType != AppConstants.taxi && module.moduleType != AppConstants.ride && GetPlatform.isWeb) {
+        if(module.moduleType != AppConstants.ride && GetPlatform.isWeb) {
           _moduleList!.add(module);
         } else if(!GetPlatform.isWeb) {
           _moduleList!.add(module);

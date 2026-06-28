@@ -27,6 +27,9 @@ class WebNewBannerViewWidget extends StatelessWidget {
     this.bannerHeight = 350,
   });
 
+  static const String _testerHeroAsset =
+      'assets/image/urban_goodz_hero/urban_goodz_local_everything_banner.png';
+
   static const List<String> _testerBannerMessages = [
     'Your Connection To Local Everything',
     'Everything Local. One App.',
@@ -35,7 +38,12 @@ class WebNewBannerViewWidget extends StatelessWidget {
     'Houston Starts It. Built For Everywhere.',
   ];
 
-  bool get _isTesterWeb => Uri.base.host == 'test.urbangoodzdelivery.com';
+  bool get _isTesterPreviewHost {
+    final String host = Uri.base.host.toLowerCase();
+    return host == 'test.urbangoodzdelivery.com' ||
+        host == 'localhost' ||
+        host == '127.0.0.1';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +56,12 @@ class WebNewBannerViewWidget extends StatelessWidget {
             ? bannerController.featuredBannerDataList
             : bannerController.bannerDataList;
 
-        return (_isTesterWeb || (bannerList != null && bannerList.isEmpty))
+        return (isFeatured &&
+                (_isTesterPreviewHost ||
+                    (bannerList != null && bannerList.isEmpty)))
             ? _buildFallbackBanner(context)
+            : (bannerList != null && bannerList.isEmpty)
+            ? const SizedBox()
             : Container(
                 width: MediaQuery.of(context).size.width,
                 height: GetPlatform.isDesktop
@@ -259,7 +271,10 @@ class WebNewBannerViewWidget extends StatelessWidget {
             top: 10,
             child: Transform.rotate(
               angle: -0.1,
-              child: _buildCollageItem('assets/image/urban_goodz_modules/food_trucks.png', cardSize),
+              child: _buildCollageItem(
+                'assets/image/urban_goodz_modules/food_trucks.png',
+                cardSize,
+              ),
             ),
           ),
           Positioned(
@@ -267,7 +282,10 @@ class WebNewBannerViewWidget extends StatelessWidget {
             bottom: isSmall ? 0 : 10,
             child: Transform.rotate(
               angle: 0.05,
-              child: _buildCollageItem('assets/image/urban_goodz_modules/home_based_businesses.png', cardSize),
+              child: _buildCollageItem(
+                'assets/image/urban_goodz_modules/home_based_businesses.png',
+                cardSize,
+              ),
             ),
           ),
           Positioned(
@@ -275,7 +293,10 @@ class WebNewBannerViewWidget extends StatelessWidget {
             top: isSmall ? 10 : 40,
             child: Transform.rotate(
               angle: 0.15,
-              child: _buildCollageItem('assets/image/urban_goodz_modules/thc_cbd.png', cardSize),
+              child: _buildCollageItem(
+                'assets/image/urban_goodz_modules/thc_cbd.png',
+                cardSize,
+              ),
             ),
           ),
           Positioned(
@@ -283,7 +304,10 @@ class WebNewBannerViewWidget extends StatelessWidget {
             bottom: isSmall ? 10 : 20,
             child: Transform.rotate(
               angle: -0.05,
-              child: _buildCollageItem('assets/image/urban_goodz_modules/pharmacy_health.png', cardSize),
+              child: _buildCollageItem(
+                'assets/image/urban_goodz_modules/pharmacy_health.png',
+                cardSize,
+              ),
             ),
           ),
           Positioned(
@@ -291,7 +315,10 @@ class WebNewBannerViewWidget extends StatelessWidget {
             top: isSmall ? 0 : 10,
             child: Transform.rotate(
               angle: -0.15,
-              child: _buildCollageItem('assets/image/urban_goodz_modules/courier_parcel.png', cardSize),
+              child: _buildCollageItem(
+                'assets/image/urban_goodz_modules/courier_parcel.png',
+                cardSize,
+              ),
             ),
           ),
         ],
@@ -307,184 +334,84 @@ class WebNewBannerViewWidget extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: const [
-          BoxShadow(color: Color(0x40000000), blurRadius: 6, spreadRadius: 1, offset: Offset(0, 3)),
+          BoxShadow(
+            color: Color(0x40000000),
+            blurRadius: 6,
+            spreadRadius: 1,
+            offset: Offset(0, 3),
+          ),
         ],
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
-        child: Image.asset(
-          assetPath,
-          fit: BoxFit.cover,
-        ),
+        child: Image.asset(assetPath, fit: BoxFit.cover),
       ),
     );
   }
 
   Widget _buildFallbackBanner(BuildContext context) {
-    final bool isSmall = MediaQuery.of(context).size.width < 750;
+    final bool isDesktop = GetPlatform.isDesktop;
 
     return Container(
-      width: MediaQuery.of(context).size.width,
-      height: GetPlatform.isDesktop
-          ? (bannerHeight < 420 ? 420 : bannerHeight)
-          : MediaQuery.of(context).size.width * 0.45,
-      padding: const EdgeInsets.only(
+      width: double.infinity,
+      padding: EdgeInsets.only(
         top: Dimensions.paddingSizeDefault,
         bottom: Dimensions.paddingSizeSmall,
+        left: isDesktop ? Dimensions.paddingSizeSmall : 0,
+        right: isDesktop ? Dimensions.paddingSizeSmall : 0,
       ),
-      child: Container(
-        decoration: BoxDecoration(
-          color: const Color(0xFFE2D3BF),
-          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-          border: Border.all(color: const Color(0xFFED9914), width: 1.2),
-          boxShadow: const [
-            BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1),
-          ],
-        ),
-        child: isSmall
-            ? Stack(
-                children: [
-                  Positioned(
-                    right: -20,
-                    bottom: -20,
-                    child: Opacity(
-                      opacity: 0.28,
-                      child: _buildCollage(context, true),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          _testerBannerMessages.first,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: const Color(0xFF161616),
-                            fontSize: isSmall ? 18 : 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: Dimensions.paddingSizeSmall),
-                        Text(
-                          _testerBannerMessages[1],
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: const Color(0xFF161616).withValues(alpha: 0.76),
-                            fontSize: isSmall ? 13 : 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(height: Dimensions.paddingSizeDefault),
-                        Wrap(
-                          alignment: WrapAlignment.center,
-                          spacing: Dimensions.paddingSizeExtraSmall,
-                          runSpacing: Dimensions.paddingSizeExtraSmall,
-                          children: _testerBannerMessages.skip(2).map((message) {
-                            return Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: Dimensions.paddingSizeSmall,
-                                vertical: Dimensions.paddingSizeExtraSmall,
-                              ),
-                              decoration: BoxDecoration(
-                                color: message.startsWith('Houston')
-                                    ? const Color(0xFFE5E276)
-                                    : Colors.white,
-                                borderRadius: BorderRadius.circular(999),
-                                border: Border.all(
-                                  color: const Color(0xFFED9914).withValues(alpha: 0.35),
-                                ),
-                              ),
-                              child: Text(
-                                message,
-                                style: TextStyle(
-                                  color: const Color(0xFF161616),
-                                  fontSize: isSmall ? 10 : 12,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              )
-            : Row(
-                children: [
-                  Expanded(
-                    flex: 5,
-                    child: Padding(
-                      padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _testerBannerMessages.first,
-                            style: const TextStyle(
-                              color: Color(0xFF161616),
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: Dimensions.paddingSizeSmall),
-                          Text(
-                            _testerBannerMessages[1],
-                            style: TextStyle(
-                              color: const Color(0xFF161616).withValues(alpha: 0.76),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          const SizedBox(height: Dimensions.paddingSizeDefault),
-                          Wrap(
-                            spacing: Dimensions.paddingSizeExtraSmall,
-                            runSpacing: Dimensions.paddingSizeExtraSmall,
-                            children: _testerBannerMessages.skip(2).map((message) {
-                              return Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: Dimensions.paddingSizeSmall,
-                                  vertical: Dimensions.paddingSizeExtraSmall,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: message.startsWith('Houston')
-                                      ? const Color(0xFFE5E276)
-                                      : Colors.white,
-                                  borderRadius: BorderRadius.circular(999),
-                                  border: Border.all(
-                                    color: const Color(0xFFED9914).withValues(alpha: 0.35),
-                                  ),
-                                ),
-                                child: Text(
-                                  message,
-                                  style: const TextStyle(
-                                    color: Color(0xFF161616),
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 4,
-                    child: Padding(
-                      padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
-                      child: Center(
-                        child: _buildCollage(context, false),
-                      ),
-                    ),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1280),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: const Color(0xFFE2D3BF),
+                border: Border.all(
+                  color: const Color(0xFFED9914).withValues(alpha: 0.28),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.08),
+                    blurRadius: 12,
+                    offset: const Offset(0, 6),
                   ),
                 ],
               ),
+              child: AspectRatio(
+                aspectRatio: 1024 / 682,
+                child: Image.asset(
+                  _testerHeroAsset,
+                  fit: BoxFit.contain,
+                  alignment: Alignment.center,
+                  errorBuilder: (context, error, stackTrace) {
+                    debugPrint(
+                      '[UG_HERO_ASSET_MISSING] $_testerHeroAsset: $error',
+                    );
+                    return _buildMissingHeroAssetFallback(context);
+                  },
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMissingHeroAssetFallback(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
+      color: const Color(0xFFFFF2DE),
+      child: Text(
+        'Urban Goodz hero asset missing:\n$_testerHeroAsset',
+        textAlign: TextAlign.center,
+        style: robotoBold.copyWith(
+          color: const Color(0xFF161616),
+          fontSize: Dimensions.fontSizeDefault,
+        ),
       ),
     );
   }

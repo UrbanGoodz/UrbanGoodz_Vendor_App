@@ -14,10 +14,15 @@ class ModuleWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<SplashController>(
       builder: (splashController) {
+        final List<int> visibleModuleIndexes =
+            splashController.moduleList == null
+            ? <int>[]
+            : visibleUrbanGoodzModuleIndexes(splashController.moduleList!);
+
         return (ResponsiveHelper.isDesktop(context) &&
                 splashController.configModel!.module == null &&
                 splashController.moduleList != null &&
-                splashController.moduleList!.length > 1)
+                visibleModuleIndexes.length > 1)
             ? Container(
                 width: 88,
                 padding: const EdgeInsets.symmetric(
@@ -42,12 +47,13 @@ class ModuleWidget extends StatelessWidget {
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: splashController.moduleList!.length,
+                    itemCount: visibleModuleIndexes.length,
                     padding: const EdgeInsets.only(
                       top: Dimensions.paddingSizeSmall,
                     ),
                     itemBuilder: (context, index) {
-                      final module = splashController.moduleList![index];
+                      final int moduleIndex = visibleModuleIndexes[index];
+                      final module = splashController.moduleList![moduleIndex];
 
                       return Padding(
                         padding: const EdgeInsets.only(
@@ -75,7 +81,10 @@ class ModuleWidget extends StatelessWidget {
                               context,
                               module: module,
                               onOpen: () =>
-                                  splashController.switchModule(index, false),
+                                  splashController.switchModule(
+                                    moduleIndex,
+                                    false,
+                                  ),
                             ),
                             child: Container(
                               decoration: BoxDecoration(
@@ -85,7 +94,7 @@ class ModuleWidget extends StatelessWidget {
                                 color:
                                     (splashController.module != null &&
                                         splashController
-                                                .moduleList![index]
+                                                .moduleList![moduleIndex]
                                                 .id ==
                                             splashController.module!.id)
                                     ? Theme.of(
@@ -97,7 +106,7 @@ class ModuleWidget extends StatelessWidget {
                                 border:
                                     (splashController.module != null &&
                                         splashController
-                                                .moduleList![index]
+                                                .moduleList![moduleIndex]
                                                 .id ==
                                             splashController.module!.id)
                                     ? Border.all(
@@ -108,17 +117,19 @@ class ModuleWidget extends StatelessWidget {
                               padding: const EdgeInsets.all(
                                 Dimensions.paddingSizeSmall,
                               ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(
-                                  Dimensions.radiusSmall,
-                                ),
-                                child: SizedBox(
-                                  height: 58,
-                                  child: CustomImage(
-                                    image: modulePreviewImage(module),
-                                    height: 58,
-                                    width: 58,
-                                    fit: BoxFit.contain,
+                              child: Center(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(
+                                    Dimensions.radiusSmall,
+                                  ),
+                                  child: SizedBox.square(
+                                    dimension: 58,
+                                    child: CustomImage(
+                                      image: modulePreviewImage(module),
+                                      height: 58,
+                                      width: 58,
+                                      fit: BoxFit.contain,
+                                    ),
                                   ),
                                 ),
                               ),

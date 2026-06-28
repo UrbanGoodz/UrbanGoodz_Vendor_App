@@ -13,12 +13,19 @@ const Color _ugBlack = Color(0xFF161616);
 const Color _ugDijon = Color(0xFFE5E276);
 
 String modulePreviewImage(ModuleModel module) {
+  final String? localAsset = _urbanGoodzLocalModuleAsset(module);
+  if (localAsset != null &&
+      localAsset.isNotEmpty &&
+      localAsset.startsWith('assets/')) {
+    _debugModuleImageSelection(module, localAsset, const []);
+    return localAsset;
+  }
+
   final List<_ModuleImageCandidate> candidates = <_ModuleImageCandidate>[
     _ModuleImageCandidate('thumbnailFullUrl', module.thumbnailFullUrl),
     _ModuleImageCandidate('imageFullUrl', module.imageFullUrl),
     _ModuleImageCandidate('coverImageFullUrl', module.coverImageFullUrl),
     _ModuleImageCandidate('iconFullUrl', module.iconFullUrl),
-    _ModuleImageCandidate('localAsset', _urbanGoodzLocalModuleAsset(module)),
   ];
 
   String? selected;
@@ -44,6 +51,12 @@ class _ModuleImageCandidate {
   final String? value;
 
   const _ModuleImageCandidate(this.name, this.value);
+}
+
+class _PharmacyModuleInfo {
+  final int index;
+  final String searchKey;
+  const _PharmacyModuleInfo({required this.index, required this.searchKey});
 }
 
 String cleanModuleDescription(String? value) {
@@ -95,6 +108,67 @@ String modulePreviewDescription(ModuleModel module) {
   return 'Description needs review in backend.';
 }
 
+List<int> visibleUrbanGoodzModuleIndexes(List<ModuleModel> modules) {
+  final List<_PharmacyModuleInfo> pharmacyModules = [];
+
+  for (int i = 0; i < modules.length; i++) {
+    final key = _moduleSearchKey(modules[i]);
+    if (key.contains('pharmacy')) {
+      pharmacyModules.add(_PharmacyModuleInfo(index: i, searchKey: key));
+    }
+  }
+
+  final Set<int> removeIndices = <int>{};
+  if (pharmacyModules.length > 1) {
+    for (final pm in pharmacyModules) {
+      if (!pm.searchKey.contains('health')) {
+        removeIndices.add(pm.index);
+      }
+    }
+  }
+
+  final Set<String> seenKeys = {};
+  final Set<int> seenIds = {};
+  final Set<String> seenAssets = {};
+  final List<int> result = [];
+
+  for (int i = 0; i < modules.length; i++) {
+    if (removeIndices.contains(i)) continue;
+
+    final module = modules[i];
+    if (module.id != null) {
+      if (seenIds.contains(module.id)) continue;
+      seenIds.add(module.id!);
+    }
+
+    final String asset = modulePreviewImage(module);
+    if (asset.isNotEmpty && asset.contains('urban_goodz_modules/')) {
+      if (seenAssets.contains(asset)) {
+        continue;
+      }
+      seenAssets.add(asset);
+    }
+
+    final String nameKey = (module.moduleName ?? '').trim().toLowerCase();
+    if (nameKey.isNotEmpty) {
+      if (seenKeys.contains(nameKey)) continue;
+      seenKeys.add(nameKey);
+    }
+
+    result.add(i);
+  }
+
+  return result;
+}
+
+String _moduleSearchKey(ModuleModel module) {
+  return <String?>[
+    module.moduleName,
+    module.moduleType,
+    module.slug,
+  ].whereType<String>().join(' ').toLowerCase().replaceAll('-', ' ');
+}
+
 Future<void> showModulePreviewPanel(
   BuildContext context, {
   required ModuleModel module,
@@ -138,7 +212,8 @@ bool _hasUsableValue(String value) {
 
 bool _hasUsableImageUrl(String value) {
   final String normalized = value.trim().toLowerCase();
-  final bool hasExtension = normalized.contains('.png') ||
+  final bool hasExtension =
+      normalized.contains('.png') ||
       normalized.contains('.jpg') ||
       normalized.contains('.jpeg') ||
       normalized.contains('.gif') ||
@@ -186,8 +261,8 @@ void _debugModuleImageSelection(
   final String renderMode = selected == null || selected.isEmpty
       ? 'fallback'
       : selected.startsWith('assets/')
-          ? 'asset'
-          : 'network';
+      ? 'asset'
+      : 'network';
 
   debugPrint('[UG_MODULE_PREVIEW_IMAGE]');
   debugPrint('moduleName: ${module.moduleName}');
@@ -200,7 +275,9 @@ void _debugModuleImageSelection(
   debugPrint('selectedImage: ${selected ?? ''}');
   debugPrint('renderMode: $renderMode');
   debugPrint('fallbackUsed: ${selected == null || selected.isEmpty}');
-  debugPrint('fallbackReason: ${selected == null || selected.isEmpty ? 'backend module image missing/placeholder' : 'none'}');
+  debugPrint(
+    'fallbackReason: ${selected == null || selected.isEmpty ? 'backend module image missing/placeholder' : 'none'}',
+  );
 }
 
 final Map<String, String> _websiteModuleDescriptions = <String, String>{
@@ -264,6 +341,10 @@ class _ModulePreviewContent extends StatelessWidget {
     final String image = modulePreviewImage(module);
     final String title = module.moduleName ?? 'Urban Goodz Module';
     final String description = modulePreviewDescription(module);
+    final bool isLocalModuleArt = image.contains('urban_goodz_modules/');
+    final double imageBoxSize = isLocalModuleArt
+        ? (isDesktop ? 340 : 260)
+        : (isDesktop ? 220 : 180);
 
     return Container(
       margin: EdgeInsets.all(isDesktop ? 0 : Dimensions.paddingSizeDefault),
@@ -293,18 +374,25 @@ class _ModulePreviewContent extends StatelessWidget {
                   icon: const Icon(Icons.close, color: _ugBlack),
                 ),
               ),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-                decoration: BoxDecoration(
-                  color: _ugCanvas.withValues(alpha: 0.65),
-                  borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
-                ),
-                child: CustomImage(
-                  image: image,
-                  height: isDesktop ? 190 : 160,
-                  width: double.infinity,
-                  fit: BoxFit.contain,
+              Center(
+                child: Container(
+                  width: isLocalModuleArt ? imageBoxSize : double.infinity,
+                  height: imageBoxSize,
+                  padding: EdgeInsets.all(
+                    isLocalModuleArt
+                        ? Dimensions.paddingSizeSmall
+                        : Dimensions.paddingSizeDefault,
+                  ),
+                  decoration: BoxDecoration(
+                    color: _ugCanvas.withValues(alpha: 0.65),
+                    borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
+                  ),
+                  child: CustomImage(
+                    image: image,
+                    height: imageBoxSize,
+                    width: isLocalModuleArt ? imageBoxSize : double.infinity,
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ),
               const SizedBox(height: Dimensions.paddingSizeDefault),
