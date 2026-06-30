@@ -11,70 +11,90 @@ class UrbanGoodzHubScreen extends StatelessWidget {
     _UrbanGoodzHubTab(
       label: 'Earn Money',
       title: 'Earn Money',
-      description: 'Find local earning opportunities, gigs, and partner requests.',
+      description: 'Find local earning opportunities, gigs, delivery requests, and partner work.',
+      status: 'Live',
+      buttonLabel: 'Open Earn Money',
       route: RouteHelper.getUrbanGoodzEarnMoneyRoute(),
       icon: Icons.paid_outlined,
     ),
     _UrbanGoodzHubTab(
       label: 'Logistics',
       title: 'Logistics',
-      description: 'Explore local delivery jobs and logistics opportunities.',
+      description: 'Access local logistics, package movement, and delivery support opportunities.',
+      status: 'Preview',
+      buttonLabel: 'Open Logistics',
       route: RouteHelper.getUrbanGoodzLogisticsRoute(),
       icon: Icons.local_shipping_outlined,
     ),
     _UrbanGoodzHubTab(
       label: 'Load Board',
       title: 'Load Board',
-      description: 'Review available routes, loads, and carrier-ready dispatches.',
+      description: 'View available loads, routes, and transport opportunities.',
+      status: 'Preview',
+      buttonLabel: 'Open Load Board',
       route: RouteHelper.getUrbanGoodzLoadBoardRoute(),
       icon: Icons.view_list_outlined,
     ),
     _UrbanGoodzHubTab(
       label: 'Medical Courier',
       title: 'Medical Courier',
-      description: 'Access medical courier opportunities and healthcare logistics.',
+      description: 'Explore medical courier jobs, chain-of-custody work, and healthcare logistics.',
+      status: 'Preview',
+      buttonLabel: 'Open Medical Courier',
       route: RouteHelper.getUrbanGoodzMedicalCourierRoute(),
       icon: Icons.medical_services_outlined,
     ),
     _UrbanGoodzHubTab(
       label: 'Book Anything',
       title: 'Book Anything',
-      description: 'Request services, bookings, and local help through Urban Goodz.',
+      description: 'Request services, appointments, rentals, and custom local help.',
+      status: 'Preview',
+      buttonLabel: 'Open Book Anything',
       route: RouteHelper.getUrbanGoodzBookServicesRoute(),
       icon: Icons.event_available_outlined,
     ),
     _UrbanGoodzHubTab(
       label: 'Events',
       title: 'Events & Creators',
-      description: 'Discover local events, creators, and community experiences.',
+      description: 'Discover local events, creator activations, vendor opportunities, and community happenings.',
+      status: 'Preview',
+      buttonLabel: 'Open Events',
       route: RouteHelper.getLocalEventsCreatorsRoute(),
       icon: Icons.celebration_outlined,
     ),
     _UrbanGoodzHubTab(
       label: 'Community',
       title: 'Community Marketplace',
-      description: 'Browse community listings and local marketplace activity.',
+      description: 'Connect with local conversations, recommendations, and neighborhood activity.',
+      status: 'Preview',
+      buttonLabel: 'Open Community',
       route: RouteHelper.getUrbanGoodzCommunityMarketplaceRoute(),
       icon: Icons.groups_outlined,
     ),
     _UrbanGoodzHubTab(
       label: 'Creators',
       title: 'Creator Commerce',
-      description: 'Connect with creator-led shops, services, and local offers.',
+      description: 'Explore creator commerce, shoppable content, campaigns, and local influence opportunities.',
+      status: 'Preview',
+      buttonLabel: 'Open Creators',
       route: RouteHelper.getUrbanGoodzCreatorCommerceRoute(),
       icon: Icons.storefront_outlined,
     ),
     _UrbanGoodzHubTab(
       label: 'Ask UG',
       title: 'Urban Goodz AI',
-      description: 'Ask the Urban Goodz concierge to help find what you need.',
+      description: 'Use Urban Goodz AI to help find products, services, vendors, rentals, events, and opportunities.',
+      status: 'Preview',
+      buttonLabel: 'Open Ask UG',
       route: RouteHelper.getUrbanGoodzAIRoute(),
       icon: Icons.auto_awesome_outlined,
     ),
     _UrbanGoodzHubTab(
       label: 'UG+',
       title: 'Urban Goodz Plus',
-      description: 'Open the Urban Goodz Plus member experience.',
+      description: 'Access premium Urban Goodz perks, early features, and membership benefits.',
+      status: 'Preview',
+      buttonLabel: 'Open UG+',
       route: RouteHelper.getUrbanGoodzPlusRoute(),
       icon: Icons.workspace_premium_outlined,
     ),
@@ -175,7 +195,22 @@ class _UrbanGoodzHubPanel extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(tab.icon, color: AppConstants.seasoningOrange, size: 42),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 56,
+                        height: 56,
+                        decoration: BoxDecoration(
+                          color: AppConstants.seasoningOrange.withValues(alpha: 0.14),
+                          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                        ),
+                        child: Icon(tab.icon, color: AppConstants.seasoningOrange, size: 32),
+                      ),
+                      const Spacer(),
+                      _StatusBadge(status: tab.status),
+                    ],
+                  ),
                   const SizedBox(height: Dimensions.paddingSizeDefault),
                   Text(
                     tab.title,
@@ -204,7 +239,7 @@ class _UrbanGoodzHubPanel extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 14),
                       ),
                       onPressed: () => Get.toNamed(tab.route),
-                      child: Text('Open ${tab.label}'),
+                      child: Text(tab.buttonLabel),
                     ),
                   ),
                 ],
@@ -217,10 +252,43 @@ class _UrbanGoodzHubPanel extends StatelessWidget {
   }
 }
 
+class _StatusBadge extends StatelessWidget {
+  final String status;
+
+  const _StatusBadge({required this.status});
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isLive = status == 'Live';
+    final Color backgroundColor = isLive ? AppConstants.seasoningOrange : AppConstants.canvas;
+    final Color borderColor = isLive ? AppConstants.seasoningOrange : AppConstants.seasoningOrange.withValues(alpha: 0.55);
+    final Color textColor = isLive ? AppConstants.ugBlack : AppConstants.ugBlack.withValues(alpha: 0.78);
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: borderColor),
+      ),
+      child: Text(
+        status,
+        style: TextStyle(
+          color: textColor,
+          fontSize: 12,
+          fontWeight: FontWeight.w800,
+        ),
+      ),
+    );
+  }
+}
+
 class _UrbanGoodzHubTab {
   final String label;
   final String title;
   final String description;
+  final String status;
+  final String buttonLabel;
   final String route;
   final IconData icon;
 
@@ -228,6 +296,8 @@ class _UrbanGoodzHubTab {
     required this.label,
     required this.title,
     required this.description,
+    required this.status,
+    required this.buttonLabel,
     required this.route,
     required this.icon,
   });
