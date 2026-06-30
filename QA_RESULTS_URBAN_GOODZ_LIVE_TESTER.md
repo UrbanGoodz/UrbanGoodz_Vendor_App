@@ -24,7 +24,7 @@ This document reports the findings of the browser QA run against the live tester
 - `mobile-discovery-mobile-iphone-chromium.png` (iPhone Viewport Discovery)
 
 ## Real App Issues Identified
-1. **Server Route Rewriting (404 Direct Loads)**: Direct GET loads to deep paths (e.g. `/urban-goodz-earn-money`) return standard LiteSpeed 404 pages because server route rewrites are not active. Hash fallback routing (e.g. `/#/urban-goodz-earn-money`) operates correctly.
+1. **Server Route Rewriting (404 Direct Loads - Resolved)**: Direct GET loads to deep paths formerly returned 404 errors. We integrated Apache/LiteSpeed rewrite rules into the build package `.htaccess` to fallback gracefully to `/index.html` for clean SPA URL loading.
 2. **Blocking Overlays**: The "Select Your Location" modal blocks page interaction on first load until explicitly resolved.
 3. **Map Panel Dependency**: Broken Google Maps panel on the default map picker can block location selection if location permissions are denied.
 
@@ -33,5 +33,4 @@ This document reports the findings of the browser QA run against the live tester
 2. **Performance Delays**: Canvas rendering has a slight loading delay in headless environments. We increased test timeouts and added fallback hash routes to resolve networkidle timeouts.
 
 ## Recommended Fixes
-1. **Priority 1: Server URL Rewrite**: Apply `.htaccess` rules on Hostinger LiteSpeed to redirect path routes to `/index.html` so direct link sharing works without 404s.
-2. **Priority 2: Default Safe Location Fallback**: Implement a default cookie location or mock coordinate fallback in the Flutter app to bypass the initial blocking picker modal when coordinates are unavailable.
+1. **Priority 1: Default Safe Location Fallback**: Implement a default cookie location or mock coordinate fallback in the Flutter app to bypass the initial blocking picker modal when coordinates are unavailable.
