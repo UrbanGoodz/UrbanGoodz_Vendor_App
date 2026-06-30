@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
+import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
+import 'package:sixam_mart/features/urban_goodz/widgets/urban_goodz_preview_banner.dart';
+import 'package:sixam_mart/features/urban_goodz/widgets/urban_goodz_action_button.dart';
 
 class UrbanGoodzPlusScreen extends StatelessWidget {
   const UrbanGoodzPlusScreen({super.key});
@@ -16,122 +19,175 @@ class UrbanGoodzPlusScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
-      appBar: AppBar(title: const Text('Urban Goodz+')),
+      backgroundColor: AppConstants.canvas,
+      appBar: AppBar(
+        title: Text(
+          'Urban Goodz Plus',
+          style: robotoBold.copyWith(
+            color: AppConstants.ugBlack,
+            fontSize: Dimensions.fontSizeOverLarge,
+          ),
+        ),
+        backgroundColor: AppConstants.canvas,
+        foregroundColor: AppConstants.ugBlack,
+        elevation: 0,
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(
           horizontal: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeLarge : Dimensions.paddingSizeDefault,
           vertical: Dimensions.paddingSizeDefault,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: Dimensions.paddingSizeLarge),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
-              decoration: BoxDecoration(
-                color: theme.primaryColor.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Unlock local perks with Urban Goodz+',
-                    style: robotoBold.copyWith(
-                      fontSize: Dimensions.fontSizeExtraLarge,
-                      color: theme.primaryColor,
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 720),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const UrbanGoodzPreviewBanner(
+                  message: 'Urban Goodz Plus is an exclusive membership club. Waitlist members get early access to beta zones and local premium perks.',
+                  icon: Icons.workspace_premium_outlined,
+                ),
+
+                const SizedBox(height: Dimensions.paddingSizeSmall),
+
+                // Premium Dijon Accent Header Card
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [AppConstants.ugBlack, Color(0xFF232515)], // Custom dark-dijon blend
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
                     ),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: const Color(0xFFE5E276).withValues(alpha: 0.5), // Dijon border accent
+                      width: 1.5,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppConstants.ugBlack.withValues(alpha: 0.15),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      )
+                    ],
                   ),
-                  const SizedBox(height: Dimensions.paddingSizeSmall),
-                  Text(
-                    'Earn rewards, access local deals, and get member benefits across food, retail, rentals, and events.',
-                    style: robotoRegular.copyWith(
-                      fontSize: Dimensions.fontSizeDefault,
-                      height: 1.6,
-                      color: theme.textTheme.bodyLarge!.color,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: Dimensions.paddingSizeLarge),
-            Text(
-              'Membership benefits',
-              style: robotoMedium.copyWith(
-                fontSize: Dimensions.fontSizeLarge,
-                color: theme.textTheme.bodyLarge!.color,
-              ),
-            ),
-            const SizedBox(height: Dimensions.paddingSizeSmall),
-            Column(
-              children: _benefits.map((benefit) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-                    decoration: BoxDecoration(
-                      color: theme.cardColor,
-                      borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
-                      border: Border.all(color: theme.dividerColor.withValues(alpha: 0.12), width: 0.5),
-                      boxShadow: [
-                        BoxShadow(
-                          color: theme.shadowColor.withValues(alpha: 0.05),
-                          blurRadius: 18,
-                          offset: const Offset(0, 8),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                          decoration: BoxDecoration(
-                            color: theme.primaryColor.withValues(alpha: 0.16),
-                            borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
-                          ),
-                          child: Icon(benefit.icon, color: theme.primaryColor, size: 22),
-                        ),
-                        const SizedBox(width: Dimensions.paddingSizeDefault),
-                        Expanded(
-                          child: Text(
-                            benefit.title,
-                            style: robotoMedium.copyWith(
-                              fontSize: Dimensions.fontSizeDefault,
-                              color: theme.textTheme.bodyLarge!.color,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFE5E276), // Dijon
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: const Text(
+                              'PREMIUM PERKS',
+                              style: TextStyle(
+                                color: AppConstants.ugBlack,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 9,
+                                letterSpacing: 0.8,
+                              ),
                             ),
                           ),
+                          const SizedBox(width: 8),
+                          const Text(
+                            'Unlock local perks with Urban Goodz+',
+                            style: TextStyle(
+                              color: Color(0xFFE5E276),
+                              fontWeight: FontWeight.w800,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: Dimensions.paddingSizeDefault),
+                      Text(
+                        'Unlock unlimited possibilities. Earn rewards, access local deals, and get member benefits across food, retail, rentals, and events.',
+                        style: robotoRegular.copyWith(
+                          fontSize: Dimensions.fontSizeDefault,
+                          height: 1.5,
+                          color: AppConstants.ugWhite.withValues(alpha: 0.85),
                         ),
-                      ],
-                    ),
-                  ),
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: Dimensions.paddingSizeLarge),
-            SizedBox(
-              width: ResponsiveHelper.isDesktop(context) ? 260 : double.infinity,
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: theme.primaryColor,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
+                      ),
+                    ],
                   ),
                 ),
-                child: Text(
-                  'Join waitlist',
-                  style: robotoMedium.copyWith(color: Colors.white, fontSize: Dimensions.fontSizeDefault),
+                
+                const SizedBox(height: Dimensions.paddingSizeLarge),
+                
+                Text(
+                  'Membership benefits',
+                  style: robotoMedium.copyWith(
+                    fontSize: Dimensions.fontSizeLarge,
+                    color: AppConstants.ugBlack,
+                  ),
                 ),
-              ),
+                const SizedBox(height: Dimensions.paddingSizeSmall),
+                
+                Column(
+                  children: _benefits.map((benefit) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                        decoration: BoxDecoration(
+                          color: AppConstants.ugWhite,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: AppConstants.ugBlack.withValues(alpha: 0.08), width: 1),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppConstants.ugBlack.withValues(alpha: 0.02),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                              decoration: BoxDecoration(
+                                color: AppConstants.seasoningOrange.withValues(alpha: 0.12),
+                                borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
+                              ),
+                              child: Icon(benefit.icon, color: AppConstants.seasoningOrange, size: 20),
+                            ),
+                            const SizedBox(width: Dimensions.paddingSizeDefault),
+                            Expanded(
+                              child: Text(
+                                benefit.title,
+                                style: robotoMedium.copyWith(
+                                  fontSize: Dimensions.fontSizeDefault,
+                                  color: AppConstants.ugBlack,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+                
+                const SizedBox(height: Dimensions.paddingSizeLarge),
+                
+                SizedBox(
+                  width: double.infinity,
+                  child: UrbanGoodzActionButton(
+                    label: 'Join Membership Waitlist',
+                    onPressed: () {},
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

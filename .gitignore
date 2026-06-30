@@ -30,6 +30,10 @@
 .pub-cache/
 .pub/
 /build/
+build/
+build/web/
+outputs/*.zip
+*.zip
 .firebaserc
 firebase.json
 .firebase
