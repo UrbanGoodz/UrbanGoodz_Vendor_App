@@ -1,0 +1,14 @@
+{
+  "name": "urban-goodz-public-qa",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Browser QA smoke tests for the Urban Goodz public tester site.",
+  "scripts": {
+    "qa:urban-goodz": "playwright test tests/urban_goodz_public_qa.spec.ts",
+    "qa:urban-goodz:headed": "playwright test tests/urban_goodz_public_qa.spec.ts --headed",
+    "qa:urban-goodz:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.57.0"
+  }
+}
