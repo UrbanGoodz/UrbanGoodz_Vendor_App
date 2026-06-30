@@ -5,6 +5,7 @@ import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/features/search/widgets/filter_widget.dart';
 import 'package:sixam_mart/features/search/widgets/item_view_widget.dart';
+import 'package:sixam_mart/features/urban_goodz/discovery/discovery_no_results_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -98,23 +99,41 @@ class SearchResultWidgetState extends State<SearchResultWidget> with TickerProvi
         ),
       )),
 
-      Expanded(child: NotificationListener(
-        onNotification: (dynamic scrollNotification) {
-          if (scrollNotification is ScrollEndNotification) {
-            Get.find<search.SearchController>().setStore(_tabController!.index == 1);
-            Get.find<search.SearchController>().searchData(widget.searchText, false);
-          }
-          return false;
-        },
-        child: TabBarView(
-          controller: _tabController,
-          children: const [
-            ItemViewWidget(isItem: false),
-            ItemViewWidget(isItem: true),
-          ],
-        ),
-      )),
+      Expanded(child: GetBuilder<search.SearchController>(builder: (searchController) {
+        return NotificationListener(
+          onNotification: (dynamic scrollNotification) {
+            if (scrollNotification is ScrollEndNotification) {
+              Get.find<search.SearchController>().setStore(_tabController!.index == 1);
+              Get.find<search.SearchController>().searchData(widget.searchText, false);
+            }
+            return false;
+          },
+          child: TabBarView(
+            controller: _tabController,
+            children: [
+              _buildSearchTab(searchController, isStoreSearch: false),
+              _buildSearchTab(searchController, isStoreSearch: true),
+            ],
+          ),
+        );
+      })),
 
     ]);
+  }
+
+  Widget _buildSearchTab(search.SearchController searchController, {required bool isStoreSearch}) {
+    final bool hasSearchText = widget.searchText.trim().isNotEmpty;
+    final bool isLoadedEmpty = isStoreSearch
+        ? searchController.searchStoreList != null && searchController.searchStoreList!.isEmpty
+        : searchController.searchItemList != null && searchController.searchItemList!.isEmpty;
+
+    if (hasSearchText && isLoadedEmpty) {
+      return DiscoveryNoResultsWidget(
+        searchText: widget.searchText,
+        isStoreSearch: isStoreSearch,
+      );
+    }
+
+    return ItemViewWidget(isItem: isStoreSearch);
   }
 }

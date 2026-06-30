@@ -372,9 +372,9 @@ class AppConstants {
   static const String ugBookAnythingRecordsUri = '/api/urban-goodz/book-anything/records';
   static const String ugBookAnythingRequestUri = '/api/urban-goodz/book-anything/request';
   static const String ugEventsUri = '/api/urban-goodz/events';
-  static const String ugDiscoverySearchCaptureUri = '/api/urban-goodz/discovery/search-capture';
-  static const String ugDiscoveryEntitiesUri = '/api/urban-goodz/discovery/entities';
-  static const String ugDiscoveryOpportunitiesUri = '/api/urban-goodz/discovery/opportunities';
+  static const String ugDiscoverySearchCaptureUri = '/api/v1/urban-goodz/discovery/search-capture';
+  static const String ugDiscoveryEntitiesUri = '/api/v1/urban-goodz/discovery/entities';
+  static const String ugDiscoveryOpportunitiesUri = '/api/v1/urban-goodz/discovery/opportunities';
   static const String ugAiConciergeUri = '/api/urban-goodz/ai/concierge';
   static const String ugAiIntentUri = '/api/urban-goodz/ai/intent';
   static const String ugAiRecommendationsUri = '/api/urban-goodz/ai/recommendations';
