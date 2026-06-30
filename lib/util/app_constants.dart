@@ -365,13 +365,13 @@ class AppConstants {
   static const String reelVisitUri = '/api/v1/customer/reels/visit';
 
   /// Urban Goodz
-  static const String ugEarnMoneyOpportunitiesUri = '/api/urban-goodz/earn-money/opportunities';
-  static const String ugLogisticsJobsUri = '/api/urban-goodz/logistics/jobs';
-  static const String ugLoadBoardLoadsUri = '/api/urban-goodz/load-board/loads';
-  static const String ugMedicalCourierJobsUri = '/api/urban-goodz/medical-courier/jobs';
-  static const String ugBookAnythingRecordsUri = '/api/urban-goodz/book-anything/records';
-  static const String ugBookAnythingRequestUri = '/api/urban-goodz/book-anything/request';
-  static const String ugEventsUri = '/api/urban-goodz/events';
+  static const String ugEarnMoneyOpportunitiesUri = '/api/v1/urban-goodz/earn-money/opportunities';
+  static const String ugLogisticsJobsUri = '/api/v1/urban-goodz/logistics/jobs';
+  static const String ugLoadBoardLoadsUri = '/api/v1/urban-goodz/load-board/loads';
+  static const String ugMedicalCourierJobsUri = '/api/v1/urban-goodz/medical-courier/jobs';
+  static const String ugBookAnythingRecordsUri = '/api/v1/urban-goodz/book-anything/records';
+  static const String ugBookAnythingRequestUri = '/api/v1/urban-goodz/book-anything/request';
+  static const String ugEventsUri = '/api/v1/urban-goodz/events';
   static const String ugDiscoverySearchCaptureUri = '/api/v1/urban-goodz/discovery/search-capture';
   static const String ugDiscoveryEntitiesUri = '/api/v1/urban-goodz/discovery/entities';
   static const String ugDiscoveryOpportunitiesUri = '/api/v1/urban-goodz/discovery/opportunities';
