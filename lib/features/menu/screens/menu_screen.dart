@@ -251,11 +251,17 @@ class _MenuScreenState extends State<MenuScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge, vertical: Dimensions.paddingSizeDefault),
                   margin: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                   child: Column(children: [
+                    PortionWidget(icon: Images.storeIcon, title: 'Urban Goodz Hub', route: RouteHelper.getUrbanGoodzHubRoute()),
                     PortionWidget(icon: Images.dmIcon, title: 'Earn Money', route: RouteHelper.getUrbanGoodzEarnMoneyRoute()),
                     PortionWidget(icon: Images.dmIcon, title: 'Logistics', route: RouteHelper.getUrbanGoodzLogisticsRoute()),
                     PortionWidget(icon: Images.dmIcon, title: 'Load Board', route: RouteHelper.getUrbanGoodzLoadBoardRoute()),
                     PortionWidget(icon: Images.dmIcon, title: 'Medical Courier', route: RouteHelper.getUrbanGoodzMedicalCourierRoute()),
-                    PortionWidget(icon: Images.storeIcon, title: 'Book Services', route: RouteHelper.getUrbanGoodzBookServicesRoute(), hideDivider: true),
+                    PortionWidget(icon: Images.storeIcon, title: 'Book Services', route: RouteHelper.getUrbanGoodzBookServicesRoute()),
+                    PortionWidget(icon: Images.storeIcon, title: 'Events & Creators', route: RouteHelper.getLocalEventsCreatorsRoute()),
+                    PortionWidget(icon: Images.storeIcon, title: 'Community Marketplace', route: RouteHelper.getUrbanGoodzCommunityMarketplaceRoute()),
+                    PortionWidget(icon: Images.storeIcon, title: 'Creator Commerce', route: RouteHelper.getUrbanGoodzCreatorCommerceRoute()),
+                    PortionWidget(icon: Images.storeIcon, title: 'Urban Goodz AI', route: RouteHelper.getUrbanGoodzAIRoute()),
+                    PortionWidget(icon: Images.storeIcon, title: 'Urban Goodz Plus', route: RouteHelper.getUrbanGoodzPlusRoute(), hideDivider: true),
                   ]),
                 )
               ]),
