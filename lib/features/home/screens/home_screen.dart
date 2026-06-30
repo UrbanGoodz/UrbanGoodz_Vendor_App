@@ -41,6 +41,7 @@ import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/app_constants.dart';
+import 'package:sixam_mart/features/urban_goodz/widgets/urban_goodz_status_badge.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/images.dart';
 import 'package:sixam_mart/util/styles.dart';
@@ -514,37 +515,69 @@ class _HomeScreenState extends State<HomeScreen> {
             border: Border.all(color: Theme.of(context).dividerColor.withValues(alpha: 0.18), width: 0.5),
             boxShadow: [BoxShadow(color: Theme.of(context).shadowColor.withValues(alpha: 0.08), blurRadius: 12, offset: const Offset(0, 5))],
           ),
-          child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor.withValues(alpha: 0.16),
-                borderRadius: BorderRadius.circular(16),
+                color: AppConstants.canvas,
+                borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                border: Border.all(
+                  color: AppConstants.seasoningOrange.withValues(alpha: 0.22),
+                ),
               ),
-              padding: const EdgeInsets.all(14),
-              child: Icon(Icons.directions_car, size: 28, color: Theme.of(context).primaryColor),
-            ),
-            const SizedBox(width: Dimensions.paddingSizeLarge),
-            Expanded(
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(
-                  'Rentals Near You',
-                  style: robotoMedium.copyWith(
-                    fontSize: Dimensions.fontSizeExtraLarge,
-                    color: Theme.of(context).textTheme.bodyLarge!.color,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 320),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                  child: Image.asset(
+                    'assets/image/urban_goodz_features/rentals_near_you.png',
+                    fit: BoxFit.contain,
+                    filterQuality: FilterQuality.high,
                   ),
                 ),
-                const SizedBox(height: Dimensions.paddingSizeSmall),
-                Text(
-                  'Book cars, equipment, spaces, and local rentals by the day',
-                  style: robotoRegular.copyWith(
-                    fontSize: Dimensions.fontSizeDefault,
-                    height: 1.45,
-                    color: Theme.of(context).disabledColor,
-                  ),
-                ),
-              ]),
+              ),
             ),
-            Icon(Icons.arrow_forward_ios, size: 18, color: Theme.of(context).disabledColor),
+            const SizedBox(height: Dimensions.paddingSizeDefault),
+            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: AppConstants.seasoningOrange.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppConstants.seasoningOrange.withValues(alpha: 0.2)),
+                ),
+                padding: const EdgeInsets.all(14),
+                child: const Icon(Icons.directions_car_outlined, size: 28, color: AppConstants.seasoningOrange),
+              ),
+              const SizedBox(width: Dimensions.paddingSizeLarge),
+              Expanded(
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Row(
+                    children: [
+                      Text(
+                        'Rentals Near You',
+                        style: robotoBold.copyWith(
+                          fontSize: Dimensions.fontSizeExtraLarge,
+                          color: AppConstants.ugBlack,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      const UrbanGoodzStatusBadge(status: 'Live', isCompact: true),
+                    ],
+                  ),
+                  const SizedBox(height: Dimensions.paddingSizeSmall),
+                  Text(
+                    'Book cars, trucks, vehicles, equipment, and local rentals by the day.',
+                    style: robotoRegular.copyWith(
+                      fontSize: Dimensions.fontSizeDefault,
+                      height: 1.45,
+                      color: AppConstants.ugBlack.withValues(alpha: 0.7),
+                    ),
+                  ),
+                ]),
+              ),
+              Icon(Icons.arrow_forward_ios, size: 18, color: AppConstants.ugBlack.withValues(alpha: 0.4)),
+            ]),
           ]),
         ),
       ),
