@@ -102,7 +102,8 @@ class UrbanGoodzHubScreen extends StatelessWidget {
       route: RouteHelper.getUrbanGoodzCommunityMarketplaceRoute(),
       icon: Icons.groups_outlined,
       marketInsight: 'Trending posts in your zip code',
-      thumbnailAssetPath: '$_thumbnailBasePath/07_community.png',
+      thumbnailAssetPath: '$_thumbnailBasePath/11_community_tab.png',
+      thumbnailAspectRatio: 321 / 795,
     ),
     _UrbanGoodzHubTab(
       label: 'Creators',
@@ -114,7 +115,8 @@ class UrbanGoodzHubScreen extends StatelessWidget {
       route: RouteHelper.getUrbanGoodzCreatorCommerceRoute(),
       icon: Icons.storefront_outlined,
       marketInsight: 'Creator campaign preview',
-      thumbnailAssetPath: '$_thumbnailBasePath/08_creators.png',
+      thumbnailAssetPath: '$_thumbnailBasePath/12_creators_tab.png',
+      thumbnailAspectRatio: 324 / 795,
     ),
     _UrbanGoodzHubTab(
       label: 'Ask UG',
@@ -127,7 +129,8 @@ class UrbanGoodzHubScreen extends StatelessWidget {
       icon: Icons.auto_awesome_outlined,
       marketInsight: 'AI Assistant ready',
       assetPath: _askAssetPath,
-      thumbnailAssetPath: '$_thumbnailBasePath/09_ask_ug.png',
+      thumbnailAssetPath: '$_thumbnailBasePath/13_ask_ug_tab.png',
+      thumbnailAspectRatio: 323 / 795,
     ),
     _UrbanGoodzHubTab(
       label: 'UG+',
@@ -140,7 +143,8 @@ class UrbanGoodzHubScreen extends StatelessWidget {
       icon: Icons.workspace_premium_outlined,
       marketInsight: 'Premium waitlist open',
       assetPath: _plusAssetPath,
-      thumbnailAssetPath: '$_thumbnailBasePath/10_ug_plus.png',
+      thumbnailAssetPath: '$_thumbnailBasePath/14_ug_plus_tab.png',
+      thumbnailAspectRatio: 317 / 795,
     ),
     _UrbanGoodzHubTab(
       label: 'Fashion Fit',
@@ -152,6 +156,8 @@ class UrbanGoodzHubScreen extends StatelessWidget {
       route: RouteHelper.getUrbanGoodzFashionMeasurementsRoute(),
       icon: Icons.checkroom_outlined,
       marketInsight: 'Measurement intake preview',
+      thumbnailAssetPath: '$_thumbnailBasePath/15_fashion_fit_tab.png',
+      thumbnailAspectRatio: 322 / 795,
     ),
   ];
 
@@ -215,21 +221,17 @@ class UrbanGoodzHubScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Transform.translate(
-                          offset: const Offset(0, -8),
-                          child: UrbanGoodzFeatureAssetImage(
-                            assetPath: _hubAssetPath,
-                            maxHeight: ResponsiveHelper.isDesktop(context)
-                                ? 260
-                                : 190,
-                            fit: BoxFit.contain,
-                            backgroundColor: Colors.transparent,
-                            hasBorder: false,
-                            padding: EdgeInsets.zero,
-                            fillWidth: true,
-                            expandContainToWidth: false,
-                            alignment: Alignment.topCenter,
-                          ),
+                        UrbanGoodzFeatureAssetImage(
+                          assetPath: _hubAssetPath,
+                          maxHeight: ResponsiveHelper.isDesktop(context)
+                              ? 285
+                              : 210,
+                          fit: BoxFit.contain,
+                          backgroundColor: Colors.transparent,
+                          hasBorder: false,
+                          padding: EdgeInsets.zero,
+                          fillWidth: true,
+                          alignment: Alignment.center,
                         ),
                         const SizedBox(height: Dimensions.paddingSizeDefault),
                         Row(
@@ -407,7 +409,7 @@ class _UrbanGoodzHubPanel extends StatelessWidget {
       ),
       child: Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 600),
+          constraints: const BoxConstraints(maxWidth: 900),
           child: Container(
             decoration: BoxDecoration(
               color: AppConstants.ugWhite,
@@ -489,7 +491,10 @@ class _UrbanGoodzHubPanel extends StatelessWidget {
                   ),
                   const SizedBox(height: Dimensions.paddingSizeDefault),
                   if (tab.thumbnailAssetPath != null) ...[
-                    _HubThumbnailImage(assetPath: tab.thumbnailAssetPath!),
+                    _HubThumbnailImage(
+                      assetPath: tab.thumbnailAssetPath!,
+                      aspectRatio: tab.thumbnailAspectRatio,
+                    ),
                     const SizedBox(height: Dimensions.paddingSizeLarge),
                   ],
                   if (tab.thumbnailAssetPath == null &&
@@ -560,19 +565,27 @@ class _UrbanGoodzHubPanel extends StatelessWidget {
 
 class _HubThumbnailImage extends StatelessWidget {
   final String assetPath;
+  final double aspectRatio;
 
-  const _HubThumbnailImage({required this.assetPath});
+  const _HubThumbnailImage({
+    required this.assetPath,
+    required this.aspectRatio,
+  });
 
   @override
   Widget build(BuildContext context) {
     final bool isWide = MediaQuery.of(context).size.width >= 720;
-    final double size = isWide ? 420 : 300;
+    final bool isPortrait = aspectRatio < 0.75;
+    final double maxWidth = isPortrait
+        ? (isWide ? 380 : 320)
+        : (isWide ? 760 : 520);
+    final double maxHeight = isPortrait ? (isWide ? 680 : 560) : maxWidth;
 
     return Center(
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: size, maxHeight: size),
+        constraints: BoxConstraints(maxWidth: maxWidth, maxHeight: maxHeight),
         child: AspectRatio(
-          aspectRatio: 1,
+          aspectRatio: aspectRatio,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
             child: Image.asset(
@@ -598,6 +611,7 @@ class _UrbanGoodzHubTab {
   final String marketInsight;
   final String? assetPath;
   final String? thumbnailAssetPath;
+  final double thumbnailAspectRatio;
 
   const _UrbanGoodzHubTab({
     required this.label,
@@ -610,5 +624,6 @@ class _UrbanGoodzHubTab {
     required this.marketInsight,
     this.assetPath,
     this.thumbnailAssetPath,
+    this.thumbnailAspectRatio = 1,
   });
 }
