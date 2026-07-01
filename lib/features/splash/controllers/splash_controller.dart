@@ -136,7 +136,12 @@ class SplashController extends GetxController implements GetxService {
       if(_configModel!.module != null) {
         setModule(_configModel!.module);
       }else if(GetPlatform.isWeb || (loadModuleData && _module != null)) {
-        setModule(GetPlatform.isWeb ? splashServiceInterface.getModule() : _module);
+        bool hasModuleQuery = Get.parameters['module'] != null && Get.parameters['module']!.isNotEmpty && Get.parameters['module'] != 'null';
+        if (GetPlatform.isWeb && !hasModuleQuery) {
+          setModule(null);
+        } else {
+          setModule(GetPlatform.isWeb ? splashServiceInterface.getModule() : _module);
+        }
       }
       print('=====deeplink url: $_deeplinkRoute and canRoute: $canRoute');
       if(!canRoute || _deeplinkRoute != null) {
@@ -203,7 +208,12 @@ class SplashController extends GetxController implements GetxService {
       _module = null;
       splashServiceInterface.initSharedData();
     }else {
-      _module = await splashServiceInterface.initSharedData();
+      bool hasModuleQuery = Get.parameters['module'] != null && Get.parameters['module']!.isNotEmpty && Get.parameters['module'] != 'null';
+      if (!hasModuleQuery) {
+        _module = null;
+      } else {
+        _module = await splashServiceInterface.initSharedData();
+      }
     }
     _cacheModule = splashServiceInterface.getCacheModule();
     setModule(_module, notify: false);
