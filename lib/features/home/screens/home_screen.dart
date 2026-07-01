@@ -633,7 +633,9 @@ class _HomeScreenState extends State<HomeScreen> {
       if(splashController.moduleList != null && splashController.moduleList!.length == 1) {
         splashController.switchModule(0, true);
       }
-      bool showMobileModule = !ResponsiveHelper.isDesktop(context) && splashController.module == null && splashController.configModel!.module == null;
+      final String moduleQuery = (Get.parameters['module'] ?? '').trim().toLowerCase();
+      final bool hasModuleQuery = moduleQuery.isNotEmpty && moduleQuery != 'null';
+      bool showMobileModule = !ResponsiveHelper.isDesktop(context) && splashController.module == null && splashController.configModel!.module == null && !hasModuleQuery;
       bool isParcel = splashController.module != null && splashController.module!.moduleType.toString() == AppConstants.parcel;
       bool isPharmacy = splashController.module != null && splashController.module!.moduleType.toString() == AppConstants.pharmacy;
       bool isFood = splashController.module != null && splashController.module!.moduleType.toString() == AppConstants.food;
@@ -851,7 +853,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ))),
                   ) : const SliverToBoxAdapter(),
 
-                  if (splashController.module == null && !showMobileModule && !isTaxi && !isRide) ...[
+                  if (splashController.module == null && !showMobileModule && !hasModuleQuery && !isTaxi && !isRide) ...[
                     SliverToBoxAdapter(child: _buildAIConciergeCard(context)),
                     SliverToBoxAdapter(child: _buildOrderAnywhereCard(context)),
                     SliverToBoxAdapter(child: _buildMembershipCard(context)),
