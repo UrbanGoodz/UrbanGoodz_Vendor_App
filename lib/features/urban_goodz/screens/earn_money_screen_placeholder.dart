@@ -167,18 +167,18 @@ class _EarnMoneyHeader extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             gradient: const LinearGradient(
-              colors: [AppConstants.ugBlack, Color(0xFF2D241E)],
+              colors: [Color(0xFFFAF7F2), AppConstants.canvas],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: AppConstants.seasoningOrange.withValues(alpha: 0.35),
+              color: AppConstants.seasoningOrange.withValues(alpha: 0.5),
               width: 1.5,
             ),
             boxShadow: [
               BoxShadow(
-                color: AppConstants.ugBlack.withValues(alpha: 0.15),
+                color: AppConstants.ugBlack.withValues(alpha: 0.05),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -193,7 +193,7 @@ class _EarnMoneyHeader extends StatelessWidget {
                   const Text(
                     'Earning Opportunity Hub',
                     style: TextStyle(
-                      color: AppConstants.ugWhite,
+                      color: AppConstants.ugBlack,
                       fontSize: 18,
                       fontWeight: FontWeight.w900,
                       letterSpacing: -0.3,
@@ -241,7 +241,7 @@ class _EarnMoneyHeader extends StatelessWidget {
                       Icons.work_history_outlined,
                     ),
                   ),
-                  Container(width: 1, height: 40, color: AppConstants.ugWhite.withValues(alpha: 0.15)),
+                  Container(width: 1, height: 40, color: AppConstants.ugBlack.withValues(alpha: 0.1)),
                   Expanded(
                     child: _buildStatItem(
                       'Est. Payout',
@@ -249,7 +249,7 @@ class _EarnMoneyHeader extends StatelessWidget {
                       Icons.bolt_outlined,
                     ),
                   ),
-                  Container(width: 1, height: 40, color: AppConstants.ugWhite.withValues(alpha: 0.15)),
+                  Container(width: 1, height: 40, color: AppConstants.ugBlack.withValues(alpha: 0.1)),
                   Expanded(
                     child: _buildStatItem(
                       'Market Status',
@@ -314,7 +314,7 @@ class _EarnMoneyHeader extends StatelessWidget {
         Text(
           value,
           style: const TextStyle(
-            color: AppConstants.ugWhite,
+            color: AppConstants.ugBlack,
             fontSize: 13,
             fontWeight: FontWeight.w900,
           ),
@@ -323,7 +323,7 @@ class _EarnMoneyHeader extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
-            color: AppConstants.ugWhite.withValues(alpha: 0.5),
+            color: AppConstants.ugBlack.withValues(alpha: 0.6),
             fontSize: 10,
             fontWeight: FontWeight.w600,
           ),

@@ -109,12 +109,14 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
 
                 UrbanGoodzFeatureAssetImage(
                   assetPath: 'assets/image/urban_goodz_features/ask_urban_goodz.png',
-                  maxHeight: ResponsiveHelper.isDesktop(context) ? 360 : 220,
-                  fit: BoxFit.cover,
-                  aspectRatio: 16 / 9,
+                  maxHeight: ResponsiveHelper.isDesktop(context) ? 320 : 220,
+                  fit: BoxFit.contain,
+                  backgroundColor: Colors.transparent,
+                  hasBorder: false,
+                  padding: EdgeInsets.zero,
                   hasShadow: true,
                 ),
-
+ 
                 const SizedBox(height: Dimensions.paddingSizeLarge),
                 
                 // Welcome Hero Header Card
@@ -123,18 +125,18 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
                   padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [AppConstants.ugBlack, Color(0xFF2D241E)],
+                      colors: [Color(0xFFFAF7F2), AppConstants.canvas],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: AppConstants.seasoningOrange.withValues(alpha: 0.35),
+                      color: AppConstants.seasoningOrange.withValues(alpha: 0.5),
                       width: 1.5,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: AppConstants.ugBlack.withValues(alpha: 0.15),
+                        color: AppConstants.ugBlack.withValues(alpha: 0.05),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                       )
@@ -158,7 +160,7 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
                             'Your Local Lifestyle Concierge',
                             style: robotoBold.copyWith(
                               fontSize: Dimensions.fontSizeLarge,
-                              color: AppConstants.seasoningOrange,
+                              color: AppConstants.ugBlack,
                             ),
                           ),
                         ],
@@ -169,7 +171,7 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
                         style: robotoRegular.copyWith(
                           fontSize: Dimensions.fontSizeDefault,
                           height: 1.5,
-                          color: AppConstants.ugWhite.withValues(alpha: 0.8),
+                          color: AppConstants.ugBlack.withValues(alpha: 0.75),
                         ),
                       ),
                     ],

@@ -56,32 +56,34 @@ class UrbanGoodzPlusScreen extends StatelessWidget {
 
                 UrbanGoodzFeatureAssetImage(
                   assetPath: 'assets/image/urban_goodz_features/urban_goodz_plus.png',
-                  maxHeight: ResponsiveHelper.isDesktop(context) ? 360 : 220,
-                  fit: BoxFit.cover,
-                  aspectRatio: 16 / 9,
+                  maxHeight: ResponsiveHelper.isDesktop(context) ? 320 : 220,
+                  fit: BoxFit.contain,
+                  backgroundColor: Colors.transparent,
+                  hasBorder: false,
+                  padding: EdgeInsets.zero,
                   hasShadow: true,
                 ),
-
+ 
                 const SizedBox(height: Dimensions.paddingSizeLarge),
-
+ 
                 // Premium Dijon Accent Header Card
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [AppConstants.ugBlack, Color(0xFF232515)], // Custom dark-dijon blend
+                      colors: [Color(0xFFFAF9EE), Color(0xFFEFECC9)], // Custom light premium cream-dijon blend
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: const Color(0xFFE5E276).withValues(alpha: 0.5), // Dijon border accent
+                      color: const Color(0xFFE5E276).withValues(alpha: 0.8), // Dijon border accent
                       width: 1.5,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: AppConstants.ugBlack.withValues(alpha: 0.15),
+                        color: AppConstants.ugBlack.withValues(alpha: 0.05),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                       )
@@ -112,7 +114,7 @@ class UrbanGoodzPlusScreen extends StatelessWidget {
                           const Text(
                             'Unlock local perks with Urban Goodz+',
                             style: TextStyle(
-                              color: Color(0xFFE5E276),
+                              color: AppConstants.ugBlack,
                               fontWeight: FontWeight.w800,
                               fontSize: 12,
                             ),
@@ -125,7 +127,7 @@ class UrbanGoodzPlusScreen extends StatelessWidget {
                         style: robotoRegular.copyWith(
                           fontSize: Dimensions.fontSizeDefault,
                           height: 1.5,
-                          color: AppConstants.ugWhite.withValues(alpha: 0.85),
+                          color: AppConstants.ugBlack.withValues(alpha: 0.8),
                         ),
                       ),
                     ],

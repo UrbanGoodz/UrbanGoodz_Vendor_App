@@ -154,18 +154,18 @@ class UrbanGoodzHubScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [AppConstants.ugBlack, Color(0xFF2D241E)],
+                    colors: [Color(0xFFFAF7F2), AppConstants.canvas],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
                   border: Border.all(
-                    color: AppConstants.seasoningOrange.withValues(alpha: 0.35),
+                    color: AppConstants.seasoningOrange.withValues(alpha: 0.5),
                     width: 1.5,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: AppConstants.ugBlack.withValues(alpha: 0.15),
+                      color: AppConstants.ugBlack.withValues(alpha: 0.05),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     )
@@ -176,9 +176,8 @@ class UrbanGoodzHubScreen extends StatelessWidget {
                   children: [
                     UrbanGoodzFeatureAssetImage(
                       assetPath: _hubAssetPath,
-                      maxHeight: ResponsiveHelper.isDesktop(context) ? 320 : 220,
-                      fit: BoxFit.cover,
-                      aspectRatio: 16 / 9,
+                      maxHeight: ResponsiveHelper.isDesktop(context) ? 260 : 190,
+                      fit: BoxFit.contain,
                       backgroundColor: Colors.transparent,
                       hasBorder: false,
                       padding: EdgeInsets.zero,
@@ -207,7 +206,7 @@ class UrbanGoodzHubScreen extends StatelessWidget {
                           child: Text(
                             'One Platform. Unlimited Possibilities.',
                             style: TextStyle(
-                              color: AppConstants.canvas,
+                              color: AppConstants.ugBlack,
                               fontWeight: FontWeight.w700,
                               fontSize: 11,
                               letterSpacing: 0.5,
@@ -222,7 +221,7 @@ class UrbanGoodzHubScreen extends StatelessWidget {
                     const Text(
                       'Your Connection To Local Everything',
                       style: TextStyle(
-                        color: AppConstants.ugWhite,
+                        color: AppConstants.ugBlack,
                         fontSize: 20,
                         fontWeight: FontWeight.w900,
                         letterSpacing: -0.5,
@@ -232,7 +231,7 @@ class UrbanGoodzHubScreen extends StatelessWidget {
                     Text(
                       'Explore food, logistics, courier work, local events, rentals, and creators in one smart hub.',
                       style: TextStyle(
-                        color: AppConstants.ugWhite.withValues(alpha: 0.75),
+                        color: AppConstants.ugBlack.withValues(alpha: 0.75),
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         height: 1.35,

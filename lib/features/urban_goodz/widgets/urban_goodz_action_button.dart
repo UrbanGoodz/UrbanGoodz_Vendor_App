@@ -50,9 +50,9 @@ class UrbanGoodzActionButton extends StatelessWidget {
     final IconData? resolvedIcon = _resolveIconForLabel(label);
 
     final ButtonStyle style = ElevatedButton.styleFrom(
-      backgroundColor: isSecondary ? AppConstants.ugBlack : AppConstants.seasoningOrange,
+      backgroundColor: isSecondary ? Colors.transparent : AppConstants.seasoningOrange,
       foregroundColor: isSecondary ? AppConstants.seasoningOrange : AppConstants.ugBlack,
-      disabledBackgroundColor: AppConstants.ugBlack.withValues(alpha: 0.3),
+      disabledBackgroundColor: AppConstants.ugBlack.withValues(alpha: 0.1),
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
       elevation: isSecondary ? 0 : 3,
       shadowColor: AppConstants.ugBlack.withValues(alpha: 0.2),

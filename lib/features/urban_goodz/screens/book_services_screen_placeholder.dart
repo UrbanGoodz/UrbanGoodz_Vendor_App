@@ -99,7 +99,12 @@ class BookServicesScreen extends StatelessWidget {
 
           Expanded(
             child: GridView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault, vertical: Dimensions.paddingSizeSmall),
+              padding: const EdgeInsets.only(
+                left: Dimensions.paddingSizeDefault,
+                right: Dimensions.paddingSizeDefault,
+                top: Dimensions.paddingSizeSmall,
+                bottom: Dimensions.paddingSizeDefault + 80, // Safe bottom spacing
+              ),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 1.4,
