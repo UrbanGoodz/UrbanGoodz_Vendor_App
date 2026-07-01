@@ -5,11 +5,14 @@ class TailorServiceRequestScreen extends StatefulWidget {
   const TailorServiceRequestScreen({super.key});
 
   @override
-  State<TailorServiceRequestScreen> createState() => _TailorServiceRequestScreenState();
+  State<TailorServiceRequestScreen> createState() =>
+      _TailorServiceRequestScreenState();
 }
 
-class _TailorServiceRequestScreenState extends State<TailorServiceRequestScreen> {
-  final TextEditingController _specialInstructionsController = TextEditingController();
+class _TailorServiceRequestScreenState
+    extends State<TailorServiceRequestScreen> {
+  final TextEditingController _specialInstructionsController =
+      TextEditingController();
   String _selectedService = 'Alterations';
   DateTime? _eventDeadline;
 
@@ -49,7 +52,10 @@ class _TailorServiceRequestScreenState extends State<TailorServiceRequestScreen>
               const SizedBox(height: 8),
               Text(
                 'Preview how saved sizing data and photo references may be prepared for tailor/provider review. Live request submission is not connected yet.',
-                style: robotoRegular.copyWith(fontSize: 14, color: Colors.grey.shade700),
+                style: robotoRegular.copyWith(
+                  fontSize: 14,
+                  color: Colors.grey.shade700,
+                ),
               ),
               const SizedBox(height: 24),
 
@@ -65,14 +71,23 @@ class _TailorServiceRequestScreenState extends State<TailorServiceRequestScreen>
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 10,
+                  ),
                 ),
-                items: ['Bespoke Design / Tailoring', 'Alterations & Hemming', 'Uniform Fitting', 'Creator Merch Customization'].map((fit) {
-                  return DropdownMenuItem<String>(
-                    value: fit,
-                    child: Text(fit, style: robotoRegular),
-                  );
-                }).toList(),
+                items:
+                    [
+                      'Bespoke Design / Tailoring',
+                      'Alterations & Hemming',
+                      'Uniform Fitting',
+                      'Creator Merch Customization',
+                    ].map((fit) {
+                      return DropdownMenuItem<String>(
+                        value: fit,
+                        child: Text(fit, style: robotoRegular),
+                      );
+                    }).toList(),
                 onChanged: (val) {
                   if (val != null) {
                     setState(() {
@@ -104,7 +119,10 @@ class _TailorServiceRequestScreenState extends State<TailorServiceRequestScreen>
                   }
                 },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 14,
+                  ),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey.shade400),
                     borderRadius: BorderRadius.circular(8),
@@ -116,7 +134,10 @@ class _TailorServiceRequestScreenState extends State<TailorServiceRequestScreen>
                         _eventDeadline == null
                             ? 'Select Date'
                             : '${_eventDeadline!.year}-${_eventDeadline!.month}-${_eventDeadline!.day}',
-                        style: robotoRegular.copyWith(fontSize: 14, color: ugBlack),
+                        style: robotoRegular.copyWith(
+                          fontSize: 14,
+                          color: ugBlack,
+                        ),
                       ),
                       const Icon(Icons.calendar_month, color: ugOrange),
                     ],
@@ -143,12 +164,26 @@ class _TailorServiceRequestScreenState extends State<TailorServiceRequestScreen>
                         children: [
                           Text(
                             'Sizing Profile Linked',
-                            style: robotoBold.copyWith(fontSize: 14, color: ugBlack),
+                            style: robotoBold.copyWith(
+                              fontSize: 14,
+                              color: ugBlack,
+                            ),
                           ),
                           const SizedBox(height: 2),
                           Text(
                             'Your saved height, bust, waist, and sleeve measurements are shown as preview intake data for this request.',
-                            style: robotoRegular.copyWith(fontSize: 12, color: ugBlack.withValues(alpha: 0.8)),
+                            style: robotoRegular.copyWith(
+                              fontSize: 12,
+                              color: ugBlack.withValues(alpha: 0.8),
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            'Tester preview: measurement profile will attach to tailoring requests.',
+                            style: robotoBold.copyWith(
+                              fontSize: 12,
+                              color: ugOrange,
+                            ),
                           ),
                         ],
                       ),
@@ -168,7 +203,8 @@ class _TailorServiceRequestScreenState extends State<TailorServiceRequestScreen>
                 controller: _specialInstructionsController,
                 maxLines: 4,
                 decoration: InputDecoration(
-                  hintText: 'e.g. Broad shoulders, custom silk lining required, hem at ankles...',
+                  hintText:
+                      'e.g. Broad shoulders, custom silk lining required, hem at ankles...',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -185,7 +221,9 @@ class _TailorServiceRequestScreenState extends State<TailorServiceRequestScreen>
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Tailor request preview saved. Live provider submission is not connected yet.'),
+                        content: Text(
+                          'Tailor request preview saved. Live provider submission is not connected yet.',
+                        ),
                         backgroundColor: ugOrange,
                       ),
                     );
@@ -198,7 +236,10 @@ class _TailorServiceRequestScreenState extends State<TailorServiceRequestScreen>
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: Text('Preview Request Intake', style: robotoBold.copyWith(fontSize: 16)),
+                  child: Text(
+                    'Preview Request Intake',
+                    style: robotoBold.copyWith(fontSize: 16),
+                  ),
                 ),
               ),
             ],

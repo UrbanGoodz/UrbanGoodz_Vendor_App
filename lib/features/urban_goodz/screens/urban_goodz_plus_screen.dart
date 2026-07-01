@@ -14,8 +14,14 @@ class UrbanGoodzPlusScreen extends StatelessWidget {
     _MembershipBenefit(Icons.stars_outlined, 'Rewards points on every order'),
     _MembershipBenefit(Icons.local_offer_outlined, 'Member-only local deals'),
     _MembershipBenefit(Icons.key_outlined, 'Priority rental access'),
-    _MembershipBenefit(Icons.delivery_dining_outlined, 'Free or discounted delivery offers'),
-    _MembershipBenefit(Icons.storefront_outlined, 'Spotlight perks from local businesses'),
+    _MembershipBenefit(
+      Icons.delivery_dining_outlined,
+      'Free or discounted delivery offers',
+    ),
+    _MembershipBenefit(
+      Icons.storefront_outlined,
+      'Spotlight perks from local businesses',
+    ),
   ];
 
   @override
@@ -36,8 +42,12 @@ class UrbanGoodzPlusScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
-          left: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeLarge : Dimensions.paddingSizeDefault,
-          right: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeLarge : Dimensions.paddingSizeDefault,
+          left: ResponsiveHelper.isDesktop(context)
+              ? Dimensions.paddingSizeLarge
+              : Dimensions.paddingSizeDefault,
+          right: ResponsiveHelper.isDesktop(context)
+              ? Dimensions.paddingSizeLarge
+              : Dimensions.paddingSizeDefault,
           top: Dimensions.paddingSizeDefault,
           bottom: Dimensions.paddingSizeDefault + 80, // Safe bottom spacing
         ),
@@ -48,37 +58,45 @@ class UrbanGoodzPlusScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const UrbanGoodzPreviewBanner(
-                  message: 'Urban Goodz Plus is an exclusive membership club. Waitlist members get early access to beta zones and local premium perks.',
+                  message:
+                      'Urban Goodz Plus is an exclusive membership club. Waitlist members get early access to beta zones and local premium perks.',
                   icon: Icons.workspace_premium_outlined,
                 ),
 
                 const SizedBox(height: Dimensions.paddingSizeSmall),
 
                 UrbanGoodzFeatureAssetImage(
-                  assetPath: 'assets/image/urban_goodz_features/urban_goodz_plus.png',
-                  maxHeight: ResponsiveHelper.isDesktop(context) ? 320 : 220,
+                  assetPath:
+                      'assets/image/urban_goodz_features/urban_goodz_plus.png',
+                  maxHeight: ResponsiveHelper.isDesktop(context) ? 560 : 360,
                   fit: BoxFit.contain,
                   backgroundColor: Colors.transparent,
                   hasBorder: false,
                   padding: EdgeInsets.zero,
                   hasShadow: true,
+                  fillWidth: true,
                 ),
- 
+
                 const SizedBox(height: Dimensions.paddingSizeLarge),
- 
+
                 // Premium Dijon Accent Header Card
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [Color(0xFFFAF9EE), Color(0xFFEFECC9)], // Custom light premium cream-dijon blend
+                      colors: [
+                        Color(0xFFFAF9EE),
+                        Color(0xFFEFECC9),
+                      ], // Custom light premium cream-dijon blend
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: const Color(0xFFE5E276).withValues(alpha: 0.8), // Dijon border accent
+                      color: const Color(
+                        0xFFE5E276,
+                      ).withValues(alpha: 0.8), // Dijon border accent
                       width: 1.5,
                     ),
                     boxShadow: [
@@ -86,7 +104,7 @@ class UrbanGoodzPlusScreen extends StatelessWidget {
                         color: AppConstants.ugBlack.withValues(alpha: 0.05),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
-                      )
+                      ),
                     ],
                   ),
                   child: Column(
@@ -95,7 +113,10 @@ class UrbanGoodzPlusScreen extends StatelessWidget {
                       Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
                               color: const Color(0xFFE5E276), // Dijon
                               borderRadius: BorderRadius.circular(6),
@@ -133,9 +154,9 @@ class UrbanGoodzPlusScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                
+
                 const SizedBox(height: Dimensions.paddingSizeLarge),
-                
+
                 Text(
                   'Membership benefits',
                   style: robotoMedium.copyWith(
@@ -144,21 +165,30 @@ class UrbanGoodzPlusScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: Dimensions.paddingSizeSmall),
-                
+
                 Column(
                   children: _benefits.map((benefit) {
                     return Padding(
-                      padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
+                      padding: const EdgeInsets.only(
+                        bottom: Dimensions.paddingSizeSmall,
+                      ),
                       child: Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                        padding: const EdgeInsets.all(
+                          Dimensions.paddingSizeDefault,
+                        ),
                         decoration: BoxDecoration(
                           color: AppConstants.ugWhite,
                           borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: AppConstants.ugBlack.withValues(alpha: 0.08), width: 1),
+                          border: Border.all(
+                            color: AppConstants.ugBlack.withValues(alpha: 0.08),
+                            width: 1,
+                          ),
                           boxShadow: [
                             BoxShadow(
-                              color: AppConstants.ugBlack.withValues(alpha: 0.02),
+                              color: AppConstants.ugBlack.withValues(
+                                alpha: 0.02,
+                              ),
                               blurRadius: 10,
                               offset: const Offset(0, 4),
                             ),
@@ -167,14 +197,26 @@ class UrbanGoodzPlusScreen extends StatelessWidget {
                         child: Row(
                           children: [
                             Container(
-                              padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                              decoration: BoxDecoration(
-                                color: AppConstants.seasoningOrange.withValues(alpha: 0.12),
-                                borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
+                              padding: const EdgeInsets.all(
+                                Dimensions.paddingSizeSmall,
                               ),
-                              child: Icon(benefit.icon, color: AppConstants.seasoningOrange, size: 20),
+                              decoration: BoxDecoration(
+                                color: AppConstants.seasoningOrange.withValues(
+                                  alpha: 0.12,
+                                ),
+                                borderRadius: BorderRadius.circular(
+                                  Dimensions.radiusLarge,
+                                ),
+                              ),
+                              child: Icon(
+                                benefit.icon,
+                                color: AppConstants.seasoningOrange,
+                                size: 20,
+                              ),
                             ),
-                            const SizedBox(width: Dimensions.paddingSizeDefault),
+                            const SizedBox(
+                              width: Dimensions.paddingSizeDefault,
+                            ),
                             Expanded(
                               child: Text(
                                 benefit.title,
@@ -190,9 +232,9 @@ class UrbanGoodzPlusScreen extends StatelessWidget {
                     );
                   }).toList(),
                 ),
-                
+
                 const SizedBox(height: Dimensions.paddingSizeLarge),
-                
+
                 SizedBox(
                   width: double.infinity,
                   child: UrbanGoodzActionButton(

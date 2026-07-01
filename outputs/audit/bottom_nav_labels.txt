@@ -1,0 +1,41 @@
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\common\widgets\code_picker_widget.dart:11: final List<String>? Favorite;
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\common\widgets\code_picker_widget.dart:45: this.Favorite = const [],
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\common\widgets\code_picker_widget.dart:84: List<CountryCode>? FavoriteElements = [];
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\common\widgets\code_picker_widget.dart:153: FavoriteElements = elements!.where((e) =>
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\common\widgets\code_picker_widget.dart:154: widget.Favorite!.firstWhereOrNull((f) =>
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\common\widgets\code_picker_widget.dart:176: FavoriteElements!,
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\common\widgets\code_picker_widget.dart:214: FavoriteElements!,
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\common\widgets\custom_text_field.dart:200: Favorite: [widget.countryDialCode ?? ''],
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\common\widgets\item_bottom_sheet.dart:368: wishList.wishItemIdList.contains(item.id) ? Icons.Favorite : Icons.Favorite_border,
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\common\widgets\item_shimmer.dart:74: Icons.Favorite_border,  size: desktop ? 30 : 25,
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\common\widgets\item_view.dart:141: child: Icon(Icons.Favorite_border, color: Theme.of(context).primaryColor, size: 20),
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\features\address\screens\address_screen.dart:163: bottomNavigationBar: widget.fromDashboard ? Container(height: GetPlatform.isIOS ? 80 : 65) : const SizedBox(),
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\features\home\widgets\popular_store_view.dart:118: isWished ? Icons.Favorite : Icons.Favorite_border,  size: 15,
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\features\home\widgets\views\best_reviewed_item_view.dart:132: child: Icon(Icons.Favorite, size: 20, color: Theme.of(context).cardColor),
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\features\home\widgets\views\best_store_nearby_view.dart:511: child: Icon(Icons.Favorite_border, color: Theme.of(context).primaryColor, size: 20),
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\features\home\widgets\views\best_store_nearby_view.dart:657: Icon(Icons.Favorite_border, color: Theme.of(context).disabledColor, size: 20),
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\features\home\widgets\web\web_best_review_item_view_widget.dart:204: child: Icon(Icons.Favorite, size: 20, color: Theme.of(context).cardColor),
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\features\home\widgets\web\web_new_on_mart_view_widget.dart:399: Icons.Favorite_border,  size: 20,
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\features\home\widgets\web\web_new_on_view_widget.dart:181: child: Icon(Icons.Favorite_border, color: Theme.of(context).shadowColor, size: 20),
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\features\home\widgets\web\web_top_offers_near_me.dart:537: Icons.Favorite_border,  size: 20,
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\features\item\widgets\item_image_view_widget.dart:152: favouriteController.wishItemIdList.contains(item!.id) ? Icons.Favorite : Icons.Favorite_border, size: 25,
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\features\item\widgets\item_title_view_widget.dart:240: favouriteController.wishItemIdList.contains(itemController.item!.id) ? Icons.Favorite : Icons.Favorite_border, size: 25,
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\features\search\screens\search_screen.dart:422: bottomNavigationBar: GetBuilder<CartController>(builder: (cartController) {
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\features\store\screens\store_item_search_screen.dart:118: bottomNavigationBar: GetBuilder<CartController>(builder: (cartController) {
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\features\store\screens\store_screen.dart:324: isWished ? Icons.Favorite : Icons.Favorite_border,
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\features\store\screens\store_screen.dart:898: bottomNavigationBar: GetBuilder<CartController>(builder: (cartController) {
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\features\store\widgets\store_description_view_widget.dart:100: Icon(isWished ? Icons.Favorite : Icons.Favorite_border, color: Colors.white, size: 14),
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\features\store\widgets\store_description_view_widget.dart:107: isWished ? Icons.Favorite : Icons.Favorite_border,
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\features\store\widgets\store_details_screen_shimmer_widget.dart:101: Icon(Icons.Favorite_border, size: 25, color: Theme.of(context).shadowColor),
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\features\store\widgets\store_details_screen_shimmer_widget.dart:253: Icon(Icons.Favorite_border, size: 25, color: Theme.of(context).shadowColor),
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\features\store\widgets\store_details_screen_shimmer_widget.dart:335: const Icon(Icons.Favorite_border, size: 25),
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\util\app_constants.dart:337: static const String getFavoriteServiceList = '/api/v1/service/customer/service/Favorite/service-list';
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\util\app_constants.dart:338: static const String removeFavoriteService = "/api/v1/service/customer/service/Favorite/service-delete";
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\util\app_constants.dart:339: static const String updateFavoriteServiceStatus = "/api/v1/service/customer/service/Favorite/service";
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\util\app_constants.dart:340: static const String getFavoriteProviderList = '/api/v1/service/customer/provider/Favorite/provider-list';
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\util\app_constants.dart:341: static const String removeFavoriteProvider = "/api/v1/service/customer/provider/Favorite/provider-destroy";
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\util\app_constants.dart:342: static const String updateFavoriteProviderStatus = "/api/v1/service/customer/provider/Favorite/provider";
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\util\images.dart:369: static const String favoriteProvider = 'assets/image/service/Favorite_provider.png';
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\util\images.dart:370: static const String FavoriteService = 'assets/image/service/Favorite_service.png';
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\util\images.dart:371: static const String Favorite = 'assets/image/service/Favorite.png';
+C:\Users\D'Andre Good\Documents\GitHub\UrbanGoodz2026-Revised\lib\util\images.dart:372: static const String unFavorite = 'assets/image/service/unfavorite.png';

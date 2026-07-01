@@ -5,14 +5,27 @@ class ProviderMeasurementReviewScreen extends StatefulWidget {
   const ProviderMeasurementReviewScreen({super.key});
 
   @override
-  State<ProviderMeasurementReviewScreen> createState() => _ProviderMeasurementReviewScreenState();
+  State<ProviderMeasurementReviewScreen> createState() =>
+      _ProviderMeasurementReviewScreenState();
 }
 
-class _ProviderMeasurementReviewScreenState extends State<ProviderMeasurementReviewScreen> {
-  final TextEditingController _chestController = TextEditingController(text: '40.0');
-  final TextEditingController _waistController = TextEditingController(text: '34.0');
-  final TextEditingController _hipsController = TextEditingController(text: '42.0');
-  final TextEditingController _adjustedNotesController = TextEditingController();
+class _ProviderMeasurementReviewScreenState
+    extends State<ProviderMeasurementReviewScreen> {
+  final TextEditingController _chestController = TextEditingController(
+    text: '40.0',
+  );
+  final TextEditingController _waistController = TextEditingController(
+    text: '34.0',
+  );
+  final TextEditingController _hipsController = TextEditingController(
+    text: '42.0',
+  );
+  final TextEditingController _adjustedNotesController =
+      TextEditingController();
+  final TextEditingController _vendorReviewFeeController =
+      TextEditingController(text: '10.00');
+  bool _vendorReviewFeeEnabled = true;
+  bool _includedWithTailoringOrder = false;
 
   @override
   void dispose() {
@@ -20,6 +33,7 @@ class _ProviderMeasurementReviewScreenState extends State<ProviderMeasurementRev
     _waistController.dispose();
     _hipsController.dispose();
     _adjustedNotesController.dispose();
+    _vendorReviewFeeController.dispose();
     super.dispose();
   }
 
@@ -53,7 +67,134 @@ class _ProviderMeasurementReviewScreenState extends State<ProviderMeasurementRev
               const SizedBox(height: 8),
               Text(
                 'Customer height reference: 70 inches. Adjust estimated values below based on reference front/side photos.',
-                style: robotoRegular.copyWith(fontSize: 13, color: Colors.grey.shade700),
+                style: robotoRegular.copyWith(
+                  fontSize: 13,
+                  color: Colors.grey.shade700,
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: ugCanvas.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: ugOrange.withValues(alpha: 0.25)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Tester Preview Status',
+                      style: robotoBold.copyWith(fontSize: 14, color: ugBlack),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      'Customer request/order reference: Preview request #UG-FIT-1001',
+                      style: robotoRegular.copyWith(
+                        fontSize: 12,
+                        color: ugBlack.withValues(alpha: 0.8),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Photo-assisted status: Needs tailor review',
+                      style: robotoRegular.copyWith(
+                        fontSize: 12,
+                        color: ugBlack.withValues(alpha: 0.8),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: ugOrange.withValues(alpha: 0.25)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Vendor Review Fee Controls',
+                      style: robotoBold.copyWith(fontSize: 14, color: ugBlack),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      'Tester preview: vendor/tailor can price the measurement review service. Backend save and payment gating are not connected here.',
+                      style: robotoRegular.copyWith(
+                        fontSize: 12,
+                        color: ugBlack.withValues(alpha: 0.75),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    SwitchListTile(
+                      value: _vendorReviewFeeEnabled,
+                      dense: true,
+                      contentPadding: EdgeInsets.zero,
+                      activeThumbColor: ugOrange,
+                      title: Text(
+                        'Paid tailor measurement review',
+                        style: robotoBold.copyWith(
+                          fontSize: 13,
+                          color: ugBlack,
+                        ),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          _vendorReviewFeeEnabled = value;
+                        });
+                      },
+                    ),
+                    SwitchListTile(
+                      value: _includedWithTailoringOrder,
+                      dense: true,
+                      contentPadding: EdgeInsets.zero,
+                      activeThumbColor: ugOrange,
+                      title: Text(
+                        'Included with tailoring order',
+                        style: robotoBold.copyWith(
+                          fontSize: 13,
+                          color: ugBlack,
+                        ),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          _includedWithTailoringOrder = value;
+                          if (value) {
+                            _vendorReviewFeeEnabled = false;
+                          }
+                        });
+                      },
+                    ),
+                    TextField(
+                      controller: _vendorReviewFeeController,
+                      enabled:
+                          _vendorReviewFeeEnabled &&
+                          !_includedWithTailoringOrder,
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: 'Tailor review fee',
+                        prefixText: '\$',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 10,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 20),
 
@@ -73,7 +214,13 @@ class _ProviderMeasurementReviewScreenState extends State<ProviderMeasurementRev
                         children: [
                           const Icon(Icons.portrait, color: ugOrange, size: 36),
                           const SizedBox(height: 8),
-                          Text('Front Reference Photo', style: robotoBold.copyWith(fontSize: 12, color: ugBlack)),
+                          Text(
+                            'Front Reference Photo',
+                            style: robotoBold.copyWith(
+                              fontSize: 12,
+                              color: ugBlack,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -90,13 +237,35 @@ class _ProviderMeasurementReviewScreenState extends State<ProviderMeasurementRev
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.directions_run, color: ugOrange, size: 36),
+                          const Icon(
+                            Icons.directions_run,
+                            color: ugOrange,
+                            size: 36,
+                          ),
                           const SizedBox(height: 8),
-                          Text('Side Reference Photo', style: robotoBold.copyWith(fontSize: 12, color: ugBlack)),
+                          Text(
+                            'Side Reference Photo',
+                            style: robotoBold.copyWith(
+                              fontSize: 12,
+                              color: ugBlack,
+                            ),
+                          ),
                         ],
                       ),
                     ),
                   ),
+                ],
+              ),
+              const SizedBox(height: 24),
+
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: const [
+                  _StatusChip(label: 'Needs more info'),
+                  _StatusChip(label: 'Accepted'),
+                  _StatusChip(label: 'Adjusted by tailor'),
+                  _StatusChip(label: 'Ready to quote'),
                 ],
               ),
               const SizedBox(height: 24),
@@ -121,7 +290,8 @@ class _ProviderMeasurementReviewScreenState extends State<ProviderMeasurementRev
                 controller: _adjustedNotesController,
                 maxLines: 3,
                 decoration: InputDecoration(
-                  hintText: 'e.g. Adjusted chest to 40.5 after posture photo review...',
+                  hintText:
+                      'e.g. Adjusted chest to 40.5 after posture photo review...',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -136,7 +306,11 @@ class _ProviderMeasurementReviewScreenState extends State<ProviderMeasurementRev
                     child: OutlinedButton(
                       onPressed: () {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Requested Clarification from Customer.')),
+                          const SnackBar(
+                            content: Text(
+                              'Requested Clarification from Customer.',
+                            ),
+                          ),
                         );
                         Navigator.pop(context);
                       },
@@ -149,7 +323,10 @@ class _ProviderMeasurementReviewScreenState extends State<ProviderMeasurementRev
                       ),
                       child: Text(
                         'Request Fitting Session',
-                        style: robotoBold.copyWith(color: ugOrange, fontSize: 13),
+                        style: robotoBold.copyWith(
+                          color: ugOrange,
+                          fontSize: 13,
+                        ),
                       ),
                     ),
                   ),
@@ -159,7 +336,9 @@ class _ProviderMeasurementReviewScreenState extends State<ProviderMeasurementRev
                       onPressed: () {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('Measurement review preview saved. No live invoice was sent.'),
+                            content: Text(
+                              'Measurement review preview saved. No live invoice was sent.',
+                            ),
                             backgroundColor: ugOrange,
                           ),
                         );
@@ -206,16 +385,46 @@ class _ProviderMeasurementReviewScreenState extends State<ProviderMeasurementRev
             flex: 3,
             child: TextField(
               controller: controller,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _StatusChip extends StatelessWidget {
+  final String label;
+
+  const _StatusChip({required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    const Color ugOrange = Color(0xFFED9914);
+    const Color ugBlack = Color(0xFF161616);
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+      decoration: BoxDecoration(
+        color: ugOrange.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: ugOrange.withValues(alpha: 0.35)),
+      ),
+      child: Text(
+        label,
+        style: robotoBold.copyWith(fontSize: 11, color: ugBlack),
       ),
     );
   }

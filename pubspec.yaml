@@ -103,6 +103,7 @@ flutter:
     - assets/image/service/
     - assets/image/urban_goodz_modules/
     - assets/image/urban_goodz_hero/
+    - assets/image/urban_goodz_features/
     - assets/language/
     - assets/map/
     - assets/json/

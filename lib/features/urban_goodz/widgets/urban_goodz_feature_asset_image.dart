@@ -14,6 +14,7 @@ class UrbanGoodzFeatureAssetImage extends StatelessWidget {
   final Color? backgroundColor;
   final bool hasBorder;
   final bool hasShadow;
+  final bool fillWidth;
 
   const UrbanGoodzFeatureAssetImage({
     super.key,
@@ -28,6 +29,7 @@ class UrbanGoodzFeatureAssetImage extends StatelessWidget {
     this.backgroundColor,
     this.hasBorder = true,
     this.hasShadow = false,
+    this.fillWidth = false,
   });
 
   @override
@@ -44,13 +46,12 @@ class UrbanGoodzFeatureAssetImage extends StatelessWidget {
     );
 
     if (aspectRatio != null) {
-      image = AspectRatio(
-        aspectRatio: aspectRatio!,
-        child: image,
-      );
+      image = AspectRatio(aspectRatio: aspectRatio!, child: image);
     }
 
-    if (maxHeight != null) {
+    if (fillWidth && maxHeight != null && aspectRatio == null) {
+      image = SizedBox(width: double.infinity, height: maxHeight, child: image);
+    } else if (maxHeight != null) {
       image = ConstrainedBox(
         constraints: BoxConstraints(maxHeight: maxHeight!),
         child: image,
@@ -58,7 +59,7 @@ class UrbanGoodzFeatureAssetImage extends StatelessWidget {
     }
 
     Widget container = Container(
-      width: width,
+      width: fillWidth ? double.infinity : width,
       margin: margin,
       padding: padding,
       decoration: BoxDecoration(
@@ -76,13 +77,15 @@ class UrbanGoodzFeatureAssetImage extends StatelessWidget {
                   color: AppConstants.ugBlack.withValues(alpha: 0.1),
                   blurRadius: 8,
                   offset: const Offset(0, 3),
-                )
+                ),
               ]
             : null,
       ),
       child: image,
     );
 
-    return width == double.infinity ? container : Center(child: container);
+    return (width == double.infinity || fillWidth)
+        ? container
+        : Center(child: container);
   }
 }

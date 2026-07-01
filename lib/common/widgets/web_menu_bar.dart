@@ -10,6 +10,7 @@ import 'package:sixam_mart/features/language/controllers/language_controller.dar
 import 'package:sixam_mart/features/location/controllers/location_controller.dart';
 import 'package:sixam_mart/common/controllers/theme_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
+import 'package:sixam_mart/features/store/controllers/store_controller.dart';
 import 'package:sixam_mart/helper/address_helper.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
@@ -275,7 +276,13 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
           child: Center(child: SizedBox(width: Dimensions.webMaxWidth, child: Row(children: [
 
             InkWell(
-              onTap: () => Get.toNamed(RouteHelper.getInitialRoute()),
+              onTap: () {
+                if (Get.find<SplashController>().module != null && Get.find<SplashController>().configModel!.module == null && Get.find<SplashController>().moduleList != null && Get.find<SplashController>().moduleList!.length != 1) {
+                  Get.find<SplashController>().removeModule();
+                  Get.find<StoreController>().resetStoreData();
+                }
+                Get.toNamed(RouteHelper.getInitialRoute());
+              },
               child: Image.asset(Images.logo, width: 100, height: 50),
             ),
 
@@ -285,13 +292,16 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
             Row(
               children: [
                 MenuButton(title: 'home'.tr, onTap: () {
-                  // if(AddressHelper.getUserAddressFromSharedPref() != null) {
-                    Get.toNamed(RouteHelper.getInitialRoute());
-                    Get.find<ItemController>().resetFilters(isPopular: false, isSpecial: false);
-                    Get.find<ItemController>().clearSearch();
-                    Get.find<ItemController>().getPopularItemList(offset: '1', dataSource: DataSourceEnum.client);
-                    Get.find<ItemController>().getDiscountedItemList(offset: '1', dataSource: DataSourceEnum.client);
-                    Get.find<ItemController>().getReviewedItemList(offset: '1', dataSource: DataSourceEnum.client);
+                  if (Get.find<SplashController>().module != null && Get.find<SplashController>().configModel!.module == null && Get.find<SplashController>().moduleList != null && Get.find<SplashController>().moduleList!.length != 1) {
+                    Get.find<SplashController>().removeModule();
+                    Get.find<StoreController>().resetStoreData();
+                  }
+                  Get.toNamed(RouteHelper.getInitialRoute());
+                  Get.find<ItemController>().resetFilters(isPopular: false, isSpecial: false);
+                  Get.find<ItemController>().clearSearch();
+                  Get.find<ItemController>().getPopularItemList(offset: '1', dataSource: DataSourceEnum.client);
+                  Get.find<ItemController>().getDiscountedItemList(offset: '1', dataSource: DataSourceEnum.client);
+                  Get.find<ItemController>().getReviewedItemList(offset: '1', dataSource: DataSourceEnum.client);
                   // } else {
                   //   showCustomSnackBar('please_select_address_first'.tr,);
                   // }

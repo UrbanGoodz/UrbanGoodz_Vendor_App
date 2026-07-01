@@ -63,14 +63,8 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
         'title': 'Show rentals available today',
         'route': RouteHelper.getInitialRoute(moduleId: AppConstants.taxi),
       },
-      {
-        'title': 'Find local deals under \$25',
-        'query': 'deals under 25',
-      },
-      {
-        'title': 'Help me discover events nearby',
-        'query': 'events near me',
-      },
+      {'title': 'Find local deals under \$25', 'query': 'deals under 25'},
+      {'title': 'Help me discover events nearby', 'query': 'events near me'},
     ];
 
     return Scaffold(
@@ -89,8 +83,12 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
-          left: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeLarge : Dimensions.paddingSizeDefault,
-          right: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeLarge : Dimensions.paddingSizeDefault,
+          left: ResponsiveHelper.isDesktop(context)
+              ? Dimensions.paddingSizeLarge
+              : Dimensions.paddingSizeDefault,
+          right: ResponsiveHelper.isDesktop(context)
+              ? Dimensions.paddingSizeLarge
+              : Dimensions.paddingSizeDefault,
           top: Dimensions.paddingSizeDefault,
           bottom: Dimensions.paddingSizeDefault + 80, // Safe bottom spacing
         ),
@@ -101,24 +99,27 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const UrbanGoodzPreviewBanner(
-                  message: 'This is an interactive AI concierge preview. Type any query to match local suppliers, logistics, or services.',
+                  message:
+                      'This is an interactive AI concierge preview. Type any query to match local suppliers, logistics, or services.',
                   icon: Icons.auto_awesome_outlined,
                 ),
-                
+
                 const SizedBox(height: Dimensions.paddingSizeSmall),
 
                 UrbanGoodzFeatureAssetImage(
-                  assetPath: 'assets/image/urban_goodz_features/ask_urban_goodz.png',
-                  maxHeight: ResponsiveHelper.isDesktop(context) ? 320 : 220,
+                  assetPath:
+                      'assets/image/urban_goodz_features/ask_urban_goodz.png',
+                  maxHeight: ResponsiveHelper.isDesktop(context) ? 560 : 360,
                   fit: BoxFit.contain,
                   backgroundColor: Colors.transparent,
                   hasBorder: false,
                   padding: EdgeInsets.zero,
                   hasShadow: true,
+                  fillWidth: true,
                 ),
- 
+
                 const SizedBox(height: Dimensions.paddingSizeLarge),
-                
+
                 // Welcome Hero Header Card
                 Container(
                   width: double.infinity,
@@ -131,7 +132,9 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
                     ),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: AppConstants.seasoningOrange.withValues(alpha: 0.5),
+                      color: AppConstants.seasoningOrange.withValues(
+                        alpha: 0.5,
+                      ),
                       width: 1.5,
                     ),
                     boxShadow: [
@@ -139,7 +142,7 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
                         color: AppConstants.ugBlack.withValues(alpha: 0.05),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
-                      )
+                      ),
                     ],
                   ),
                   child: Column(
@@ -150,10 +153,16 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
                           Container(
                             padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
-                              color: AppConstants.seasoningOrange.withValues(alpha: 0.2),
+                              color: AppConstants.seasoningOrange.withValues(
+                                alpha: 0.2,
+                              ),
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(Icons.auto_awesome, color: AppConstants.seasoningOrange, size: 20),
+                            child: const Icon(
+                              Icons.auto_awesome,
+                              color: AppConstants.seasoningOrange,
+                              size: 20,
+                            ),
                           ),
                           const SizedBox(width: 10),
                           Text(
@@ -177,9 +186,9 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
                     ],
                   ),
                 ),
-                
+
                 const SizedBox(height: Dimensions.paddingSizeLarge),
-                
+
                 // Smart Glowing Search Container
                 Container(
                   width: double.infinity,
@@ -188,12 +197,16 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
                     color: AppConstants.ugWhite,
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: AppConstants.seasoningOrange.withValues(alpha: 0.4),
+                      color: AppConstants.seasoningOrange.withValues(
+                        alpha: 0.4,
+                      ),
                       width: 1.5,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: AppConstants.seasoningOrange.withValues(alpha: 0.1),
+                        color: AppConstants.seasoningOrange.withValues(
+                          alpha: 0.1,
+                        ),
                         blurRadius: 12,
                         offset: const Offset(0, 4),
                       ),
@@ -202,21 +215,30 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
                   child: Row(
                     children: [
                       const SizedBox(width: 8),
-                      const Icon(Icons.search, color: AppConstants.seasoningOrange, size: 24),
+                      const Icon(
+                        Icons.search,
+                        color: AppConstants.seasoningOrange,
+                        size: 24,
+                      ),
                       const SizedBox(width: Dimensions.paddingSizeSmall),
                       Expanded(
                         child: TextField(
                           controller: _searchController,
                           enabled: !_isProcessing,
                           decoration: InputDecoration(
-                            hintText: 'Ask about food, shops, rentals, events...',
+                            hintText:
+                                'Ask about food, shops, rentals, events...',
                             hintStyle: robotoRegular.copyWith(
                               fontSize: Dimensions.fontSizeDefault,
-                              color: AppConstants.ugBlack.withValues(alpha: 0.4),
+                              color: AppConstants.ugBlack.withValues(
+                                alpha: 0.4,
+                              ),
                             ),
                             border: InputBorder.none,
                             isDense: true,
-                            contentPadding: const EdgeInsets.symmetric(vertical: 8),
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 8,
+                            ),
                           ),
                           onSubmitted: (value) => _handleSearch(value),
                           style: robotoRegular.copyWith(
@@ -237,22 +259,28 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
                             )
                           : UrbanGoodzActionButton(
                               label: 'Ask',
-                              onPressed: () => _handleSearch(_searchController.text),
+                              onPressed: () =>
+                                  _handleSearch(_searchController.text),
                             ),
                     ],
                   ),
                 ),
-                
+
                 if (_isProcessing) ...[
                   const SizedBox(height: Dimensions.paddingSizeSmall),
                   Padding(
-                    padding: const EdgeInsets.only(left: Dimensions.paddingSizeSmall),
+                    padding: const EdgeInsets.only(
+                      left: Dimensions.paddingSizeSmall,
+                    ),
                     child: Row(
                       children: [
                         const SizedBox(
                           height: 12,
                           width: 12,
-                          child: CircularProgressIndicator(strokeWidth: 1.5, color: AppConstants.seasoningOrange),
+                          child: CircularProgressIndicator(
+                            strokeWidth: 1.5,
+                            color: AppConstants.seasoningOrange,
+                          ),
                         ),
                         const SizedBox(width: 8),
                         Text(
@@ -266,9 +294,9 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
                     ),
                   ),
                 ],
-                
+
                 const SizedBox(height: Dimensions.paddingSizeLarge),
-                
+
                 Text(
                   'Quick options',
                   style: robotoMedium.copyWith(
@@ -277,27 +305,39 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
                   ),
                 ),
                 const SizedBox(height: Dimensions.paddingSizeSmall),
-                
+
                 Wrap(
                   spacing: Dimensions.paddingSizeSmall,
                   runSpacing: Dimensions.paddingSizeSmall,
                   children: quickOptions.map((option) {
                     return ActionChip(
-                      label: Text(option, style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
+                      label: Text(
+                        option,
+                        style: robotoRegular.copyWith(
+                          fontSize: Dimensions.fontSizeSmall,
+                        ),
+                      ),
                       backgroundColor: AppConstants.ugWhite,
-                      side: const BorderSide(color: AppConstants.seasoningOrange, width: 1.2),
-                      labelStyle: robotoBold.copyWith(color: AppConstants.ugBlack),
+                      side: const BorderSide(
+                        color: AppConstants.seasoningOrange,
+                        width: 1.2,
+                      ),
+                      labelStyle: robotoBold.copyWith(
+                        color: AppConstants.ugBlack,
+                      ),
                       elevation: 1,
-                      onPressed: _isProcessing ? null : () {
-                        _searchController.text = option;
-                        _handleSearch(option);
-                      },
+                      onPressed: _isProcessing
+                          ? null
+                          : () {
+                              _searchController.text = option;
+                              _handleSearch(option);
+                            },
                     );
                   }).toList(),
                 ),
-                
+
                 const SizedBox(height: Dimensions.paddingSizeLarge),
-                
+
                 Text(
                   'Guided prompts',
                   style: robotoMedium.copyWith(
@@ -306,31 +346,45 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
                   ),
                 ),
                 const SizedBox(height: Dimensions.paddingSizeSmall),
-                
+
                 Column(
                   children: guidedPrompts.map((prompt) {
                     final String? assetPath = prompt['asset'] as String?;
                     return Padding(
-                      padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
+                      padding: const EdgeInsets.only(
+                        bottom: Dimensions.paddingSizeSmall,
+                      ),
                       child: GestureDetector(
-                        onTap: _isProcessing ? null : () {
-                          if (prompt['route'] != null) {
-                            Get.toNamed(prompt['route'] as String);
-                          } else if (prompt['query'] != null) {
-                            _searchController.text = prompt['query'] as String;
-                            _handleSearch(prompt['query'] as String);
-                          }
-                        },
+                        onTap: _isProcessing
+                            ? null
+                            : () {
+                                if (prompt['route'] != null) {
+                                  Get.toNamed(prompt['route'] as String);
+                                } else if (prompt['query'] != null) {
+                                  _searchController.text =
+                                      prompt['query'] as String;
+                                  _handleSearch(prompt['query'] as String);
+                                }
+                              },
                         child: Container(
                           width: double.infinity,
-                          padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                          padding: const EdgeInsets.all(
+                            Dimensions.paddingSizeDefault,
+                          ),
                           decoration: BoxDecoration(
                             color: AppConstants.ugWhite,
                             borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: AppConstants.ugBlack.withValues(alpha: 0.08), width: 1),
+                            border: Border.all(
+                              color: AppConstants.ugBlack.withValues(
+                                alpha: 0.08,
+                              ),
+                              width: 1,
+                            ),
                             boxShadow: [
                               BoxShadow(
-                                color: AppConstants.ugBlack.withValues(alpha: 0.02),
+                                color: AppConstants.ugBlack.withValues(
+                                  alpha: 0.02,
+                                ),
                                 blurRadius: 10,
                                 offset: const Offset(0, 4),
                               ),
@@ -342,22 +396,38 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
                               if (assetPath != null) ...[
                                 UrbanGoodzFeatureAssetImage(
                                   assetPath: assetPath,
-                                  maxHeight: 240,
+                                  maxHeight: ResponsiveHelper.isDesktop(context)
+                                      ? 460
+                                      : 320,
+                                  fillWidth: true,
                                 ),
-                                const SizedBox(height: Dimensions.paddingSizeDefault),
+                                const SizedBox(
+                                  height: Dimensions.paddingSizeDefault,
+                                ),
                               ],
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Container(
-                                    padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                                    decoration: BoxDecoration(
-                                      color: AppConstants.seasoningOrange.withValues(alpha: 0.12),
-                                      borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
+                                    padding: const EdgeInsets.all(
+                                      Dimensions.paddingSizeSmall,
                                     ),
-                                    child: const Icon(Icons.lightbulb_outline, color: AppConstants.seasoningOrange, size: 20),
+                                    decoration: BoxDecoration(
+                                      color: AppConstants.seasoningOrange
+                                          .withValues(alpha: 0.12),
+                                      borderRadius: BorderRadius.circular(
+                                        Dimensions.radiusLarge,
+                                      ),
+                                    ),
+                                    child: const Icon(
+                                      Icons.lightbulb_outline,
+                                      color: AppConstants.seasoningOrange,
+                                      size: 20,
+                                    ),
                                   ),
-                                  const SizedBox(width: Dimensions.paddingSizeDefault),
+                                  const SizedBox(
+                                    width: Dimensions.paddingSizeDefault,
+                                  ),
                                   Expanded(
                                     child: Text(
                                       prompt['title'] as String,
@@ -367,7 +437,13 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
                                       ),
                                     ),
                                   ),
-                                  Icon(Icons.arrow_forward_ios, size: 14, color: AppConstants.ugBlack.withValues(alpha: 0.4)),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 14,
+                                    color: AppConstants.ugBlack.withValues(
+                                      alpha: 0.4,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ],

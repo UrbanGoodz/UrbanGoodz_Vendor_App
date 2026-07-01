@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/features/urban_goodz/widgets/urban_goodz_preview_banner.dart';
@@ -27,8 +28,21 @@ class CreatorCommerceScreen extends StatelessWidget {
     },
     {
       'title': 'Creator Campaigns',
-      'desc': 'Explore campaign concepts for promoting stores in your zip code.',
+      'desc':
+          'Explore campaign concepts for promoting stores in your zip code.',
       'metric': 'Estimated payout preview',
+    },
+    {
+      'title': 'Fashion Drops',
+      'desc':
+          'Preview vendor clothing drops, tailor showcases, and shoppable outfit reels.',
+      'metric': 'Fashion discovery preview',
+    },
+    {
+      'title': 'Measurement Education',
+      'desc':
+          'Creators and vendors can share public tips for preparing photo-assisted fit references.',
+      'metric': 'Private customer photos excluded',
     },
     {
       'title': 'Revenue Dashboard',
@@ -57,7 +71,8 @@ class CreatorCommerceScreen extends StatelessWidget {
       body: Column(
         children: [
           const UrbanGoodzPreviewBanner(
-            message: 'Preview - creator commerce features are not yet available. Shop tag integrations and local influencer networks are under development.',
+            message:
+                'Preview - creator commerce features are not yet available. Shop tag integrations and local influencer networks are under development.',
             icon: Icons.storefront_outlined,
           ),
 
@@ -69,7 +84,9 @@ class CreatorCommerceScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: AppConstants.ugWhite,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppConstants.seasoningOrange.withValues(alpha: 0.25)),
+                border: Border.all(
+                  color: AppConstants.seasoningOrange.withValues(alpha: 0.25),
+                ),
                 boxShadow: [
                   BoxShadow(
                     color: AppConstants.ugBlack.withValues(alpha: 0.03),
@@ -100,6 +117,62 @@ class CreatorCommerceScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 12),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: AppConstants.canvas.withValues(alpha: 0.35),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: AppConstants.seasoningOrange.withValues(
+                          alpha: 0.2,
+                        ),
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Fashion + Measurement Privacy Boundary',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w900,
+                            color: AppConstants.ugBlack,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          'Creator Space can show fashion drops, tailor showcases, before/after examples with approval, and measurement education. Private customer measurement photos are never posted to public feeds.',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: AppConstants.ugBlack.withValues(alpha: 0.72),
+                            height: 1.35,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: () => Get.toNamed(
+                        RouteHelper.getUrbanGoodzFashionMeasurementsRoute(),
+                      ),
+                      icon: const Icon(Icons.checkroom_outlined),
+                      label: const Text('Open Fashion Measurement Preview'),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: AppConstants.ugBlack,
+                        side: BorderSide(
+                          color: AppConstants.seasoningOrange.withValues(
+                            alpha: 0.65,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
                   SizedBox(
                     width: double.infinity,
                     child: UrbanGoodzActionButton(
@@ -110,7 +183,10 @@ class CreatorCommerceScreen extends StatelessWidget {
                           'Thank you! Your creator commerce application has been logged. We will notify you with storefront integration options soon!',
                           backgroundColor: AppConstants.seasoningOrange,
                           colorText: AppConstants.ugBlack,
-                          icon: const Icon(Icons.star, color: AppConstants.ugBlack),
+                          icon: const Icon(
+                            Icons.star,
+                            color: AppConstants.ugBlack,
+                          ),
                           duration: const Duration(seconds: 4),
                           margin: const EdgeInsets.all(16),
                         );
@@ -127,10 +203,12 @@ class CreatorCommerceScreen extends StatelessWidget {
               padding: const EdgeInsets.only(
                 left: Dimensions.paddingSizeDefault,
                 right: Dimensions.paddingSizeDefault,
-                bottom: Dimensions.paddingSizeDefault + 80, // Safe bottom spacing
+                bottom:
+                    Dimensions.paddingSizeDefault + 80, // Safe bottom spacing
               ),
               itemCount: _features.length,
-              separatorBuilder: (_, _) => const SizedBox(height: Dimensions.paddingSizeSmall),
+              separatorBuilder: (_, _) =>
+                  const SizedBox(height: Dimensions.paddingSizeSmall),
               itemBuilder: (context, index) {
                 final feat = _features[index];
                 return Container(
@@ -138,7 +216,9 @@ class CreatorCommerceScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: AppConstants.ugWhite,
                     borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: AppConstants.ugBlack.withValues(alpha: 0.08)),
+                    border: Border.all(
+                      color: AppConstants.ugBlack.withValues(alpha: 0.08),
+                    ),
                   ),
                   child: Row(
                     children: [
@@ -146,11 +226,21 @@ class CreatorCommerceScreen extends StatelessWidget {
                         width: 50,
                         height: 50,
                         decoration: BoxDecoration(
-                          color: AppConstants.seasoningOrange.withValues(alpha: 0.12),
+                          color: AppConstants.seasoningOrange.withValues(
+                            alpha: 0.12,
+                          ),
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: AppConstants.seasoningOrange.withValues(alpha: 0.2)),
+                          border: Border.all(
+                            color: AppConstants.seasoningOrange.withValues(
+                              alpha: 0.2,
+                            ),
+                          ),
                         ),
-                        child: const Icon(Icons.video_library_outlined, color: AppConstants.seasoningOrange, size: 24),
+                        child: const Icon(
+                          Icons.video_library_outlined,
+                          color: AppConstants.seasoningOrange,
+                          size: 24,
+                        ),
                       ),
                       const SizedBox(width: 14),
                       Expanded(
@@ -171,7 +261,9 @@ class CreatorCommerceScreen extends StatelessWidget {
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 12,
-                                color: AppConstants.ugBlack.withValues(alpha: 0.6),
+                                color: AppConstants.ugBlack.withValues(
+                                  alpha: 0.6,
+                                ),
                                 height: 1.35,
                               ),
                             ),
@@ -188,7 +280,10 @@ class CreatorCommerceScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 8),
-                      const UrbanGoodzStatusBadge(status: 'Preview', isCompact: true),
+                      const UrbanGoodzStatusBadge(
+                        status: 'Preview',
+                        isCompact: true,
+                      ),
                     ],
                   ),
                 );

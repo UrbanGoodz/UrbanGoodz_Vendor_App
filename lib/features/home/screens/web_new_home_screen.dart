@@ -94,7 +94,8 @@ class _WebNewHomeScreenState extends State<WebNewHomeScreen> {
             child: Center(
               child: SizedBox(width: Dimensions.webMaxWidth, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
-                const WebBannerSectionWidget(),
+                if (Get.find<SplashController>().module == null)
+                  const WebBannerSectionWidget(),
 
                 GetBuilder<CategoryController>(builder: (categoryController) {
                   return categoryController.categoryList == null ? WebCategoryViewWidget(categoryController: categoryController)

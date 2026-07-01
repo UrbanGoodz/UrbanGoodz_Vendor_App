@@ -11,6 +11,7 @@ import 'package:sixam_mart/helper/address_helper.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/helper/module_helper.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
+import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
 
@@ -110,16 +111,109 @@ class _DiscoveryNoResultsWidgetState extends State<DiscoveryNoResultsWidget> {
                 ),
                 if (_isSubmitted) ...[
                   const SizedBox(height: Dimensions.paddingSizeLarge),
-                  Center(
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.green.withValues(alpha: 0.1),
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.green.withValues(alpha: 0.3), width: 2),
-                      ),
-                      child: const Icon(Icons.check_circle_outline, color: Colors.green, size: 54),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.green.withValues(alpha: 0.08),
+                      borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
+                      border: Border.all(color: Colors.green.withValues(alpha: 0.25), width: 1),
                     ),
+                    child: Column(
+                      children: [
+                        const Icon(
+                          Icons.verified_outlined,
+                          color: Colors.green,
+                          size: 48,
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          'Demand Signal Registered',
+                          style: robotoBold.copyWith(
+                            fontSize: Dimensions.fontSizeLarge,
+                            color: _black,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Urban Goodz has saved your request.',
+                          style: robotoRegular.copyWith(
+                            fontSize: Dimensions.fontSizeSmall,
+                            color: _black.withValues(alpha: 0.6),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: Dimensions.paddingSizeLarge),
+                  
+                  // "What happens next?" section
+                  Text(
+                    'What Happens Next?',
+                    style: robotoBold.copyWith(
+                      color: _black,
+                      fontSize: Dimensions.fontSizeLarge,
+                    ),
+                  ),
+                  const SizedBox(height: Dimensions.paddingSizeDefault),
+                  
+                  // Timeline steps
+                  _buildTimelineStep(
+                    icon: Icons.check_circle,
+                    iconColor: Colors.green,
+                    title: 'Search Request Captured',
+                    description: 'Demand signal recorded in our system to prioritize local supplier sourcing.',
+                    isLast: false,
+                  ),
+                  _buildTimelineStep(
+                    icon: Icons.search,
+                    iconColor: _orange,
+                    title: 'Local Provider Matching',
+                    description: 'Our team analyzes local business catalogs & creator networks to match your needs.',
+                    isLast: false,
+                  ),
+                  _buildTimelineStep(
+                    icon: Icons.notifications_active_outlined,
+                    iconColor: _black.withValues(alpha: 0.5),
+                    title: 'Alert Notification',
+                    description: 'We will notify you via in-app alerts as soon as matched items are available.',
+                    isLast: true,
+                  ),
+                  
+                  const SizedBox(height: Dimensions.paddingSizeLarge),
+                  
+                  // Suggestion Chips / Next Actions
+                  Text(
+                    'Try other Urban Goodz services:',
+                    style: robotoMedium.copyWith(
+                      color: _black.withValues(alpha: 0.6),
+                      fontSize: Dimensions.fontSizeSmall,
+                    ),
+                  ),
+                  const SizedBox(height: Dimensions.paddingSizeSmall),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      ActionChip(
+                        backgroundColor: _orange.withValues(alpha: 0.12),
+                        side: BorderSide(color: _orange.withValues(alpha: 0.3)),
+                        label: Text('Open UG Hub', style: robotoBold.copyWith(color: _black, fontSize: 12)),
+                        onPressed: () => Get.offNamed(RouteHelper.getUrbanGoodzHubRoute()),
+                      ),
+                      ActionChip(
+                        backgroundColor: _black.withValues(alpha: 0.05),
+                        side: BorderSide(color: _black.withValues(alpha: 0.15)),
+                        label: Text('Ask UG AI', style: robotoBold.copyWith(color: _black, fontSize: 12)),
+                        onPressed: () => Get.offNamed(RouteHelper.getUrbanGoodzAIRoute()),
+                      ),
+                      ActionChip(
+                        backgroundColor: _black.withValues(alpha: 0.05),
+                        side: BorderSide(color: _black.withValues(alpha: 0.15)),
+                        label: Text('Back to Home', style: robotoBold.copyWith(color: _black, fontSize: 12)),
+                        onPressed: () => Get.offAllNamed(RouteHelper.getInitialRoute()),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: Dimensions.paddingSizeLarge),
                 ],
@@ -381,5 +475,55 @@ class _DiscoveryNoResultsWidgetState extends State<DiscoveryNoResultsWidget> {
 
   bool _hasAny(String value, List<String> needles) {
     return needles.any(value.contains);
+  }
+
+  Widget _buildTimelineStep({
+    required IconData icon,
+    required Color iconColor,
+    required String title,
+    required String description,
+    required bool isLast,
+  }) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                color: iconColor.withValues(alpha: 0.12),
+                shape: BoxShape.circle,
+                border: Border.all(color: iconColor.withValues(alpha: 0.3), width: 1),
+              ),
+              child: Icon(icon, color: iconColor, size: 16),
+            ),
+            if (!isLast)
+              Container(
+                width: 2,
+                height: 36,
+                color: iconColor.withValues(alpha: 0.2),
+              ),
+          ],
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: robotoBold.copyWith(fontSize: 14, color: _black),
+              ),
+              const SizedBox(height: 3),
+              Text(
+                description,
+                style: robotoRegular.copyWith(fontSize: 12, color: _black.withValues(alpha: 0.6), height: 1.3),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

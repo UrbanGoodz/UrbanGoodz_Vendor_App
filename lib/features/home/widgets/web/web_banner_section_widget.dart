@@ -7,34 +7,87 @@ import 'package:sixam_mart/features/home/widgets/web/web_new_banner_view_widget.
 import 'package:sixam_mart/features/home/widgets/web/web_recomanded_store_view_widget.dart';
 import 'package:sixam_mart/features/store/controllers/store_controller.dart';
 import 'package:sixam_mart/util/dimensions.dart';
+
 class WebBannerSectionWidget extends StatelessWidget {
   const WebBannerSectionWidget({super.key});
 
+  bool get _isTesterPreviewHost {
+    final String host = Uri.base.host.toLowerCase();
+    return host == 'test.urbangoodzdelivery.com' ||
+        host == 'localhost' ||
+        host == '127.0.0.1';
+  }
+
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<BannerController>(builder: (bannerController) {
-      return GetBuilder<StoreController>(builder: (storeController) {
-        return GetBuilder<FlashSaleController>(builder: (flashController) {
-          bool isFlashSaleActive = (flashController.flashSaleModel?.activeProducts != null && flashController.flashSaleModel!.activeProducts!.isNotEmpty);
-          bool showBanner = bannerController.bannerImageList == null || bannerController.bannerImageList!.isNotEmpty;
-          bool showRightSide = isFlashSaleActive || storeController.recommendedStoreList == null || storeController.recommendedStoreList!.isNotEmpty;
+    return GetBuilder<BannerController>(
+      builder: (bannerController) {
+        return GetBuilder<StoreController>(
+          builder: (storeController) {
+            return GetBuilder<FlashSaleController>(
+              builder: (flashController) {
+                if (_isTesterPreviewHost) {
+                  return const Padding(
+                    padding: EdgeInsets.only(
+                      top: Dimensions.paddingSizeDefault,
+                    ),
+                    child: WebNewBannerViewWidget(isFeatured: true),
+                  );
+                }
 
-          return (showBanner || showRightSide) ? Row(crossAxisAlignment : CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.start, children: [
-            if(showBanner) Expanded(
-              flex: 3,
-              child: bannerController.bannerImageList == null ?  const WebNewBannerViewWidget(isFeatured: false)
-                  : WebNewBannerViewWidget(isFeatured: false, bannerHeight: showRightSide ? 350 : 400),
-            ),
+                bool isFlashSaleActive =
+                    (flashController.flashSaleModel?.activeProducts != null &&
+                    flashController.flashSaleModel!.activeProducts!.isNotEmpty);
+                bool showBanner =
+                    bannerController.bannerImageList == null ||
+                    bannerController.bannerImageList!.isNotEmpty;
+                bool showRightSide =
+                    isFlashSaleActive ||
+                    storeController.recommendedStoreList == null ||
+                    storeController.recommendedStoreList!.isNotEmpty;
 
-            if(showBanner && showRightSide) const SizedBox(width: Dimensions.paddingSizeDefault),
+                return (showBanner || showRightSide)
+                    ? Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          if (showBanner)
+                            Expanded(
+                              flex: 3,
+                              child: bannerController.bannerImageList == null
+                                  ? const WebNewBannerViewWidget(
+                                      isFeatured: false,
+                                    )
+                                  : WebNewBannerViewWidget(
+                                      isFeatured: false,
+                                      bannerHeight: showRightSide ? 350 : 400,
+                                    ),
+                            ),
 
-            if(showRightSide) Expanded(
-              flex: 1,
-              child: isFlashSaleActive ? WebFlashSaleViewWidget(showBanner: showBanner) : WebRecommendedStoreView(showingBanner: showBanner),
-            ),
-          ]) : const SizedBox();
-        });
-      });
-    });
+                          if (showBanner && showRightSide)
+                            const SizedBox(
+                              width: Dimensions.paddingSizeDefault,
+                            ),
+
+                          if (showRightSide)
+                            Expanded(
+                              flex: 1,
+                              child: isFlashSaleActive
+                                  ? WebFlashSaleViewWidget(
+                                      showBanner: showBanner,
+                                    )
+                                  : WebRecommendedStoreView(
+                                      showingBanner: showBanner,
+                                    ),
+                            ),
+                        ],
+                      )
+                    : const SizedBox();
+              },
+            );
+          },
+        );
+      },
+    );
   }
 }

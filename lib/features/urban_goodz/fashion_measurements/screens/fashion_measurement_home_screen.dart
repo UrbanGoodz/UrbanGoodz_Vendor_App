@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/features/urban_goodz/widgets/urban_goodz_preview_banner.dart';
 import 'measurement_profile_screen.dart';
@@ -35,7 +36,8 @@ class FashionMeasurementHomeScreen extends StatelessWidget {
             children: [
               // Preview Banner
               const UrbanGoodzPreviewBanner(
-                message: 'Create a preview fit profile for fashion, tailoring, uniforms, creator merchandise, and local apparel services.',
+                message:
+                    'Create a preview fit profile for fashion, tailoring, uniforms, creator merchandise, and local apparel services.',
               ),
               const SizedBox(height: 12),
 
@@ -62,7 +64,10 @@ class FashionMeasurementHomeScreen extends StatelessWidget {
                     const SizedBox(height: 8),
                     Text(
                       'Create a preview fit profile for fashion, tailoring, uniforms, creator merchandise, and local apparel services.',
-                      style: robotoRegular.copyWith(fontSize: 14, color: ugBlack.withValues(alpha: 0.8)),
+                      style: robotoRegular.copyWith(
+                        fontSize: 14,
+                        color: ugBlack.withValues(alpha: 0.8),
+                      ),
                     ),
                   ],
                 ),
@@ -120,6 +125,48 @@ class FashionMeasurementHomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 24),
 
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: ugCanvas.withValues(alpha: 0.25),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: ugOrange.withValues(alpha: 0.25)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Creator Space Fashion Education',
+                      style: robotoBold.copyWith(fontSize: 15, color: ugBlack),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      'Browse public fashion drops, tailor showcases, and measurement prep tips. Private customer measurement photos stay out of Creator Space and public feeds.',
+                      style: robotoRegular.copyWith(
+                        fontSize: 12,
+                        color: ugBlack.withValues(alpha: 0.78),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    OutlinedButton.icon(
+                      onPressed: () => Get.toNamed(
+                        RouteHelper.getUrbanGoodzCreatorCommerceRoute(),
+                      ),
+                      icon: const Icon(Icons.storefront_outlined),
+                      label: const Text('Open Creator Fashion Content'),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: ugBlack,
+                        side: BorderSide(
+                          color: ugOrange.withValues(alpha: 0.65),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+
               // Safety Banner
               Container(
                 padding: const EdgeInsets.all(16),
@@ -138,12 +185,18 @@ class FashionMeasurementHomeScreen extends StatelessWidget {
                         children: [
                           Text(
                             'Photo-Assisted Disclaimer',
-                            style: robotoBold.copyWith(fontSize: 14, color: ugBlack),
+                            style: robotoBold.copyWith(
+                              fontSize: 14,
+                              color: ugBlack,
+                            ),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             'Measurement photos are intended only to help tailors estimate fit. This tester preview does not verify production storage, privacy, or measurement accuracy yet.',
-                            style: robotoRegular.copyWith(fontSize: 12, color: ugBlack.withValues(alpha: 0.8)),
+                            style: robotoRegular.copyWith(
+                              fontSize: 12,
+                              color: ugBlack.withValues(alpha: 0.8),
+                            ),
                           ),
                         ],
                       ),
@@ -197,7 +250,10 @@ class FashionMeasurementHomeScreen extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               subtitle,
-              style: robotoRegular.copyWith(fontSize: 11, color: Colors.grey.shade600),
+              style: robotoRegular.copyWith(
+                fontSize: 11,
+                color: Colors.grey.shade600,
+              ),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
