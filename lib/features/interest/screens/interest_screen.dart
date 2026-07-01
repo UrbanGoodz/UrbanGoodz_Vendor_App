@@ -53,7 +53,7 @@ class _InterestScreenState extends State<InterestScreen> {
                     itemCount: categoryController.categoryList!.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: ResponsiveHelper.isDesktop(context) ? 4 : ResponsiveHelper.isTab(context) ? 3 : 2,
-                      childAspectRatio: (1/0.35),
+                      childAspectRatio: (1/0.52),
                     ),
                     itemBuilder: (context, index) {
                       return InkWell(
@@ -61,7 +61,7 @@ class _InterestScreenState extends State<InterestScreen> {
                         child: Container(
                           margin: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
                           padding: const EdgeInsets.symmetric(
-                            vertical: Dimensions.paddingSizeExtraSmall, horizontal: Dimensions.paddingSizeSmall,
+                            vertical: Dimensions.paddingSizeSmall, horizontal: Dimensions.paddingSizeSmall,
                           ),
                           decoration: BoxDecoration(
                             color: categoryController.interestSelectedList![index] ? Theme.of(context).primaryColor
@@ -71,18 +71,28 @@ class _InterestScreenState extends State<InterestScreen> {
                           ),
                           alignment: Alignment.center,
                           child: Row(children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                              child: CustomImage(
-                                image: '${categoryController.categoryList![index].imageFullUrl}',
-                                height: 30, width: 30,
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                                border: Border.all(
+                                  color: Colors.grey.shade300,
+                                  width: 1,
+                                ),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(Dimensions.radiusDefault - 1),
+                                child: CustomImage(
+                                  image: '${categoryController.categoryList![index].imageFullUrl}',
+                                  height: 48, width: 48,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
-                            const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                            const SizedBox(width: Dimensions.paddingSizeSmall),
                             Flexible(child: Text(
                               categoryController.categoryList![index].name!,
-                              style: robotoMedium.copyWith(
-                                fontSize: Dimensions.fontSizeSmall,
+                              style: robotoBold.copyWith(
+                                fontSize: Dimensions.fontSizeDefault,
                                 color: categoryController.interestSelectedList![index] ? Theme.of(context).cardColor
                                     : Theme.of(context).textTheme.bodyLarge!.color,
                               ),

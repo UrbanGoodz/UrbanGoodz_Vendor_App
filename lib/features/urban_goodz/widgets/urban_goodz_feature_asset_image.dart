@@ -15,6 +15,8 @@ class UrbanGoodzFeatureAssetImage extends StatelessWidget {
   final bool hasBorder;
   final bool hasShadow;
   final bool fillWidth;
+  final bool expandContainToWidth;
+  final AlignmentGeometry alignment;
 
   const UrbanGoodzFeatureAssetImage({
     super.key,
@@ -30,6 +32,8 @@ class UrbanGoodzFeatureAssetImage extends StatelessWidget {
     this.hasBorder = true,
     this.hasShadow = false,
     this.fillWidth = false,
+    this.expandContainToWidth = true,
+    this.alignment = Alignment.center,
   });
 
   @override
@@ -40,7 +44,10 @@ class UrbanGoodzFeatureAssetImage extends StatelessWidget {
       borderRadius: BorderRadius.circular(radius),
       child: Image.asset(
         assetPath,
-        fit: fit,
+        fit: (fillWidth && fit == BoxFit.contain && expandContainToWidth)
+            ? BoxFit.fitWidth
+            : fit,
+        alignment: alignment,
         filterQuality: FilterQuality.high,
       ),
     );

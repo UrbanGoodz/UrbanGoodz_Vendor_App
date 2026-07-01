@@ -104,6 +104,7 @@ flutter:
     - assets/image/urban_goodz_modules/
     - assets/image/urban_goodz_hero/
     - assets/image/urban_goodz_features/
+    - assets/image/urban_goodz_features/hub_thumbnails/
     - assets/language/
     - assets/map/
     - assets/json/
