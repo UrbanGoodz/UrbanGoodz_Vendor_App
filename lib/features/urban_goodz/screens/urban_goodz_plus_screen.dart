@@ -5,6 +5,7 @@ import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/features/urban_goodz/widgets/urban_goodz_preview_banner.dart';
 import 'package:sixam_mart/features/urban_goodz/widgets/urban_goodz_action_button.dart';
+import 'package:sixam_mart/features/urban_goodz/widgets/urban_goodz_feature_asset_image.dart';
 
 class UrbanGoodzPlusScreen extends StatelessWidget {
   const UrbanGoodzPlusScreen({super.key});
@@ -34,9 +35,11 @@ class UrbanGoodzPlusScreen extends StatelessWidget {
         elevation: 0,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(
-          horizontal: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeLarge : Dimensions.paddingSizeDefault,
-          vertical: Dimensions.paddingSizeDefault,
+        padding: EdgeInsets.only(
+          left: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeLarge : Dimensions.paddingSizeDefault,
+          right: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeLarge : Dimensions.paddingSizeDefault,
+          top: Dimensions.paddingSizeDefault,
+          bottom: Dimensions.paddingSizeDefault + 80, // Safe bottom spacing
         ),
         child: Center(
           child: ConstrainedBox(
@@ -50,6 +53,16 @@ class UrbanGoodzPlusScreen extends StatelessWidget {
                 ),
 
                 const SizedBox(height: Dimensions.paddingSizeSmall),
+
+                UrbanGoodzFeatureAssetImage(
+                  assetPath: 'assets/image/urban_goodz_features/urban_goodz_plus.png',
+                  maxHeight: ResponsiveHelper.isDesktop(context) ? 360 : 220,
+                  fit: BoxFit.cover,
+                  aspectRatio: 16 / 9,
+                  hasShadow: true,
+                ),
+
+                const SizedBox(height: Dimensions.paddingSizeLarge),
 
                 // Premium Dijon Accent Header Card
                 Container(

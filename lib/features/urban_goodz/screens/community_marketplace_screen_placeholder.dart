@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/features/urban_goodz/widgets/urban_goodz_preview_banner.dart';
@@ -123,7 +124,17 @@ class CommunityMarketplaceScreen extends StatelessWidget {
                     width: double.infinity,
                     child: UrbanGoodzActionButton(
                       label: 'Join Marketplace Waitlist',
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.snackbar(
+                          'Waitlist Confirmed',
+                          'You have been added to the Community Marketplace waitlist. We will notify you once neighbor-to-neighbor trading rolls out in your zone!',
+                          backgroundColor: AppConstants.seasoningOrange,
+                          colorText: AppConstants.ugBlack,
+                          icon: const Icon(Icons.verified, color: AppConstants.ugBlack),
+                          duration: const Duration(seconds: 4),
+                          margin: const EdgeInsets.all(16),
+                        );
+                      },
                     ),
                   ),
                 ],
@@ -133,7 +144,11 @@ class CommunityMarketplaceScreen extends StatelessWidget {
 
           Expanded(
             child: ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
+              padding: const EdgeInsets.only(
+                left: Dimensions.paddingSizeDefault,
+                right: Dimensions.paddingSizeDefault,
+                bottom: Dimensions.paddingSizeDefault + 80, // Safe bottom spacing
+              ),
               itemCount: _items.length,
               separatorBuilder: (_, _) => const SizedBox(height: Dimensions.paddingSizeSmall),
               itemBuilder: (context, index) {

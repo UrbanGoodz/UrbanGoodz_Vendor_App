@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/features/urban_goodz/widgets/urban_goodz_preview_banner.dart';
@@ -103,7 +104,17 @@ class CreatorCommerceScreen extends StatelessWidget {
                     width: double.infinity,
                     child: UrbanGoodzActionButton(
                       label: 'Apply as Urban Goodz Creator',
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.snackbar(
+                          'Application Received',
+                          'Thank you! Your creator commerce application has been logged. We will notify you with storefront integration options soon!',
+                          backgroundColor: AppConstants.seasoningOrange,
+                          colorText: AppConstants.ugBlack,
+                          icon: const Icon(Icons.star, color: AppConstants.ugBlack),
+                          duration: const Duration(seconds: 4),
+                          margin: const EdgeInsets.all(16),
+                        );
+                      },
                     ),
                   ),
                 ],
@@ -113,7 +124,11 @@ class CreatorCommerceScreen extends StatelessWidget {
 
           Expanded(
             child: ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
+              padding: const EdgeInsets.only(
+                left: Dimensions.paddingSizeDefault,
+                right: Dimensions.paddingSizeDefault,
+                bottom: Dimensions.paddingSizeDefault + 80, // Safe bottom spacing
+              ),
               itemCount: _features.length,
               separatorBuilder: (_, _) => const SizedBox(height: Dimensions.paddingSizeSmall),
               itemBuilder: (context, index) {

@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
+import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/features/urban_goodz/widgets/urban_goodz_status_badge.dart';
 import 'package:sixam_mart/features/urban_goodz/widgets/urban_goodz_action_button.dart';
+import 'package:sixam_mart/features/urban_goodz/widgets/urban_goodz_feature_asset_image.dart';
 
 class UrbanGoodzHubScreen extends StatelessWidget {
   const UrbanGoodzHubScreen({super.key});
+
+  static const String _hubAssetPath = 'assets/image/urban_goodz_features/urban_goodz_hub.png';
+  static const String _plusAssetPath = 'assets/image/urban_goodz_features/urban_goodz_plus.png';
+  static const String _askAssetPath = 'assets/image/urban_goodz_features/ask_urban_goodz.png';
 
   static final List<_UrbanGoodzHubTab> _tabs = [
     _UrbanGoodzHubTab(
@@ -99,6 +105,7 @@ class UrbanGoodzHubScreen extends StatelessWidget {
       route: RouteHelper.getUrbanGoodzAIRoute(),
       icon: Icons.auto_awesome_outlined,
       marketInsight: 'AI Assistant ready',
+      assetPath: _askAssetPath,
     ),
     _UrbanGoodzHubTab(
       label: 'UG+',
@@ -109,6 +116,7 @@ class UrbanGoodzHubScreen extends StatelessWidget {
       route: RouteHelper.getUrbanGoodzPlusRoute(),
       icon: Icons.workspace_premium_outlined,
       marketInsight: 'Premium waitlist open',
+      assetPath: _plusAssetPath,
     ),
   ];
 
@@ -166,6 +174,16 @@ class UrbanGoodzHubScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    UrbanGoodzFeatureAssetImage(
+                      assetPath: _hubAssetPath,
+                      maxHeight: ResponsiveHelper.isDesktop(context) ? 320 : 220,
+                      fit: BoxFit.cover,
+                      aspectRatio: 16 / 9,
+                      backgroundColor: Colors.transparent,
+                      hasBorder: false,
+                      padding: EdgeInsets.zero,
+                    ),
+                    const SizedBox(height: Dimensions.paddingSizeDefault),
                     Row(
                       children: [
                         Container(
@@ -279,9 +297,15 @@ class _UrbanGoodzHubPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isWide = MediaQuery.of(context).size.width >= 720;
+    final double paddingVal = isWide ? Dimensions.paddingSizeExtraLarge : Dimensions.paddingSizeDefault;
 
     return SingleChildScrollView(
-      padding: EdgeInsets.all(isWide ? Dimensions.paddingSizeExtraLarge : Dimensions.paddingSizeDefault),
+      padding: EdgeInsets.only(
+        left: paddingVal,
+        right: paddingVal,
+        top: paddingVal,
+        bottom: paddingVal + 80, // Safe bottom spacing
+      ),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 600),
@@ -333,6 +357,13 @@ class _UrbanGoodzHubPanel extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: Dimensions.paddingSizeLarge),
+                  if (tab.assetPath != null) ...[
+                    UrbanGoodzFeatureAssetImage(
+                      assetPath: tab.assetPath!,
+                      maxHeight: isWide ? 320 : 240,
+                    ),
+                    const SizedBox(height: Dimensions.paddingSizeLarge),
+                  ],
                   Text(
                     tab.title,
                     style: const TextStyle(
@@ -413,6 +444,7 @@ class _UrbanGoodzHubTab {
   final String route;
   final IconData icon;
   final String marketInsight;
+  final String? assetPath;
 
   const _UrbanGoodzHubTab({
     required this.label,
@@ -423,5 +455,6 @@ class _UrbanGoodzHubTab {
     required this.route,
     required this.icon,
     required this.marketInsight,
+    this.assetPath,
   });
 }

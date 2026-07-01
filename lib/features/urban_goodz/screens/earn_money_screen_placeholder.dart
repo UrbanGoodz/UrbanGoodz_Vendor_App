@@ -130,7 +130,12 @@ class EarnMoneyScreen extends StatelessWidget {
           }
 
           return ListView.separated(
-            padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+            padding: const EdgeInsets.only(
+              left: Dimensions.paddingSizeDefault,
+              right: Dimensions.paddingSizeDefault,
+              top: Dimensions.paddingSizeDefault,
+              bottom: Dimensions.paddingSizeDefault + 80, // Safe bottom spacing
+            ),
             itemCount: opportunities.length + 1,
             separatorBuilder: (_, _) => const SizedBox(height: Dimensions.paddingSizeDefault),
             itemBuilder: (context, index) {

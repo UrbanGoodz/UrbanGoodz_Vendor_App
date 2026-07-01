@@ -42,6 +42,7 @@ import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/features/urban_goodz/widgets/urban_goodz_status_badge.dart';
+import 'package:sixam_mart/features/urban_goodz/widgets/urban_goodz_feature_asset_image.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/images.dart';
 import 'package:sixam_mart/util/styles.dart';
@@ -516,27 +517,14 @@ class _HomeScreenState extends State<HomeScreen> {
             boxShadow: [BoxShadow(color: Theme.of(context).shadowColor.withValues(alpha: 0.08), blurRadius: 12, offset: const Offset(0, 5))],
           ),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: AppConstants.canvas,
-                borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                border: Border.all(
-                  color: AppConstants.seasoningOrange.withValues(alpha: 0.22),
-                ),
-              ),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxHeight: 320),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                  child: Image.asset(
-                    'assets/image/urban_goodz_features/rentals_near_you.png',
-                    fit: BoxFit.contain,
-                    filterQuality: FilterQuality.high,
-                  ),
-                ),
-              ),
+            UrbanGoodzFeatureAssetImage(
+              assetPath: 'assets/image/urban_goodz_features/rentals_near_you.png',
+              maxHeight: ResponsiveHelper.isDesktop(context) ? 220 : 170,
+              fit: BoxFit.contain,
+              aspectRatio: 16 / 9,
+              backgroundColor: Colors.transparent,
+              hasBorder: false,
+              padding: EdgeInsets.zero,
             ),
             const SizedBox(height: Dimensions.paddingSizeDefault),
             Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
@@ -863,7 +851,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ))),
                   ) : const SliverToBoxAdapter(),
 
-                  if (!showMobileModule && !isTaxi && !isRide) ...[
+                  if (splashController.module == null && !showMobileModule && !isTaxi && !isRide) ...[
                     SliverToBoxAdapter(child: _buildAIConciergeCard(context)),
                     SliverToBoxAdapter(child: _buildOrderAnywhereCard(context)),
                     SliverToBoxAdapter(child: _buildMembershipCard(context)),
