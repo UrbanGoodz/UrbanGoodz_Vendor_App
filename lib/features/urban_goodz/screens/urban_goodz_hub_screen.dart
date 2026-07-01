@@ -118,6 +118,16 @@ class UrbanGoodzHubScreen extends StatelessWidget {
       marketInsight: 'Premium waitlist open',
       assetPath: _plusAssetPath,
     ),
+    _UrbanGoodzHubTab(
+      label: 'Fashion Fit',
+      title: 'Fashion Fit & Measurements',
+      description: 'Create a tester preview fit profile for fashion, tailoring, uniforms, creator merchandise, and local apparel services.',
+      status: 'Preview',
+      buttonLabel: 'Open Fashion Fit',
+      route: RouteHelper.getUrbanGoodzFashionMeasurementsRoute(),
+      icon: Icons.checkroom_outlined,
+      marketInsight: 'Measurement intake preview',
+    ),
   ];
 
   @override

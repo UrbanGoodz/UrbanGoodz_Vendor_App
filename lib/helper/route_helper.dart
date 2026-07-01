@@ -105,6 +105,7 @@ import 'package:sixam_mart/features/urban_goodz/screens/book_services_screen_pla
 import 'package:sixam_mart/features/urban_goodz/screens/community_marketplace_screen_placeholder.dart';
 import 'package:sixam_mart/features/urban_goodz/screens/creator_commerce_screen_placeholder.dart';
 import 'package:sixam_mart/features/urban_goodz/screens/urban_goodz_hub_screen.dart';
+import 'package:sixam_mart/features/urban_goodz/fashion_measurements/screens/fashion_measurement_home_screen.dart';
 import 'package:sixam_mart/features/order_anywhere/screens/order_anywhere_request_screen.dart';
 import 'package:sixam_mart/features/order_anywhere/screens/order_anywhere_review_screen.dart';
 import 'package:sixam_mart/features/order_anywhere/screens/order_anywhere_status_screen.dart';
@@ -141,6 +142,7 @@ class RouteHelper {
   static const String urbanGoodzBookServices = '/urban-goodz-book-services';
   static const String urbanGoodzCommunityMarketplace = '/urban-goodz-community-marketplace';
   static const String urbanGoodzCreatorCommerce = '/urban-goodz-creator-commerce';
+  static const String urbanGoodzFashionMeasurements = '/urban-goodz-fashion-measurements';
   static const String orderAnywhereRequest = '/order-anywhere-request';
   static const String orderAnywhereReview = '/order-anywhere-review';
   static const String orderAnywhereStatus = '/order-anywhere-status';
@@ -268,6 +270,7 @@ class RouteHelper {
   static String getUrbanGoodzBookServicesRoute() => urbanGoodzBookServices;
   static String getUrbanGoodzCommunityMarketplaceRoute() => urbanGoodzCommunityMarketplace;
   static String getUrbanGoodzCreatorCommerceRoute() => urbanGoodzCreatorCommerce;
+  static String getUrbanGoodzFashionMeasurementsRoute() => urbanGoodzFashionMeasurements;
   static String getOrderAnywhereRequestRoute() => orderAnywhereRequest;
   static String getOrderAnywhereReviewRoute() => orderAnywhereReview;
   static String getOrderAnywhereStatusRoute(String requestId) => '$orderAnywhereStatus?requestId=$requestId';
@@ -529,6 +532,7 @@ class RouteHelper {
     GetPage(name: urbanGoodzBookServices, page: () => const BookServicesScreen()),
     GetPage(name: urbanGoodzCommunityMarketplace, page: () => const CommunityMarketplaceScreen()),
     GetPage(name: urbanGoodzCreatorCommerce, page: () => const CreatorCommerceScreen()),
+    GetPage(name: urbanGoodzFashionMeasurements, page: () => const FashionMeasurementHomeScreen()),
     GetPage(name: orderAnywhereRequest, page: () => const OrderAnywhereRequestScreen()),
     GetPage(name: orderAnywhereReview, page: () => const OrderAnywhereReviewScreen()),
     GetPage(name: orderAnywhereStatus, page: () => OrderAnywhereStatusScreen(requestId: Get.parameters['requestId'] ?? '')),

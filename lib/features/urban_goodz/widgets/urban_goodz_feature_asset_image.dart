@@ -6,6 +6,7 @@ class UrbanGoodzFeatureAssetImage extends StatelessWidget {
   final String assetPath;
   final double? aspectRatio;
   final double? maxHeight;
+  final double? width;
   final BoxFit fit;
   final double? borderRadius;
   final EdgeInsetsGeometry padding;
@@ -19,6 +20,7 @@ class UrbanGoodzFeatureAssetImage extends StatelessWidget {
     required this.assetPath,
     this.aspectRatio,
     this.maxHeight,
+    this.width,
     this.fit = BoxFit.contain,
     this.borderRadius = 18.0,
     this.padding = const EdgeInsets.all(8),
@@ -55,8 +57,8 @@ class UrbanGoodzFeatureAssetImage extends StatelessWidget {
       );
     }
 
-    return Container(
-      width: double.infinity,
+    Widget container = Container(
+      width: width,
       margin: margin,
       padding: padding,
       decoration: BoxDecoration(
@@ -80,5 +82,7 @@ class UrbanGoodzFeatureAssetImage extends StatelessWidget {
       ),
       child: image,
     );
+
+    return width == double.infinity ? container : Center(child: container);
   }
 }

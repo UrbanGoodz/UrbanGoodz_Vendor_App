@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sixam_mart/util/app_constants.dart';
+import 'package:sixam_mart/features/urban_goodz/widgets/urban_goodz_status_badge.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:sixam_mart/common/controllers/theme_controller.dart';
 import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
@@ -235,33 +237,145 @@ class _MenuScreenState extends State<MenuScreen> {
 
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: Dimensions.paddingSizeDefault, right: Dimensions.paddingSizeDefault),
-                  child: Text(
-                    'Urban Goodz',
-                    style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).disabledColor),
+                  padding: const EdgeInsets.only(left: Dimensions.paddingSizeDefault, right: Dimensions.paddingSizeDefault, top: Dimensions.paddingSizeSmall),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: AppConstants.seasoningOrange,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: const Text(
+                          'URBAN GOODZ',
+                          style: TextStyle(
+                            color: AppConstants.ugBlack,
+                            fontWeight: FontWeight.w900,
+                            fontSize: 9,
+                            letterSpacing: 1.0,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Your Connection To Local Everything',
+                        style: robotoMedium.copyWith(
+                          fontSize: Dimensions.fontSizeSmall, 
+                          color: Theme.of(context).disabledColor,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
 
                 Container(
                   decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
-                    borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                    boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
+                    gradient: const LinearGradient(
+                      colors: [AppConstants.ugBlack, Color(0xFF2D241E)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
+                    border: Border.all(
+                      color: AppConstants.seasoningOrange.withValues(alpha: 0.35),
+                      width: 1.5,
+                    ),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black26, 
+                        blurRadius: 10, 
+                        offset: Offset(0, 4),
+                      )
+                    ],
                   ),
                   padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge, vertical: Dimensions.paddingSizeDefault),
                   margin: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                   child: Column(children: [
-                    PortionWidget(icon: Images.storeIcon, title: 'Urban Goodz Hub', route: RouteHelper.getUrbanGoodzHubRoute()),
-                    PortionWidget(icon: Images.dmIcon, title: 'Earn Money', route: RouteHelper.getUrbanGoodzEarnMoneyRoute()),
-                    PortionWidget(icon: Images.dmIcon, title: 'Logistics', route: RouteHelper.getUrbanGoodzLogisticsRoute()),
-                    PortionWidget(icon: Images.dmIcon, title: 'Load Board', route: RouteHelper.getUrbanGoodzLoadBoardRoute()),
-                    PortionWidget(icon: Images.dmIcon, title: 'Medical Courier', route: RouteHelper.getUrbanGoodzMedicalCourierRoute()),
-                    PortionWidget(icon: Images.storeIcon, title: 'Book Services', route: RouteHelper.getUrbanGoodzBookServicesRoute()),
-                    PortionWidget(icon: Images.storeIcon, title: 'Events & Creators', route: RouteHelper.getLocalEventsCreatorsRoute()),
-                    PortionWidget(icon: Images.storeIcon, title: 'Community Marketplace', route: RouteHelper.getUrbanGoodzCommunityMarketplaceRoute()),
-                    PortionWidget(icon: Images.storeIcon, title: 'Creator Commerce', route: RouteHelper.getUrbanGoodzCreatorCommerceRoute()),
-                    PortionWidget(icon: Images.storeIcon, title: 'Urban Goodz AI', route: RouteHelper.getUrbanGoodzAIRoute()),
-                    PortionWidget(icon: Images.storeIcon, title: 'Urban Goodz Plus', route: RouteHelper.getUrbanGoodzPlusRoute(), hideDivider: true),
+                    _UrbanGoodzMenuItem(
+                      icon: Icons.grid_view_outlined,
+                      title: 'Urban Goodz Hub',
+                      subtitle: 'Premium command center & tabs',
+                      route: RouteHelper.getUrbanGoodzHubRoute(),
+                      status: 'Live',
+                    ),
+                    _UrbanGoodzMenuItem(
+                      icon: Icons.paid_outlined,
+                      title: 'Earn Money',
+                      subtitle: 'Active gig work & payouts',
+                      route: RouteHelper.getUrbanGoodzEarnMoneyRoute(),
+                      status: 'Live',
+                    ),
+                    _UrbanGoodzMenuItem(
+                      icon: Icons.local_shipping_outlined,
+                      title: 'Logistics',
+                      subtitle: 'Local delivery support',
+                      route: RouteHelper.getUrbanGoodzLogisticsRoute(),
+                      status: 'Preview',
+                    ),
+                    _UrbanGoodzMenuItem(
+                      icon: Icons.view_list_outlined,
+                      title: 'Load Board',
+                      subtitle: 'Freight & route matching',
+                      route: RouteHelper.getUrbanGoodzLoadBoardRoute(),
+                      status: 'Preview',
+                    ),
+                    _UrbanGoodzMenuItem(
+                      icon: Icons.medical_services_outlined,
+                      title: 'Medical Courier',
+                      subtitle: 'Medical courier readiness',
+                      route: RouteHelper.getUrbanGoodzMedicalCourierRoute(),
+                      status: 'Preview',
+                    ),
+                    _UrbanGoodzMenuItem(
+                      icon: Icons.event_available_outlined,
+                      title: 'Book Services',
+                      subtitle: 'Appointments & custom booking',
+                      route: RouteHelper.getUrbanGoodzBookServicesRoute(),
+                      status: 'Preview',
+                    ),
+                    _UrbanGoodzMenuItem(
+                      icon: Icons.celebration_outlined,
+                      title: 'Events & Creators',
+                      subtitle: 'Pop-ups & creator showcase',
+                      route: RouteHelper.getLocalEventsCreatorsRoute(),
+                      status: 'Preview',
+                    ),
+                    _UrbanGoodzMenuItem(
+                      icon: Icons.groups_outlined,
+                      title: 'Community Marketplace',
+                      subtitle: 'Local boards & discussions',
+                      route: RouteHelper.getUrbanGoodzCommunityMarketplaceRoute(),
+                      status: 'Preview',
+                    ),
+                    _UrbanGoodzMenuItem(
+                      icon: Icons.storefront_outlined,
+                      title: 'Creator Commerce',
+                      subtitle: 'Shoppable video feeds',
+                      route: RouteHelper.getUrbanGoodzCreatorCommerceRoute(),
+                      status: 'Preview',
+                    ),
+                    _UrbanGoodzMenuItem(
+                      icon: Icons.auto_awesome_outlined,
+                      title: 'Urban Goodz AI',
+                      subtitle: 'AI Concierge & smart matching',
+                      route: RouteHelper.getUrbanGoodzAIRoute(),
+                      status: 'Preview',
+                    ),
+                    _UrbanGoodzMenuItem(
+                      icon: Icons.workspace_premium_outlined,
+                      title: 'Urban Goodz Plus',
+                      subtitle: 'Unlock premium perks & waitlist',
+                      route: RouteHelper.getUrbanGoodzPlusRoute(),
+                      status: 'Preview',
+                    ),
+                    _UrbanGoodzMenuItem(
+                      icon: Icons.checkroom_outlined,
+                      title: 'Fashion Fit & Measurements',
+                      subtitle: 'Measurement intake preview',
+                      route: RouteHelper.getUrbanGoodzFashionMeasurementsRoute(),
+                      status: 'Preview',
+                      hideDivider: true,
+                    ),
                   ]),
                 )
               ]),
@@ -441,3 +555,89 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
 }
+
+class _UrbanGoodzMenuItem extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final String route;
+  final String? status;
+  final bool hideDivider;
+
+  const _UrbanGoodzMenuItem({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.route,
+    this.status,
+    this.hideDivider = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => Get.toNamed(route),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: AppConstants.seasoningOrange.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(icon, color: AppConstants.seasoningOrange, size: 18),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: robotoBold.copyWith(
+                          fontSize: Dimensions.fontSizeDefault,
+                          color: AppConstants.ugWhite,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        subtitle,
+                        style: robotoRegular.copyWith(
+                          fontSize: Dimensions.fontSizeSmall - 2,
+                          color: AppConstants.canvas,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (status != null) ...[
+                  const SizedBox(width: 8),
+                  UrbanGoodzStatusBadge(status: status!, isCompact: true),
+                ],
+                const SizedBox(width: 4),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 12,
+                  color: AppConstants.canvas.withValues(alpha: 0.5),
+                ),
+              ],
+            ),
+            if (!hideDivider)
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Divider(
+                  color: AppConstants.canvas.withValues(alpha: 0.15),
+                  height: 1,
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
