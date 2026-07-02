@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/app_constants.dart';
@@ -20,6 +21,9 @@ class UrbanGoodzAiScreen extends StatefulWidget {
 class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
   final TextEditingController _searchController = TextEditingController();
   bool _isProcessing = false;
+  String? _lastQuery;
+  String? _responseText;
+  Widget? _responseAction;
 
   @override
   void dispose() {
@@ -31,14 +35,72 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
     if (query.trim().isEmpty) return;
     setState(() {
       _isProcessing = true;
+      _lastQuery = query.trim();
+      _responseText = null;
+      _responseAction = null;
     });
 
-    Timer(const Duration(milliseconds: 1200), () {
+    Timer(const Duration(milliseconds: 1000), () {
       if (!mounted) return;
       setState(() {
         _isProcessing = false;
+        final q = query.toLowerCase();
+        if (q.contains('tailor') || q.contains('measur') || q.contains('clothe') || q.contains('fit')) {
+          _responseText = 'I found local tailoring and alteration options. You can use our Fashion Fit measurement feature to prepare your sizing profile.';
+          _responseAction = UrbanGoodzActionButton(
+            label: 'Open Fashion Fit',
+            onPressed: () => Get.toNamed(RouteHelper.getUrbanGoodzFashionMeasurementsRoute()),
+          );
+        } else if (q.contains('order') || q.contains('shop') || q.contains('store') || q.contains('not listed') || q.contains('buy') || q.contains('anywhere')) {
+          _responseText = 'We can help you get items from any store using our Order Anywhere concierge service. Just fill in the details of what you need.';
+          _responseAction = UrbanGoodzActionButton(
+            label: 'Order Anywhere Form',
+            onPressed: () => Get.toNamed(RouteHelper.getOrderAnywhereRequestRoute()),
+          );
+        } else if (q.contains('creator') || q.contains('influencer') || q.contains('reel') || q.contains('content')) {
+          _responseText = 'Explore styling guides, product reviews, and public drops from our local creator commerce space.';
+          _responseAction = UrbanGoodzActionButton(
+            label: 'Creator Commerce',
+            onPressed: () => Get.toNamed(RouteHelper.getUrbanGoodzCreatorCommerceRoute()),
+          );
+        } else if (q.contains('deliver') || q.contains('courier') || q.contains('job') || q.contains('earn') || q.contains('opportunity') || q.contains('gig') || q.contains('logistics') || q.contains('load') || q.contains('board')) {
+          _responseText = 'Check out driver opportunities, medical courier routes, and logistics jobs available on our platform.';
+          _responseAction = UrbanGoodzActionButton(
+            label: 'Earn Money Dashboard',
+            onPressed: () => Get.toNamed(RouteHelper.getUrbanGoodzEarnMoneyRoute()),
+          );
+        } else if (q.contains('car') || q.contains('rental') || q.contains('vehicle') || q.contains('rent')) {
+          _responseText = 'You can find vehicle options in your neighborhood via our Car Rental preview.';
+          _responseAction = UrbanGoodzActionButton(
+            label: 'Open Car Rental Hub',
+            onPressed: () => Get.find<SplashController>().switchModule(
+              Get.find<SplashController>().moduleList!.indexWhere(
+                (m) => m.moduleType.toString() == AppConstants.taxi,
+              ),
+              true,
+            ),
+          );
+        } else {
+          _responseText = 'I\'ve processed your query in tester preview mode! For custom orders, try our Order Anywhere concierge, or check the Fashion Fit measurement features.';
+          _responseAction = Row(
+            children: [
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: () => Get.toNamed(RouteHelper.getOrderAnywhereRequestRoute()),
+                  child: const Text('Order Anywhere'),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: UrbanGoodzActionButton(
+                  label: 'Fashion Fit',
+                  onPressed: () => Get.toNamed(RouteHelper.getUrbanGoodzFashionMeasurementsRoute()),
+                ),
+              ),
+            ],
+          );
+        }
       });
-      Get.toNamed(RouteHelper.getSearchRoute(queryText: query.trim()));
     });
   }
 
@@ -290,6 +352,53 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
                             color: AppConstants.seasoningOrange,
                           ),
                         ),
+                      ],
+                    ),
+                  ),
+                ],
+
+                if (_responseText != null) ...[
+                  const SizedBox(height: Dimensions.paddingSizeLarge),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: AppConstants.seasoningOrange.withValues(alpha: 0.35),
+                        width: 1.5,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.05),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const Icon(Icons.auto_awesome, color: AppConstants.seasoningOrange, size: 20),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Response for: "${_lastQuery}"',
+                              style: robotoBold.copyWith(fontSize: 14, color: AppConstants.ugBlack),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          _responseText!,
+                          style: robotoRegular.copyWith(fontSize: 13, color: AppConstants.ugBlack, height: 1.45),
+                        ),
+                        if (_responseAction != null) ...[
+                          const SizedBox(height: 16),
+                          _responseAction!,
+                        ],
                       ],
                     ),
                   ),

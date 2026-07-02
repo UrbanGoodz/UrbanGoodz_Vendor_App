@@ -147,8 +147,66 @@ class MedicalCourierScreen extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: UrbanGoodzActionButton(
-                      label: 'Review Readiness Checklist',
-                      onPressed: () {},
+                      label: 'Review Readiness Checklist & Apply',
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Row(
+                                children: [
+                                  Icon(Icons.shield, color: AppConstants.seasoningOrange),
+                                  SizedBox(width: 8),
+                                  Text('Medical Courier Readiness', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                                ],
+                              ),
+                              content: const SingleChildScrollView(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('To qualify for medical logistics, carriers must meet these criteria:', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                                    SizedBox(height: 12),
+                                    Row(children: [Icon(Icons.check_circle_outline, color: Colors.green, size: 16), SizedBox(width: 8), Text('HIPAA Compliance Training')]),
+                                    SizedBox(height: 8),
+                                    Row(children: [Icon(Icons.check_circle_outline, color: Colors.green, size: 16), SizedBox(width: 8), Text('Insulated Cooler Box + Temp Log')]),
+                                    SizedBox(height: 8),
+                                    Row(children: [Icon(Icons.check_circle_outline, color: Colors.green, size: 16), SizedBox(width: 8), Text('Valid Driver License & Background Check')]),
+                                    SizedBox(height: 8),
+                                    Row(children: [Icon(Icons.check_circle_outline, color: Colors.green, size: 16), SizedBox(width: 8), Text('Specimen handling orientation')]),
+                                  ],
+                                ),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('Cancel', style: TextStyle(color: Colors.grey)),
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(backgroundColor: AppConstants.seasoningOrange, foregroundColor: AppConstants.ugBlack),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: const Text('Application Submitted'),
+                                        content: const Text('Your interest in becoming a Medical Courier has been logged in tester preview mode! Information saved locally.'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(context),
+                                            child: const Text('OK'),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                  child: const Text('Express Interest & Apply'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
                     ),
                   ),
                 ],
@@ -163,65 +221,80 @@ class MedicalCourierScreen extends StatelessWidget {
               separatorBuilder: (_, _) => const SizedBox(height: Dimensions.paddingSizeSmall),
               itemBuilder: (context, index) {
                 final item = _items[index];
-                return Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: AppConstants.ugWhite,
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: AppConstants.ugBlack.withValues(alpha: 0.08)),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: AppConstants.seasoningOrange.withValues(alpha: 0.12),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Icon(Icons.medical_services_outlined, color: AppConstants.seasoningOrange, size: 20),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item['title'] ?? '',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w900,
-                                fontSize: 14,
-                                color: AppConstants.ugBlack,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              item['reqs'] ?? '',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 11,
-                                color: AppConstants.ugBlack.withValues(alpha: 0.5),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            item['urgency'] ?? '',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontSize: 12,
-                              color: item['urgency'] == 'Immediate' ? AppConstants.seasoningOrange : AppConstants.ugBlack,
-                            ),
-                          ),
-                          const SizedBox(height: 6),
-                          const UrbanGoodzStatusBadge(status: 'Early Access', isCompact: true),
+                return InkWell(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Medical Courier Run [Tester Preview]'),
+                        content: Text('Route details for:\n\n"${item['title']}"\nRequirements: ${item['reqs']}\nUrgency: ${item['urgency']}\n\nInterest expressed in tester preview mode! We will notify you once dispatch is live.'),
+                        actions: [
+                          TextButton(onPressed: () => Navigator.pop(context), child: const Text('OK')),
                         ],
                       ),
-                    ],
+                    );
+                  },
+                  borderRadius: BorderRadius.circular(14),
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: AppConstants.ugWhite,
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: AppConstants.ugBlack.withValues(alpha: 0.08)),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: AppConstants.seasoningOrange.withValues(alpha: 0.12),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: const Icon(Icons.medical_services_outlined, color: AppConstants.seasoningOrange, size: 20),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item['title'] ?? '',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 14,
+                                  color: AppConstants.ugBlack,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                item['reqs'] ?? '',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 11,
+                                  color: AppConstants.ugBlack.withValues(alpha: 0.5),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              item['urgency'] ?? '',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                                fontSize: 12,
+                                color: item['urgency'] == 'Immediate' ? AppConstants.seasoningOrange : AppConstants.ugBlack,
+                              ),
+                            ),
+                            const SizedBox(height: 6),
+                            const UrbanGoodzStatusBadge(status: 'Early Access', isCompact: true),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },

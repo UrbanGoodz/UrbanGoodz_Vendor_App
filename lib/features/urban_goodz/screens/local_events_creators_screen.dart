@@ -83,9 +83,18 @@ class LocalEventsCreatorsScreen extends StatelessWidget {
 
                   return InkWell(
                     borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                    onTap: () => Get.toNamed(
-                      RouteHelper.getSearchRoute(queryText: item.title),
-                    ),
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text('Register for Event [Tester]'),
+                          content: Text('You are registering interest for:\n\n"${item.title}"\nLocation: ${item.location}\nDate: ${item.date}\n\nYour registration has been logged in preview mode! We will notify you when ticket issuing goes live.'),
+                          actions: [
+                            TextButton(onPressed: () => Navigator.pop(context), child: const Text('OK')),
+                          ],
+                        ),
+                      );
+                    },
                     child: Container(
                       padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                       decoration: BoxDecoration(

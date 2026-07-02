@@ -16,6 +16,7 @@ class OrderAnywhereRequestScreen extends StatefulWidget {
 class _OrderAnywhereRequestScreenState extends State<OrderAnywhereRequestScreen> {
   final _formKey = GlobalKey<FormState>();
   late OrderAnywhereController controller;
+  bool _requestPreviewSubmitted = false;
 
   @override
   void initState() {
@@ -74,37 +75,39 @@ class _OrderAnywhereRequestScreenState extends State<OrderAnywhereRequestScreen>
                 ),
                 const SizedBox(height: 20),
 
-                _sectionLabel('Business Information'),
+                _sectionLabel('Store / Vendor'),
                 const SizedBox(height: 8),
                 _buildTextField(
                   controller: controller.businessNameController,
-                  label: 'Business / Store Name *',
-                  hint: 'Enter business name',
+                  label: 'Store/vendor name *',
+                  hint: 'Enter store, vendor, or merchant name',
                   validator: (v) => v?.trim().isEmpty ?? true ? 'Required' : null,
                 ),
                 const SizedBox(height: 12),
                 _buildTextField(
                   controller: controller.businessAddressController,
-                  label: 'Business Address',
-                  hint: 'Or check "I don\'t know exact address"',
+                  label: 'Store/vendor address or website *',
+                  hint: 'Street address, website, social link, or marketplace URL',
                   maxLines: 2,
+                  validator: (v) => v?.trim().isEmpty ?? true ? 'Required' : null,
                 ),
 
                 const SizedBox(height: 20),
-                _sectionLabel('Item Details'),
+                _sectionLabel('Request Details'),
                 const SizedBox(height: 8),
                 _buildTextField(
                   controller: controller.itemNameController,
-                  label: 'Item / Product Name *',
-                  hint: 'What do you need?',
+                  label: 'What do you need? *',
+                  hint: 'Example: size 10 black sneakers, phone charger, custom cake',
                   validator: (v) => v?.trim().isEmpty ?? true ? 'Required' : null,
                 ),
                 const SizedBox(height: 12),
                 _buildTextField(
                   controller: controller.itemDescriptionController,
-                  label: 'Item Description',
-                  hint: 'Size, color, brand, etc.',
+                  label: 'Item details *',
+                  hint: 'Size, color, brand, substitutions, exact variant, or link details',
                   maxLines: 3,
+                  validator: (v) => v?.trim().isEmpty ?? true ? 'Required' : null,
                 ),
                 const SizedBox(height: 12),
                 Row(children: [
@@ -125,7 +128,7 @@ class _OrderAnywhereRequestScreenState extends State<OrderAnywhereRequestScreen>
                   Expanded(
                     child: _buildTextField(
                       controller: controller.estimatedCostController,
-                      label: 'Est. Item Cost (\$) *',
+                      label: 'Budget estimate (\$) *',
                       hint: '0.00',
                       keyboardType: TextInputType.number,
                       validator: (v) {
@@ -138,7 +141,7 @@ class _OrderAnywhereRequestScreenState extends State<OrderAnywhereRequestScreen>
                 ]),
 
                 const SizedBox(height: 20),
-                _sectionLabel('Pickup Preference'),
+                _sectionLabel('Pickup / Delivery Preference'),
                 const SizedBox(height: 8),
                 ...OrderAnywherePickupPreference.values.map((pref) {
                   return RadioListTile<OrderAnywherePickupPreference>(
@@ -157,8 +160,8 @@ class _OrderAnywhereRequestScreenState extends State<OrderAnywhereRequestScreen>
                 const SizedBox(height: 8),
                 _buildTextField(
                   controller: controller.deliveryAddressController,
-                  label: 'Delivery Address *',
-                  hint: 'Enter delivery address',
+                  label: 'Delivery address or pickup notes *',
+                  hint: 'Enter delivery address, pickup area, or manual handoff notes',
                   maxLines: 2,
                   validator: (v) => v?.trim().isEmpty ?? true ? 'Required' : null,
                 ),
@@ -185,9 +188,17 @@ class _OrderAnywhereRequestScreenState extends State<OrderAnywhereRequestScreen>
                     child: Row(children: [
                       Icon(Icons.camera_alt, color: Colors.grey.shade600),
                       const SizedBox(width: 12),
-                      Text('Add photo (optional)', style: TextStyle(color: Colors.grey.shade600)),
+                      Text('Take or upload photo (optional)', style: TextStyle(color: Colors.grey.shade600)),
                     ]),
                   ),
+                ),
+
+                const SizedBox(height: 12),
+                _buildTextField(
+                  controller: controller.customerNotesController,
+                  label: 'Notes',
+                  hint: 'Manual fallback details, substitutions, gate code, or tester notes',
+                  maxLines: 3,
                 ),
 
                 const SizedBox(height: 20),
@@ -244,6 +255,32 @@ class _OrderAnywhereRequestScreenState extends State<OrderAnywhereRequestScreen>
                     child: Text(controller.errorMessage!, style: const TextStyle(color: Colors.red, fontSize: 13)),
                   ),
 
+                if (_requestPreviewSubmitted) ...[
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.green.withValues(alpha: 0.08),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.green.withValues(alpha: 0.35)),
+                    ),
+                    child: const Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(Icons.check_circle_outline, color: Colors.green, size: 20),
+                        SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            'Order Anywhere request received in tester preview. No live payment, purchase, pickup, or dispatch was started.',
+                            style: TextStyle(fontSize: 12, color: AppConstants.ugBlack, height: 1.35),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                ],
+
                 SizedBox(
                   width: double.infinity,
                   height: 48,
@@ -253,9 +290,30 @@ class _OrderAnywhereRequestScreenState extends State<OrderAnywhereRequestScreen>
                       foregroundColor: AppConstants.ugWhite,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
-                    onPressed: controller.navigateToReview,
-                    child: const Text('Review Request', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                    onPressed: () {
+                      final formValid = _formKey.currentState?.validate() ?? false;
+                      if (!formValid || !controller.validateRequestForm()) return;
+                      controller.buildRequestFromForm();
+                      setState(() => _requestPreviewSubmitted = true);
+                      Get.snackbar(
+                        'Tester Preview',
+                        'Order Anywhere request received in tester preview.',
+                        backgroundColor: AppConstants.seasoningOrange,
+                        colorText: AppConstants.ugWhite,
+                      );
+                    },
+                    child: const Text('Submit Request', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                   ),
+                ),
+
+                TextButton.icon(
+                  onPressed: () {
+                    final formValid = _formKey.currentState?.validate() ?? false;
+                    if (!formValid || !controller.validateRequestForm()) return;
+                    controller.navigateToReview();
+                  },
+                  icon: const Icon(Icons.preview_outlined),
+                  label: const Text('Preview request details'),
                 ),
 
                 const SizedBox(height: 40),

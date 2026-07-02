@@ -178,17 +178,90 @@ class CreatorCommerceScreen extends StatelessWidget {
                     child: UrbanGoodzActionButton(
                       label: 'Apply as Urban Goodz Creator',
                       onPressed: () {
-                        Get.snackbar(
-                          'Application Received',
-                          'Thank you! Your creator commerce application has been logged. We will notify you with storefront integration options soon!',
-                          backgroundColor: AppConstants.seasoningOrange,
-                          colorText: AppConstants.ugBlack,
-                          icon: const Icon(
-                            Icons.star,
-                            color: AppConstants.ugBlack,
-                          ),
-                          duration: const Duration(seconds: 4),
-                          margin: const EdgeInsets.all(16),
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            final nameController = TextEditingController();
+                            final nicheController = TextEditingController();
+                            final socialController = TextEditingController();
+                            final cityController = TextEditingController();
+                            final pitchController = TextEditingController();
+                            final formKey = GlobalKey<FormState>();
+
+                            return AlertDialog(
+                              title: const Text('Creator Interest Form [Tester Preview]', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                              content: SingleChildScrollView(
+                                child: Form(
+                                  key: formKey,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Text('Register your interest to sell or promote products in your area.', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                                      const SizedBox(height: 12),
+                                      TextFormField(
+                                        controller: nameController,
+                                        decoration: const InputDecoration(labelText: 'Creator Name *', border: OutlineInputBorder()),
+                                        validator: (v) => v?.trim().isEmpty ?? true ? 'Required' : null,
+                                      ),
+                                      const SizedBox(height: 12),
+                                      TextFormField(
+                                        controller: nicheController,
+                                        decoration: const InputDecoration(labelText: 'Category / Niche (e.g. Fashion, Food) *', border: OutlineInputBorder()),
+                                        validator: (v) => v?.trim().isEmpty ?? true ? 'Required' : null,
+                                      ),
+                                      const SizedBox(height: 12),
+                                      TextFormField(
+                                        controller: socialController,
+                                        decoration: const InputDecoration(labelText: 'Social Media Link / Handle *', border: OutlineInputBorder()),
+                                        validator: (v) => v?.trim().isEmpty ?? true ? 'Required' : null,
+                                      ),
+                                      const SizedBox(height: 12),
+                                      TextFormField(
+                                        controller: cityController,
+                                        decoration: const InputDecoration(labelText: 'City *', border: OutlineInputBorder()),
+                                        validator: (v) => v?.trim().isEmpty ?? true ? 'Required' : null,
+                                      ),
+                                      const SizedBox(height: 12),
+                                      TextFormField(
+                                        controller: pitchController,
+                                        maxLines: 2,
+                                        decoration: const InputDecoration(labelText: 'What do you want to sell/promote? *', border: OutlineInputBorder()),
+                                        validator: (v) => v?.trim().isEmpty ?? true ? 'Required' : null,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('Cancel', style: TextStyle(color: Colors.grey)),
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(backgroundColor: AppConstants.seasoningOrange, foregroundColor: AppConstants.ugBlack),
+                                  onPressed: () {
+                                    if (formKey.currentState?.validate() ?? false) {
+                                      Navigator.pop(context);
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          title: const Text('Application Logged'),
+                                          content: const Text('Creator application received in tester preview mode! Information has been logged locally.'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () => Navigator.pop(context),
+                                              child: const Text('OK'),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  child: const Text('Submit Application'),
+                                ),
+                              ],
+                            );
+                          },
                         );
                       },
                     ),

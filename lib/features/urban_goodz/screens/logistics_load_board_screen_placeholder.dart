@@ -168,7 +168,78 @@ class LogisticsLoadBoardScreen extends StatelessWidget {
                     width: double.infinity,
                     child: UrbanGoodzActionButton(
                       label: 'Register Carrier Waitlist',
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            final companyController = TextEditingController();
+                            final vehicleController = TextEditingController();
+                            final phoneController = TextEditingController();
+                            final formKey = GlobalKey<FormState>();
+
+                            return AlertDialog(
+                              title: const Text('Carrier Waitlist [Tester Preview]', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                              content: SingleChildScrollView(
+                                child: Form(
+                                  key: formKey,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Text('Register your commercial vehicle or courier operation.', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                                      const SizedBox(height: 12),
+                                      TextFormField(
+                                        controller: companyController,
+                                        decoration: const InputDecoration(labelText: 'Company / Driver Name *', border: OutlineInputBorder()),
+                                        validator: (v) => v?.trim().isEmpty ?? true ? 'Required' : null,
+                                      ),
+                                      const SizedBox(height: 12),
+                                      TextFormField(
+                                        controller: vehicleController,
+                                        decoration: const InputDecoration(labelText: 'Vehicle Type (e.g. Cargo Van, Box Truck) *', border: OutlineInputBorder()),
+                                        validator: (v) => v?.trim().isEmpty ?? true ? 'Required' : null,
+                                      ),
+                                      const SizedBox(height: 12),
+                                      TextFormField(
+                                        controller: phoneController,
+                                        decoration: const InputDecoration(labelText: 'Contact Phone Number *', border: OutlineInputBorder()),
+                                        validator: (v) => v?.trim().isEmpty ?? true ? 'Required' : null,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('Cancel', style: TextStyle(color: Colors.grey)),
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(backgroundColor: AppConstants.seasoningOrange, foregroundColor: AppConstants.ugBlack),
+                                  onPressed: () {
+                                    if (formKey.currentState?.validate() ?? false) {
+                                      Navigator.pop(context);
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          title: const Text('Carrier Registered'),
+                                          content: const Text('Carrier waitlist registration logged in tester preview mode! Information saved locally.'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () => Navigator.pop(context),
+                                              child: const Text('OK'),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  child: const Text('Register'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
                     ),
                   ),
                 ],
@@ -183,13 +254,27 @@ class LogisticsLoadBoardScreen extends StatelessWidget {
               separatorBuilder: (_, _) => const SizedBox(height: Dimensions.paddingSizeSmall),
               itemBuilder: (context, index) {
                 final load = _loads[index];
-                return Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: AppConstants.ugWhite,
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: AppConstants.ugBlack.withValues(alpha: 0.08)),
-                  ),
+                return InkWell(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Load Details [Tester Preview]'),
+                        content: Text('Route details for:\n\n"${load['title']}"\n${load['route']}\nRate: ${load['rate']}\n\nInterest expressed in tester preview mode! We will notify you once dispatch is live.'),
+                        actions: [
+                          TextButton(onPressed: () => Navigator.pop(context), child: const Text('OK')),
+                        ],
+                      ),
+                    );
+                  },
+                  borderRadius: BorderRadius.circular(14),
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: AppConstants.ugWhite,
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: AppConstants.ugBlack.withValues(alpha: 0.08)),
+                    ),
                   child: Row(
                     children: [
                       Container(
@@ -243,12 +328,13 @@ class LogisticsLoadBoardScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                );
-              },
-            ),
+                ),
+              );
+            },
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
 }

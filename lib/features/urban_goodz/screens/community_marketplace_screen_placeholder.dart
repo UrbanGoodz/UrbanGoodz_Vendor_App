@@ -125,14 +125,75 @@ class CommunityMarketplaceScreen extends StatelessWidget {
                     child: UrbanGoodzActionButton(
                       label: 'Join Marketplace Waitlist',
                       onPressed: () {
-                        Get.snackbar(
-                          'Waitlist Confirmed',
-                          'You have been added to the Community Marketplace waitlist. We will notify you once neighbor-to-neighbor trading rolls out in your zone!',
-                          backgroundColor: AppConstants.seasoningOrange,
-                          colorText: AppConstants.ugBlack,
-                          icon: const Icon(Icons.verified, color: AppConstants.ugBlack),
-                          duration: const Duration(seconds: 4),
-                          margin: const EdgeInsets.all(16),
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            final nameController = TextEditingController();
+                            final neighborhoodController = TextEditingController();
+                            final phoneController = TextEditingController();
+                            final formKey = GlobalKey<FormState>();
+
+                            return AlertDialog(
+                              title: const Text('Marketplace Waitlist [Tester]', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                              content: SingleChildScrollView(
+                                child: Form(
+                                  key: formKey,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Text('Register your neighborhood to unlock trade & conversation zones.', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                                      const SizedBox(height: 12),
+                                      TextFormField(
+                                        controller: nameController,
+                                        decoration: const InputDecoration(labelText: 'Name *', border: OutlineInputBorder()),
+                                        validator: (v) => v?.trim().isEmpty ?? true ? 'Required' : null,
+                                      ),
+                                      const SizedBox(height: 12),
+                                      TextFormField(
+                                        controller: neighborhoodController,
+                                        decoration: const InputDecoration(labelText: 'Neighborhood / Zip Code *', border: OutlineInputBorder()),
+                                        validator: (v) => v?.trim().isEmpty ?? true ? 'Required' : null,
+                                      ),
+                                      const SizedBox(height: 12),
+                                      TextFormField(
+                                        controller: phoneController,
+                                        decoration: const InputDecoration(labelText: 'Contact Phone Number *', border: OutlineInputBorder()),
+                                        validator: (v) => v?.trim().isEmpty ?? true ? 'Required' : null,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('Cancel', style: TextStyle(color: Colors.grey)),
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(backgroundColor: AppConstants.seasoningOrange, foregroundColor: AppConstants.ugBlack),
+                                  onPressed: () {
+                                    if (formKey.currentState?.validate() ?? false) {
+                                      Navigator.pop(context);
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          title: const Text('Waitlist Confirmed'),
+                                          content: const Text('Added to the Community Marketplace waitlist in tester preview! We will notify you once neighbor-to-neighbor zones roll out.'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () => Navigator.pop(context),
+                                              child: const Text('OK'),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  child: const Text('Join Waitlist'),
+                                ),
+                              ],
+                            );
+                          },
                         );
                       },
                     ),

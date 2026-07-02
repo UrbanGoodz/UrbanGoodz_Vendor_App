@@ -81,16 +81,118 @@ class BookServicesScreen extends StatelessWidget {
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: AppConstants.ugBlack.withValues(alpha: 0.7),
-                      height: 1.4,
                     ),
                   ),
                   const SizedBox(height: 12),
-                  SizedBox(
-                    width: double.infinity,
-                    child: UrbanGoodzActionButton(
-                      label: 'Become an Urban Goodz Provider',
-                      onPressed: () {},
-                    ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                final serviceController = TextEditingController();
+                                final dateTimeController = TextEditingController();
+                                final locationController = TextEditingController();
+                                final notesController = TextEditingController();
+                                final formKey = GlobalKey<FormState>();
+
+                                return AlertDialog(
+                                  title: const Text('Book a Service [Tester Preview]', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                                  content: SingleChildScrollView(
+                                    child: Form(
+                                      key: formKey,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const Text('Request custom local help, appointments, or services.', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                                          const SizedBox(height: 12),
+                                          TextFormField(
+                                            controller: serviceController,
+                                            decoration: const InputDecoration(labelText: 'Service Needed *', border: OutlineInputBorder()),
+                                            validator: (v) => v?.trim().isEmpty ?? true ? 'Required' : null,
+                                          ),
+                                          const SizedBox(height: 12),
+                                          TextFormField(
+                                            controller: dateTimeController,
+                                            decoration: const InputDecoration(labelText: 'Preferred Date/Time *', border: OutlineInputBorder()),
+                                            validator: (v) => v?.trim().isEmpty ?? true ? 'Required' : null,
+                                          ),
+                                          const SizedBox(height: 12),
+                                          TextFormField(
+                                            controller: locationController,
+                                            decoration: const InputDecoration(labelText: 'Location / Address *', border: OutlineInputBorder()),
+                                            validator: (v) => v?.trim().isEmpty ?? true ? 'Required' : null,
+                                          ),
+                                          const SizedBox(height: 12),
+                                          TextFormField(
+                                            controller: notesController,
+                                            maxLines: 2,
+                                            decoration: const InputDecoration(labelText: 'Additional Notes', border: OutlineInputBorder()),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('Cancel', style: TextStyle(color: Colors.grey)),
+                                    ),
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(backgroundColor: AppConstants.seasoningOrange, foregroundColor: AppConstants.ugBlack),
+                                      onPressed: () {
+                                        if (formKey.currentState?.validate() ?? false) {
+                                          Navigator.pop(context);
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                              title: const Text('Booking Requested'),
+                                              content: const Text('Your service booking request has been logged in tester preview! A local provider will be matched once live.'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () => Navigator.pop(context),
+                                                  child: const Text('OK'),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      child: const Text('Submit Request'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: AppConstants.ugBlack,
+                            side: const BorderSide(color: AppConstants.seasoningOrange),
+                          ),
+                          child: const Text('Request Service'),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: UrbanGoodzActionButton(
+                          label: 'Become Provider',
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text('Provider Application'),
+                                content: const Text('Provider registration form will be live soon! Interest logged in preview mode.'),
+                                actions: [
+                                  TextButton(onPressed: () => Navigator.pop(context), child: const Text('Close')),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

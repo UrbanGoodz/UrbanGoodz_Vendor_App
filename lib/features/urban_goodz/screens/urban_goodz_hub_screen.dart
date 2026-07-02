@@ -159,6 +159,18 @@ class UrbanGoodzHubScreen extends StatelessWidget {
       thumbnailAssetPath: '$_thumbnailBasePath/15_fashion_fit_tab.png',
       thumbnailAspectRatio: 322 / 795,
     ),
+    _UrbanGoodzHubTab(
+      label: 'Order Anywhere',
+      title: 'Order Anywhere',
+      description:
+          'Need items from a store not listed? Request custom pickup or delivery from any local merchant.',
+      status: 'Preview',
+      buttonLabel: 'Open Order Anywhere',
+      route: RouteHelper.getOrderAnywhereRequestRoute(),
+      icon: Icons.map_outlined,
+      marketInsight: 'Order from any shop',
+      thumbnailAssetPath: '$_thumbnailBasePath/05_book_anything.png',
+    ),
   ];
 
   @override

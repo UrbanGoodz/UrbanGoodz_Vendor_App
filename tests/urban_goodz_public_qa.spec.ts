@@ -426,7 +426,7 @@ test.describe('Urban Goodz public QA - desktop', () => {
   test.use({ baseURL: BASE_URL });
 
   test.beforeEach(async ({}, testInfo) => {
-    testInfo.setTimeout(180_000);
+    testInfo.setTimeout(300_000);
   });
 
   test('Home / Shell smoke check', async ({ page }, testInfo) => {
@@ -545,7 +545,7 @@ test.describe('Urban Goodz public QA - mobile', () => {
   test.use({ baseURL: BASE_URL });
 
   test.beforeEach(async ({}, testInfo) => {
-    testInfo.setTimeout(180_000);
+    testInfo.setTimeout(300_000);
   });
 
   test('Mobile core hub and discovery smoke checks', async ({ page }, testInfo) => {

@@ -292,6 +292,8 @@ class RouteHelper {
   static String getUrbanGoodzFashionPhotoGuideRoute() => urbanGoodzFashionPhotoGuide;
   static String getUrbanGoodzFashionTailorRequestRoute() => urbanGoodzFashionTailorRequest;
   static String getUrbanGoodzFashionQuoteReviewRoute() => urbanGoodzFashionQuoteReview;
+  static String getFashionMeasurementProfileRoute() => urbanGoodzFashionMeasurementProfile;
+  static String getFashionMeasurementIntakeRoute() => urbanGoodzFashionPhotoGuide;
   static String getOrderAnywhereRequestRoute() => orderAnywhereRequest;
   static String getOrderAnywhereReviewRoute() => orderAnywhereReview;
   static String getOrderAnywhereStatusRoute(String requestId) => '$orderAnywhereStatus?requestId=$requestId';

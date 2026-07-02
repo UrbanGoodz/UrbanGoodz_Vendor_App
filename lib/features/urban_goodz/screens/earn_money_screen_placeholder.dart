@@ -9,6 +9,64 @@ import '../domain/services/earn_money_api_service.dart';
 class EarnMoneyScreen extends StatelessWidget {
   const EarnMoneyScreen({super.key});
 
+  static const List<EarnMoneyOpportunityModel> _fallbackOpportunities = [
+    EarnMoneyOpportunityModel(
+      id: 'mock_deliv',
+      title: 'Local On-Demand Delivery',
+      type: 'Food / Shopping Delivery',
+      description: 'Deliver food, groceries, and shop orders to local customers in your neighborhood.',
+      earningLabel: 'Est. \$18 - \$25/hr',
+      distanceLabel: 'Within 5 miles',
+      scheduleLabel: 'Flexible - Go online anytime',
+      icon: Icons.delivery_dining,
+      recommended: true,
+      isFeatured: true,
+    ),
+    EarnMoneyOpportunityModel(
+      id: 'mock_courier',
+      title: 'Medical Courier Runs',
+      type: 'Medical Logistics',
+      description: 'Transport lab specimens, documents, and light pharmacy orders under chain of custody.',
+      earningLabel: 'Est. \$22 - \$30/hr',
+      distanceLabel: 'Varies - Zip code specific',
+      scheduleLabel: 'Scheduled / Daily routes',
+      icon: Icons.medical_services_outlined,
+      isBeta: true,
+    ),
+    EarnMoneyOpportunityModel(
+      id: 'mock_logistics',
+      title: 'Logistics Freight Helper',
+      type: 'Freight Logistics',
+      description: 'Help load/unload local transport cargo and move packages to micro-hubs.',
+      earningLabel: 'Est. \$20/hr flat rate',
+      distanceLabel: 'Urban Goodz Hub locations',
+      scheduleLabel: 'Morning/Evening blocks',
+      icon: Icons.local_shipping_outlined,
+    ),
+    EarnMoneyOpportunityModel(
+      id: 'mock_tailoring',
+      title: 'Fashion Fit alteration partner',
+      type: 'Fashion & Tailoring',
+      description: 'Help customers refine manual fit profiles, record measurements, and deliver bespoke altered garments.',
+      earningLabel: 'Set your own tailoring rates',
+      distanceLabel: 'Local studio / At-home service',
+      scheduleLabel: 'By project appointment',
+      icon: Icons.cut_outlined,
+      recommended: true,
+    ),
+    EarnMoneyOpportunityModel(
+      id: 'mock_creator',
+      title: 'Creator Commerce Influencer',
+      type: 'Creator Space Promotion',
+      description: 'Produce short styling reels, tag local vendor products, and earn commissions on local shop orders.',
+      earningLabel: 'Commission + Brand bonuses',
+      distanceLabel: 'Remote / Online storefront',
+      scheduleLabel: 'Create content on your schedule',
+      icon: Icons.video_camera_back_outlined,
+      isBeta: true,
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     final service = EarnMoneyApiService();
@@ -87,46 +145,10 @@ class EarnMoneyScreen extends StatelessWidget {
             );
           }
 
-          final opportunities = snapshot.data ?? [];
+          var opportunities = snapshot.data ?? [];
 
           if (opportunities.isEmpty) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: AppConstants.seasoningOrange.withValues(alpha: 0.1),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(Icons.work_off_outlined, color: AppConstants.seasoningOrange, size: 48),
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'No Earning Opportunities Found',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        fontSize: 20,
-                        color: AppConstants.ugBlack,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'No earning opportunities are listed in your area yet. Check back soon for new local runs.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
-                        color: AppConstants.ugBlack.withValues(alpha: 0.6),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
+            opportunities = _fallbackOpportunities;
           }
 
           return ListView.separated(
@@ -340,8 +362,25 @@ class _OpportunityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
+    return InkWell(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Express Interest [Tester Preview]'),
+            content: Text('You have expressed interest in:\n\n"${opportunity.title}" (${opportunity.earningLabel})\n\nThis application / interest log has been saved locally.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      },
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        decoration: BoxDecoration(
         color: AppConstants.ugWhite,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
@@ -507,6 +546,7 @@ class _OpportunityCard extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 }
