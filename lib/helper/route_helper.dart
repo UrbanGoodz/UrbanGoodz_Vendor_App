@@ -231,7 +231,16 @@ class RouteHelper {
 
 
   static String getInitialRoute({bool fromSplash = false, String? moduleId, bool fromDeeplink = false}) {
-    return '$initial?module=${moduleId ?? ModuleHelper.getModule()?.slug ?? ModuleHelper.getModule()?.id ?? ModuleHelper.getCacheModule()?.slug}&from-splash=$fromSplash${fromDeeplink ? '&from_deeplink=true' : ''}';
+    String? mId = moduleId;
+    if (mId == null) {
+      if (ModuleHelper.getModule() != null) {
+        mId = ModuleHelper.getModule()?.slug ?? ModuleHelper.getModule()?.id?.toString();
+      } else if (!GetPlatform.isWeb) {
+        mId = ModuleHelper.getCacheModule()?.slug;
+      }
+    }
+    mId ??= 'null';
+    return '$initial?module=$mId&from-splash=$fromSplash${fromDeeplink ? '&from_deeplink=true' : ''}';
   }
   static String getSplashRoute(NotificationBodyModel? body, String? deeplink) {
     String data = 'null';

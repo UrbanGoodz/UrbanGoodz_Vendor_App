@@ -10,6 +10,7 @@ import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
+import 'package:sixam_mart/util/images.dart';
 import 'package:sixam_mart/common/widgets/custom_image.dart';
 import 'package:sixam_mart/common/widgets/custom_loader.dart';
 import 'package:sixam_mart/common/widgets/title_widget.dart';
@@ -89,115 +90,108 @@ class ModuleView extends StatelessWidget {
                             borderRadius: BorderRadius.circular(
                               Dimensions.radiusDefault,
                             ),
-                            color: Theme.of(context).cardColor,
+                            color: const Color(0xFFE2D3BF), // Urban Goodz Canvas background
                             border: Border.all(
-                              color: Theme.of(
-                                context,
-                              ).primaryColor.withValues(alpha: 0.18),
+                              color: const Color(0xFFED9914).withValues(alpha: 0.35), // Urban Goodz Orange border
+                              width: 1,
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: Theme.of(
-                                  context,
-                                ).disabledColor.withValues(alpha: 0.16),
+                                color: Colors.black.withValues(alpha: 0.15),
                                 spreadRadius: 1,
                                 blurRadius: 8,
                                 offset: const Offset(0, 3),
                               ),
                             ],
                           ),
-                          child: CustomInkWell(
-                            onTap: () => showModulePreviewPanel(
-                              context,
-                              module: module,
-                              onOpen: () =>
-                                  splashController.switchModule(
-                                    moduleIndex,
-                                    true,
-                                  ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                              Dimensions.radiusDefault,
                             ),
-                            radius: Dimensions.radiusDefault,
-                            child: Padding(
-                              padding: const EdgeInsets.all(
-                                Dimensions.paddingSizeSmall,
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Center(
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(
-                                        Dimensions.radiusSmall,
-                                      ),
-                                      child: Container(
-                                        height: isLocalModuleArt
-                                            ? moduleImageBoxSize
-                                            : wideImageAreaHeight,
-                                        width: isLocalModuleArt
-                                            ? moduleImageBoxSize
-                                            : double.infinity,
-                                        alignment: Alignment.center,
-                                        color: const Color(
-                                          0xFFE2D3BF,
-                                        ).withValues(alpha: 0.25),
-                                        padding: EdgeInsets.all(
-                                          isLocalModuleArt ? 4 : 8,
-                                        ),
-                                        child: CustomImage(
-                                          image: moduleImage,
-                                          height: isLocalModuleArt
-                                              ? moduleImageBoxSize - 8
-                                              : wideImageAreaHeight - 16,
-                                          width: isLocalModuleArt
-                                              ? moduleImageBoxSize - 8
-                                              : double.infinity,
-                                          fit: BoxFit.contain,
-                                        ),
-                                      ),
+                            child: Stack(
+                              children: [
+                                // Full-card background image (contain for local artwork, cover for network images)
+                                Positioned.fill(
+                                  child: Container(
+                                    color: const Color(0xFFE2D3BF),
+                                    child: CustomImage(
+                                      image: moduleImage,
+                                      fit: isLocalModuleArt ? BoxFit.contain : BoxFit.cover,
+                                      placeholder: Images.placeholder,
                                     ),
                                   ),
-                                  const SizedBox(
-                                    height: Dimensions.paddingSizeExtraSmall,
-                                  ),
+                                ),
 
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal:
-                                          Dimensions.paddingSizeExtraSmall,
-                                    ),
-                                    child: Text(
-                                      module.moduleName ?? '',
-                                      textAlign: TextAlign.center,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: robotoBold.copyWith(
-                                        fontSize: isDesktop
-                                            ? Dimensions.fontSizeDefault
-                                            : Dimensions.fontSizeSmall,
+                                // Bottom gradient overlay for text readability
+                                Positioned.fill(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          Colors.transparent,
+                                          Colors.black.withValues(alpha: 0.25),
+                                          Colors.black.withValues(alpha: 0.8),
+                                        ],
+                                        stops: const [0.4, 0.7, 1.0],
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(
-                                    height: Dimensions.paddingSizeExtraSmall,
-                                  ),
+                                ),
 
-                                  Text(
-                                    moduleDescription,
-                                    textAlign: TextAlign.center,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: robotoRegular.copyWith(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge!
-                                          .color!
-                                          .withValues(alpha: 0.74),
-                                      fontSize: Dimensions.fontSizeExtraSmall,
-                                      height: 1.2,
-                                    ),
+                                // Module Details Overlay (Title & Subtitle/Description)
+                                Positioned(
+                                  left: Dimensions.paddingSizeSmall,
+                                  right: Dimensions.paddingSizeSmall,
+                                  bottom: Dimensions.paddingSizeSmall,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        module.moduleName ?? '',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: robotoBold.copyWith(
+                                          fontSize: isDesktop
+                                              ? Dimensions.fontSizeDefault
+                                              : Dimensions.fontSizeSmall,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        moduleDescription,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: robotoRegular.copyWith(
+                                          color: Colors.white.withValues(alpha: 0.85),
+                                          fontSize: Dimensions.fontSizeExtraSmall,
+                                          height: 1.2,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+
+                                // Tappable inkwell covering the entire card
+                                Positioned.fill(
+                                  child: CustomInkWell(
+                                    onTap: () => showModulePreviewPanel(
+                                      context,
+                                      module: module,
+                                      onOpen: () =>
+                                          splashController.switchModule(
+                                            moduleIndex,
+                                            true,
+                                          ),
+                                    ),
+                                    radius: Dimensions.radiusDefault,
+                                    child: const SizedBox(),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         );

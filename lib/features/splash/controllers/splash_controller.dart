@@ -256,6 +256,8 @@ class SplashController extends GetxController implements GetxService {
       if((AuthHelper.isLoggedIn() || AuthHelper.isGuestLoggedIn()) && cacheModule != null) {
         Get.find<CartController>().getCartDataOnline();
       }
+    } else {
+      ShallowRouterHelper.updateParameter('module', 'null');
     }
 
     if(_cacheModule != null && _cacheModule!.moduleType.toString() == AppConstants.taxi) {
