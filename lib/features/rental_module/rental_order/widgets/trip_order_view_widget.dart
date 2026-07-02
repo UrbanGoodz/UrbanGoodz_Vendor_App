@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sixam_mart/features/rental_module/common/widgets/car_rental_preview_widget.dart';
 
 class TripOrderViewWidget extends StatelessWidget {
   final bool isRunning;
@@ -6,6 +7,6 @@ class TripOrderViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const CarRentalPreviewWidget(title: 'Rental Trips');
   }
 }
