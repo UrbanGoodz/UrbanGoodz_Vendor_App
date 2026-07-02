@@ -1,5 +1,45 @@
 # Customer App Tester Readiness
 
+## Urban Goodz Tester Build Status
+
+**Customer Web Build:**
+READY WITH PREVIEW LIMITATIONS
+
+**Backend/Admin:**
+READY WITH PREVIEW LIMITATIONS
+
+**Live Test URL:**
+https://test.urbangoodzdelivery.com/
+
+**Smoke Test Result:**
+PASSED
+
+### Passed checks:
+- Urban Goodz Hub opens
+- Hub tabs are visible
+- Earn Money opens
+- Fashion Fit tab opens
+- Fashion Fit route opens
+- Measurement Profile opens
+- Photo Guides opens
+- Community Marketplace opens
+- Tester preview messaging appears
+- No blank screens observed
+- Web build uploaded successfully
+
+### Known preview limitations:
+- Fashion Fit photo-assisted measurement is tester preview only.
+- Real AI measurement accuracy is not production-certified.
+- Real face blur/crop processing is not production-ready.
+- Backend routes require staging validation before production.
+- Payment remains waived/tester mode.
+- Some feature screens are preview shells.
+
+### Tester instruction:
+Use the app normally, click through Urban Goodz Hub tabs, test Fashion Fit flow, and report blank screens, broken buttons, confusing wording, image cropping, or routes that fail to open.
+
+---
+
 ## Ready
 - Fashion Fit is visible from Urban Goodz Hub.
 - Fashion Fit dashboard opens named tester routes for profile, photo guide, tailor request, and quote review.
