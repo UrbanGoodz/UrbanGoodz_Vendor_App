@@ -80,7 +80,7 @@ class TailorQuoteReviewScreen extends StatelessWidget {
                   border: Border.all(color: Colors.grey.shade200),
                 ),
                 child: Text(
-                  '“Based on the uploaded front/side photos, we suggest widening the shoulder width by 0.5 inches compared to your manual input for comfort. Ready to start fabric cutting once accepted.”',
+                  'Based on the manual profile and photo-reference preview, the tailor may suggest fit adjustments before any production work starts.',
                   style: robotoRegular.copyWith(fontSize: 13, color: Colors.grey.shade800, fontStyle: FontStyle.italic),
                 ),
               ),

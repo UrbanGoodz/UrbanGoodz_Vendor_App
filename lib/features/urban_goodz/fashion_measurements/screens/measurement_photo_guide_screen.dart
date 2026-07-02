@@ -50,7 +50,7 @@ class MeasurementPhotoGuideScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'How to Take Photos:',
+                      'How to take or upload photos:',
                       style: robotoBold.copyWith(fontSize: 16, color: ugBlack),
                     ),
                     const SizedBox(height: 12),
@@ -111,7 +111,7 @@ class MeasurementPhotoGuideScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: Text('Preview Upload Steps', style: robotoBold.copyWith(fontSize: 16)),
+                  child: Text('Preview photo upload steps', style: robotoBold.copyWith(fontSize: 16)),
                 ),
               ),
             ],
@@ -151,10 +151,10 @@ class MeasurementPhotoGuideScreen extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        // Mock image picker selection
+        // Tester preview only; live upload is not connected here.
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Mock Image Picker selected $orientation photo.'),
+            content: Text('Take or upload photo preview selected for $orientation.'),
             duration: const Duration(seconds: 1),
           ),
         );
@@ -178,7 +178,7 @@ class MeasurementPhotoGuideScreen extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              'Tap to select/upload',
+              'Take or upload photo',
               style: robotoRegular.copyWith(fontSize: 11, color: Colors.grey.shade600),
             ),
           ],

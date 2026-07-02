@@ -106,6 +106,10 @@ import 'package:sixam_mart/features/urban_goodz/screens/community_marketplace_sc
 import 'package:sixam_mart/features/urban_goodz/screens/creator_commerce_screen_placeholder.dart';
 import 'package:sixam_mart/features/urban_goodz/screens/urban_goodz_hub_screen.dart';
 import 'package:sixam_mart/features/urban_goodz/fashion_measurements/screens/fashion_measurement_home_screen.dart';
+import 'package:sixam_mart/features/urban_goodz/fashion_measurements/screens/measurement_profile_screen.dart';
+import 'package:sixam_mart/features/urban_goodz/fashion_measurements/screens/measurement_photo_guide_screen.dart';
+import 'package:sixam_mart/features/urban_goodz/fashion_measurements/screens/tailor_service_request_screen.dart';
+import 'package:sixam_mart/features/urban_goodz/fashion_measurements/screens/tailor_quote_review_screen.dart';
 import 'package:sixam_mart/features/order_anywhere/screens/order_anywhere_request_screen.dart';
 import 'package:sixam_mart/features/order_anywhere/screens/order_anywhere_review_screen.dart';
 import 'package:sixam_mart/features/order_anywhere/screens/order_anywhere_status_screen.dart';
@@ -143,6 +147,10 @@ class RouteHelper {
   static const String urbanGoodzCommunityMarketplace = '/urban-goodz-community-marketplace';
   static const String urbanGoodzCreatorCommerce = '/urban-goodz-creator-commerce';
   static const String urbanGoodzFashionMeasurements = '/urban-goodz-fashion-measurements';
+  static const String urbanGoodzFashionMeasurementProfile = '/urban-goodz-fashion-measurement-profile';
+  static const String urbanGoodzFashionPhotoGuide = '/urban-goodz-fashion-photo-guide';
+  static const String urbanGoodzFashionTailorRequest = '/urban-goodz-fashion-tailor-request';
+  static const String urbanGoodzFashionQuoteReview = '/urban-goodz-fashion-quote-review';
   static const String orderAnywhereRequest = '/order-anywhere-request';
   static const String orderAnywhereReview = '/order-anywhere-review';
   static const String orderAnywhereStatus = '/order-anywhere-status';
@@ -271,6 +279,10 @@ class RouteHelper {
   static String getUrbanGoodzCommunityMarketplaceRoute() => urbanGoodzCommunityMarketplace;
   static String getUrbanGoodzCreatorCommerceRoute() => urbanGoodzCreatorCommerce;
   static String getUrbanGoodzFashionMeasurementsRoute() => urbanGoodzFashionMeasurements;
+  static String getUrbanGoodzFashionMeasurementProfileRoute() => urbanGoodzFashionMeasurementProfile;
+  static String getUrbanGoodzFashionPhotoGuideRoute() => urbanGoodzFashionPhotoGuide;
+  static String getUrbanGoodzFashionTailorRequestRoute() => urbanGoodzFashionTailorRequest;
+  static String getUrbanGoodzFashionQuoteReviewRoute() => urbanGoodzFashionQuoteReview;
   static String getOrderAnywhereRequestRoute() => orderAnywhereRequest;
   static String getOrderAnywhereReviewRoute() => orderAnywhereReview;
   static String getOrderAnywhereStatusRoute(String requestId) => '$orderAnywhereStatus?requestId=$requestId';
@@ -533,6 +545,10 @@ class RouteHelper {
     GetPage(name: urbanGoodzCommunityMarketplace, page: () => const CommunityMarketplaceScreen()),
     GetPage(name: urbanGoodzCreatorCommerce, page: () => const CreatorCommerceScreen()),
     GetPage(name: urbanGoodzFashionMeasurements, page: () => const FashionMeasurementHomeScreen()),
+    GetPage(name: urbanGoodzFashionMeasurementProfile, page: () => const MeasurementProfileScreen()),
+    GetPage(name: urbanGoodzFashionPhotoGuide, page: () => const MeasurementPhotoGuideScreen()),
+    GetPage(name: urbanGoodzFashionTailorRequest, page: () => const TailorServiceRequestScreen()),
+    GetPage(name: urbanGoodzFashionQuoteReview, page: () => const TailorQuoteReviewScreen()),
     GetPage(name: orderAnywhereRequest, page: () => const OrderAnywhereRequestScreen()),
     GetPage(name: orderAnywhereReview, page: () => const OrderAnywhereReviewScreen()),
     GetPage(name: orderAnywhereStatus, page: () => OrderAnywhereStatusScreen(requestId: Get.parameters['requestId'] ?? '')),

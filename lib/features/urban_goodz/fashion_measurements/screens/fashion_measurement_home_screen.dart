@@ -3,10 +3,6 @@ import 'package:get/get.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/features/urban_goodz/widgets/urban_goodz_preview_banner.dart';
-import 'measurement_profile_screen.dart';
-import 'measurement_photo_guide_screen.dart';
-import 'tailor_service_request_screen.dart';
-import 'tailor_quote_review_screen.dart';
 
 class FashionMeasurementHomeScreen extends StatelessWidget {
   const FashionMeasurementHomeScreen({super.key});
@@ -94,15 +90,15 @@ class FashionMeasurementHomeScreen extends StatelessWidget {
                     title: 'Measurement Profile',
                     subtitle: 'Manage saved sizes',
                     onTap: () {
-                      Get.to(() => const MeasurementProfileScreen());
+                      Get.toNamed(RouteHelper.getUrbanGoodzFashionMeasurementProfileRoute());
                     },
                   ),
                   _buildDashboardCard(
                     icon: Icons.camera_enhance_rounded,
                     title: 'Photo Guides',
-                    subtitle: 'Upload fitting photos',
+                    subtitle: 'Take or upload photo',
                     onTap: () {
-                      Get.to(() => const MeasurementPhotoGuideScreen());
+                      Get.toNamed(RouteHelper.getUrbanGoodzFashionPhotoGuideRoute());
                     },
                   ),
                   _buildDashboardCard(
@@ -110,7 +106,7 @@ class FashionMeasurementHomeScreen extends StatelessWidget {
                     title: 'Tailor Requests',
                     subtitle: 'Bespoke fitting orders',
                     onTap: () {
-                      Get.to(() => const TailorServiceRequestScreen());
+                      Get.toNamed(RouteHelper.getUrbanGoodzFashionTailorRequestRoute());
                     },
                   ),
                   _buildDashboardCard(
@@ -118,7 +114,7 @@ class FashionMeasurementHomeScreen extends StatelessWidget {
                     title: 'Bids & Estimates',
                     subtitle: 'Review incoming quotes',
                     onTap: () {
-                      Get.to(() => const TailorQuoteReviewScreen());
+                      Get.toNamed(RouteHelper.getUrbanGoodzFashionQuoteReviewRoute());
                     },
                   ),
                 ],

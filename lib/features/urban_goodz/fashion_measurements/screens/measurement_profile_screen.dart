@@ -51,9 +51,9 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
 
   // Privacy boundary configuration
   bool _faceBlurEnabled = true;
-  final String _faceBlurStatus = 'Blur active (faces automatically redacted)';
-  final String _privacyReviewStatus = 'Safe for tailor review';
-  final String _vendorPhotoVersion = 'V1 (Face redacted)';
+  final String _faceBlurStatus = 'Preview only - production blur pending';
+  final String _privacyReviewStatus = 'Private tester intake';
+  final String _vendorPhotoVersion = 'V1 tester placeholder';
 
   final ImagePicker _picker = ImagePicker();
 
@@ -82,12 +82,62 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
         if (orientation == 'back') _isUploadingBack = true;
       });
 
+      final ImageSource? selectedSource = await showModalBottomSheet<ImageSource>(
+        context: context,
+        backgroundColor: Colors.transparent,
+        builder: (BuildContext context) {
+          final Color ugOrange = const Color(0xFFED9914);
+          final Color ugBlack = const Color(0xFF161616);
+          return Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Take or upload photo',
+                  style: robotoBold.copyWith(fontSize: 18, color: ugBlack),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  'Phone testers can take a new photo using the camera or upload an existing photo from the gallery.',
+                  textAlign: TextAlign.center,
+                  style: robotoRegular.copyWith(fontSize: 13, color: ugBlack.withValues(alpha: 0.6)),
+                ),
+                const SizedBox(height: 20),
+                ListTile(
+                  leading: Icon(Icons.photo_camera_outlined, color: ugOrange, size: 28),
+                  title: Text('Take photo', style: robotoMedium.copyWith(color: ugBlack)),
+                  subtitle: Text('Capture a new photo with your camera', style: robotoRegular.copyWith(fontSize: 12)),
+                  onTap: () => Navigator.pop(context, ImageSource.camera),
+                ),
+                const Divider(),
+                ListTile(
+                  leading: Icon(Icons.photo_library_outlined, color: ugOrange, size: 28),
+                  title: Text('Upload photo', style: robotoMedium.copyWith(color: ugBlack)),
+                  subtitle: Text('Select a photo from your device storage', style: robotoRegular.copyWith(fontSize: 12)),
+                  onTap: () => Navigator.pop(context, ImageSource.gallery),
+                ),
+                const SizedBox(height: 10),
+              ],
+            ),
+          );
+        },
+      );
+
+      if (selectedSource == null) {
+        return;
+      }
+
       final XFile? image = await _picker.pickImage(
-        source: ImageSource.gallery,
+        source: selectedSource,
         imageQuality: 80,
       );
 
-      // Simulate a small upload delay for upload status experience
+      // Preview a small upload delay for tester status feedback.
       await Future.delayed(const Duration(milliseconds: 1000));
 
       if (image != null) {
@@ -108,14 +158,16 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
           }
         });
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              '$orientation photo uploaded successfully (local reference saved).',
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                '$orientation photo uploaded successfully (local reference saved).',
+              ),
+              backgroundColor: Colors.green,
             ),
-            backgroundColor: Colors.green,
-          ),
-        );
+          );
+        }
 
         // Auto-run AI Sizing if height is provided and both front & side photos are uploaded
         if (_frontPhoto != null && _sidePhoto != null) {
@@ -123,12 +175,14 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
         }
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Failed to open image picker: $e'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to open image picker: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     } finally {
       setState(() {
         if (orientation == 'front') _isUploadingFront = false;
@@ -142,14 +196,14 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
     final double? height = double.tryParse(_heightController.text);
     if (height == null || height <= 0) {
       setState(() {
-        _aiFeedbackMessage = 'Please enter a valid Height (inches) above to run AI-assisted sizing estimate.';
+        _aiFeedbackMessage = 'Please enter a valid Height (inches) above to preview photo-assisted sizing guidance.';
       });
       return;
     }
 
     setState(() {
       _isAIProcessing = true;
-      _aiFeedbackMessage = 'Processing front & side silhouettes... calibrating scale...';
+      _aiFeedbackMessage = 'Previewing front and side photo references...';
     });
 
     try {
@@ -169,18 +223,20 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
         _shoulderController.text = result.shoulder.toString();
         
         _measurementStatus = 'Estimated';
-        _aiFeedbackMessage = 'AI Estimate completed successfully (Confidence: ${(result.confidence * 100).toInt()}%).\nValues auto-populated below. Please verify and manually adjust if needed.';
+        _aiFeedbackMessage = 'Photo-assisted estimate preview completed (Confidence: ${(result.confidence * 100).toInt()}%).\nValues are starter estimates only. Please verify and manually adjust if needed.';
       });
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('AI Sizing Estimation completed!'),
-          backgroundColor: Colors.green,
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Photo-assisted estimate preview completed.'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
     } catch (e) {
       setState(() {
-        _aiFeedbackMessage = 'AI Sizing Estimation failed: $e';
+        _aiFeedbackMessage = 'Photo-assisted estimate preview failed: $e';
       });
     } finally {
       setState(() {
@@ -316,7 +372,7 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
                   Expanded(
                     flex: 3,
                     child: DropdownButtonFormField<String>(
-                      value: _preferredFit,
+                      initialValue: _preferredFit,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -387,12 +443,11 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
                       return;
                     }
 
-                    // Payment Validation: if not free tester mode, status must be paid/waived
                     if (!_freeTesterMode && _paymentStatus == 'pending') {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text(
-                            'Payment Required: Please simulate payment below or enable Free Tester Mode to bypass.',
+                            'Payment preview only: enable Free Tester Mode before saving this tester profile.',
                           ),
                           backgroundColor: Colors.red,
                         ),
@@ -441,7 +496,6 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
       'Estimated',
       'Needs customer review',
       'Ready for tailor review',
-      'Tailor review paid',
       'Tailor adjusted',
       'Approved',
       'Cancelled',
@@ -469,7 +523,7 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
                 ),
                 const SizedBox(height: 6),
                 DropdownButtonFormField<String>(
-                  value: _measurementStatus,
+                  initialValue: _measurementStatus,
                   decoration: InputDecoration(
                     isDense: true,
                     border: OutlineInputBorder(
@@ -535,6 +589,14 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
           ),
           const SizedBox(height: 8),
           Text(
+            'Phone testers can take or upload photo references. Use a full-body photo with good lighting and a plain background. On desktop, this opens your file picker.',
+            style: robotoMedium.copyWith(
+              fontSize: 13,
+              color: ugOrange,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
             'Tester preview: photos may be used later for AI-assisted or tailor-assisted measurement review. This screen does not claim exact automatic measurements.',
             style: robotoRegular.copyWith(
               fontSize: 13,
@@ -560,6 +622,7 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
                   fileName: _frontPhoto?.name,
                   icon: Icons.accessibility_new_outlined,
                   onTap: () => _pickPhoto('front'),
+                  xFile: _frontPhoto,
                 ),
                 _buildPhotoTile(
                   title: 'Side photo',
@@ -568,6 +631,7 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
                   fileName: _sidePhoto?.name,
                   icon: Icons.directions_walk_outlined,
                   onTap: () => _pickPhoto('side'),
+                  xFile: _sidePhoto,
                 ),
                 _buildPhotoTile(
                   title: 'Optional back photo',
@@ -576,6 +640,7 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
                   fileName: _backPhoto?.name,
                   icon: Icons.accessibility_outlined,
                   onTap: () => _pickPhoto('back'),
+                  xFile: _backPhoto,
                 ),
               ];
 
@@ -621,7 +686,7 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    'AI Sizing Estimation in progress...',
+                    'Photo-assisted estimate preview in progress...',
                     style: robotoMedium.copyWith(fontSize: 13, color: ugOrange),
                   ),
                 ),
@@ -677,13 +742,13 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
                   value: _faceBlurEnabled,
                   dense: true,
                   contentPadding: EdgeInsets.zero,
-                  activeColor: Colors.green,
+                  activeThumbColor: Colors.green,
                   title: Text(
-                    'Automatic Face Blur Redaction',
+                    'Face blur status',
                     style: robotoBold.copyWith(fontSize: 12, color: ugBlack),
                   ),
                   subtitle: Text(
-                    'Obscures the facial region before sharing photo reference with vendors.',
+                    'Production face blur is not enabled in this tester build. Keep tester photos private.',
                     style: robotoRegular.copyWith(fontSize: 10, color: Colors.grey.shade600),
                   ),
                   onChanged: (value) {
@@ -693,9 +758,9 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
                   },
                 ),
                 const Divider(height: 16),
-                _buildPrivacyMetadataRow('Privacy status:', _faceBlurEnabled ? _faceBlurStatus : 'Unblurred (Developer override)'),
+                _buildPrivacyMetadataRow('Privacy status:', _faceBlurEnabled ? _faceBlurStatus : 'Tester photo not public'),
                 _buildPrivacyMetadataRow('Review policy:', _privacyReviewStatus),
-                _buildPrivacyMetadataRow('Share version:', _faceBlurEnabled ? _vendorPhotoVersion : 'V1 (Raw photo)'),
+                _buildPrivacyMetadataRow('Share version:', _faceBlurEnabled ? _vendorPhotoVersion : 'Tester local photo'),
               ],
             ),
           ),
@@ -765,6 +830,7 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
     required VoidCallback onTap,
     bool isUploading = false,
     String? fileName,
+    XFile? xFile,
   }) {
     const Color ugOrange = Color(0xFFED9914);
     const Color ugBlack = Color(0xFF161616);
@@ -794,7 +860,11 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(icon, color: ugOrange, size: 30),
+                  Icon(
+                    selected ? Icons.check_circle_outline : icon,
+                    color: selected ? Colors.green : ugOrange,
+                    size: 30,
+                  ),
                   const SizedBox(height: 8),
                   Text(
                     title,
@@ -804,8 +874,8 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
                   const SizedBox(height: 6),
                   Text(
                     selected
-                        ? (fileName != null ? 'File: $fileName' : 'Preview selected')
-                        : 'Take/upload preview',
+                        ? (fileName != null ? 'Photo selected\n($fileName)' : 'Photo selected')
+                        : 'Take or upload photo',
                     textAlign: TextAlign.center,
                     style: robotoRegular.copyWith(
                       fontSize: 11,
@@ -899,7 +969,7 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
           ),
           const SizedBox(height: 12),
           DropdownButtonFormField<String>(
-            value: _paymentStatus,
+            initialValue: _paymentStatus,
             decoration: InputDecoration(
               labelText: 'Payment status',
               border: OutlineInputBorder(
@@ -914,7 +984,6 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
                 const [
                   'not_required',
                   'pending',
-                  'paid',
                   'waived',
                   'failed',
                   'refunded',
@@ -930,8 +999,6 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
                   _paymentStatus = value;
                   if (value == 'pending') {
                     _measurementStatus = 'Payment pending';
-                  } else if (value == 'paid') {
-                    _measurementStatus = 'Paid';
                   }
                 });
               }
@@ -939,31 +1006,17 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
           ),
           if (!_freeTesterMode && _paymentStatus == 'pending') ...[
             const SizedBox(height: 12),
-            SizedBox(
+            Container(
               width: double.infinity,
-              height: 36,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  setState(() {
-                    _paymentStatus = 'paid';
-                    _measurementStatus = 'Paid';
-                  });
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Payment Simulated Successfully! Status updated to Paid.'),
-                      backgroundColor: Colors.green,
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.credit_card_outlined, size: 18),
-                label: const Text('Simulate Payment Checkout', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: ugOrange,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.amber.shade50,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.amber.shade200),
+              ),
+              child: Text(
+                'Paid checkout is disabled in the tester build. Use Free tester mode for preview testing.',
+                style: robotoMedium.copyWith(fontSize: 12, color: ugBlack),
               ),
             ),
           ],

@@ -66,7 +66,7 @@ class _TailorServiceRequestScreenState
               ),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
-                value: _selectedService,
+                initialValue: _selectedService,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
