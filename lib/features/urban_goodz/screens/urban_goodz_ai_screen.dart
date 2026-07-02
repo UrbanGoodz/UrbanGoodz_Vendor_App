@@ -46,31 +46,31 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
         _isProcessing = false;
         final q = query.toLowerCase();
         if (q.contains('tailor') || q.contains('measur') || q.contains('clothe') || q.contains('fit')) {
-          _responseText = 'I found local tailoring and alteration options. You can use our Fashion Fit measurement feature to prepare your sizing profile.';
+          _responseText = 'Tester preview found local tailoring and alteration paths. Open Fashion Fit to prepare a sizing profile before any live provider matching is enabled.';
           _responseAction = UrbanGoodzActionButton(
             label: 'Open Fashion Fit',
             onPressed: () => Get.toNamed(RouteHelper.getUrbanGoodzFashionMeasurementsRoute()),
           );
         } else if (q.contains('order') || q.contains('shop') || q.contains('store') || q.contains('not listed') || q.contains('buy') || q.contains('anywhere')) {
-          _responseText = 'We can help you get items from any store using our Order Anywhere concierge service. Just fill in the details of what you need.';
+          _responseText = 'Tester preview can collect an Order Anywhere request for a store that is not listed. No live purchase, payment, pickup, or dispatch starts from this build.';
           _responseAction = UrbanGoodzActionButton(
             label: 'Order Anywhere Form',
             onPressed: () => Get.toNamed(RouteHelper.getOrderAnywhereRequestRoute()),
           );
         } else if (q.contains('creator') || q.contains('influencer') || q.contains('reel') || q.contains('content')) {
-          _responseText = 'Explore styling guides, product reviews, and public drops from our local creator commerce space.';
+          _responseText = 'Tester preview can show local creator commerce paths, product ideas, and an interest form without starting a live creator campaign.';
           _responseAction = UrbanGoodzActionButton(
             label: 'Creator Commerce',
             onPressed: () => Get.toNamed(RouteHelper.getUrbanGoodzCreatorCommerceRoute()),
           );
         } else if (q.contains('deliver') || q.contains('courier') || q.contains('job') || q.contains('earn') || q.contains('opportunity') || q.contains('gig') || q.contains('logistics') || q.contains('load') || q.contains('board')) {
-          _responseText = 'Check out driver opportunities, medical courier routes, and logistics jobs available on our platform.';
+          _responseText = 'Tester preview can show earning, logistics, load board, and courier opportunity screens without posting or accepting live work.';
           _responseAction = UrbanGoodzActionButton(
             label: 'Earn Money Dashboard',
             onPressed: () => Get.toNamed(RouteHelper.getUrbanGoodzEarnMoneyRoute()),
           );
         } else if (q.contains('car') || q.contains('rental') || q.contains('vehicle') || q.contains('rent')) {
-          _responseText = 'You can find vehicle options in your neighborhood via our Car Rental preview.';
+          _responseText = 'Tester preview can route you to car rental options. Live booking availability depends on the connected module.';
           _responseAction = UrbanGoodzActionButton(
             label: 'Open Car Rental Hub',
             onPressed: () => Get.find<SplashController>().switchModule(
@@ -81,7 +81,7 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
             ),
           );
         } else {
-          _responseText = 'I\'ve processed your query in tester preview mode! For custom orders, try our Order Anywhere concierge, or check the Fashion Fit measurement features.';
+          _responseText = 'Tester preview processed your query. For custom store requests, use Order Anywhere. For apparel sizing, open Fashion Fit.';
           _responseAction = Row(
             children: [
               Expanded(
@@ -107,26 +107,26 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
   @override
   Widget build(BuildContext context) {
     final List<String> quickOptions = [
-      'Food Trucks',
-      'Grocery Deals',
+      'Tailors',
+      'Order Anywhere',
+      'Local Creators',
+      'Courier Opportunities',
       'Car Rentals',
-      'Black-owned',
-      'Pop-up Markets',
-      'Local Services',
     ];
 
     final List<Map<String, dynamic>> guidedPrompts = [
       {
-        'title': 'Find Black-owned restaurants near me',
-        'query': 'black-owned restaurants',
-        'asset': 'assets/image/urban_goodz_features/black_owned_spotlight.png',
+        'title': 'Find a tailor near me',
+        'query': 'Find a tailor near me',
+        'asset': 'assets/image/urban_goodz_features/ai_measuring_fit.png',
       },
       {
-        'title': 'Show rentals available today',
-        'route': RouteHelper.getInitialRoute(moduleId: AppConstants.taxi),
+        'title': 'Help me order from a store not listed',
+        'query': 'Help me order from a store not listed',
       },
-      {'title': 'Find local deals under \$25', 'query': 'deals under 25'},
-      {'title': 'Help me discover events nearby', 'query': 'events near me'},
+      {'title': 'Find local creators', 'query': 'Find local creators'},
+      {'title': 'Find delivery or courier opportunities', 'query': 'Find delivery or courier opportunities'},
+      {'title': 'Find car rental options', 'query': 'Find car rental options'},
     ];
 
     return Scaffold(
@@ -162,7 +162,7 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
               children: [
                 const UrbanGoodzPreviewBanner(
                   message:
-                      'This is an interactive AI concierge preview. Type any query to match local suppliers, logistics, or services.',
+                      'This is an interactive Ask UG tester preview. It suggests safe routes and mock guidance without using a live AI backend.',
                   icon: Icons.auto_awesome_outlined,
                 ),
 
@@ -238,7 +238,7 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
                       ),
                       const SizedBox(height: Dimensions.paddingSizeDefault),
                       Text(
-                        'Get guided recommendations for restaurants, rentals, deals, and events without the wait.',
+                        'Get guided tester-preview recommendations for Fashion Fit, Order Anywhere, creators, rentals, logistics, and local opportunities.',
                         style: robotoRegular.copyWith(
                           fontSize: Dimensions.fontSizeDefault,
                           height: 1.5,
@@ -289,7 +289,7 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
                           enabled: !_isProcessing,
                           decoration: InputDecoration(
                             hintText:
-                                'Ask about food, shops, rentals, events...',
+                                'Ask about fit, stores, creators, courier work...',
                             hintStyle: robotoRegular.copyWith(
                               fontSize: Dimensions.fontSizeDefault,
                               color: AppConstants.ugBlack.withValues(
@@ -346,7 +346,7 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          'AI is matching local vendors & catalogs...',
+                          'Tester preview is matching routes and screens...',
                           style: robotoMedium.copyWith(
                             fontSize: Dimensions.fontSizeExtraSmall,
                             color: AppConstants.seasoningOrange,

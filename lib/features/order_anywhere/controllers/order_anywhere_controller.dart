@@ -52,12 +52,22 @@ class OrderAnywhereController extends GetxController implements GetxService {
 
   bool validateRequestForm() {
     if (businessNameController.text.trim().isEmpty) {
-      _errorMessage = 'Business/store name is required';
+      _errorMessage = 'Store/vendor name is required';
+      update();
+      return false;
+    }
+    if (businessAddressController.text.trim().isEmpty) {
+      _errorMessage = 'Store/vendor address or website is required';
       update();
       return false;
     }
     if (itemNameController.text.trim().isEmpty) {
-      _errorMessage = 'Item/product name is required';
+      _errorMessage = 'What do you need? is required';
+      update();
+      return false;
+    }
+    if (itemDescriptionController.text.trim().isEmpty) {
+      _errorMessage = 'Item details are required';
       update();
       return false;
     }
