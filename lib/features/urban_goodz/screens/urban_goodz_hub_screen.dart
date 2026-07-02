@@ -318,6 +318,11 @@ class UrbanGoodzHubScreen extends StatelessWidget {
                         ),
                         child: TabBar(
                           isScrollable: true,
+                          tabAlignment: TabAlignment.start,
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          labelPadding: const EdgeInsets.symmetric(
+                            horizontal: 4,
+                          ),
                           labelColor: AppConstants.ugWhite,
                           unselectedLabelColor: AppConstants.ugBlack,
                           indicatorSize: TabBarIndicatorSize.tab,
@@ -396,6 +401,7 @@ class _UrbanGoodzHubPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isWide = MediaQuery.of(context).size.width >= 720;
+    final bool useSplitLayout = isWide && tab.usesPortraitDetailLayout;
     final double paddingVal = isWide
         ? Dimensions.paddingSizeExtraLarge
         : Dimensions.paddingSizeDefault;
@@ -409,7 +415,7 @@ class _UrbanGoodzHubPanel extends StatelessWidget {
       ),
       child: Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 900),
+          constraints: const BoxConstraints(maxWidth: 1040),
           child: Container(
             decoration: BoxDecoration(
               color: AppConstants.ugWhite,
@@ -437,124 +443,30 @@ class _UrbanGoodzHubPanel extends StatelessWidget {
                     ? Dimensions.paddingSizeExtraLarge
                     : Dimensions.paddingSizeLarge,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 56,
-                        height: 56,
-                        decoration: BoxDecoration(
-                          color: AppConstants.seasoningOrange.withValues(
-                            alpha: 0.14,
-                          ),
-                          borderRadius: BorderRadius.circular(
-                            Dimensions.radiusDefault,
-                          ),
-                          border: Border.all(
-                            color: AppConstants.seasoningOrange.withValues(
-                              alpha: 0.3,
-                            ),
-                            width: 1,
-                          ),
-                        ),
-                        child: Icon(
-                          tab.icon,
-                          color: AppConstants.seasoningOrange,
-                          size: 30,
-                        ),
-                      ),
-                      const Spacer(),
-                      UrbanGoodzStatusBadge(status: tab.status),
-                    ],
-                  ),
-                  const SizedBox(height: Dimensions.paddingSizeLarge),
-                  Text(
-                    tab.title,
-                    style: const TextStyle(
-                      color: AppConstants.ugBlack,
-                      fontSize: 22,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                  const SizedBox(height: Dimensions.paddingSizeSmall),
-                  Text(
-                    tab.description,
-                    style: TextStyle(
-                      color: AppConstants.ugBlack.withValues(alpha: 0.75),
-                      fontSize: 14,
-                      height: 1.5,
-                    ),
-                  ),
-                  const SizedBox(height: Dimensions.paddingSizeDefault),
-                  if (tab.thumbnailAssetPath != null) ...[
-                    _HubThumbnailImage(
-                      assetPath: tab.thumbnailAssetPath!,
-                      aspectRatio: tab.thumbnailAspectRatio,
-                    ),
-                    const SizedBox(height: Dimensions.paddingSizeLarge),
-                  ],
-                  if (tab.thumbnailAssetPath == null &&
-                      tab.assetPath != null) ...[
-                    UrbanGoodzFeatureAssetImage(
-                      assetPath: tab.assetPath!,
-                      maxHeight: isWide ? 320 : 240,
-                    ),
-                    const SizedBox(height: Dimensions.paddingSizeLarge),
-                  ],
-
-                  // Market Insight Widget
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 10,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppConstants.canvas.withValues(alpha: 0.25),
-                      borderRadius: BorderRadius.circular(
-                        Dimensions.radiusDefault,
-                      ),
-                      border: Border.all(
-                        color: AppConstants.canvas.withValues(alpha: 0.5),
-                        width: 1,
-                      ),
-                    ),
-                    child: Row(
+              child: useSplitLayout
+                  ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Icon(
-                          Icons.analytics_outlined,
-                          size: 16,
-                          color: AppConstants.seasoningOrange,
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            tab.marketInsight,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
-                              color: AppConstants.ugBlack,
-                              letterSpacing: 0.3,
-                            ),
-                          ),
-                        ),
+                        _HubDetailImage(tab: tab),
+                        const SizedBox(width: Dimensions.paddingSizeExtraLarge),
+                        Expanded(child: _HubFeatureInfo(tab: tab)),
+                      ],
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _HubFeatureInfo(tab: tab, includeActions: false),
+                        if (tab.hasDetailImage) ...[
+                          const SizedBox(height: Dimensions.paddingSizeDefault),
+                          _HubDetailImage(tab: tab),
+                        ],
+                        const SizedBox(height: Dimensions.paddingSizeLarge),
+                        _HubMarketInsight(tab: tab),
+                        const SizedBox(height: Dimensions.paddingSizeLarge),
+                        _HubAction(tab: tab),
                       ],
                     ),
-                  ),
-                  const SizedBox(height: Dimensions.paddingSizeLarge),
-                  SizedBox(
-                    width: double.infinity,
-                    child: UrbanGoodzActionButton(
-                      label: tab.buttonLabel,
-                      onPressed: () => Get.toNamed(tab.route),
-                    ),
-                  ),
-                ],
-              ),
             ),
           ),
         ),
@@ -563,38 +475,183 @@ class _UrbanGoodzHubPanel extends StatelessWidget {
   }
 }
 
-class _HubThumbnailImage extends StatelessWidget {
-  final String assetPath;
-  final double aspectRatio;
+class _HubFeatureInfo extends StatelessWidget {
+  final _UrbanGoodzHubTab tab;
+  final bool includeActions;
 
-  const _HubThumbnailImage({
-    required this.assetPath,
-    required this.aspectRatio,
-  });
+  const _HubFeatureInfo({required this.tab, this.includeActions = true});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: AppConstants.seasoningOrange.withValues(alpha: 0.14),
+                borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                border: Border.all(
+                  color: AppConstants.seasoningOrange.withValues(alpha: 0.3),
+                  width: 1,
+                ),
+              ),
+              child: Icon(
+                tab.icon,
+                color: AppConstants.seasoningOrange,
+                size: 30,
+              ),
+            ),
+            const Spacer(),
+            UrbanGoodzStatusBadge(status: tab.status),
+          ],
+        ),
+        const SizedBox(height: Dimensions.paddingSizeLarge),
+        Text(
+          tab.title,
+          style: const TextStyle(
+            color: AppConstants.ugBlack,
+            fontSize: 22,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+        const SizedBox(height: Dimensions.paddingSizeSmall),
+        Text(
+          tab.description,
+          style: TextStyle(
+            color: AppConstants.ugBlack.withValues(alpha: 0.75),
+            fontSize: 14,
+            height: 1.5,
+          ),
+        ),
+        if (includeActions) ...[
+          const SizedBox(height: Dimensions.paddingSizeLarge),
+          _HubMarketInsight(tab: tab),
+          const SizedBox(height: Dimensions.paddingSizeLarge),
+          _HubAction(tab: tab),
+        ],
+      ],
+    );
+  }
+}
+
+class _HubDetailImage extends StatelessWidget {
+  final _UrbanGoodzHubTab tab;
+
+  const _HubDetailImage({required this.tab});
 
   @override
   Widget build(BuildContext context) {
     final bool isWide = MediaQuery.of(context).size.width >= 720;
-    final bool isPortrait = aspectRatio < 0.75;
+    final bool isPortrait = tab.usesPortraitDetailLayout;
+    final String? assetPath = tab.detailImageAssetPath;
+
+    if (assetPath == null) {
+      return const SizedBox.shrink();
+    }
+
     final double maxWidth = isPortrait
-        ? (isWide ? 380 : 320)
-        : (isWide ? 760 : 520);
-    final double maxHeight = isPortrait ? (isWide ? 680 : 560) : maxWidth;
+        ? (isWide ? 360 : 320)
+        : (isWide ? 820 : 520);
+    final double height = isPortrait
+        ? (isWide ? 540 : 500)
+        : (isWide ? 430 : 340);
 
     return Center(
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: maxWidth, maxHeight: maxHeight),
-        child: AspectRatio(
-          aspectRatio: aspectRatio,
-          child: ClipRRect(
+        constraints: BoxConstraints(maxWidth: maxWidth),
+        child: Container(
+          width: double.infinity,
+          height: height,
+          padding: EdgeInsets.all(isPortrait ? 10 : 14),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFFFFFBF5), AppConstants.canvas],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
             borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
+            border: Border.all(
+              color: AppConstants.seasoningOrange.withValues(alpha: 0.16),
+            ),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
             child: Image.asset(
-              assetPath,
-              fit: BoxFit.cover,
+              assetPath!,
+              fit: BoxFit.contain,
+              alignment: Alignment.center,
               filterQuality: FilterQuality.high,
+              errorBuilder: (context, error, stackTrace) =>
+                  const SizedBox.shrink(),
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _HubMarketInsight extends StatelessWidget {
+  final _UrbanGoodzHubTab tab;
+
+  const _HubMarketInsight({required this.tab});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: AppConstants.canvas.withValues(alpha: 0.25),
+        borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+        border: Border.all(
+          color: AppConstants.canvas.withValues(alpha: 0.5),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        children: [
+          const Icon(
+            Icons.analytics_outlined,
+            size: 16,
+            color: AppConstants.seasoningOrange,
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              tab.marketInsight,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: AppConstants.ugBlack,
+                letterSpacing: 0.3,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _HubAction extends StatelessWidget {
+  final _UrbanGoodzHubTab tab;
+
+  const _HubAction({required this.tab});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: UrbanGoodzActionButton(
+        label: tab.buttonLabel,
+        onPressed: () => Get.toNamed(tab.route),
       ),
     );
   }
@@ -612,6 +669,10 @@ class _UrbanGoodzHubTab {
   final String? assetPath;
   final String? thumbnailAssetPath;
   final double thumbnailAspectRatio;
+
+  bool get hasDetailImage => detailImageAssetPath != null;
+  bool get usesPortraitDetailLayout => thumbnailAspectRatio < 0.75;
+  String? get detailImageAssetPath => thumbnailAssetPath ?? assetPath;
 
   const _UrbanGoodzHubTab({
     required this.label,
