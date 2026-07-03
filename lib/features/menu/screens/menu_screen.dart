@@ -276,11 +276,7 @@ class _MenuScreenState extends State<MenuScreen> {
 
                 Container(
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [AppConstants.ugBlack, Color(0xFF2D241E)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
+                    color: AppConstants.canvas.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
                     border: Border.all(
                       color: AppConstants.seasoningOrange.withValues(alpha: 0.35),
@@ -288,101 +284,108 @@ class _MenuScreenState extends State<MenuScreen> {
                     ),
                     boxShadow: const [
                       BoxShadow(
-                        color: Colors.black26, 
+                        color: Colors.black12, 
                         blurRadius: 10, 
                         offset: Offset(0, 4),
                       )
                     ],
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge, vertical: Dimensions.paddingSizeDefault),
+                  padding: const EdgeInsets.all(12),
                   margin: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-                  child: Column(children: [
-                    _UrbanGoodzMenuItem(
-                      icon: Icons.grid_view_outlined,
-                      title: 'Urban Goodz Hub',
-                      subtitle: 'Premium command center & tabs',
-                      route: RouteHelper.getUrbanGoodzHubRoute(),
-                      status: 'Live',
-                    ),
-                    _UrbanGoodzMenuItem(
-                      icon: Icons.paid_outlined,
-                      title: 'Earn Money',
-                      subtitle: 'Active gig work & payouts',
-                      route: RouteHelper.getUrbanGoodzEarnMoneyRoute(),
-                      status: 'Live',
-                    ),
-                    _UrbanGoodzMenuItem(
-                      icon: Icons.local_shipping_outlined,
-                      title: 'Logistics',
-                      subtitle: 'Local delivery support',
-                      route: RouteHelper.getUrbanGoodzLogisticsRoute(),
-                      status: 'Preview',
-                    ),
-                    _UrbanGoodzMenuItem(
-                      icon: Icons.view_list_outlined,
-                      title: 'Load Board',
-                      subtitle: 'Freight & route matching',
-                      route: RouteHelper.getUrbanGoodzLoadBoardRoute(),
-                      status: 'Preview',
-                    ),
-                    _UrbanGoodzMenuItem(
-                      icon: Icons.medical_services_outlined,
-                      title: 'Medical Courier',
-                      subtitle: 'Medical courier readiness',
-                      route: RouteHelper.getUrbanGoodzMedicalCourierRoute(),
-                      status: 'Preview',
-                    ),
-                    _UrbanGoodzMenuItem(
-                      icon: Icons.event_available_outlined,
-                      title: 'Book Services',
-                      subtitle: 'Appointments & custom booking',
-                      route: RouteHelper.getUrbanGoodzBookServicesRoute(),
-                      status: 'Preview',
-                    ),
-                    _UrbanGoodzMenuItem(
-                      icon: Icons.celebration_outlined,
-                      title: 'Events & Creators',
-                      subtitle: 'Pop-ups & creator showcase',
-                      route: RouteHelper.getLocalEventsCreatorsRoute(),
-                      status: 'Preview',
-                    ),
-                    _UrbanGoodzMenuItem(
-                      icon: Icons.groups_outlined,
-                      title: 'Community Marketplace',
-                      subtitle: 'Local boards & discussions',
-                      route: RouteHelper.getUrbanGoodzCommunityMarketplaceRoute(),
-                      status: 'Preview',
-                    ),
-                    _UrbanGoodzMenuItem(
-                      icon: Icons.storefront_outlined,
-                      title: 'Creator Commerce',
-                      subtitle: 'Shoppable video feeds',
-                      route: RouteHelper.getUrbanGoodzCreatorCommerceRoute(),
-                      status: 'Preview',
-                    ),
-                    _UrbanGoodzMenuItem(
-                      icon: Icons.auto_awesome_outlined,
-                      title: 'Urban Goodz AI',
-                      subtitle: 'AI Concierge & smart matching',
-                      route: RouteHelper.getUrbanGoodzAIRoute(),
-                      status: 'Preview',
-                    ),
-                    _UrbanGoodzMenuItem(
-                      icon: Icons.workspace_premium_outlined,
-                      title: 'Urban Goodz Plus',
-                      subtitle: 'Unlock premium perks & waitlist',
-                      route: RouteHelper.getUrbanGoodzPlusRoute(),
-                      status: 'Preview',
-                    ),
-                    _UrbanGoodzMenuItem(
-                      icon: Icons.checkroom_outlined,
-                      title: 'Fashion Fit & Measurements',
-                      subtitle: 'Measurement intake preview',
-                      route: RouteHelper.getUrbanGoodzFashionMeasurementsRoute(),
-                      status: 'Preview',
-                      hideDivider: true,
-                    ),
-                  ]),
+                  child: GridView.count(
+                    crossAxisCount: 2,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                    childAspectRatio: 1.4,
+                    children: [
+                      _UrbanGoodzMenuItem(
+                        imagePath: 'assets/image/urban_goodz_features/urban_goodz_hub.png',
+                        title: 'Urban Goodz Hub',
+                        subtitle: 'Command center',
+                        route: RouteHelper.getUrbanGoodzHubRoute(),
+                        status: 'Live',
+                      ),
+                      _UrbanGoodzMenuItem(
+                        imagePath: 'assets/image/urban_goodz_features/hub_thumbnails/01_earn_money.png',
+                        title: 'Earn Money',
+                        subtitle: 'Gig work',
+                        route: RouteHelper.getUrbanGoodzEarnMoneyRoute(),
+                        status: 'Live',
+                      ),
+                      _UrbanGoodzMenuItem(
+                        imagePath: 'assets/image/urban_goodz_features/hub_thumbnails/02_logistics.png',
+                        title: 'Logistics',
+                        subtitle: 'Delivery support',
+                        route: RouteHelper.getUrbanGoodzLogisticsRoute(),
+                        status: 'Preview',
+                      ),
+                      _UrbanGoodzMenuItem(
+                        imagePath: 'assets/image/urban_goodz_features/hub_thumbnails/03_load_board.png',
+                        title: 'Load Board',
+                        subtitle: 'Freight matching',
+                        route: RouteHelper.getUrbanGoodzLoadBoardRoute(),
+                        status: 'Preview',
+                      ),
+                      _UrbanGoodzMenuItem(
+                        imagePath: 'assets/image/urban_goodz_features/hub_thumbnails/04_medical_courier.png',
+                        title: 'Medical Courier',
+                        subtitle: 'Courier readiness',
+                        route: RouteHelper.getUrbanGoodzMedicalCourierRoute(),
+                        status: 'Preview',
+                      ),
+                      _UrbanGoodzMenuItem(
+                        imagePath: 'assets/image/urban_goodz_features/hub_thumbnails/05_book_anything.png',
+                        title: 'Book Services',
+                        subtitle: 'Appointments',
+                        route: RouteHelper.getUrbanGoodzBookServicesRoute(),
+                        status: 'Preview',
+                      ),
+                      _UrbanGoodzMenuItem(
+                        imagePath: 'assets/image/urban_goodz_features/hub_thumbnails/06_events.png',
+                        title: 'Events & Creators',
+                        subtitle: 'Pop-ups & showcase',
+                        route: RouteHelper.getLocalEventsCreatorsRoute(),
+                        status: 'Preview',
+                      ),
+                      _UrbanGoodzMenuItem(
+                        imagePath: 'assets/image/urban_goodz_features/hub_thumbnails/07_community.png',
+                        title: 'Community',
+                        subtitle: 'Local discussions',
+                        route: RouteHelper.getUrbanGoodzCommunityMarketplaceRoute(),
+                        status: 'Preview',
+                      ),
+                      _UrbanGoodzMenuItem(
+                        imagePath: 'assets/image/urban_goodz_features/hub_thumbnails/08_creators.png',
+                        title: 'Creator Commerce',
+                        subtitle: 'Shoppable video',
+                        route: RouteHelper.getUrbanGoodzCreatorCommerceRoute(),
+                        status: 'Preview',
+                      ),
+                      _UrbanGoodzMenuItem(
+                        imagePath: 'assets/image/urban_goodz_features/hub_thumbnails/09_ask_ug.png',
+                        title: 'Urban Goodz AI',
+                        subtitle: 'AI Concierge',
+                        route: RouteHelper.getUrbanGoodzAIRoute(),
+                        status: 'Preview',
+                      ),
+                      _UrbanGoodzMenuItem(
+                        imagePath: 'assets/image/urban_goodz_features/hub_thumbnails/10_ug_plus.png',
+                        title: 'Urban Goodz Plus',
+                        subtitle: 'Unlock perks',
+                        route: RouteHelper.getUrbanGoodzPlusRoute(),
+                        status: 'Preview',
+                      ),
+                      _UrbanGoodzMenuItem(
+                        imagePath: 'assets/image/urban_goodz_features/hub_thumbnails/15_fashion_fit_tab.png',
+                        title: 'Fashion Fit',
+                        subtitle: 'Fitting & style',
+                        route: RouteHelper.getUrbanGoodzFashionMeasurementsRoute(),
+                        status: 'Preview',
+                      ),
+                    ],
+                  ),
                 )
               ]),
 
@@ -563,84 +566,121 @@ class _MenuScreenState extends State<MenuScreen> {
 }
 
 class _UrbanGoodzMenuItem extends StatelessWidget {
-  final IconData icon;
+  final String imagePath;
   final String title;
   final String subtitle;
   final String route;
   final String? status;
-  final bool hideDivider;
 
   const _UrbanGoodzMenuItem({
-    required this.icon,
+    required this.imagePath,
     required this.title,
     required this.subtitle,
     required this.route,
     this.status,
-    this.hideDivider = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => Get.toNamed(route),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: AppConstants.seasoningOrange.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(icon, color: AppConstants.seasoningOrange, size: 18),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: robotoBold.copyWith(
-                          fontSize: Dimensions.fontSizeDefault,
-                          color: AppConstants.ugWhite,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        subtitle,
-                        style: robotoRegular.copyWith(
-                          fontSize: Dimensions.fontSizeSmall - 2,
-                          color: AppConstants.canvas,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                if (status != null) ...[
-                  const SizedBox(width: 8),
-                  UrbanGoodzStatusBadge(status: status!, isCompact: true),
-                ],
-                const SizedBox(width: 4),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 12,
-                  color: AppConstants.canvas.withValues(alpha: 0.5),
-                ),
-              ],
-            ),
-            if (!hideDivider)
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Divider(
-                  color: AppConstants.canvas.withValues(alpha: 0.15),
-                  height: 1,
+      borderRadius: BorderRadius.circular(12),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black12,
+                offset: Offset(0, 2),
+                blurRadius: 4,
+              ),
+            ],
+            border: Border.all(color: Colors.grey.shade200),
+          ),
+          child: Stack(
+            children: [
+              // Background Image
+              Positioned.fill(
+                child: Image.asset(
+                  imagePath,
+                  fit: BoxFit.cover,
                 ),
               ),
-          ],
+
+              // Gradient Overlay at the bottom
+              Positioned.fill(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.black.withValues(alpha: 0.85),
+                        Colors.black.withValues(alpha: 0.25),
+                        Colors.transparent,
+                      ],
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                    ),
+                  ),
+                ),
+              ),
+
+              // Title and Subtitle at the bottom left
+              Positioned(
+                bottom: 8,
+                left: 8,
+                right: 8,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      title,
+                      style: robotoBold.copyWith(
+                        fontSize: 11,
+                        color: Colors.white,
+                        shadows: [
+                          const Shadow(
+                            offset: Offset(0, 1),
+                            blurRadius: 2,
+                            color: Colors.black87,
+                          ),
+                        ],
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 1),
+                    Text(
+                      subtitle,
+                      style: robotoRegular.copyWith(
+                        fontSize: 8.5,
+                        color: Colors.white.withValues(alpha: 0.85),
+                        shadows: [
+                          const Shadow(
+                            offset: Offset(0, 1),
+                            blurRadius: 2,
+                            color: Colors.black87,
+                          ),
+                        ],
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+
+              // Status Badge in the top right
+              if (status != null)
+                Positioned(
+                  top: 6,
+                  right: 6,
+                  child: UrbanGoodzStatusBadge(status: status!, isCompact: true),
+                ),
+            ],
+          ),
         ),
       ),
     );

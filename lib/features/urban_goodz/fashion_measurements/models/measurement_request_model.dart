@@ -23,6 +23,9 @@ class MeasurementRequestModel {
   final String? measurementStatus;
   final String? reviewStatus;
   final String? tailorNotes;
+  final String? stylistNotes;
+  final double? quoteAmount;
+  final String? mockupReference;
   final String? notes;
   final String? itemWanted;
   final String? requestType;
@@ -65,6 +68,9 @@ class MeasurementRequestModel {
     this.measurementStatus,
     this.reviewStatus,
     this.tailorNotes,
+    this.stylistNotes,
+    this.quoteAmount,
+    this.mockupReference,
     this.notes,
     this.itemWanted,
     this.requestType,
@@ -115,6 +121,9 @@ class MeasurementRequestModel {
       measurementStatus: json['measurement_status'],
       reviewStatus: json['review_status'],
       tailorNotes: json['tailor_notes'],
+      stylistNotes: json['stylist_notes'] ?? json['tailor_notes'],
+      quoteAmount: double.tryParse(json['quote_amount']?.toString() ?? ''),
+      mockupReference: json['mockup_reference'],
       notes: json['notes'],
       itemWanted: json['item_wanted'],
       requestType: json['request_type'],
@@ -172,6 +181,9 @@ class MeasurementRequestModel {
       'measurement_status': measurementStatus,
       'review_status': reviewStatus,
       'tailor_notes': tailorNotes,
+      'stylist_notes': stylistNotes,
+      'quote_amount': quoteAmount,
+      'mockup_reference': mockupReference,
       'notes': notes,
       'item_wanted': itemWanted,
       'request_type': requestType,

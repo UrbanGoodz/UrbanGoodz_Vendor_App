@@ -15,7 +15,7 @@ class FashionMeasurementApiService {
   static const String fashionMeasurementPhotoUri =
       '/api/v1/customer/fashion/measurement-photos';
   static const String fashionMeasurementRequestUri =
-      '/api/v1/customer/fashion/measurement-requests';
+      '/api/v1/urban-goodz/fashion/stylist-requests';
   static const String fashionTailorServicesUri =
       '/api/v1/customer/fashion/tailor-services';
   static const String fashionTailorQuotesUri =
@@ -190,6 +190,22 @@ class FashionMeasurementApiService {
       }),
     );
     return false;
+  }
+
+  Future<List<MeasurementRequestModel>> getSubmittedRequests(int userId) async {
+    final apiClient = _apiClient;
+    if (apiClient != null) {
+      final response = await apiClient.getData(
+        '$fashionMeasurementRequestUri?user_id=$userId',
+        handleError: false,
+      );
+      if (response.statusCode == 200 && response.body is Map && response.body['data'] is List) {
+        final list = List<Map<String, dynamic>>.from(response.body['data']);
+        _submittedRequests.clear();
+        _submittedRequests.addAll(list.map((json) => MeasurementRequestModel.fromJson(json)));
+      }
+    }
+    return _submittedRequests;
   }
 
   Future<List<TailorQuoteModel>> getTailorQuotes(int requestId) async {
