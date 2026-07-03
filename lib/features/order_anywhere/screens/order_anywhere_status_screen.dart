@@ -188,13 +188,8 @@ class _OrderAnywhereStatusScreenState extends State<OrderAnywhereStatusScreen> {
                   ]),
                   SizedBox(height: 8),
                   Text(
-                    '/*\n'
-                    ' * SAFETY: Order Anywhere requests must NOT appear in driver feed\n'
-                    ' * unless payment_status is paid or authorized.\n'
-                    ' * COD is NOT allowed for Order Anywhere.\n'
-                    ' * Admin reconciliation is required after receipt upload.\n'
-                    ' */',
-                    style: TextStyle(fontSize: 11, fontFamily: 'monospace', color: Color(0xFF616161)),
+                    'Driver dispatch is pending backend assignment. In production, dispatch will only begin after payment and admin reconciliation are complete.',
+                    style: TextStyle(fontSize: 12, color: Color(0xFF616161)),
                   ),
                 ]),
               ),

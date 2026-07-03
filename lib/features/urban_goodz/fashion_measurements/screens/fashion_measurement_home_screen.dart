@@ -146,7 +146,7 @@ class _FashionMeasurementHomeScreenState extends State<FashionMeasurementHomeScr
                     _buildDashboardCard(
                       imagePath: 'assets/image/urban_goodz_features/fashion_fit_stylist_requests.jpg',
                       title: 'Stylist Requests',
-                      subtitle: 'Bespoke fitting orders',
+                      subtitle: 'Custom fit requests',
                       onTap: () async {
                         await Get.toNamed(RouteHelper.getUrbanGoodzFashionTailorRequestRoute());
                         _fetchRequests();

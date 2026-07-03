@@ -59,7 +59,7 @@ class TailorQuoteReviewScreen extends StatelessWidget {
               ),
               const SizedBox(height: 12),
 
-              _buildQuoteItem('Bespoke Creation (Tuxedo)', '\$150.00'),
+              _buildQuoteItem('Custom Creation (Tuxedo)', '\$150.00'),
             _buildQuoteItem('Photo Reference Review', '\$15.00'),
               _buildQuoteItem('Service Taxes', '\$10.25'),
               const Divider(height: 32),

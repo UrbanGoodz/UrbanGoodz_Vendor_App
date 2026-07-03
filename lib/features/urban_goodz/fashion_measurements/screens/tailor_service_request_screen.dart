@@ -170,7 +170,7 @@ class _TailorServiceRequestScreenState
                 ),
                 items:
                     [
-                      'Bespoke Design / Styling',
+                      'Custom Design / Styling',
                       'Custom Outfit Request',
                       'Alterations & Hemming',
                       'Uniform Fitting',

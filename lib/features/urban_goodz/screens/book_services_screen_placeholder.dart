@@ -67,7 +67,7 @@ class BookServicesScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Bespoke Service Bookings',
+                    'Custom Service Bookings',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w900,

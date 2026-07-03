@@ -47,7 +47,7 @@ class EarnMoneyScreen extends StatelessWidget {
       id: 'mock_tailoring',
       title: 'Fashion Fit alteration partner',
       type: 'Fashion & Tailoring',
-      description: 'Help customers refine manual fit profiles, record measurements, and deliver bespoke altered garments.',
+      description: 'Help customers refine manual fit profiles, record measurements, and deliver custom altered garments.',
       earningLabel: 'Set your own tailoring rates',
       distanceLabel: 'Local studio / At-home service',
       scheduleLabel: 'By project appointment',

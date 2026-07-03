@@ -140,7 +140,7 @@ class FashionMeasurementApiService {
         id: 1,
         storeId: storeId,
         serviceName: "Custom Tuxedo Fitting & Alteration",
-        description: "Bespoke tuxedo fitting with photo-assisted measurement intake review.",
+        description: "Custom tuxedo fitting with photo-assisted measurement intake review.",
         basePrice: 150.0,
         durationDays: 14,
       ),
