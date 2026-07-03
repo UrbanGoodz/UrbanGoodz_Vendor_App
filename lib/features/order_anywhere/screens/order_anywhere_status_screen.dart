@@ -57,17 +57,19 @@ class _OrderAnywhereStatusScreenState extends State<OrderAnywhereStatusScreen> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: AppConstants.seasoningOrange.withValues(alpha: 0.1),
+                  color: req.backendLimited ? Colors.red.shade50 : AppConstants.seasoningOrange.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: AppConstants.seasoningOrange.withValues(alpha: 0.3)),
+                  border: Border.all(color: req.backendLimited ? Colors.red.shade200 : AppConstants.seasoningOrange.withValues(alpha: 0.3)),
                 ),
-                child: const Row(children: [
-                  Icon(Icons.info_outline, color: AppConstants.seasoningOrange, size: 18),
-                  SizedBox(width: 8),
+                child: Row(children: [
+                  Icon(req.backendLimited ? Icons.warning_amber_outlined : Icons.info_outline, color: req.backendLimited ? Colors.red : AppConstants.seasoningOrange, size: 18),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'Preview request flow. Test mode only. Live payments and dispatch are not enabled yet.',
-                      style: TextStyle(fontSize: 12, color: AppConstants.ugBlack),
+                      req.backendLimited
+                          ? 'Backend-limited fallback: this request is only saved in the customer app session until the Order Anywhere backend endpoint is deployed.'
+                          : 'Tester request flow. Live payment is not enabled; admin, vendor, and driver status updates are saved only through the tester backend endpoints.',
+                      style: const TextStyle(fontSize: 12, color: AppConstants.ugBlack),
                     ),
                   ),
                 ]),
@@ -92,6 +94,13 @@ class _OrderAnywhereStatusScreenState extends State<OrderAnywhereStatusScreen> {
 
               const SizedBox(height: 20),
               OrderAnywhereSummaryCard(request: req),
+
+              const SizedBox(height: 20),
+              _sectionLabel('Admin / Vendor Notes'),
+              const SizedBox(height: 8),
+              _noteCard('Admin notes', req.adminNotes),
+              _noteCard('Vendor notes', req.vendorNotes),
+              _noteCard('Driver notes', req.driverNotes ?? req.driverTaskStatus),
 
               const SizedBox(height: 20),
 
@@ -218,8 +227,11 @@ class _OrderAnywhereStatusScreenState extends State<OrderAnywhereStatusScreen> {
       OrderAnywhereRequestStatus.draft,
       OrderAnywhereRequestStatus.pendingPayment,
       OrderAnywhereRequestStatus.submitted,
+      OrderAnywhereRequestStatus.adminReviewing,
+      OrderAnywhereRequestStatus.needsInfo,
+      OrderAnywhereRequestStatus.vendorRunnerAssigned,
       OrderAnywhereRequestStatus.driverAssigned,
-      OrderAnywhereRequestStatus.purchasing,
+      OrderAnywhereRequestStatus.inProgress,
       OrderAnywhereRequestStatus.outForDelivery,
       OrderAnywhereRequestStatus.delivered,
     ];
@@ -302,6 +314,23 @@ class _OrderAnywhereStatusScreenState extends State<OrderAnywhereStatusScreen> {
     );
   }
 
+  Widget _noteCard(String label, String? value) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: Text(
+        '$label: ${value == null || value.isEmpty ? 'No notes yet' : value}',
+        style: const TextStyle(fontSize: 12, color: AppConstants.ugBlack),
+      ),
+    );
+  }
+
   Widget _sectionLabel(String text) {
     return Text(text, style: TextStyle(fontSize: Dimensions.fontSizeLarge, fontWeight: FontWeight.w600, color: AppConstants.ugBlack));
   }
@@ -312,9 +341,14 @@ class _OrderAnywhereStatusScreenState extends State<OrderAnywhereStatusScreen> {
       case OrderAnywhereRequestStatus.pendingPayment:
         return Colors.orange;
       case OrderAnywhereRequestStatus.submitted:
+      case OrderAnywhereRequestStatus.adminReviewing:
         return Colors.blue;
+      case OrderAnywhereRequestStatus.needsInfo:
+        return Colors.deepOrange;
+      case OrderAnywhereRequestStatus.vendorRunnerAssigned:
       case OrderAnywhereRequestStatus.driverPending:
       case OrderAnywhereRequestStatus.driverAssigned:
+      case OrderAnywhereRequestStatus.inProgress:
       case OrderAnywhereRequestStatus.purchasing:
         return Colors.purple;
       case OrderAnywhereRequestStatus.receiptUploaded:

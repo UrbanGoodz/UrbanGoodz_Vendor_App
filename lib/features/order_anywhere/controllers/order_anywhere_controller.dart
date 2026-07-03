@@ -136,14 +136,24 @@ class OrderAnywhereController extends GetxController implements GetxService {
       final result = await orderAnywhereServiceInterface.submitRequest(_currentRequest);
       if (result != null) {
         _currentRequest = result;
+        _myRequests.insert(0, result);
         Get.offNamed(RouteHelper.getOrderAnywhereStatusRoute(_currentRequest.id ?? ''));
       } else {
         _errorMessage = 'Backend endpoint pending. This tester build cannot submit live Order Anywhere requests yet.';
         update();
       }
     } catch (e) {
-      _errorMessage = e.toString();
-      update();
+      _currentRequest = _currentRequest.copyWith(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        requestStatus: OrderAnywhereRequestStatus.submitted,
+        backendLimited: true,
+        adminNotes: 'Backend endpoint unavailable. Local tester fallback only. ${e.toString()}',
+        createdAt: DateTime.now().toIso8601String(),
+        updatedAt: DateTime.now().toIso8601String(),
+      );
+      _myRequests.insert(0, _currentRequest);
+      _errorMessage = 'Backend unavailable; request saved locally for tester status only.';
+      Get.offNamed(RouteHelper.getOrderAnywhereStatusRoute(_currentRequest.id ?? ''));
     }
 
     _isSubmitting = false;
@@ -198,6 +208,12 @@ class OrderAnywhereController extends GetxController implements GetxService {
 
   Future<void> loadRequestById(String id) async {
     try {
+      final cachedIndex = _myRequests.indexWhere((request) => request.id == id);
+      if (cachedIndex >= 0) {
+        _currentRequest = _myRequests[cachedIndex];
+        update();
+        if (_currentRequest.backendLimited) return;
+      }
       final result = await orderAnywhereServiceInterface.getRequestById(id);
       if (result != null) {
         _currentRequest = result;

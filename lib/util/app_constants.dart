@@ -284,6 +284,11 @@ class AppConstants {
   static const String orderAnywhereDriverAcceptUri = '/api/v1/order-anywhere/driver';
   static const String orderAnywhereAdminReconciliationUri = '/api/v1/order-anywhere/admin/reconciliation';
 
+  /// Creator Commerce
+  static const String creatorCommerceApplicationsUri = '/api/v1/urban-goodz/creator-commerce/applications';
+  static const String creatorCommerceCustomerApplicationsUri = '/api/v1/urban-goodz/creator-commerce/customer/applications';
+  static const String creatorCommercePromotionsUri = '/api/v1/urban-goodz/creator-commerce/promotions';
+
   /// service module
   static const String getServiceBannerUri = '/api/v1/service/customer/banner?limit=50&offset=1';
   static const String getServiceCategoryUri = '/api/v1/service/customer/category?limit=20&offset=1';

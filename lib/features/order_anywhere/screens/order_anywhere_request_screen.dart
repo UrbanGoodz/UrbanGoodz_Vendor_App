@@ -16,12 +16,12 @@ class OrderAnywhereRequestScreen extends StatefulWidget {
 class _OrderAnywhereRequestScreenState extends State<OrderAnywhereRequestScreen> {
   final _formKey = GlobalKey<FormState>();
   late OrderAnywhereController controller;
-  bool _requestPreviewSubmitted = false;
 
   @override
   void initState() {
     super.initState();
     controller = Get.find<OrderAnywhereController>();
+    controller.fetchMyRequests();
   }
 
   @override
@@ -255,32 +255,6 @@ class _OrderAnywhereRequestScreenState extends State<OrderAnywhereRequestScreen>
                     child: Text(controller.errorMessage!, style: const TextStyle(color: Colors.red, fontSize: 13)),
                   ),
 
-                if (_requestPreviewSubmitted) ...[
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.green.withValues(alpha: 0.08),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.green.withValues(alpha: 0.35)),
-                    ),
-                    child: const Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Icon(Icons.check_circle_outline, color: Colors.green, size: 20),
-                        SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            'Order Anywhere request received in tester preview. No live payment, purchase, pickup, or dispatch was started.',
-                            style: TextStyle(fontSize: 12, color: AppConstants.ugBlack, height: 1.35),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                ],
-
                 SizedBox(
                   width: double.infinity,
                   height: 48,
@@ -290,19 +264,14 @@ class _OrderAnywhereRequestScreenState extends State<OrderAnywhereRequestScreen>
                       foregroundColor: AppConstants.ugWhite,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
-                    onPressed: () {
+                    onPressed: controller.isSubmitting ? null : () {
                       final formValid = _formKey.currentState?.validate() ?? false;
                       if (!formValid || !controller.validateRequestForm()) return;
-                      controller.buildRequestFromForm();
-                      setState(() => _requestPreviewSubmitted = true);
-                      Get.snackbar(
-                        'Tester Preview',
-                        'Order Anywhere request received in tester preview.',
-                        backgroundColor: AppConstants.seasoningOrange,
-                        colorText: AppConstants.ugWhite,
-                      );
+                      controller.submitRequest();
                     },
-                    child: const Text('Submit Request', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                    child: controller.isSubmitting
+                        ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: AppConstants.ugWhite))
+                        : const Text('Submit Request', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                   ),
                 ),
 
@@ -315,6 +284,56 @@ class _OrderAnywhereRequestScreenState extends State<OrderAnywhereRequestScreen>
                   icon: const Icon(Icons.preview_outlined),
                   label: const Text('Preview request details'),
                 ),
+
+                const SizedBox(height: 20),
+                _sectionLabel('My Order Anywhere Requests'),
+                const SizedBox(height: 8),
+                if (controller.myRequests.isEmpty)
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: AppConstants.canvas,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: AppConstants.seasoningOrange.withValues(alpha: 0.25)),
+                    ),
+                    child: const Text(
+                      'Submitted requests will appear here with admin, vendor, and driver status updates when available.',
+                      style: TextStyle(fontSize: 12, color: AppConstants.ugBlack),
+                    ),
+                  )
+                else
+                  ...controller.myRequests.take(3).map((request) {
+                    return Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.only(bottom: 8),
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: AppConstants.ugWhite,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: AppConstants.ugBlack.withValues(alpha: 0.08)),
+                      ),
+                      child: InkWell(
+                        onTap: () => Get.toNamed('/order-anywhere-status?requestId=${request.id ?? ''}'),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(request.itemName.isEmpty ? 'Order Anywhere Request' : request.itemName,
+                                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppConstants.ugBlack)),
+                            const SizedBox(height: 4),
+                            Text(
+                              '${request.requestStatus.value.replaceAll('_', ' ').toUpperCase()}${request.backendLimited ? ' - backend-limited fallback' : ''}',
+                              style: const TextStyle(fontSize: 11, color: AppConstants.seasoningOrange, fontWeight: FontWeight.w700),
+                            ),
+                            if ((request.adminNotes ?? '').isNotEmpty) ...[
+                              const SizedBox(height: 4),
+                              Text('Admin notes: ${request.adminNotes}', style: const TextStyle(fontSize: 11, color: AppConstants.ugBlack)),
+                            ],
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
 
                 const SizedBox(height: 40),
               ],

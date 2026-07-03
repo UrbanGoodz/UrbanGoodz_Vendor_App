@@ -2,8 +2,12 @@ enum OrderAnywhereRequestStatus {
   draft,
   pendingPayment,
   submitted,
+  adminReviewing,
+  needsInfo,
+  vendorRunnerAssigned,
   driverPending,
   driverAssigned,
+  inProgress,
   purchasing,
   receiptUploaded,
   adjustmentRequired,
@@ -18,8 +22,12 @@ enum OrderAnywhereRequestStatus {
       case OrderAnywhereRequestStatus.draft: return 'draft';
       case OrderAnywhereRequestStatus.pendingPayment: return 'pending_payment';
       case OrderAnywhereRequestStatus.submitted: return 'submitted';
+      case OrderAnywhereRequestStatus.adminReviewing: return 'admin_reviewing';
+      case OrderAnywhereRequestStatus.needsInfo: return 'needs_info';
+      case OrderAnywhereRequestStatus.vendorRunnerAssigned: return 'vendor_runner_assigned';
       case OrderAnywhereRequestStatus.driverPending: return 'driver_pending';
       case OrderAnywhereRequestStatus.driverAssigned: return 'driver_assigned';
+      case OrderAnywhereRequestStatus.inProgress: return 'in_progress';
       case OrderAnywhereRequestStatus.purchasing: return 'purchasing';
       case OrderAnywhereRequestStatus.receiptUploaded: return 'receipt_uploaded';
       case OrderAnywhereRequestStatus.adjustmentRequired: return 'adjustment_required';
@@ -36,8 +44,12 @@ enum OrderAnywhereRequestStatus {
       case 'draft': return OrderAnywhereRequestStatus.draft;
       case 'pending_payment': return OrderAnywhereRequestStatus.pendingPayment;
       case 'submitted': return OrderAnywhereRequestStatus.submitted;
+      case 'admin_reviewing': return OrderAnywhereRequestStatus.adminReviewing;
+      case 'needs_info': return OrderAnywhereRequestStatus.needsInfo;
+      case 'vendor_runner_assigned': return OrderAnywhereRequestStatus.vendorRunnerAssigned;
       case 'driver_pending': return OrderAnywhereRequestStatus.driverPending;
       case 'driver_assigned': return OrderAnywhereRequestStatus.driverAssigned;
+      case 'in_progress': return OrderAnywhereRequestStatus.inProgress;
       case 'purchasing': return OrderAnywhereRequestStatus.purchasing;
       case 'receipt_uploaded': return OrderAnywhereRequestStatus.receiptUploaded;
       case 'adjustment_required': return OrderAnywhereRequestStatus.adjustmentRequired;
@@ -154,6 +166,11 @@ class OrderAnywhereRequestModel {
   String? receiptImage;
   String? receiptNotes;
   String? reconciliationStatus;
+  String? adminNotes;
+  String? vendorNotes;
+  String? driverNotes;
+  String? driverTaskStatus;
+  bool backendLimited;
 
   String? createdAt;
   String? updatedAt;
@@ -187,6 +204,11 @@ class OrderAnywhereRequestModel {
     this.receiptImage,
     this.receiptNotes,
     this.reconciliationStatus,
+    this.adminNotes,
+    this.vendorNotes,
+    this.driverNotes,
+    this.driverTaskStatus,
+    this.backendLimited = false,
     this.createdAt,
     this.updatedAt,
   });
@@ -220,6 +242,11 @@ class OrderAnywhereRequestModel {
     String? receiptImage,
     String? receiptNotes,
     String? reconciliationStatus,
+    String? adminNotes,
+    String? vendorNotes,
+    String? driverNotes,
+    String? driverTaskStatus,
+    bool? backendLimited,
     String? createdAt,
     String? updatedAt,
   }) {
@@ -252,6 +279,11 @@ class OrderAnywhereRequestModel {
       receiptImage: receiptImage ?? this.receiptImage,
       receiptNotes: receiptNotes ?? this.receiptNotes,
       reconciliationStatus: reconciliationStatus ?? this.reconciliationStatus,
+      adminNotes: adminNotes ?? this.adminNotes,
+      vendorNotes: vendorNotes ?? this.vendorNotes,
+      driverNotes: driverNotes ?? this.driverNotes,
+      driverTaskStatus: driverTaskStatus ?? this.driverTaskStatus,
+      backendLimited: backendLimited ?? this.backendLimited,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -299,6 +331,11 @@ class OrderAnywhereRequestModel {
       receiptImage: json['receipt_image'],
       receiptNotes: json['receipt_notes'],
       reconciliationStatus: json['reconciliation_status'],
+      adminNotes: json['admin_notes'],
+      vendorNotes: json['vendor_notes'],
+      driverNotes: json['driver_notes'],
+      driverTaskStatus: json['driver_task_status'],
+      backendLimited: json['backend_limited'] == true,
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
     );
@@ -334,6 +371,11 @@ class OrderAnywhereRequestModel {
       if (receiptImage != null) 'receipt_image': receiptImage,
       if (receiptNotes != null) 'receipt_notes': receiptNotes,
       if (reconciliationStatus != null) 'reconciliation_status': reconciliationStatus,
+      if (adminNotes != null) 'admin_notes': adminNotes,
+      if (vendorNotes != null) 'vendor_notes': vendorNotes,
+      if (driverNotes != null) 'driver_notes': driverNotes,
+      if (driverTaskStatus != null) 'driver_task_status': driverTaskStatus,
+      'backend_limited': backendLimited,
     };
   }
 
