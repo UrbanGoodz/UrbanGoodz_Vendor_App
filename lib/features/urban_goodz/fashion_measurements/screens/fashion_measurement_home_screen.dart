@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/styles.dart';
+import 'package:sixam_mart/features/urban_goodz/fashion_measurements/services/fashion_measurement_api_service.dart';
 import 'package:sixam_mart/features/urban_goodz/widgets/urban_goodz_preview_banner.dart';
 
 class FashionMeasurementHomeScreen extends StatelessWidget {
@@ -12,6 +13,8 @@ class FashionMeasurementHomeScreen extends StatelessWidget {
     const Color ugCanvas = Color(0xFFE2D3BF);
     const Color ugOrange = Color(0xFFED9914);
     const Color ugBlack = Color(0xFF161616);
+    final fashionService = FashionMeasurementApiService();
+    final fitRequests = fashionService.submittedRequests;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -33,7 +36,7 @@ class FashionMeasurementHomeScreen extends StatelessWidget {
               // Preview Banner
               const UrbanGoodzPreviewBanner(
                 message:
-                    'Create a preview fit profile for fashion, tailoring, uniforms, creator merchandise, and local apparel services.',
+                    'Create a preview fit profile for fashion, styling, uniforms, creator merchandise, and local apparel services.',
               ),
               const SizedBox(height: 12),
 
@@ -59,7 +62,7 @@ class FashionMeasurementHomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Create a preview fit profile for fashion, tailoring, uniforms, creator merchandise, and local apparel services.',
+                      'Create a preview fit profile for fashion, styling, uniforms, creator merchandise, and local apparel services.',
                       style: robotoRegular.copyWith(
                         fontSize: 14,
                         color: ugBlack.withValues(alpha: 0.8),
@@ -103,7 +106,7 @@ class FashionMeasurementHomeScreen extends StatelessWidget {
                   ),
                   _buildDashboardCard(
                     icon: Icons.design_services_rounded,
-                    title: 'Tailor Requests',
+                    title: 'Stylist Requests',
                     subtitle: 'Bespoke fitting orders',
                     onTap: () {
                       Get.toNamed(RouteHelper.getUrbanGoodzFashionTailorRequestRoute());
@@ -118,6 +121,69 @@ class FashionMeasurementHomeScreen extends StatelessWidget {
                     },
                   ),
                 ],
+              ),
+              const SizedBox(height: 24),
+
+              Text(
+                'My Fit Requests',
+                style: robotoBold.copyWith(fontSize: 18, color: ugBlack),
+              ),
+              const SizedBox(height: 12),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: ugOrange.withValues(alpha: 0.25)),
+                ),
+                child: fitRequests.isEmpty
+                    ? Text(
+                        'No Stylist Requests submitted yet. Create a measurement profile, take or upload front and side photos, generate an AI-Assisted Tester Estimate, then send a request to a Stylist.',
+                        style: robotoRegular.copyWith(
+                          fontSize: 13,
+                          color: ugBlack.withValues(alpha: 0.75),
+                          height: 1.4,
+                        ),
+                      )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: fitRequests.map((request) {
+                          final backendSynced = request.backendSynced == true;
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 12),
+                            child: Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: ugCanvas.withValues(alpha: 0.18),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    request.itemWanted ?? 'Stylist Request',
+                                    style: robotoBold.copyWith(fontSize: 14, color: ugBlack),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    request.status ?? 'Pending Stylist Review',
+                                    style: robotoBold.copyWith(fontSize: 12, color: ugOrange),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    backendSynced
+                                        ? 'Backend connected: submitted for Stylist Review.'
+                                        : 'Backend limitation: saved locally in this app session until Fashion Fit endpoints accept requests.',
+                                    style: robotoRegular.copyWith(fontSize: 12, color: ugBlack.withValues(alpha: 0.72)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
               ),
               const SizedBox(height: 24),
 
@@ -138,7 +204,7 @@ class FashionMeasurementHomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      'Browse public fashion drops, tailor showcases, and measurement prep tips. Private customer measurement photos stay out of Creator Space and public feeds.',
+                      'Browse public fashion drops, Stylist showcases, and measurement prep tips. Private customer measurement photos stay out of Creator Space and public feeds.',
                       style: robotoRegular.copyWith(
                         fontSize: 12,
                         color: ugBlack.withValues(alpha: 0.78),
@@ -188,7 +254,7 @@ class FashionMeasurementHomeScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Measurement photos are intended only to help tailors estimate fit. This tester preview does not verify production storage, privacy, or measurement accuracy yet.',
+                            'Measurement photos are intended only to help Stylists estimate fit. This tester preview does not claim production measurement accuracy.',
                             style: robotoRegular.copyWith(
                               fontSize: 12,
                               color: ugBlack.withValues(alpha: 0.8),

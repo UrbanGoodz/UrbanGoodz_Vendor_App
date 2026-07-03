@@ -33,7 +33,7 @@ class MeasurementPhotoGuideScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                'Preview how front and side standing photos may help local tailors estimate fit. Live upload, storage, privacy, and measurement accuracy still need production verification.',
+                'Preview how front and side standing photos may help local Stylists estimate fit. Live upload, storage, privacy, and measurement accuracy still need production verification.',
                 style: robotoRegular.copyWith(fontSize: 14, color: Colors.grey.shade700),
               ),
               const SizedBox(height: 24),
@@ -98,7 +98,7 @@ class MeasurementPhotoGuideScreen extends StatelessWidget {
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Photo upload preview selected. Provider review is not live yet.'),
+                        content: Text('Photo upload preview selected. Stylist Review depends on the Fashion Fit request submission.'),
                         backgroundColor: ugOrange,
                       ),
                     );

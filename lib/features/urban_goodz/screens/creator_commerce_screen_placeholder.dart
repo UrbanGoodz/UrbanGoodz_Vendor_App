@@ -35,7 +35,7 @@ class CreatorCommerceScreen extends StatelessWidget {
     {
       'title': 'Fashion Drops',
       'desc':
-          'Preview vendor clothing drops, tailor showcases, and shoppable outfit reels.',
+          'Preview vendor clothing drops, Stylist showcases, and shoppable outfit reels.',
       'metric': 'Fashion discovery preview',
     },
     {
@@ -142,7 +142,7 @@ class CreatorCommerceScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 6),
                         Text(
-                          'Creator Space can show fashion drops, tailor showcases, before/after examples with approval, and measurement education. Private customer measurement photos are never posted to public feeds.',
+                          'Creator Space can show fashion drops, Stylist showcases, before/after examples with approval, and measurement education. Private customer measurement photos are never posted to public feeds.',
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,

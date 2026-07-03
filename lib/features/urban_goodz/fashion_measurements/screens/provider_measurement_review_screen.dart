@@ -47,7 +47,7 @@ class _ProviderMeasurementReviewScreenState
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          'Provider Measurement Review',
+          'Stylist Measurement Review',
           style: robotoBold.copyWith(color: ugBlack),
         ),
         backgroundColor: ugCanvas,
@@ -99,7 +99,7 @@ class _ProviderMeasurementReviewScreenState
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Photo-assisted status: Needs tailor review',
+                      'Photo-assisted status: Needs Stylist Review',
                       style: robotoRegular.copyWith(
                         fontSize: 12,
                         color: ugBlack.withValues(alpha: 0.8),
@@ -127,7 +127,7 @@ class _ProviderMeasurementReviewScreenState
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      'Tester preview: vendor/tailor can price the measurement review service. Backend save and payment gating are not connected here.',
+                      'Tester preview: Stylist can price the measurement review service. Backend save and payment gating are not connected here.',
                       style: robotoRegular.copyWith(
                         fontSize: 12,
                         color: ugBlack.withValues(alpha: 0.75),
@@ -140,7 +140,7 @@ class _ProviderMeasurementReviewScreenState
                       contentPadding: EdgeInsets.zero,
                       activeThumbColor: ugOrange,
                       title: Text(
-                        'Paid tailor measurement review',
+                        'Paid Stylist measurement review',
                         style: robotoBold.copyWith(
                           fontSize: 13,
                           color: ugBlack,
@@ -158,7 +158,7 @@ class _ProviderMeasurementReviewScreenState
                       contentPadding: EdgeInsets.zero,
                       activeThumbColor: ugOrange,
                       title: Text(
-                        'Included with tailoring order',
+                        'Included with Stylist order',
                         style: robotoBold.copyWith(
                           fontSize: 13,
                           color: ugBlack,
@@ -182,7 +182,7 @@ class _ProviderMeasurementReviewScreenState
                         decimal: true,
                       ),
                       decoration: InputDecoration(
-                        labelText: 'Tailor review fee',
+                        labelText: 'Stylist review fee',
                         prefixText: '\$',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -264,7 +264,7 @@ class _ProviderMeasurementReviewScreenState
                 children: const [
                   _StatusChip(label: 'Needs more info'),
                   _StatusChip(label: 'Accepted'),
-                  _StatusChip(label: 'Adjusted by tailor'),
+                  _StatusChip(label: 'Adjusted by Stylist'),
                   _StatusChip(label: 'Ready to quote'),
                 ],
               ),
@@ -282,7 +282,7 @@ class _ProviderMeasurementReviewScreenState
               const SizedBox(height: 16),
 
               Text(
-                'Provider Feedback & Adjustments',
+                'Stylist Feedback & Adjustments',
                 style: robotoBold.copyWith(fontSize: 15, color: ugBlack),
               ),
               const SizedBox(height: 8),

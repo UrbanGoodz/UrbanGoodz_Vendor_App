@@ -28,7 +28,7 @@ class FashionFitHomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Get custom tailoring & alterations',
+                    'Get custom styling & alterations',
                     style: robotoBold.copyWith(
                       fontSize: Dimensions.fontSizeExtraLarge,
                       color: Theme.of(context).primaryColor,
@@ -36,7 +36,7 @@ class FashionFitHomeScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: Dimensions.paddingSizeSmall),
                   Text(
-                    '[TESTER PREVIEW] Measure yourself, connect with local tailors, and track your projects.',
+                    '[TESTER PREVIEW] Measure yourself, connect with local Stylists, and track your projects.',
                     style: robotoRegular.copyWith(
                       fontSize: Dimensions.fontSizeDefault,
                       height: 1.6,

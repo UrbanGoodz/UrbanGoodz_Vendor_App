@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:sixam_mart/api/api_client.dart';
 import 'package:sixam_mart/features/urban_goodz/fashion_measurements/models/measurement_profile_model.dart';
 import 'package:sixam_mart/features/urban_goodz/fashion_measurements/models/measurement_photo_model.dart';
 import 'package:sixam_mart/features/urban_goodz/fashion_measurements/models/measurement_request_model.dart';
@@ -7,13 +10,31 @@ import 'package:sixam_mart/features/urban_goodz/fashion_measurements/models/tail
 import 'package:sixam_mart/features/urban_goodz/fashion_measurements/models/fashion_order_status_model.dart';
 
 class FashionMeasurementApiService {
-  // TODO: Add these URI constants to AppConstants once integrated:
-  // static const String fashionMeasurementProfileUri = '/api/v1/customer/fashion/measurement-profiles';
-  // static const String fashionMeasurementPhotoUri = '/api/v1/customer/fashion/measurement-photos';
-  // static const String fashionMeasurementRequestUri = '/api/v1/customer/fashion/measurement-requests';
-  // static const String fashionTailorServicesUri = '/api/v1/customer/fashion/tailor-services';
-  // static const String fashionTailorQuotesUri = '/api/v1/customer/fashion/tailor-quotes';
-  // static const String fashionOrderStatusUri = '/api/v1/customer/fashion/order-statuses';
+  static const String fashionMeasurementProfileUri =
+      '/api/v1/customer/fashion/measurement-profiles';
+  static const String fashionMeasurementPhotoUri =
+      '/api/v1/customer/fashion/measurement-photos';
+  static const String fashionMeasurementRequestUri =
+      '/api/v1/customer/fashion/measurement-requests';
+  static const String fashionTailorServicesUri =
+      '/api/v1/customer/fashion/tailor-services';
+  static const String fashionTailorQuotesUri =
+      '/api/v1/customer/fashion/tailor-quotes';
+  static const String fashionOrderStatusUri =
+      '/api/v1/customer/fashion/order-statuses';
+
+  static MeasurementProfileModel? _draftProfile;
+  static final Map<String, MeasurementPhotoModel> _draftPhotos = {};
+  static final List<MeasurementRequestModel> _submittedRequests = [];
+  static String? _lastBackendMessage;
+
+  String? get lastBackendMessage => _lastBackendMessage;
+  MeasurementProfileModel? get draftProfile => _draftProfile;
+  Map<String, MeasurementPhotoModel> get draftPhotos => Map.unmodifiable(_draftPhotos);
+  List<MeasurementRequestModel> get submittedRequests =>
+      List.unmodifiable(_submittedRequests);
+
+  ApiClient? get _apiClient => Get.isRegistered<ApiClient>() ? Get.find<ApiClient>() : null;
 
   Future<MeasurementProfileModel?> getMeasurementProfile(int userId) async {
     // Placeholder GET request returning mock data
@@ -37,20 +58,76 @@ class FashionMeasurementApiService {
   }
 
   Future<bool> saveMeasurementProfile(MeasurementProfileModel profile) async {
-    // Placeholder POST request
-    await Future.delayed(const Duration(milliseconds: 500));
-    return true;
+    _draftProfile = profile;
+    final apiClient = _apiClient;
+    if (apiClient == null) {
+      _lastBackendMessage = 'Backend API client unavailable; profile saved locally for tester request assembly.';
+      return false;
+    }
+
+    final response = await apiClient.postData(
+      fashionMeasurementProfileUri,
+      profile.toJson(),
+      handleError: false,
+    );
+    final ok = response.statusCode == 200 || response.statusCode == 201;
+    _lastBackendMessage = ok
+        ? 'Measurement profile synced to backend.'
+        : 'Backend profile sync unavailable (${response.statusCode ?? 'no response'}); profile saved locally for tester request assembly.';
+    return ok;
   }
 
-  Future<MeasurementPhotoModel?> uploadMeasurementPhoto(String path, String orientation) async {
-    // Placeholder Multipart POST request for reference photos
-    await Future.delayed(const Duration(milliseconds: 1000));
-    return MeasurementPhotoModel(
-      id: 100,
-      photoUrl: "https://test.urbangoodzdelivery.com/storage/app/public/measurements/photo_100.png",
+  Future<MeasurementPhotoModel?> uploadMeasurementPhoto(
+    XFile photo,
+    String orientation, {
+    double? heightRef,
+  }) async {
+    final localPhoto = MeasurementPhotoModel(
+      id: DateTime.now().millisecondsSinceEpoch,
+      photoUrl: photo.name,
       orientation: orientation,
-      heightRef: 70.0,
-      status: "pending",
+      heightRef: heightRef,
+      status: "local_pending_backend",
+      uploadedAt: DateTime.now(),
+    );
+    _draftPhotos[orientation] = localPhoto;
+
+    final apiClient = _apiClient;
+    if (apiClient == null) {
+      _lastBackendMessage = 'Backend API client unavailable; photo reference retained locally for tester request assembly.';
+      return localPhoto;
+    }
+
+    final response = await apiClient.postMultipartData(
+      fashionMeasurementPhotoUri,
+      {
+        'orientation': orientation,
+        if (heightRef != null) 'height_ref': heightRef.toString(),
+      },
+      [MultipartBody('photo', photo)],
+      handleError: false,
+    );
+
+    if ((response.statusCode == 200 || response.statusCode == 201) &&
+        response.body is Map) {
+      final body = Map<String, dynamic>.from(response.body);
+      final data = body['data'] is Map ? Map<String, dynamic>.from(body['data']) : body;
+      final remotePhoto = MeasurementPhotoModel.fromJson(data);
+      _draftPhotos[orientation] = remotePhoto;
+      _lastBackendMessage = 'Measurement photo synced to backend.';
+      return remotePhoto;
+    }
+
+    _lastBackendMessage = 'Backend photo upload unavailable (${response.statusCode ?? 'no response'}); photo reference retained locally.';
+    return localPhoto;
+  }
+
+  Future<MeasurementPhotoModel?> uploadMeasurementPhotoPath(String path, String orientation) async {
+    return MeasurementPhotoModel(
+      id: DateTime.now().millisecondsSinceEpoch,
+      photoUrl: path,
+      orientation: orientation,
+      status: "local_pending_backend",
       uploadedAt: DateTime.now(),
     );
   }
@@ -79,9 +156,40 @@ class FashionMeasurementApiService {
   }
 
   Future<bool> submitMeasurementRequest(MeasurementRequestModel request) async {
-    // Placeholder POST request for tailor review
-    await Future.delayed(const Duration(milliseconds: 500));
-    return true;
+    final apiClient = _apiClient;
+    if (apiClient != null) {
+      final response = await apiClient.postData(
+        fashionMeasurementRequestUri,
+        request.toJson(),
+        handleError: false,
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final syncedRequest = MeasurementRequestModel.fromJson({
+          ...request.toJson(),
+          if (response.body is Map && response.body['data'] is Map)
+            ...Map<String, dynamic>.from(response.body['data']),
+          'backend_synced': true,
+          'backend_message': 'Submitted to Fashion Fit backend for Stylist Review.',
+        });
+        _submittedRequests.insert(0, syncedRequest);
+        _lastBackendMessage = 'Submitted to Fashion Fit backend for Stylist Review.';
+        return true;
+      }
+      _lastBackendMessage = 'Backend submission unavailable (${response.statusCode ?? 'no response'}); request saved locally and labeled backend-limited.';
+    } else {
+      _lastBackendMessage = 'Backend API client unavailable; request saved locally and labeled backend-limited.';
+    }
+
+    _submittedRequests.insert(
+      0,
+      MeasurementRequestModel.fromJson({
+        ...request.toJson(),
+        'id': DateTime.now().millisecondsSinceEpoch,
+        'backend_synced': false,
+        'backend_message': _lastBackendMessage,
+      }),
+    );
+    return false;
   }
 
   Future<List<TailorQuoteModel>> getTailorQuotes(int requestId) async {

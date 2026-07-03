@@ -45,7 +45,7 @@ class TailorQuoteReviewScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Preview how a tailor estimate may appear after manual profile and photo-reference review.',
+                      'Preview how a Stylist Quote may appear after manual profile and photo-reference review.',
                       style: robotoRegular.copyWith(fontSize: 13, color: ugBlack),
                     ),
                   ],
@@ -67,7 +67,7 @@ class TailorQuoteReviewScreen extends StatelessWidget {
               const SizedBox(height: 24),
 
               Text(
-                'Tailor Notes',
+                'Stylist Notes',
                 style: robotoBold.copyWith(fontSize: 16, color: ugBlack),
               ),
               const SizedBox(height: 8),
@@ -80,7 +80,7 @@ class TailorQuoteReviewScreen extends StatelessWidget {
                   border: Border.all(color: Colors.grey.shade200),
                 ),
                 child: Text(
-                  'Based on the manual profile and photo-reference preview, the tailor may suggest fit adjustments before any production work starts.',
+                  'Based on the manual profile and photo-reference preview, the Stylist may suggest fit adjustments before any production work starts.',
                   style: robotoRegular.copyWith(fontSize: 13, color: Colors.grey.shade800, fontStyle: FontStyle.italic),
                 ),
               ),

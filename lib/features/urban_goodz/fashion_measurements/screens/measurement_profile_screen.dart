@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sixam_mart/features/urban_goodz/fashion_measurements/models/measurement_profile_model.dart';
+import 'package:sixam_mart/features/urban_goodz/fashion_measurements/services/fashion_measurement_api_service.dart';
 import 'package:sixam_mart/features/urban_goodz/fashion_measurements/services/measurement_engine_service.dart';
 
 class MeasurementProfileScreen extends StatefulWidget {
@@ -44,6 +46,7 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
   bool _isUploadingFront = false;
   bool _isUploadingSide = false;
   bool _isUploadingBack = false;
+  final FashionMeasurementApiService _fashionService = FashionMeasurementApiService();
 
   // AI engine state
   bool _isAIProcessing = false;
@@ -137,10 +140,14 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
         imageQuality: 80,
       );
 
-      // Preview a small upload delay for tester status feedback.
-      await Future.delayed(const Duration(milliseconds: 1000));
-
       if (image != null) {
+        final double? height = double.tryParse(_heightController.text);
+        await _fashionService.uploadMeasurementPhoto(
+          image,
+          orientation,
+          heightRef: height,
+        );
+
         setState(() {
           if (orientation == 'front') {
             _frontPhoto = image;
@@ -162,7 +169,7 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                '$orientation photo uploaded successfully (local reference saved).',
+                '$orientation photo saved for Stylist Review. ${_fashionService.lastBackendMessage ?? ''}',
               ),
               backgroundColor: Colors.green,
             ),
@@ -288,7 +295,7 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Enter manual sizing references below. Tailors will use these as starting estimates, along with photo uploads, before starting work.',
+                'Enter manual sizing references below. Stylists will use these as starting estimates, along with photo uploads, before starting work.',
                 style: robotoRegular.copyWith(
                   fontSize: 14,
                   color: Colors.grey.shade700,
@@ -306,7 +313,7 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
               ),
               const SizedBox(height: 8),
               Text(
-                'Use these fields when photo-assisted measurement is not available or when a tailor needs manual sizing references.',
+                'Use these fields when photo-assisted measurement is not available or when a Stylist needs manual sizing references.',
                 style: robotoRegular.copyWith(
                   fontSize: 13,
                   color: Colors.grey.shade700,
@@ -428,14 +435,13 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
                 width: double.infinity,
                 height: 48,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     // Validation: if front or side is selected, BOTH front and side are required!
-                    if ((_frontPhotoSelected || _sidePhotoSelected) &&
-                        (!_frontPhotoSelected || !_sidePhotoSelected)) {
+                    if (!_frontPhotoSelected || !_sidePhotoSelected) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text(
-                            'Validation Error: Both front and side photos are required for photo-assisted sizing estimation.',
+                            'Front and side photos are required before sending measurements for Stylist Review.',
                           ),
                           backgroundColor: Colors.red,
                         ),
@@ -455,9 +461,31 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
                       return;
                     }
 
+                    final profile = MeasurementProfileModel(
+                      profileName: 'Fashion Fit Tester Profile',
+                      height: double.tryParse(_heightController.text),
+                      chestBust: double.tryParse(_chestController.text),
+                      waist: double.tryParse(_waistController.text),
+                      hips: double.tryParse(_hipsController.text),
+                      inseam: double.tryParse(_inseamController.text),
+                      sleeve: double.tryParse(_sleeveController.text),
+                      shoulderWidth: double.tryParse(_shoulderController.text),
+                      neck: double.tryParse(_neckController.text),
+                      preferredFit: _preferredFit,
+                      notes: _notesController.text.trim(),
+                      updatedAt: DateTime.now(),
+                    );
+                    final backendSynced =
+                        await _fashionService.saveMeasurementProfile(profile);
+                    if (!mounted) return;
+
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Sizing Profile saved successfully!'),
+                      SnackBar(
+                        content: Text(
+                          backendSynced
+                              ? 'Sizing Profile saved to backend for Stylist Review.'
+                              : 'Sizing Profile saved locally. ${_fashionService.lastBackendMessage ?? 'Backend sync unavailable.'}',
+                        ),
                         backgroundColor: Colors.green,
                       ),
                     );
@@ -495,8 +523,8 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
       'Estimating',
       'Estimated',
       'Needs customer review',
-      'Ready for tailor review',
-      'Tailor adjusted',
+      'Ready for Stylist Review',
+      'Stylist adjusted',
       'Approved',
       'Cancelled',
     ];
@@ -597,7 +625,7 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Tester preview: photos may be used later for AI-assisted or tailor-assisted measurement review. This screen does not claim exact automatic measurements.',
+            'AI-Assisted Tester Estimate: photos help create starter measurements for Stylist Review. This screen does not claim production accuracy.',
             style: robotoRegular.copyWith(
               fontSize: 13,
               color: ugBlack.withValues(alpha: 0.78),
@@ -605,18 +633,20 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
           ),
           const SizedBox(height: 14),
           _buildInstructionRow('Stand straight'),
+          _buildInstructionRow('Wear fitted clothing'),
+          _buildInstructionRow('Use a plain background'),
+          _buildInstructionRow('Use good lighting'),
+          _buildInstructionRow('Place the camera 6-10 feet away'),
           _buildInstructionRow('Keep arms slightly away from your sides'),
           _buildInstructionRow('Keep your full body visible from head to toe'),
-          _buildInstructionRow('Wear fitted clothing'),
-          _buildInstructionRow('Use good lighting'),
-          _buildInstructionRow('Use a plain background'),
+          _buildInstructionRow('Use a scale reference if possible'),
           const SizedBox(height: 14),
           LayoutBuilder(
             builder: (context, constraints) {
               final isNarrow = constraints.maxWidth < 520;
               final tiles = [
                 _buildPhotoTile(
-                  title: 'Front photo',
+                  title: 'Front photo required',
                   selected: _frontPhotoSelected,
                   isUploading: _isUploadingFront,
                   fileName: _frontPhoto?.name,
@@ -625,7 +655,7 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
                   xFile: _frontPhoto,
                 ),
                 _buildPhotoTile(
-                  title: 'Side photo',
+                  title: 'Side photo required',
                   selected: _sidePhotoSelected,
                   isUploading: _isUploadingSide,
                   fileName: _sidePhoto?.name,
@@ -634,7 +664,7 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
                   xFile: _sidePhoto,
                 ),
                 _buildPhotoTile(
-                  title: 'Optional back photo',
+                  title: 'Back photo recommended',
                   selected: _backPhotoSelected,
                   isUploading: _isUploadingBack,
                   fileName: _backPhoto?.name,
@@ -734,7 +764,7 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Private customer photos are processed locally on device and are never posted to public creator feeds or public galleries.',
+                'Private customer photos are only for measurement and Stylist Review. They are never posted to Creator Commerce, community, reels, public feeds, or marketing screens.',
                   style: robotoRegular.copyWith(fontSize: 12, color: Colors.grey.shade700),
                 ),
                 const SizedBox(height: 8),
@@ -773,7 +803,7 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
               border: Border.all(color: Colors.grey.shade200),
             ),
             child: Text(
-              'Photos are used only to help estimate fit and support tailoring requests. Do not upload images you do not want reviewed for sizing assistance.',
+            'Photos are used only to help estimate fit and support Stylist Requests. Do not upload images you do not want reviewed for sizing assistance.',
               style: robotoRegular.copyWith(
                 fontSize: 12,
                 color: ugBlack.withValues(alpha: 0.82),
@@ -910,7 +940,7 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  'Photo-Assisted Measurement Pricing',
+            'AI-Assisted Tester Estimate Pricing',
                   style: robotoBold.copyWith(fontSize: 15, color: ugBlack),
                 ),
               ),
@@ -955,11 +985,11 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
           ),
           const Divider(height: 20),
           _buildFeeRow(
-            'Urban Goodz AI-assisted measurement estimate',
+            'Urban Goodz AI-assisted tester estimate',
             platformFee,
             ugBlack,
           ),
-          _buildFeeRow('Tailor measurement review', vendorFee, ugBlack),
+          _buildFeeRow('Stylist measurement review', vendorFee, ugBlack),
           const SizedBox(height: 6),
           _buildFeeRow(
             'Total measurement fee',
@@ -1022,7 +1052,7 @@ class _MeasurementProfileScreenState extends State<MeasurementProfileScreen> {
           ],
           const SizedBox(height: 10),
           Text(
-            'What this fee covers: a photo-assisted estimate for tailoring review. Refund, credit, and final fee rules are admin/vendor settings and are preview-only here.',
+            'What this fee covers: a photo-assisted estimate for Stylist Review. Refund, credit, and final fee rules are admin/vendor settings and are preview-only here.',
             style: robotoRegular.copyWith(
               fontSize: 12,
               color: ugBlack.withValues(alpha: 0.72),

@@ -45,8 +45,8 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
       setState(() {
         _isProcessing = false;
         final q = query.toLowerCase();
-        if (q.contains('tailor') || q.contains('measur') || q.contains('clothe') || q.contains('fit')) {
-          _responseText = 'Tester preview found local tailoring and alteration paths. Open Fashion Fit to prepare a sizing profile before any live provider matching is enabled.';
+        if (q.contains('tailor') || q.contains('stylist') || q.contains('measur') || q.contains('clothe') || q.contains('fit')) {
+          _responseText = 'Tester preview found local Stylist and alteration paths. Open Fashion Fit to prepare a sizing profile before any live Stylist matching is enabled.';
           _responseAction = UrbanGoodzActionButton(
             label: 'Open Fashion Fit',
             onPressed: () => Get.toNamed(RouteHelper.getUrbanGoodzFashionMeasurementsRoute()),
@@ -107,7 +107,7 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
   @override
   Widget build(BuildContext context) {
     final List<String> quickOptions = [
-      'Tailors',
+      'Stylists',
       'Order Anywhere',
       'Local Creators',
       'Courier Opportunities',
@@ -116,8 +116,8 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
 
     final List<Map<String, dynamic>> guidedPrompts = [
       {
-        'title': 'Find a tailor near me',
-        'query': 'Find a tailor near me',
+        'title': 'Find a Stylist near me',
+        'query': 'Find a Stylist near me',
         'asset': 'assets/image/urban_goodz_features/ai_measuring_fit.png',
       },
       {

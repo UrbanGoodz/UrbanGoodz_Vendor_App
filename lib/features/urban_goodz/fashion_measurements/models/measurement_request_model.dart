@@ -24,6 +24,17 @@ class MeasurementRequestModel {
   final String? reviewStatus;
   final String? tailorNotes;
   final String? notes;
+  final String? itemWanted;
+  final String? requestType;
+  final String? inspirationImageReference;
+  final DateTime? dueDate;
+  final double? budget;
+  final bool? consentToSharePhotos;
+  final Map<String, dynamic>? customerProfile;
+  final Map<String, dynamic>? measurements;
+  final Map<String, dynamic>? photoReferences;
+  final bool? backendSynced;
+  final String? backendMessage;
   final String? status; // "pending", "reviewed", "rejected"
   final DateTime? requestedAt;
   final DateTime? createdAt;
@@ -55,6 +66,17 @@ class MeasurementRequestModel {
     this.reviewStatus,
     this.tailorNotes,
     this.notes,
+    this.itemWanted,
+    this.requestType,
+    this.inspirationImageReference,
+    this.dueDate,
+    this.budget,
+    this.consentToSharePhotos,
+    this.customerProfile,
+    this.measurements,
+    this.photoReferences,
+    this.backendSynced,
+    this.backendMessage,
     this.status,
     this.requestedAt,
     this.createdAt,
@@ -94,6 +116,23 @@ class MeasurementRequestModel {
       reviewStatus: json['review_status'],
       tailorNotes: json['tailor_notes'],
       notes: json['notes'],
+      itemWanted: json['item_wanted'],
+      requestType: json['request_type'],
+      inspirationImageReference: json['inspiration_image_reference'],
+      dueDate: json['due_date'] != null ? DateTime.tryParse(json['due_date']) : null,
+      budget: double.tryParse(json['budget']?.toString() ?? ''),
+      consentToSharePhotos: json['consent_to_share_photos'],
+      customerProfile: json['customer_profile'] is Map
+          ? Map<String, dynamic>.from(json['customer_profile'])
+          : null,
+      measurements: json['measurements'] is Map
+          ? Map<String, dynamic>.from(json['measurements'])
+          : null,
+      photoReferences: json['photo_references'] is Map
+          ? Map<String, dynamic>.from(json['photo_references'])
+          : null,
+      backendSynced: json['backend_synced'],
+      backendMessage: json['backend_message'],
       status: json['status'],
       requestedAt: json['requested_at'] != null
           ? DateTime.tryParse(json['requested_at'])
@@ -134,6 +173,17 @@ class MeasurementRequestModel {
       'review_status': reviewStatus,
       'tailor_notes': tailorNotes,
       'notes': notes,
+      'item_wanted': itemWanted,
+      'request_type': requestType,
+      'inspiration_image_reference': inspirationImageReference,
+      'due_date': dueDate?.toIso8601String(),
+      'budget': budget,
+      'consent_to_share_photos': consentToSharePhotos,
+      'customer_profile': customerProfile,
+      'measurements': measurements,
+      'photo_references': photoReferences,
+      'backend_synced': backendSynced,
+      'backend_message': backendMessage,
       'status': status,
       'requested_at': requestedAt?.toIso8601String(),
       'created_at': createdAt?.toIso8601String(),

@@ -150,7 +150,7 @@ class UrbanGoodzHubScreen extends StatelessWidget {
       label: 'Fashion Fit',
       title: 'Fashion Fit & Measurements',
       description:
-          'Create a tester preview fit profile for fashion, tailoring, uniforms, creator merchandise, and local apparel services.',
+          'Create a tester preview fit profile for fashion, styling, uniforms, creator merchandise, and local apparel services.',
       status: 'Preview',
       buttonLabel: 'Open Fashion Fit',
       route: RouteHelper.getUrbanGoodzFashionMeasurementsRoute(),
