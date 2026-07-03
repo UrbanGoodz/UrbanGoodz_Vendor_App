@@ -24,6 +24,8 @@ import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/common/widgets/confirmation_dialog.dart';
 import 'package:sixam_mart/common/widgets/custom_image.dart';
 import 'package:sixam_mart/features/menu/widgets/portion_widget.dart';
+import 'package:sixam_mart/features/rental_module/common/widgets/car_rental_menu_widget.dart';
+
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
@@ -36,6 +38,10 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isTaxi = (Get.find<SplashController>().module != null && Get.find<SplashController>().module!.moduleType.toString() == AppConstants.taxi);
+    if (isTaxi) {
+      return const CarRentalMenuWidget();
+    }
     return Scaffold(
       // backgroundColor: Theme.of(context).cardColor,
       body: GetBuilder<ProfileController>(builder: (profileController) {

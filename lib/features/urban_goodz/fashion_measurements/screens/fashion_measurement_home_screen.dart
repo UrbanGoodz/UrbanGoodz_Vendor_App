@@ -86,10 +86,10 @@ class FashionMeasurementHomeScreen extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 mainAxisSpacing: 16,
                 crossAxisSpacing: 16,
-                childAspectRatio: 1.1,
+                childAspectRatio: 1.5,
                 children: [
                   _buildDashboardCard(
-                    icon: Icons.person_pin_rounded,
+                    imagePath: 'assets/image/urban_goodz_features/fashion_fit_measurement_profile.jpg',
                     title: 'Measurement Profile',
                     subtitle: 'Manage saved sizes',
                     onTap: () {
@@ -97,7 +97,7 @@ class FashionMeasurementHomeScreen extends StatelessWidget {
                     },
                   ),
                   _buildDashboardCard(
-                    icon: Icons.camera_enhance_rounded,
+                    imagePath: 'assets/image/urban_goodz_features/fashion_fit_photo_guides.jpg',
                     title: 'Photo Guides',
                     subtitle: 'Take or upload photo',
                     onTap: () {
@@ -105,7 +105,7 @@ class FashionMeasurementHomeScreen extends StatelessWidget {
                     },
                   ),
                   _buildDashboardCard(
-                    icon: Icons.design_services_rounded,
+                    imagePath: 'assets/image/urban_goodz_features/fashion_fit_stylist_requests.jpg',
                     title: 'Stylist Requests',
                     subtitle: 'Bespoke fitting orders',
                     onTap: () {
@@ -113,7 +113,7 @@ class FashionMeasurementHomeScreen extends StatelessWidget {
                     },
                   ),
                   _buildDashboardCard(
-                    icon: Icons.request_quote_rounded,
+                    imagePath: 'assets/image/urban_goodz_features/fashion_fit_bids_estimates.jpg',
                     title: 'Bids & Estimates',
                     subtitle: 'Review incoming quotes',
                     onTap: () {
@@ -274,52 +274,95 @@ class FashionMeasurementHomeScreen extends StatelessWidget {
   }
 
   Widget _buildDashboardCard({
-    required IconData icon,
+    required String imagePath,
     required String title,
     required String subtitle,
     required VoidCallback onTap,
   }) {
-    const Color ugOrange = Color(0xFFED9914);
-    const Color ugBlack = Color(0xFF161616);
-
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.grey.shade200),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black12,
-              offset: Offset(0, 2),
-              blurRadius: 4,
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(icon, color: ugOrange, size: 32),
-            const SizedBox(height: 12),
-            Text(
-              title,
-              style: robotoBold.copyWith(fontSize: 15, color: ugBlack),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              subtitle,
-              style: robotoRegular.copyWith(
-                fontSize: 11,
-                color: Colors.grey.shade600,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black12,
+                offset: Offset(0, 2),
+                blurRadius: 4,
               ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+            ],
+            border: Border.all(color: Colors.grey.shade200),
+          ),
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: Image.asset(
+                  imagePath,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Positioned.fill(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.black.withValues(alpha: 0.75),
+                        Colors.black.withValues(alpha: 0.25),
+                        Colors.transparent,
+                      ],
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 10,
+                left: 10,
+                right: 10,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      title,
+                      style: robotoBold.copyWith(
+                        fontSize: 13,
+                        color: Colors.white,
+                        shadows: [
+                          const Shadow(
+                            offset: Offset(0, 1),
+                            blurRadius: 2,
+                            color: Colors.black54,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle,
+                      style: robotoRegular.copyWith(
+                        fontSize: 9,
+                        color: Colors.white.withValues(alpha: 0.9),
+                        shadows: [
+                          const Shadow(
+                            offset: Offset(0, 1),
+                            blurRadius: 2,
+                            color: Colors.black54,
+                          ),
+                        ],
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
