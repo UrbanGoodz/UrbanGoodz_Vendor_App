@@ -40,7 +40,7 @@ class NotificationRepository implements NotificationRepositoryInterface {
       list = sharedPreferences.getStringList(AppConstants.notificationIdList);
     }
     List<int> notificationIdList = [];
-    for (var id in list!) {
+    for (var id in list) {
       notificationIdList.add(jsonDecode(id));
     }
     return notificationIdList;

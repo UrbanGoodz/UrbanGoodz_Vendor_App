@@ -239,7 +239,7 @@ class _TaxiHomeScreenState extends State<TaxiHomeScreen> {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: filteredVehicles.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: 12),
+                      separatorBuilder: (_, _) => const SizedBox(height: 12),
                       itemBuilder: (context, index) {
                         final v = filteredVehicles[index];
                         return _buildVehicleCard(v);

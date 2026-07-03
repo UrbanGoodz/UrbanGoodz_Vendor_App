@@ -1,4 +1,5 @@
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sixam_mart/api/api_client.dart';
 import 'package:sixam_mart/features/order_anywhere/domain/models/order_anywhere_request_model.dart';
 import 'package:sixam_mart/features/order_anywhere/domain/repositories/order_anywhere_repository_interface.dart';
@@ -30,11 +31,37 @@ class OrderAnywhereRepository implements OrderAnywhereRepositoryInterface {
 
   @override
   Future<OrderAnywhereRequestModel?> submitRequest(OrderAnywhereRequestModel request) async {
-    final response = await apiClient.postData(AppConstants.orderAnywhereRequestUri, request.toJson());
-    if ((response.statusCode == 200 || response.statusCode == 201) && response.body['data'] != null) {
+    // Map model fields to backend-accepted parameter names
+    final Map<String, dynamic> payload = {
+      'store_vendor_name': request.businessName,
+      'store_vendor_address_or_website': request.businessAddress ?? '',
+      'request_details': request.itemName,
+      'item_details': request.itemDescription ?? '',
+      'quantity': request.quantity,
+      'budget_estimate': request.estimatedItemCost,
+      // include some additional useful fields that backend may accept
+      if (request.customerNotes != null) 'customer_notes': request.customerNotes,
+      if (request.deliveryAddress != null) 'delivery_address': request.deliveryAddress,
+      if (request.contactPhone != null) 'contact_phone': request.contactPhone,
+      'pickup_preference': request.pickupPreference.name,
+      'urgency': request.urgency.name,
+      'consent_given': request.consentGiven,
+    };
+
+    debugPrint('OrderAnywhereRepository.submitRequest: POST ${AppConstants.orderAnywhereRequestUri}');
+    debugPrint('OrderAnywhereRepository.submitRequest payload: $payload');
+
+    // Ask ApiClient not to auto-handle errors so we can surface actual status/text
+    final response = await apiClient.postData(AppConstants.orderAnywhereRequestUri, payload, handleError: false);
+
+    debugPrint('OrderAnywhereRepository.submitRequest response: ${response.statusCode} ${response.statusText}');
+
+    if ((response.statusCode == 200 || response.statusCode == 201) && response.body != null && response.body['data'] != null) {
       return OrderAnywhereRequestModel.fromJson(response.body['data'] as Map<String, dynamic>);
     }
-    throw Exception('Backend endpoint pending. This tester build cannot submit live Order Anywhere requests yet. (${response.statusCode})');
+
+    final String message = response.statusText ?? 'Failed to submit Order Anywhere request (${response.statusCode})';
+    throw Exception(message);
   }
 
   @override

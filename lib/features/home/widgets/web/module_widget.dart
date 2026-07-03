@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:sixam_mart/features/home/widgets/module_preview_panel.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
+import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/common/widgets/custom_image.dart';
@@ -47,11 +48,70 @@ class ModuleWidget extends StatelessWidget {
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: visibleModuleIndexes.length,
+                    itemCount: visibleModuleIndexes.length + 1,
                     padding: const EdgeInsets.only(
                       top: Dimensions.paddingSizeSmall,
                     ),
                     itemBuilder: (context, index) {
+                      if (index == visibleModuleIndexes.length) {
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                            bottom: Dimensions.paddingSizeSmall,
+                          ),
+                          child: Tooltip(
+                            message: 'Order Anywhere',
+                            padding: const EdgeInsets.all(
+                              Dimensions.paddingSizeExtraSmall,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(Dimensions.radiusSmall),
+                              ),
+                            ),
+                            textStyle: robotoRegular.copyWith(
+                              color: Colors.white,
+                              fontSize: Dimensions.fontSizeSmall,
+                            ),
+                            preferBelow: false,
+                            verticalOffset: 20,
+                            child: InkWell(
+                              onTap: () => Get.toNamed(RouteHelper.getOrderAnywhereRequestRoute()),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                    Dimensions.radiusLarge,
+                                  ),
+                                  color: Theme.of(
+                                    context,
+                                  ).disabledColor.withValues(alpha: 0.2),
+                                ),
+                                padding: const EdgeInsets.all(
+                                  Dimensions.paddingSizeSmall,
+                                ),
+                                child: Center(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(
+                                      Dimensions.radiusSmall,
+                                    ),
+                                    child: SizedBox.square(
+                                      dimension: 58,
+                                      child: Image.asset(
+                                        'assets/image/urban_goodz_features/order_anywhere.png',
+                                        height: 58,
+                                        width: 58,
+                                        fit: BoxFit.contain,
+                                        filterQuality: FilterQuality.high,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+
                       final int moduleIndex = visibleModuleIndexes[index];
                       final module = splashController.moduleList![moduleIndex];
 

@@ -104,12 +104,6 @@ import 'package:sixam_mart/features/urban_goodz/screens/medical_courier_screen_p
 import 'package:sixam_mart/features/urban_goodz/screens/book_services_screen_placeholder.dart';
 import 'package:sixam_mart/features/urban_goodz/screens/community_marketplace_screen_placeholder.dart';
 import 'package:sixam_mart/features/urban_goodz/screens/creator_commerce_screen_placeholder.dart';
-import 'package:sixam_mart/features/urban_goodz/screens/urban_goodz_hub_screen.dart';
-import 'package:sixam_mart/features/urban_goodz/fashion_measurements/screens/fashion_measurement_home_screen.dart';
-import 'package:sixam_mart/features/urban_goodz/fashion_measurements/screens/measurement_profile_screen.dart';
-import 'package:sixam_mart/features/urban_goodz/fashion_measurements/screens/measurement_photo_guide_screen.dart';
-import 'package:sixam_mart/features/urban_goodz/fashion_measurements/screens/tailor_service_request_screen.dart';
-import 'package:sixam_mart/features/urban_goodz/fashion_measurements/screens/tailor_quote_review_screen.dart';
 import 'package:sixam_mart/features/order_anywhere/screens/order_anywhere_request_screen.dart';
 import 'package:sixam_mart/features/order_anywhere/screens/order_anywhere_review_screen.dart';
 import 'package:sixam_mart/features/order_anywhere/screens/order_anywhere_status_screen.dart';
@@ -134,7 +128,6 @@ class RouteHelper {
   static const String forgotPassword = '/forgot-password';
   static const String resetPassword = '/reset-password';
   static const String search = '/search';
-  static const String urbanGoodzHub = '/urban-goodz-hub';
   static const String urbanGoodzAI = '/urban-goodz-ai';
   static const String blackOwnedSpotlight = '/black-owned-spotlight';
   static const String urbanGoodzPlus = '/urban-goodz-plus';
@@ -146,11 +139,6 @@ class RouteHelper {
   static const String urbanGoodzBookServices = '/urban-goodz-book-services';
   static const String urbanGoodzCommunityMarketplace = '/urban-goodz-community-marketplace';
   static const String urbanGoodzCreatorCommerce = '/urban-goodz-creator-commerce';
-  static const String urbanGoodzFashionMeasurements = '/urban-goodz-fashion-measurements';
-  static const String urbanGoodzFashionMeasurementProfile = '/urban-goodz-fashion-measurement-profile';
-  static const String urbanGoodzFashionPhotoGuide = '/urban-goodz-fashion-photo-guide';
-  static const String urbanGoodzFashionTailorRequest = '/urban-goodz-fashion-tailor-request';
-  static const String urbanGoodzFashionQuoteReview = '/urban-goodz-fashion-quote-review';
   static const String orderAnywhereRequest = '/order-anywhere-request';
   static const String orderAnywhereReview = '/order-anywhere-review';
   static const String orderAnywhereStatus = '/order-anywhere-status';
@@ -231,16 +219,7 @@ class RouteHelper {
 
 
   static String getInitialRoute({bool fromSplash = false, String? moduleId, bool fromDeeplink = false}) {
-    String? mId = moduleId;
-    if (mId == null) {
-      if (ModuleHelper.getModule() != null) {
-        mId = ModuleHelper.getModule()?.slug ?? ModuleHelper.getModule()?.id?.toString();
-      } else if (!GetPlatform.isWeb) {
-        mId = ModuleHelper.getCacheModule()?.slug;
-      }
-    }
-    mId ??= 'null';
-    return '$initial?module=$mId&from-splash=$fromSplash${fromDeeplink ? '&from_deeplink=true' : ''}';
+    return '$initial?module=${moduleId ?? ModuleHelper.getModule()?.slug ?? ModuleHelper.getModule()?.id ?? ModuleHelper.getCacheModule()?.slug}&from-splash=$fromSplash${fromDeeplink ? '&from_deeplink=true' : ''}';
   }
   static String getSplashRoute(NotificationBodyModel? body, String? deeplink) {
     String data = 'null';
@@ -275,7 +254,6 @@ class RouteHelper {
   static String getForgotPassRoute() => forgotPassword;
   static String getResetPasswordRoute({String? phone, String? email, required String token, required String page}) => '$resetPassword?phone=$phone&token=$token&page=$page&email=$email';
   static String getSearchRoute({String? queryText}) => '$search?query=${queryText ?? ''}&module=${ModuleHelper.getModule()?.slug ?? ModuleHelper.getModule()?.id}';
-  static String getUrbanGoodzHubRoute() => urbanGoodzHub;
   static String getUrbanGoodzAIRoute() => urbanGoodzAI;
   static String getBlackOwnedSpotlightRoute() => blackOwnedSpotlight;
   static String getUrbanGoodzPlusRoute() => urbanGoodzPlus;
@@ -287,13 +265,6 @@ class RouteHelper {
   static String getUrbanGoodzBookServicesRoute() => urbanGoodzBookServices;
   static String getUrbanGoodzCommunityMarketplaceRoute() => urbanGoodzCommunityMarketplace;
   static String getUrbanGoodzCreatorCommerceRoute() => urbanGoodzCreatorCommerce;
-  static String getUrbanGoodzFashionMeasurementsRoute() => urbanGoodzFashionMeasurements;
-  static String getUrbanGoodzFashionMeasurementProfileRoute() => urbanGoodzFashionMeasurementProfile;
-  static String getUrbanGoodzFashionPhotoGuideRoute() => urbanGoodzFashionPhotoGuide;
-  static String getUrbanGoodzFashionTailorRequestRoute() => urbanGoodzFashionTailorRequest;
-  static String getUrbanGoodzFashionQuoteReviewRoute() => urbanGoodzFashionQuoteReview;
-  static String getFashionMeasurementProfileRoute() => urbanGoodzFashionMeasurementProfile;
-  static String getFashionMeasurementIntakeRoute() => urbanGoodzFashionPhotoGuide;
   static String getOrderAnywhereRequestRoute() => orderAnywhereRequest;
   static String getOrderAnywhereReviewRoute() => orderAnywhereReview;
   static String getOrderAnywhereStatusRoute(String requestId) => '$orderAnywhereStatus?requestId=$requestId';
@@ -543,7 +514,6 @@ class RouteHelper {
         SearchScreen(queryText: Get.parameters['query']),
       ),
     )),
-    GetPage(name: urbanGoodzHub, page: () => const UrbanGoodzHubScreen()),
     GetPage(name: urbanGoodzAI, page: () => UrbanGoodzAiScreen()),
     GetPage(name: blackOwnedSpotlight, page: () => const BlackOwnedSpotlightScreen()),
     GetPage(name: urbanGoodzPlus, page: () => const UrbanGoodzPlusScreen()),
@@ -555,11 +525,6 @@ class RouteHelper {
     GetPage(name: urbanGoodzBookServices, page: () => const BookServicesScreen()),
     GetPage(name: urbanGoodzCommunityMarketplace, page: () => const CommunityMarketplaceScreen()),
     GetPage(name: urbanGoodzCreatorCommerce, page: () => const CreatorCommerceScreen()),
-    GetPage(name: urbanGoodzFashionMeasurements, page: () => const FashionMeasurementHomeScreen()),
-    GetPage(name: urbanGoodzFashionMeasurementProfile, page: () => const MeasurementProfileScreen()),
-    GetPage(name: urbanGoodzFashionPhotoGuide, page: () => const MeasurementPhotoGuideScreen()),
-    GetPage(name: urbanGoodzFashionTailorRequest, page: () => const TailorServiceRequestScreen()),
-    GetPage(name: urbanGoodzFashionQuoteReview, page: () => const TailorQuoteReviewScreen()),
     GetPage(name: orderAnywhereRequest, page: () => const OrderAnywhereRequestScreen()),
     GetPage(name: orderAnywhereReview, page: () => const OrderAnywhereReviewScreen()),
     GetPage(name: orderAnywhereStatus, page: () => OrderAnywhereStatusScreen(requestId: Get.parameters['requestId'] ?? '')),
@@ -993,7 +958,7 @@ class RouteHelper {
     } else if (GetPlatform.isIOS) {
       minimumVersion = Get.find<SplashController>().configModel!.appMinimumVersionIos;
     }
-    return (AppConstants.appVersion < minimumVersion! && !GetPlatform.isWeb) ? const UpdateScreen(isUpdate: true)
+    return (AppConstants.appVersion < minimumVersion && !GetPlatform.isWeb) ? const UpdateScreen(isUpdate: true)
         : Get.find<SplashController>().configModel!.maintenanceMode! ? const UpdateScreen(isUpdate: false)
         : (AddressHelper.getUserAddressFromSharedPref() == null && !byPuss)
         ? AccessLocationScreen(fromSignUp: false, fromHome: false, route: Get.currentRoute) : navigateTo;

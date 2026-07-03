@@ -133,16 +133,21 @@ class OrderAnywhereController extends GetxController implements GetxService {
 
     try {
       buildRequestFromForm();
+      debugPrint('OrderAnywhereController.submitRequest: starting');
+      debugPrint('OrderAnywhereController.submitRequest payload: ${_currentRequest.toJson()}');
       final result = await orderAnywhereServiceInterface.submitRequest(_currentRequest);
+      debugPrint('OrderAnywhereController.submitRequest result: $result');
       if (result != null) {
         _currentRequest = result;
         _myRequests.insert(0, result);
+        Get.snackbar('Success', 'Order Anywhere request submitted.', backgroundColor: Colors.green, colorText: Colors.white);
         Get.offNamed(RouteHelper.getOrderAnywhereStatusRoute(_currentRequest.id ?? ''));
       } else {
         _errorMessage = 'Backend endpoint pending. This tester build cannot submit live Order Anywhere requests yet.';
         update();
       }
     } catch (e) {
+      debugPrint('OrderAnywhereController.submitRequest error: ${e.toString()}');
       _currentRequest = _currentRequest.copyWith(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         requestStatus: OrderAnywhereRequestStatus.submitted,
@@ -152,7 +157,8 @@ class OrderAnywhereController extends GetxController implements GetxService {
         updatedAt: DateTime.now().toIso8601String(),
       );
       _myRequests.insert(0, _currentRequest);
-      _errorMessage = 'Backend unavailable; request saved locally for tester status only.';
+      _errorMessage = e.toString();
+      Get.snackbar('Error', e.toString(), backgroundColor: Colors.red, colorText: Colors.white);
       Get.offNamed(RouteHelper.getOrderAnywhereStatusRoute(_currentRequest.id ?? ''));
     }
 

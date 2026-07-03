@@ -111,7 +111,7 @@ class DashboardScreenState extends State<DashboardScreen> {
 
     _screens = [
       const HomeScreen(),
-      const FavouriteScreen(),
+      const favouriteScreen(),
       const SizedBox(),
       const OrderScreen(),
       const MenuScreen()
@@ -294,9 +294,9 @@ class DashboardScreenState extends State<DashboardScreen> {
                                             onTap: () => _setPage(0),
                                           ),
                                           BottomNavItemWidget(
-                                            title: isParcel ? 'address'.tr : isTaxi ? 'wishlist'.tr : isRide ? 'my_activity'.tr  : 'Favorites',
-                                            selectedIcon: isParcel ? Images.addressSelect : isRide ? Images.orderSelect : Images.favouriteSelect,
-                                            unSelectedIcon: isParcel ? Images.addressUnselect : isRide ? Images.orderUnselect : Images.favouriteUnselect,
+                                            title: isParcel ? 'address'.tr : isTaxi ? 'wishlist'.tr : isRide ? 'my_activity'.tr  : 'Favorites'.tr,
+                                            selectedIcon: isParcel ? Images.addressSelect : isRide ? Images.orderSelect : Images.FavoriteSelect,
+                                            unSelectedIcon: isParcel ? Images.addressUnselect : isRide ? Images.orderUnselect : Images.FavouriteUnselect,
                                             isSelected: _pageIndex == 1, onTap: () => _setPage(1),
                                           ),
                                           Container(width: size.width * 0.2),
@@ -308,7 +308,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                                           ),
                                           BottomNavItemWidget(
                                             title: 'menu'.tr, selectedIcon: Images.menu, unSelectedIcon: Images.menu,
-                                            isSelected: _pageIndex == 4, onTap: () => _setPage(4),
+                                            isSelected: _pageIndex == 4,, onTap: () => _setPage(4),
                                           ),
                                         ]),
                                     ),

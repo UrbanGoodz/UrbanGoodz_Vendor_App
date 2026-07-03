@@ -385,7 +385,7 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
                             const Icon(Icons.auto_awesome, color: AppConstants.seasoningOrange, size: 20),
                             const SizedBox(width: 8),
                             Text(
-                              'Response for: "${_lastQuery}"',
+                              'Response for: "$_lastQuery"',
                               style: robotoBold.copyWith(fontSize: 14, color: AppConstants.ugBlack),
                             ),
                           ],

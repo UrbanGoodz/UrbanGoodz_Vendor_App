@@ -595,7 +595,7 @@ class _HubDetailImage extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
             child: Image.asset(
-              assetPath!,
+              assetPath,
               fit: BoxFit.contain,
               alignment: Alignment.center,
               filterQuality: FilterQuality.high,

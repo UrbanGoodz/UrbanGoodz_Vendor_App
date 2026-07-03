@@ -90,7 +90,7 @@ class VehicleFavouriteScreenState extends State<VehicleFavouriteScreen> with Sin
                   : ListView.separated(
                       padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                       itemCount: favorites.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: 12),
+                      separatorBuilder: (_, _) => const SizedBox(height: 12),
                       itemBuilder: (context, index) {
                         final v = favorites[index];
                         return _buildFavoriteCard(v);

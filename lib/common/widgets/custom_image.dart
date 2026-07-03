@@ -490,7 +490,7 @@ class CustomImage extends StatelessWidget {
         width: width,
         fit: finalFit,
         color: color,
-        errorBuilder: (_, __, ___) => getFallbackErrorWidget(fallbackAsset),
+        errorBuilder: (_, _, _) => getFallbackErrorWidget(fallbackAsset),
       );
     }
 

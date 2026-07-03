@@ -266,7 +266,11 @@ class _OrderAnywhereRequestScreenState extends State<OrderAnywhereRequestScreen>
                     ),
                     onPressed: controller.isSubmitting ? null : () {
                       final formValid = _formKey.currentState?.validate() ?? false;
-                      if (!formValid || !controller.validateRequestForm()) return;
+                      if (!formValid || !controller.validateRequestForm()) {
+                        Get.snackbar('Validation', controller.errorMessage ?? 'Please fill required fields',
+                          backgroundColor: Colors.red, colorText: AppConstants.ugWhite);
+                        return;
+                      }
                       controller.submitRequest();
                     },
                     child: controller.isSubmitting
@@ -278,7 +282,11 @@ class _OrderAnywhereRequestScreenState extends State<OrderAnywhereRequestScreen>
                 TextButton.icon(
                   onPressed: () {
                     final formValid = _formKey.currentState?.validate() ?? false;
-                    if (!formValid || !controller.validateRequestForm()) return;
+                    if (!formValid || !controller.validateRequestForm()) {
+                      Get.snackbar('Validation', controller.errorMessage ?? 'Please fill required fields',
+                        backgroundColor: Colors.red, colorText: AppConstants.ugWhite);
+                      return;
+                    }
                     controller.navigateToReview();
                   },
                   icon: const Icon(Icons.preview_outlined),

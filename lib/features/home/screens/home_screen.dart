@@ -855,7 +855,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   if (splashController.module == null && !showMobileModule && !hasModuleQuery && !isTaxi && !isRide) ...[
                     SliverToBoxAdapter(child: _buildAIConciergeCard(context)),
-                    SliverToBoxAdapter(child: _buildOrderAnywhereCard(context)),
                     SliverToBoxAdapter(child: _buildMembershipCard(context)),
                     SliverToBoxAdapter(child: _buildSpotlightCard(context)),
                     SliverToBoxAdapter(child: _buildRentalsCard(context)),

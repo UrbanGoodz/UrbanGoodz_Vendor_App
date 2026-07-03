@@ -8,6 +8,7 @@ import 'package:sixam_mart/features/address/domain/models/address_model.dart';
 import 'package:sixam_mart/helper/address_helper.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
+import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/util/images.dart';
@@ -72,10 +73,60 @@ class ModuleView extends StatelessWidget {
                       padding: const EdgeInsets.all(
                         Dimensions.paddingSizeSmall,
                       ),
-                      itemCount: visibleModuleIndexes.length,
+                      itemCount: visibleModuleIndexes.length + 1,
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
+                        if (index == visibleModuleIndexes.length) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                Dimensions.radiusDefault,
+                              ),
+                              color: const Color(0xFFE2D3BF),
+                              border: Border.all(
+                                color: const Color(0xFFED9914).withValues(alpha: 0.35),
+                                width: 1,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.15),
+                                  spreadRadius: 1,
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                Dimensions.radiusDefault,
+                              ),
+                              child: Stack(
+                                children: [
+                                  Positioned.fill(
+                                    child: Container(
+                                      color: const Color(0xFFE2D3BF),
+                                      child: Image.asset(
+                                        'assets/image/urban_goodz_features/order_anywhere.png',
+                                        fit: BoxFit.contain,
+                                        alignment: Alignment.center,
+                                        filterQuality: FilterQuality.high,
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned.fill(
+                                    child: CustomInkWell(
+                                      onTap: () => Get.toNamed(RouteHelper.getOrderAnywhereRequestRoute()),
+                                      radius: Dimensions.radiusDefault,
+                                      child: const SizedBox(),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }
+
                         final int moduleIndex = visibleModuleIndexes[index];
                         final module = splashController.moduleList![moduleIndex];
                         final String moduleImage = modulePreviewImage(module);
