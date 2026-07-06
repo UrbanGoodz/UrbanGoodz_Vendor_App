@@ -105,6 +105,11 @@ import 'package:sixam_mart/features/urban_goodz/screens/book_services_screen_pla
 import 'package:sixam_mart/features/urban_goodz/screens/community_marketplace_screen_placeholder.dart';
 import 'package:sixam_mart/features/urban_goodz/screens/creator_commerce_screen_placeholder.dart';
 import 'package:sixam_mart/features/urban_goodz/screens/urban_goodz_hub_screen.dart';
+import 'package:sixam_mart/features/urban_goodz/fashion_measurements/screens/fashion_measurement_home_screen.dart';
+import 'package:sixam_mart/features/urban_goodz/fashion_measurements/screens/measurement_profile_screen.dart';
+import 'package:sixam_mart/features/urban_goodz/fashion_measurements/screens/measurement_photo_guide_screen.dart';
+import 'package:sixam_mart/features/urban_goodz/fashion_measurements/screens/tailor_service_request_screen.dart';
+import 'package:sixam_mart/features/urban_goodz/fashion_measurements/screens/tailor_quote_review_screen.dart';
 import 'package:sixam_mart/features/order_anywhere/screens/order_anywhere_request_screen.dart';
 import 'package:sixam_mart/features/order_anywhere/screens/order_anywhere_review_screen.dart';
 import 'package:sixam_mart/features/order_anywhere/screens/order_anywhere_status_screen.dart';
@@ -541,11 +546,11 @@ class RouteHelper {
     GetPage(name: urbanGoodzBookServices, page: () => const BookServicesScreen()),
     GetPage(name: urbanGoodzCommunityMarketplace, page: () => const CommunityMarketplaceScreen()),
     GetPage(name: urbanGoodzCreatorCommerce, page: () => const CreatorCommerceScreen()),
-    GetPage(name: urbanGoodzFashionMeasurements, page: () => const NotFound()),
-    GetPage(name: urbanGoodzFashionMeasurementProfile, page: () => const NotFound()),
-    GetPage(name: urbanGoodzFashionPhotoGuide, page: () => const NotFound()),
-    GetPage(name: urbanGoodzFashionTailorRequest, page: () => const NotFound()),
-    GetPage(name: urbanGoodzFashionQuoteReview, page: () => const NotFound()),
+    GetPage(name: urbanGoodzFashionMeasurements, page: () => const FashionMeasurementHomeScreen()),
+    GetPage(name: urbanGoodzFashionMeasurementProfile, page: () => const MeasurementProfileScreen()),
+    GetPage(name: urbanGoodzFashionPhotoGuide, page: () => const MeasurementPhotoGuideScreen()),
+    GetPage(name: urbanGoodzFashionTailorRequest, page: () => const TailorServiceRequestScreen()),
+    GetPage(name: urbanGoodzFashionQuoteReview, page: () => const TailorQuoteReviewScreen()),
     GetPage(name: orderAnywhereRequest, page: () => const OrderAnywhereRequestScreen()),
     GetPage(name: orderAnywhereReview, page: () => const OrderAnywhereReviewScreen()),
     GetPage(name: orderAnywhereStatus, page: () => OrderAnywhereStatusScreen(requestId: Get.parameters['requestId'] ?? '')),

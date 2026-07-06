@@ -118,7 +118,6 @@ class _UrbanGoodzAiScreenState extends State<UrbanGoodzAiScreen> {
       {
         'title': 'Find a Stylist near me',
         'query': 'Find a Stylist near me',
-        'asset': 'assets/image/urban_goodz_features/ai_measuring_fit.png',
       },
       {
         'title': 'Help me order from a store not listed',
