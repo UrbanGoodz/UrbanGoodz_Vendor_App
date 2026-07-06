@@ -275,7 +275,9 @@ class RouteHelper {
   static String getUrbanGoodzCreatorCommerceRoute() => urbanGoodzCreatorCommerce;
   static String getUrbanGoodzFashionMeasurementsRoute() => urbanGoodzFashionMeasurements;
   static String getUrbanGoodzFashionMeasurementProfileRoute() => urbanGoodzFashionMeasurementProfile;
+  static String getFashionMeasurementProfileRoute() => getUrbanGoodzFashionMeasurementProfileRoute();
   static String getUrbanGoodzFashionPhotoGuideRoute() => urbanGoodzFashionPhotoGuide;
+  static String getFashionMeasurementIntakeRoute() => getUrbanGoodzFashionPhotoGuideRoute();
   static String getUrbanGoodzFashionTailorRequestRoute() => urbanGoodzFashionTailorRequest;
   static String getUrbanGoodzFashionQuoteReviewRoute() => urbanGoodzFashionQuoteReview;
   static String getOrderAnywhereRequestRoute() => orderAnywhereRequest;
