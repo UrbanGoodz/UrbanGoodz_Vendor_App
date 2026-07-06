@@ -32,6 +32,7 @@ import 'package:sixam_mart/features/checkout/screens/checkout_screen.dart';
 import 'package:sixam_mart/features/store/widgets/customizable_space_bar_widget.dart';
 import 'package:sixam_mart/features/store/widgets/store_banner_widget.dart';
 import 'package:sixam_mart/features/store/widgets/store_description_view_widget.dart';
+import 'package:sixam_mart/features/store/widgets/urban_goodz_badges.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/features/store/widgets/store_details_screen_shimmer_widget.dart';
@@ -940,4 +941,3 @@ class CategoryProduct {
   List<Item> products;
   CategoryProduct(this.category, this.products);
 }
-

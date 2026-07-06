@@ -67,7 +67,7 @@ class _OrderAnywhereRequestScreenState extends State<OrderAnywhereRequestScreen>
                     SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        'Preview request flow. Test mode only. Live payments and dispatch are not enabled yet.',
+                        'Request from any store or vendor, whether they are on the app or not. Your request will be reviewed and quoted before payment. Urban Goodz will confirm price, availability, and delivery before purchase. Payment and dispatch status will update as your request progresses.',
                         style: TextStyle(fontSize: 12, color: AppConstants.ugBlack),
                       ),
                     ),

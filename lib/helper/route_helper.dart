@@ -139,6 +139,11 @@ class RouteHelper {
   static const String urbanGoodzBookServices = '/urban-goodz-book-services';
   static const String urbanGoodzCommunityMarketplace = '/urban-goodz-community-marketplace';
   static const String urbanGoodzCreatorCommerce = '/urban-goodz-creator-commerce';
+  static const String urbanGoodzFashionMeasurements = '/urban-goodz-fashion-measurements';
+  static const String urbanGoodzFashionMeasurementProfile = '/urban-goodz-fashion-measurement-profile';
+  static const String urbanGoodzFashionPhotoGuide = '/urban-goodz-fashion-photo-guide';
+  static const String urbanGoodzFashionTailorRequest = '/urban-goodz-fashion-tailor-request';
+  static const String urbanGoodzFashionQuoteReview = '/urban-goodz-fashion-quote-review';
   static const String orderAnywhereRequest = '/order-anywhere-request';
   static const String orderAnywhereReview = '/order-anywhere-review';
   static const String orderAnywhereStatus = '/order-anywhere-status';
@@ -265,6 +270,11 @@ class RouteHelper {
   static String getUrbanGoodzBookServicesRoute() => urbanGoodzBookServices;
   static String getUrbanGoodzCommunityMarketplaceRoute() => urbanGoodzCommunityMarketplace;
   static String getUrbanGoodzCreatorCommerceRoute() => urbanGoodzCreatorCommerce;
+  static String getUrbanGoodzFashionMeasurementsRoute() => urbanGoodzFashionMeasurements;
+  static String getUrbanGoodzFashionMeasurementProfileRoute() => urbanGoodzFashionMeasurementProfile;
+  static String getUrbanGoodzFashionPhotoGuideRoute() => urbanGoodzFashionPhotoGuide;
+  static String getUrbanGoodzFashionTailorRequestRoute() => urbanGoodzFashionTailorRequest;
+  static String getUrbanGoodzFashionQuoteReviewRoute() => urbanGoodzFashionQuoteReview;
   static String getOrderAnywhereRequestRoute() => orderAnywhereRequest;
   static String getOrderAnywhereReviewRoute() => orderAnywhereReview;
   static String getOrderAnywhereStatusRoute(String requestId) => '$orderAnywhereStatus?requestId=$requestId';
@@ -525,6 +535,11 @@ class RouteHelper {
     GetPage(name: urbanGoodzBookServices, page: () => const BookServicesScreen()),
     GetPage(name: urbanGoodzCommunityMarketplace, page: () => const CommunityMarketplaceScreen()),
     GetPage(name: urbanGoodzCreatorCommerce, page: () => const CreatorCommerceScreen()),
+    GetPage(name: urbanGoodzFashionMeasurements, page: () => const NotFound()),
+    GetPage(name: urbanGoodzFashionMeasurementProfile, page: () => const NotFound()),
+    GetPage(name: urbanGoodzFashionPhotoGuide, page: () => const NotFound()),
+    GetPage(name: urbanGoodzFashionTailorRequest, page: () => const NotFound()),
+    GetPage(name: urbanGoodzFashionQuoteReview, page: () => const NotFound()),
     GetPage(name: orderAnywhereRequest, page: () => const OrderAnywhereRequestScreen()),
     GetPage(name: orderAnywhereReview, page: () => const OrderAnywhereReviewScreen()),
     GetPage(name: orderAnywhereStatus, page: () => OrderAnywhereStatusScreen(requestId: Get.parameters['requestId'] ?? '')),
@@ -958,7 +973,7 @@ class RouteHelper {
     } else if (GetPlatform.isIOS) {
       minimumVersion = Get.find<SplashController>().configModel!.appMinimumVersionIos;
     }
-    return (AppConstants.appVersion < minimumVersion && !GetPlatform.isWeb) ? const UpdateScreen(isUpdate: true)
+    return (AppConstants.appVersion < (minimumVersion ?? 0) && !GetPlatform.isWeb) ? const UpdateScreen(isUpdate: true)
         : Get.find<SplashController>().configModel!.maintenanceMode! ? const UpdateScreen(isUpdate: false)
         : (AddressHelper.getUserAddressFromSharedPref() == null && !byPuss)
         ? AccessLocationScreen(fromSignUp: false, fromHome: false, route: Get.currentRoute) : navigateTo;

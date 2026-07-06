@@ -116,6 +116,7 @@ class OrderAnywhereController extends GetxController implements GetxService {
       tip: tip,
       deliveryFee: _currentRequest.deliveryFee,
       serviceFee: _currentRequest.serviceFeeCalculated,
+      paymentStatus: OrderAnywherePaymentStatus.quotePending,
     );
     _currentRequest.recalculateTotal();
   }
@@ -133,10 +134,8 @@ class OrderAnywhereController extends GetxController implements GetxService {
 
     try {
       buildRequestFromForm();
-      debugPrint('OrderAnywhereController.submitRequest: starting');
       debugPrint('OrderAnywhereController.submitRequest payload: ${_currentRequest.toJson()}');
       final result = await orderAnywhereServiceInterface.submitRequest(_currentRequest);
-      debugPrint('OrderAnywhereController.submitRequest result: $result');
       if (result != null) {
         _currentRequest = result;
         _myRequests.insert(0, result);
@@ -147,10 +146,10 @@ class OrderAnywhereController extends GetxController implements GetxService {
         update();
       }
     } catch (e) {
-      debugPrint('OrderAnywhereController.submitRequest error: ${e.toString()}');
       _currentRequest = _currentRequest.copyWith(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         requestStatus: OrderAnywhereRequestStatus.submitted,
+        paymentStatus: OrderAnywherePaymentStatus.quotePending,
         backendLimited: true,
         adminNotes: 'Backend endpoint unavailable. Local tester fallback only. ${e.toString()}',
         createdAt: DateTime.now().toIso8601String(),
@@ -175,15 +174,15 @@ class OrderAnywhereController extends GetxController implements GetxService {
           paymentStatus: OrderAnywherePaymentStatus.paidTest,
         );
         update();
-        Get.snackbar('TEST PAYMENT', 'TEST PAYMENT ONLY — NOT PRODUCTION',
-          backgroundColor: Colors.orange, colorText: Colors.white);
+        Get.snackbar('TEST PAYMENT', 'TEST PAYMENT ONLY - NOT PRODUCTION',
+            backgroundColor: Colors.orange, colorText: Colors.white);
       } else {
         Get.snackbar('Error', 'Backend endpoint pending. Cannot process test payment.',
-          backgroundColor: Colors.red, colorText: Colors.white);
+            backgroundColor: Colors.red, colorText: Colors.white);
       }
     } catch (e) {
       Get.snackbar('Error', 'Backend endpoint pending. Cannot process test payment.',
-        backgroundColor: Colors.red, colorText: Colors.white);
+          backgroundColor: Colors.red, colorText: Colors.white);
     }
   }
 
@@ -198,7 +197,7 @@ class OrderAnywhereController extends GetxController implements GetxService {
       }
     } catch (e) {
       Get.snackbar('Error', 'Backend endpoint pending. Cannot cancel request.',
-        backgroundColor: Colors.red, colorText: Colors.white);
+          backgroundColor: Colors.red, colorText: Colors.white);
     }
   }
 
