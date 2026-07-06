@@ -104,6 +104,7 @@ import 'package:sixam_mart/features/urban_goodz/screens/medical_courier_screen_p
 import 'package:sixam_mart/features/urban_goodz/screens/book_services_screen_placeholder.dart';
 import 'package:sixam_mart/features/urban_goodz/screens/community_marketplace_screen_placeholder.dart';
 import 'package:sixam_mart/features/urban_goodz/screens/creator_commerce_screen_placeholder.dart';
+import 'package:sixam_mart/features/urban_goodz/screens/urban_goodz_hub_screen.dart';
 import 'package:sixam_mart/features/order_anywhere/screens/order_anywhere_request_screen.dart';
 import 'package:sixam_mart/features/order_anywhere/screens/order_anywhere_review_screen.dart';
 import 'package:sixam_mart/features/order_anywhere/screens/order_anywhere_status_screen.dart';
@@ -128,6 +129,7 @@ class RouteHelper {
   static const String forgotPassword = '/forgot-password';
   static const String resetPassword = '/reset-password';
   static const String search = '/search';
+  static const String urbanGoodzHub = '/urban-goodz-hub';
   static const String urbanGoodzAI = '/urban-goodz-ai';
   static const String blackOwnedSpotlight = '/black-owned-spotlight';
   static const String urbanGoodzPlus = '/urban-goodz-plus';
@@ -259,6 +261,7 @@ class RouteHelper {
   static String getForgotPassRoute() => forgotPassword;
   static String getResetPasswordRoute({String? phone, String? email, required String token, required String page}) => '$resetPassword?phone=$phone&token=$token&page=$page&email=$email';
   static String getSearchRoute({String? queryText}) => '$search?query=${queryText ?? ''}&module=${ModuleHelper.getModule()?.slug ?? ModuleHelper.getModule()?.id}';
+  static String getUrbanGoodzHubRoute() => urbanGoodzHub;
   static String getUrbanGoodzAIRoute() => urbanGoodzAI;
   static String getBlackOwnedSpotlightRoute() => blackOwnedSpotlight;
   static String getUrbanGoodzPlusRoute() => urbanGoodzPlus;
@@ -524,6 +527,7 @@ class RouteHelper {
         SearchScreen(queryText: Get.parameters['query']),
       ),
     )),
+    GetPage(name: urbanGoodzHub, page: () => const UrbanGoodzHubScreen()),
     GetPage(name: urbanGoodzAI, page: () => UrbanGoodzAiScreen()),
     GetPage(name: blackOwnedSpotlight, page: () => const BlackOwnedSpotlightScreen()),
     GetPage(name: urbanGoodzPlus, page: () => const UrbanGoodzPlusScreen()),

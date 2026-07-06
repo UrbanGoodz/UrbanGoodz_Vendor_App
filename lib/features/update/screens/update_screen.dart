@@ -53,6 +53,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
               }else if(GetPlatform.isIOS) {
                 appUrl = Get.find<SplashController>().configModel!.appUrlIos;
               }
+              appUrl ??= 'https://google.com';
               if(await canLaunchUrlString(appUrl)) {
                 launchUrlString(appUrl, mode: LaunchMode.externalApplication);
               }else {
