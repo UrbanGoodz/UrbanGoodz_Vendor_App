@@ -12,7 +12,7 @@ class FashionMeasurementApiService {
   static const String fashionMeasurementProfileUri =
       '/api/v1/customer/fashion/measurement-profiles';
   static const String fashionMeasurementPhotoUri =
-      '/api/v1/customer/fashion/measurement-photos';
+      '/api/v1/urban-goodz/fashion-fit/photos/upload';
   static const String fashionMeasurementRequestUri =
       '/api/v1/urban-goodz/fashion/stylist-requests';
   static const String fashionTailorServicesUri =
@@ -100,7 +100,7 @@ class FashionMeasurementApiService {
     final response = await apiClient.postMultipartData(
       fashionMeasurementPhotoUri,
       {
-        'orientation': orientation,
+        'category': orientation,
         if (heightRef != null) 'height_ref': heightRef.toString(),
       },
       [MultipartBody('photo', photo)],
@@ -113,7 +113,7 @@ class FashionMeasurementApiService {
       final data = body['data'] is Map ? Map<String, dynamic>.from(body['data']) : body;
       final remotePhoto = MeasurementPhotoModel.fromJson(data);
       _draftPhotos[orientation] = remotePhoto;
-      _lastBackendMessage = 'Measurement photo synced to backend.';
+      _lastBackendMessage = 'Fashion Fit photo synced to backend.';
       return remotePhoto;
     }
 

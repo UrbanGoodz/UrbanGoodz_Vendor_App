@@ -6,6 +6,7 @@ import 'package:sixam_mart/features/profile/controllers/profile_controller.dart'
 import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/features/urban_goodz/fashion_measurements/services/fashion_measurement_api_service.dart';
 import 'package:sixam_mart/features/urban_goodz/widgets/urban_goodz_preview_banner.dart';
+import 'package:sixam_mart/util/app_constants.dart';
 
 class FashionMeasurementHomeScreen extends StatefulWidget {
   const FashionMeasurementHomeScreen({super.key});
@@ -41,9 +42,6 @@ class _FashionMeasurementHomeScreenState extends State<FashionMeasurementHomeScr
 
   @override
   Widget build(BuildContext context) {
-    const Color ugCanvas = Color(0xFFE2D3BF);
-    const Color ugOrange = Color(0xFFED9914);
-    const Color ugBlack = Color(0xFF161616);
     final fitRequests = fashionService.submittedRequests;
 
     return Scaffold(
@@ -51,10 +49,10 @@ class _FashionMeasurementHomeScreenState extends State<FashionMeasurementHomeScr
       appBar: AppBar(
         title: Text(
           'Fashion Fit & Measurements',
-          style: robotoBold.copyWith(color: ugBlack),
+          style: robotoBold.copyWith(color: AppConstants.ugBlack),
         ),
-        backgroundColor: ugCanvas,
-        iconTheme: const IconThemeData(color: ugBlack),
+        backgroundColor: AppConstants.canvas,
+        iconTheme: const IconThemeData(color: AppConstants.ugBlack),
         elevation: 0,
         actions: [
           IconButton(
@@ -85,26 +83,26 @@ class _FashionMeasurementHomeScreenState extends State<FashionMeasurementHomeScr
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [ugCanvas, Colors.white],
+                      colors: [AppConstants.canvas, Colors.white],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: ugOrange.withValues(alpha: 0.3)),
+                    border: Border.all(color: AppConstants.seasoningOrange.withValues(alpha: 0.3)),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Fashion Fit & Measurements',
-                        style: robotoBold.copyWith(fontSize: 22, color: ugBlack),
+                        style: robotoBold.copyWith(fontSize: 22, color: AppConstants.ugBlack),
                       ),
                       const SizedBox(height: 8),
                       Text(
                         'Create a preview fit profile for fashion, styling, uniforms, creator merchandise, and local apparel services.',
                         style: robotoRegular.copyWith(
                           fontSize: 14,
-                          color: ugBlack.withValues(alpha: 0.8),
+                          color: AppConstants.ugBlack.withValues(alpha: 0.8),
                         ),
                       ),
                     ],
@@ -114,7 +112,7 @@ class _FashionMeasurementHomeScreenState extends State<FashionMeasurementHomeScr
 
                 Text(
                   'My Fitting Dashboard',
-                  style: robotoBold.copyWith(fontSize: 18, color: ugBlack),
+                  style: robotoBold.copyWith(fontSize: 18, color: AppConstants.ugBlack),
                 ),
                 const SizedBox(height: 16),
 
@@ -166,7 +164,7 @@ class _FashionMeasurementHomeScreenState extends State<FashionMeasurementHomeScr
 
                 Text(
                   'My Fit Requests',
-                  style: robotoBold.copyWith(fontSize: 18, color: ugBlack),
+                  style: robotoBold.copyWith(fontSize: 18, color: AppConstants.ugBlack),
                 ),
                 const SizedBox(height: 12),
                 Container(
@@ -175,13 +173,13 @@ class _FashionMeasurementHomeScreenState extends State<FashionMeasurementHomeScr
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: ugOrange.withValues(alpha: 0.25)),
+                    border: Border.all(color: AppConstants.seasoningOrange.withValues(alpha: 0.25)),
                   ),
                   child: _isLoading
                       ? const Center(
                           child: Padding(
                             padding: EdgeInsets.symmetric(vertical: 20),
-                            child: CircularProgressIndicator(color: ugOrange),
+                            child: CircularProgressIndicator(color: AppConstants.seasoningOrange),
                           ),
                         )
                       : fitRequests.isEmpty
@@ -189,7 +187,7 @@ class _FashionMeasurementHomeScreenState extends State<FashionMeasurementHomeScr
                               'No Stylist Requests submitted yet. Create a measurement profile, take or upload front and side photos, generate an AI-Assisted Tester Estimate, then send a request to a Stylist.',
                               style: robotoRegular.copyWith(
                                 fontSize: 13,
-                                color: ugBlack.withValues(alpha: 0.75),
+                                color: AppConstants.ugBlack.withValues(alpha: 0.75),
                                 height: 1.4,
                               ),
                             )
@@ -203,7 +201,7 @@ class _FashionMeasurementHomeScreenState extends State<FashionMeasurementHomeScr
                                     width: double.infinity,
                                     padding: const EdgeInsets.all(12),
                                     decoration: BoxDecoration(
-                                      color: ugCanvas.withValues(alpha: 0.18),
+                                      color: AppConstants.canvas.withValues(alpha: 0.18),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: Column(
@@ -215,13 +213,13 @@ class _FashionMeasurementHomeScreenState extends State<FashionMeasurementHomeScr
                                             Expanded(
                                               child: Text(
                                                 request.itemWanted ?? 'Stylist Request',
-                                                style: robotoBold.copyWith(fontSize: 14, color: ugBlack),
+                                                style: robotoBold.copyWith(fontSize: 14, color: AppConstants.ugBlack),
                                               ),
                                             ),
                                             const SizedBox(width: 8),
                                             Text(
                                               request.status ?? 'Pending Stylist Review',
-                                              style: robotoBold.copyWith(fontSize: 12, color: ugOrange),
+                                              style: robotoBold.copyWith(fontSize: 12, color: AppConstants.seasoningOrange),
                                             ),
                                           ],
                                         ),
@@ -237,7 +235,7 @@ class _FashionMeasurementHomeScreenState extends State<FashionMeasurementHomeScr
                                           const SizedBox(height: 6),
                                           Text(
                                             'Stylist Response Note:',
-                                            style: robotoBold.copyWith(fontSize: 11, color: ugBlack),
+                                            style: robotoBold.copyWith(fontSize: 11, color: AppConstants.ugBlack),
                                           ),
                                           const SizedBox(height: 2),
                                           Text(
@@ -257,7 +255,7 @@ class _FashionMeasurementHomeScreenState extends State<FashionMeasurementHomeScr
                                           backendSynced
                                               ? 'Backend connected: submitted for Stylist Review.'
                                               : 'Backend limitation: saved locally in this app session until Fashion Fit endpoints accept requests.',
-                                          style: robotoRegular.copyWith(fontSize: 11, color: ugBlack.withValues(alpha: 0.6)),
+                                          style: robotoRegular.copyWith(fontSize: 11, color: AppConstants.ugBlack.withValues(alpha: 0.6)),
                                         ),
                                       ],
                                     ),
@@ -272,23 +270,23 @@ class _FashionMeasurementHomeScreenState extends State<FashionMeasurementHomeScr
                   width: double.infinity,
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: ugCanvas.withValues(alpha: 0.25),
+                    color: AppConstants.canvas.withValues(alpha: 0.25),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: ugOrange.withValues(alpha: 0.25)),
+                    border: Border.all(color: AppConstants.seasoningOrange.withValues(alpha: 0.25)),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Creator Space Fashion Education',
-                        style: robotoBold.copyWith(fontSize: 15, color: ugBlack),
+                        style: robotoBold.copyWith(fontSize: 15, color: AppConstants.ugBlack),
                       ),
                       const SizedBox(height: 6),
                       Text(
                         'Browse public fashion drops, Stylist showcases, and measurement prep tips. Private customer measurement photos stay out of Creator Space and public feeds.',
                         style: robotoRegular.copyWith(
                           fontSize: 12,
-                          color: ugBlack.withValues(alpha: 0.78),
+                          color: AppConstants.ugBlack.withValues(alpha: 0.78),
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -299,9 +297,9 @@ class _FashionMeasurementHomeScreenState extends State<FashionMeasurementHomeScr
                         icon: const Icon(Icons.storefront_outlined),
                         label: const Text('Open Creator Fashion Content'),
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: ugBlack,
+                          foregroundColor: AppConstants.ugBlack,
                           side: BorderSide(
-                            color: ugOrange.withValues(alpha: 0.65),
+                            color: AppConstants.seasoningOrange.withValues(alpha: 0.65),
                           ),
                         ),
                       ),
@@ -320,7 +318,7 @@ class _FashionMeasurementHomeScreenState extends State<FashionMeasurementHomeScr
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.security, color: ugOrange, size: 28),
+                      const Icon(Icons.security, color: AppConstants.seasoningOrange, size: 28),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Column(
@@ -330,7 +328,7 @@ class _FashionMeasurementHomeScreenState extends State<FashionMeasurementHomeScr
                               'Photo-Assisted Disclaimer',
                               style: robotoBold.copyWith(
                                 fontSize: 14,
-                                color: ugBlack,
+                                color: AppConstants.ugBlack,
                               ),
                             ),
                             const SizedBox(height: 4),
@@ -338,7 +336,7 @@ class _FashionMeasurementHomeScreenState extends State<FashionMeasurementHomeScr
                               'Measurement photos are intended only to help Stylists estimate fit. This tester preview does not claim production measurement accuracy.',
                               style: robotoRegular.copyWith(
                                 fontSize: 12,
-                                color: ugBlack.withValues(alpha: 0.8),
+                                color: AppConstants.ugBlack.withValues(alpha: 0.8),
                               ),
                             ),
                           ],

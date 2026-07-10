@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
+import 'package:sixam_mart/util/app_constants.dart';
 
 class FashionMeasurementIntakeScreen extends StatefulWidget {
   const FashionMeasurementIntakeScreen({super.key});
@@ -27,7 +28,7 @@ class _FashionMeasurementIntakeScreenState extends State<FashionMeasurementIntak
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-              decoration: BoxDecoration(color: Theme.of(context).primaryColor.withValues(alpha: 0.08), borderRadius: BorderRadius.circular(Dimensions.radiusDefault)),
+              decoration: BoxDecoration(color: AppConstants.seasoningOrange.withValues(alpha: 0.08), borderRadius: BorderRadius.circular(Dimensions.radiusDefault)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -84,9 +85,9 @@ class _PhotoCard extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
         decoration: BoxDecoration(
-          color: isSelected ? Theme.of(context).primaryColor.withValues(alpha: 0.12) : Theme.of(context).cardColor,
+          color: isSelected ? AppConstants.seasoningOrange.withValues(alpha: 0.12) : Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
-          border: Border.all(color: isSelected ? Theme.of(context).primaryColor : Theme.of(context).dividerColor.withValues(alpha: 0.12), width: isSelected ? 2 : 0.5),
+          border: Border.all(color: isSelected ? AppConstants.seasoningOrange : Theme.of(context).dividerColor.withValues(alpha: 0.12), width: isSelected ? 2 : 0.5),
           boxShadow: [BoxShadow(color: Theme.of(context).shadowColor.withValues(alpha: 0.05), blurRadius: 18, offset: const Offset(0, 8))],
         ),
         child: Row(
@@ -95,10 +96,10 @@ class _PhotoCard extends StatelessWidget {
               height: 80,
               width: 80,
               decoration: BoxDecoration(
-                color: isSelected ? Theme.of(context).primaryColor.withValues(alpha: 0.2) : Theme.of(context).disabledColor.withValues(alpha: 0.1),
+                color: isSelected ? AppConstants.seasoningOrange.withValues(alpha: 0.2) : Theme.of(context).disabledColor.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
               ),
-              child: Icon(isSelected ? Icons.check_circle : Icons.photo_camera, color: isSelected ? Theme.of(context).primaryColor : Theme.of(context).disabledColor, size: 32),
+              child: Icon(isSelected ? Icons.check_circle : Icons.photo_camera, color: isSelected ? AppConstants.seasoningOrange : Theme.of(context).disabledColor, size: 32),
             ),
             const SizedBox(width: Dimensions.paddingSizeDefault),
             Expanded(
@@ -108,7 +109,7 @@ class _PhotoCard extends StatelessWidget {
                   Row(children: [Text(title, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).textTheme.bodyLarge!.color)), if (required) Text(' *', style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeDefault, color: Colors.red))]),
                   const SizedBox(height: Dimensions.paddingSizeExtraSmall),
                   Text(subtitle, style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor)),
-                  if (isSelected) Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeExtraSmall), child: Text('Selected', style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600))),
+                  if (isSelected) Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeExtraSmall), child: Text('Selected', style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: AppConstants.seasoningOrange, fontWeight: FontWeight.w600))),
                 ],
               ),
             ),

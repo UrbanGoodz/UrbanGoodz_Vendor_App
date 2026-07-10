@@ -110,6 +110,7 @@ import 'package:sixam_mart/features/urban_goodz/fashion_measurements/screens/mea
 import 'package:sixam_mart/features/urban_goodz/fashion_measurements/screens/measurement_photo_guide_screen.dart';
 import 'package:sixam_mart/features/urban_goodz/fashion_measurements/screens/tailor_service_request_screen.dart';
 import 'package:sixam_mart/features/urban_goodz/fashion_measurements/screens/tailor_quote_review_screen.dart';
+import 'package:sixam_mart/features/urban_goodz/fashion_measurements/screens/fashion_measurement_intake_screen.dart';
 import 'package:sixam_mart/features/order_anywhere/screens/order_anywhere_request_screen.dart';
 import 'package:sixam_mart/features/order_anywhere/screens/order_anywhere_review_screen.dart';
 import 'package:sixam_mart/features/order_anywhere/screens/order_anywhere_status_screen.dart';
@@ -149,6 +150,7 @@ class RouteHelper {
   static const String urbanGoodzFashionMeasurements = '/urban-goodz-fashion-measurements';
   static const String urbanGoodzFashionMeasurementProfile = '/urban-goodz-fashion-measurement-profile';
   static const String urbanGoodzFashionPhotoGuide = '/urban-goodz-fashion-photo-guide';
+  static const String urbanGoodzFashionMeasurementIntake = '/urban-goodz-fashion-measurement-intake';
   static const String urbanGoodzFashionTailorRequest = '/urban-goodz-fashion-tailor-request';
   static const String urbanGoodzFashionQuoteReview = '/urban-goodz-fashion-quote-review';
   static const String orderAnywhereRequest = '/order-anywhere-request';
@@ -282,7 +284,7 @@ class RouteHelper {
   static String getUrbanGoodzFashionMeasurementProfileRoute() => urbanGoodzFashionMeasurementProfile;
   static String getFashionMeasurementProfileRoute() => getUrbanGoodzFashionMeasurementProfileRoute();
   static String getUrbanGoodzFashionPhotoGuideRoute() => urbanGoodzFashionPhotoGuide;
-  static String getFashionMeasurementIntakeRoute() => getUrbanGoodzFashionPhotoGuideRoute();
+  static String getFashionMeasurementIntakeRoute() => urbanGoodzFashionMeasurementIntake;
   static String getUrbanGoodzFashionTailorRequestRoute() => urbanGoodzFashionTailorRequest;
   static String getUrbanGoodzFashionQuoteReviewRoute() => urbanGoodzFashionQuoteReview;
   static String getOrderAnywhereRequestRoute() => orderAnywhereRequest;
@@ -549,6 +551,7 @@ class RouteHelper {
     GetPage(name: urbanGoodzFashionMeasurements, page: () => const FashionMeasurementHomeScreen()),
     GetPage(name: urbanGoodzFashionMeasurementProfile, page: () => const MeasurementProfileScreen()),
     GetPage(name: urbanGoodzFashionPhotoGuide, page: () => const MeasurementPhotoGuideScreen()),
+    GetPage(name: urbanGoodzFashionMeasurementIntake, page: () => const FashionMeasurementIntakeScreen()),
     GetPage(name: urbanGoodzFashionTailorRequest, page: () => const TailorServiceRequestScreen()),
     GetPage(name: urbanGoodzFashionQuoteReview, page: () => const TailorQuoteReviewScreen()),
     GetPage(name: orderAnywhereRequest, page: () => const OrderAnywhereRequestScreen()),

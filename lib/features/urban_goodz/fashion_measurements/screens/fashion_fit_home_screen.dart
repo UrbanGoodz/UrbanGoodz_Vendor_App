@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
+import 'package:sixam_mart/util/app_constants.dart';
 
 class FashionFitHomeScreen extends StatelessWidget {
   const FashionFitHomeScreen({super.key});
@@ -21,7 +22,7 @@ class FashionFitHomeScreen extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor.withValues(alpha: 0.12),
+                color: AppConstants.seasoningOrange.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
               ),
               child: Column(
@@ -31,7 +32,7 @@ class FashionFitHomeScreen extends StatelessWidget {
                     'Get custom styling & alterations',
                     style: robotoBold.copyWith(
                       fontSize: Dimensions.fontSizeExtraLarge,
-                      color: Theme.of(context).primaryColor,
+                      color: AppConstants.seasoningOrange,
                     ),
                   ),
                   const SizedBox(height: Dimensions.paddingSizeSmall),
@@ -70,8 +71,8 @@ class FashionFitHomeScreen extends StatelessWidget {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                      decoration: BoxDecoration(color: Theme.of(context).primaryColor.withValues(alpha: 0.16), borderRadius: BorderRadius.circular(Dimensions.radiusLarge)),
-                      child: Icon(Icons.straighten, color: Theme.of(context).primaryColor, size: 22),
+                      decoration: BoxDecoration(color: AppConstants.seasoningOrange.withValues(alpha: 0.16), borderRadius: BorderRadius.circular(Dimensions.radiusLarge)),
+                      child: Icon(Icons.straighten, color: AppConstants.seasoningOrange, size: 22),
                     ),
                     const SizedBox(width: Dimensions.paddingSizeDefault),
                     Expanded(
@@ -84,7 +85,7 @@ class FashionFitHomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Icon(Icons.arrow_forward_ios, size: 16, color: Theme.of(context).primaryColor),
+                    Icon(Icons.arrow_forward_ios, size: 16, color: AppConstants.seasoningOrange),
                   ],
                 ),
               ),
@@ -105,8 +106,8 @@ class FashionFitHomeScreen extends StatelessWidget {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                      decoration: BoxDecoration(color: Theme.of(context).primaryColor.withValues(alpha: 0.16), borderRadius: BorderRadius.circular(Dimensions.radiusLarge)),
-                      child: Icon(Icons.photo_camera, color: Theme.of(context).primaryColor, size: 22),
+                      decoration: BoxDecoration(color: AppConstants.seasoningOrange.withValues(alpha: 0.16), borderRadius: BorderRadius.circular(Dimensions.radiusLarge)),
+                      child: Icon(Icons.photo_camera, color: AppConstants.seasoningOrange, size: 22),
                     ),
                     const SizedBox(width: Dimensions.paddingSizeDefault),
                     Expanded(
@@ -119,7 +120,7 @@ class FashionFitHomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Icon(Icons.arrow_forward_ios, size: 16, color: Theme.of(context).primaryColor),
+                    Icon(Icons.arrow_forward_ios, size: 16, color: AppConstants.seasoningOrange),
                   ],
                 ),
               ),
@@ -128,7 +129,7 @@ class FashionFitHomeScreen extends StatelessWidget {
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-              decoration: BoxDecoration(color: Theme.of(context).primaryColor.withValues(alpha: 0.08), borderRadius: BorderRadius.circular(Dimensions.radiusDefault)),
+              decoration: BoxDecoration(color: AppConstants.seasoningOrange.withValues(alpha: 0.08), borderRadius: BorderRadius.circular(Dimensions.radiusDefault)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
