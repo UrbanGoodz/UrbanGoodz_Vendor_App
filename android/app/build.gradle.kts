@@ -5,6 +5,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("dev.flutter.flutter-gradle-plugin")
+    id("com.google.gms.google-services")
 }
 
 val customerApplicationId = "com.urbangoodz.customer"
@@ -12,15 +13,6 @@ val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
-}
-
-val googleServicesFile = project.file("google-services.json")
-val hasMatchingGoogleServicesClient = googleServicesFile.exists() &&
-    googleServicesFile.readText().contains("\"package_name\": \"$customerApplicationId\"")
-
-if (hasMatchingGoogleServicesClient) {
-    apply(plugin = "com.google.gms.google-services")
-    apply(plugin = "com.google.firebase.crashlytics")
 }
 
 android {
@@ -73,6 +65,5 @@ flutter {
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
-    implementation("com.google.firebase:firebase-messaging:23.4.1")
     implementation("com.facebook.android:facebook-android-sdk:latest.release")
 }
