@@ -5,18 +5,26 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("dev.flutter.flutter-gradle-plugin")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
 }
 
+val customerApplicationId = "com.urbangoodz.customer"
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
 
+val googleServicesFile = project.file("google-services.json")
+val hasMatchingGoogleServicesClient = googleServicesFile.exists() &&
+    googleServicesFile.readText().contains("\"package_name\": \"$customerApplicationId\"")
+
+if (hasMatchingGoogleServicesClient) {
+    apply(plugin = "com.google.gms.google-services")
+    apply(plugin = "com.google.firebase.crashlytics")
+}
+
 android {
-    namespace = "com.sixamtech.sixam_mart_user"
+    namespace = customerApplicationId
     compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
@@ -31,7 +39,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.sixamtech.sixam_mart_user"
+        applicationId = customerApplicationId
         minSdk = flutter.minSdkVersion
         targetSdk = 36
         versionCode = flutter.versionCode
