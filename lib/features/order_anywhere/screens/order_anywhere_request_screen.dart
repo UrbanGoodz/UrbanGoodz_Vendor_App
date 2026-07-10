@@ -5,6 +5,7 @@ import 'package:sixam_mart/features/order_anywhere/domain/models/order_anywhere_
 import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
+import 'package:sixam_mart/features/urban_goodz/widgets/urban_goodz_status_badge.dart';
 
 class OrderAnywhereRequestScreen extends StatefulWidget {
   const OrderAnywhereRequestScreen({super.key});
@@ -30,19 +31,14 @@ class _OrderAnywhereRequestScreenState extends State<OrderAnywhereRequestScreen>
       backgroundColor: AppConstants.canvas,
       appBar: AppBar(
         title: const Text('Order Anywhere Request'),
-        backgroundColor: AppConstants.ugBlack,
-        foregroundColor: AppConstants.ugWhite,
+        backgroundColor: AppConstants.canvas,
+        foregroundColor: AppConstants.ugBlack,
+        elevation: 0,
         actions: [
           Center(
-            child: Container(
-              margin: const EdgeInsets.only(right: 12),
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-              decoration: BoxDecoration(
-                color: AppConstants.seasoningOrange,
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: const Text('PREVIEW',
-                style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppConstants.ugWhite)),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 12),
+              child: UrbanGoodzStatusBadge(status: 'Preview', isCompact: true),
             ),
           ),
         ],

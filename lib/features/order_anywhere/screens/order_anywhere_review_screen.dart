@@ -14,8 +14,9 @@ class OrderAnywhereReviewScreen extends StatelessWidget {
       backgroundColor: AppConstants.canvas,
       appBar: AppBar(
         title: const Text('Review Request'),
-        backgroundColor: AppConstants.ugBlack,
-        foregroundColor: AppConstants.ugWhite,
+        backgroundColor: AppConstants.canvas,
+        foregroundColor: AppConstants.ugBlack,
+        elevation: 0,
       ),
       body: GetBuilder<OrderAnywhereController>(builder: (ctrl) {
         final req = ctrl.currentRequest;
