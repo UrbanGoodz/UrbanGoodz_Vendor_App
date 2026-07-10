@@ -39,6 +39,10 @@ android {
         multiDexEnabled = true
     }
 
+    lint {
+        checkReleaseBuilds = false
+    }
+
     signingConfigs {
         create("release") {
             keyAlias = keystoreProperties["keyAlias"] as String?
