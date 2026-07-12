@@ -372,7 +372,7 @@ class AppConstants {
   /// Urban Goodz
   static const String ugEarnMoneyOpportunitiesUri = '/api/v1/urban-goodz/earn-money/opportunities';
   static const String ugLogisticsJobsUri = '/api/v1/urban-goodz/logistics/jobs';
-  static const String ugLoadBoardLoadsUri = '/api/v1/urban-goodz/load-board/loads';
+  static const String ugLoadBoardLoadsUri = '/api/v1/opportunity/loads';
   static const String ugMedicalCourierJobsUri = '/api/v1/urban-goodz/medical-courier/jobs';
   static const String ugBookAnythingRecordsUri = '/api/v1/urban-goodz/book-anything/records';
   static const String ugBookAnythingRequestUri = '/api/v1/urban-goodz/book-anything/request';
