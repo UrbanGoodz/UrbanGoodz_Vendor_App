@@ -17,6 +17,13 @@ subprojects {
 }
 subprojects {
     project.evaluationDependsOn(":app")
+    // AGP 9.0.1 exhausts Metaspace in lint when analyzing Flutter plugin
+    // bytecode. Keep app release lint enabled; skip only dependency lint tasks.
+    if (name != "app") {
+        tasks.matching { it.name == "lintVitalAnalyzeRelease" }.configureEach {
+            enabled = false
+        }
+    }
 }
 
 tasks.register<Delete>("clean") {

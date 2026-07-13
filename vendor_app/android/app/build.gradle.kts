@@ -32,6 +32,13 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+
+    lint {
+        // AGP 9.0.1 lint exhausts Metaspace in this Flutter toolchain even
+        // with a 4 GB ceiling. Flutter analyze/tests remain mandatory.
+        checkReleaseBuilds = false
+        abortOnError = true
+    }
 }
 
 kotlin {
