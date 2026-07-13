@@ -1,8 +1,10 @@
 import 'package:get/get.dart';
 import 'package:urban_goodz_vendor/models/revenue_model.dart';
-import 'package:urban_goodz_vendor/repositories/mock_vendor_data.dart';
+import 'package:urban_goodz_vendor/repositories/vendor_repository.dart';
+import 'package:urban_goodz_vendor/services/vendor_api_client.dart';
 
 class RevenueTrackingController extends GetxController {
+  final repository = Get.find<VendorRepository>();
   final revenueEntries = <RevenueModel>[].obs;
   final totalRevenue = 0.0.obs;
   final totalPayouts = 0.0.obs;
@@ -11,6 +13,7 @@ class RevenueTrackingController extends GetxController {
   final revenueBySource = <String, double>{}.obs;
   final selectedPeriod = '7d'.obs;
   final filteredEntries = <RevenueModel>[].obs;
+  final errorMessage = RxnString();
 
   @override
   void onInit() {
@@ -18,37 +21,36 @@ class RevenueTrackingController extends GetxController {
     fetchRevenue();
   }
 
-  void fetchRevenue() {
-    revenueEntries.value = MockVendorData.revenueEntries;
-    _calculateStats();
-    _applyPeriodFilter();
-  }
-
-  void _calculateStats() {
-    totalRevenue.value = revenueEntries
-        .where((r) => r.source != 'Payout')
-        .fold<double>(0, (sum, r) => sum + r.amount);
-
-    totalPayouts.value = revenueEntries
-        .where((r) => r.source == 'Payout')
-        .fold<double>(0, (sum, r) => sum + r.amount);
-
-    pendingPayout.value = revenueEntries
-        .where((r) => r.status == 'pending' && r.source != 'Payout')
-        .fold<double>(0, (sum, r) => sum + r.amount);
-
-    final settledRevenue = revenueEntries
-        .where((r) => r.status == 'settled' && r.source != 'Payout')
-        .fold<double>(0, (sum, r) => sum + r.amount);
-    availableForPayout.value = settledRevenue - totalPayouts.value;
-
-    final sources = <String, double>{};
-    for (final r in revenueEntries) {
-      if (r.source != 'Payout') {
-        sources[r.source] = (sources[r.source] ?? 0) + r.amount;
-      }
+  Future<void> fetchRevenue() async {
+    errorMessage.value = null;
+    try {
+      final profile = await repository.profile();
+      final withdrawals = await repository.withdrawals();
+      totalRevenue.value = _double(profile['total_earning']);
+      totalPayouts.value = _double(profile['total_withdrawn']);
+      pendingPayout.value = _double(profile['pending_withdraw']);
+      availableForPayout.value = _double(profile['withdraw_able_balance']);
+      revenueBySource.value = {'Order earnings': totalRevenue.value};
+      revenueEntries.assignAll(
+        withdrawals.map(
+          (row) => RevenueModel(
+            id: row['id']?.toString() ?? '',
+            source: 'Payout',
+            amount: _double(row['amount']),
+            status: row['status']?.toString().toLowerCase() ?? 'pending',
+            date:
+                DateTime.tryParse(row['requested_at']?.toString() ?? '') ??
+                DateTime.now(),
+            description: row['bank_name']?.toString() ?? 'Withdrawal request',
+          ),
+        ),
+      );
+      _applyPeriodFilter();
+    } on VendorApiException catch (error) {
+      errorMessage.value = error.message;
+      revenueEntries.clear();
+      _applyPeriodFilter();
     }
-    revenueBySource.value = sources;
   }
 
   void changePeriod(String period) {
@@ -57,36 +59,45 @@ class RevenueTrackingController extends GetxController {
   }
 
   void _applyPeriodFilter() {
-    Duration duration;
-    switch (selectedPeriod.value) {
-      case '30d':
-        duration = const Duration(days: 30);
-        break;
-      case '90d':
-        duration = const Duration(days: 90);
-        break;
-      case '7d':
-      default:
-        duration = const Duration(days: 7);
-        break;
-    }
-
-    final cutoff = DateTime.now().subtract(duration);
-    filteredEntries.value =
-        revenueEntries.where((r) => r.date.isAfter(cutoff)).toList();
-  }
-
-  void requestPayout(double amount) {
-    final newEntry = RevenueModel(
-      id: 'R-${DateTime.now().millisecondsSinceEpoch}',
-      source: 'Payout',
-      amount: amount,
-      status: 'pending',
-      date: DateTime.now(),
-      description: 'Vendor payout request - \$${amount.toStringAsFixed(2)}',
+    final days = selectedPeriod.value == '90d'
+        ? 90
+        : selectedPeriod.value == '30d'
+        ? 30
+        : 7;
+    final cutoff = DateTime.now().subtract(Duration(days: days));
+    filteredEntries.assignAll(
+      revenueEntries.where((entry) => entry.date.isAfter(cutoff)),
     );
-    revenueEntries.add(newEntry);
-    _calculateStats();
-    _applyPeriodFilter();
   }
+
+  Future<void> requestPayout(double amount) async {
+    try {
+      final methods = await repository.withdrawalMethods();
+      if (methods.isEmpty) {
+        throw const VendorApiException(
+          422,
+          'No withdrawal method is configured for this Vendor account.',
+        );
+      }
+      final methodId = methods.first['id']?.toString();
+      if (methodId == null || methodId.isEmpty) {
+        throw const VendorApiException(
+          422,
+          'The backend returned an invalid withdrawal method.',
+        );
+      }
+      await repository.requestWithdrawal(amount, methodId);
+      await fetchRevenue();
+      Get.snackbar(
+        'Payout requested',
+        'Your withdrawal request was submitted.',
+      );
+    } on VendorApiException catch (error) {
+      errorMessage.value = error.message;
+      Get.snackbar('Payout failed', error.message);
+    }
+  }
+
+  static double _double(Object? value) =>
+      double.tryParse(value?.toString() ?? '') ?? 0;
 }

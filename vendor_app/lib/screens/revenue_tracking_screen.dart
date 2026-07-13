@@ -42,7 +42,10 @@ class RevenueTrackingScreen extends StatelessWidget {
         onPressed: () => _showPayoutDialog(context, c),
         backgroundColor: AppTheme.primary,
         icon: const Icon(Icons.payments, color: AppTheme.dark),
-        label: const Text('Request Payout', style: TextStyle(color: AppTheme.dark)),
+        label: const Text(
+          'Request Payout',
+          style: TextStyle(color: AppTheme.dark),
+        ),
       ),
     );
   }
@@ -57,16 +60,41 @@ class RevenueTrackingScreen extends StatelessWidget {
         mainAxisSpacing: 12,
         childAspectRatio: 1.6,
         children: [
-          _buildSummaryCard('Total Revenue', '\$${c.totalRevenue.toStringAsFixed(0)}', Icons.account_balance, AppTheme.primary),
-          _buildSummaryCard('Pending Payout', '\$${c.pendingPayout.toStringAsFixed(0)}', Icons.hourglass_empty, Colors.orange),
-          _buildSummaryCard('Available', '\$${c.availableForPayout.toStringAsFixed(0)}', Icons.check_circle, Colors.green),
-          _buildSummaryCard('Total Paid Out', '\$${c.totalPayouts.toStringAsFixed(0)}', Icons.payments, AppTheme.accent),
+          _buildSummaryCard(
+            'Total Revenue',
+            '\$${c.totalRevenue.toStringAsFixed(0)}',
+            Icons.account_balance,
+            AppTheme.primary,
+          ),
+          _buildSummaryCard(
+            'Pending Payout',
+            '\$${c.pendingPayout.toStringAsFixed(0)}',
+            Icons.hourglass_empty,
+            Colors.orange,
+          ),
+          _buildSummaryCard(
+            'Available',
+            '\$${c.availableForPayout.toStringAsFixed(0)}',
+            Icons.check_circle,
+            Colors.green,
+          ),
+          _buildSummaryCard(
+            'Total Paid Out',
+            '\$${c.totalPayouts.toStringAsFixed(0)}',
+            Icons.payments,
+            AppTheme.accent,
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildSummaryCard(String title, String value, IconData icon, Color color) {
+  Widget _buildSummaryCard(
+    String title,
+    String value,
+    IconData icon,
+    Color color,
+  ) {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -85,7 +113,10 @@ class RevenueTrackingScreen extends StatelessWidget {
               Expanded(
                 child: Text(
                   title,
-                  style: TextStyle(fontSize: 11, color: AppTheme.dark.withOpacity(0.6)),
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: AppTheme.dark.withOpacity(0.6),
+                  ),
                 ),
               ),
             ],
@@ -93,7 +124,11 @@ class RevenueTrackingScreen extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             value,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: color),
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
           ),
         ],
       ),
@@ -113,11 +148,18 @@ class RevenueTrackingScreen extends StatelessWidget {
           children: [
             const Text(
               'Revenue by Source',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.dark),
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: AppTheme.dark,
+              ),
             ),
             const SizedBox(height: 16),
             ...c.revenueBySource.entries.map((entry) {
-              final total = c.revenueBySource.values.fold<double>(0, (a, b) => a + b);
+              final total = c.revenueBySource.values.fold<double>(
+                0,
+                (a, b) => a + b,
+              );
               final percentage = total > 0 ? (entry.value / total) * 100 : 0.0;
               return Padding(
                 padding: const EdgeInsets.only(bottom: 12),
@@ -127,17 +169,29 @@ class RevenueTrackingScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(entry.key, style: const TextStyle(fontSize: 13, color: AppTheme.dark)),
+                        Text(
+                          entry.key,
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: AppTheme.dark,
+                          ),
+                        ),
                         Row(
                           children: [
                             Text(
                               '\$${entry.value.toStringAsFixed(0)}',
-                              style: const TextStyle(fontWeight: FontWeight.w600, color: AppTheme.dark),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: AppTheme.dark,
+                              ),
                             ),
                             const SizedBox(width: 6),
                             Text(
                               '(${percentage.toStringAsFixed(1)}%)',
-                              style: TextStyle(fontSize: 12, color: AppTheme.dark.withOpacity(0.5)),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppTheme.dark.withOpacity(0.5),
+                              ),
                             ),
                           ],
                         ),
@@ -173,11 +227,18 @@ class RevenueTrackingScreen extends StatelessWidget {
             children: [
               const Text(
                 'Transactions',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.dark),
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: AppTheme.dark,
+                ),
               ),
               TextButton(
                 onPressed: () {},
-                child: const Text('View All', style: TextStyle(color: AppTheme.primary, fontSize: 12)),
+                child: const Text(
+                  'View All',
+                  style: TextStyle(color: AppTheme.primary, fontSize: 12),
+                ),
               ),
             ],
           ),
@@ -188,7 +249,11 @@ class RevenueTrackingScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(32),
                 child: Column(
                   children: [
-                    Icon(Icons.receipt, size: 48, color: AppTheme.dark.withOpacity(0.2)),
+                    Icon(
+                      Icons.receipt,
+                      size: 48,
+                      color: AppTheme.dark.withOpacity(0.2),
+                    ),
                     const SizedBox(height: 8),
                     Text(
                       'No transactions in this period',
@@ -199,63 +264,76 @@ class RevenueTrackingScreen extends StatelessWidget {
               ),
             )
           else
-            ...c.filteredEntries.map((entry) => Container(
-                  margin: const EdgeInsets.only(bottom: 8),
-                  padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    color: AppTheme.beige.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: _sourceColor(entry.source).withOpacity(0.15),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Icon(
-                          entry.source == 'Payout' ? Icons.payments : Icons.receipt,
-                          color: _sourceColor(entry.source),
-                          size: 20,
-                        ),
+            ...c.filteredEntries.map(
+              (entry) => Container(
+                margin: const EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: AppTheme.beige.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: _sourceColor(entry.source).withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              entry.source,
-                              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: AppTheme.dark),
-                            ),
-                            Text(
-                              entry.description,
-                              style: TextStyle(fontSize: 11, color: AppTheme.dark.withOpacity(0.5)),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
+                      child: Icon(
+                        entry.source == 'Payout'
+                            ? Icons.payments
+                            : Icons.receipt,
+                        color: _sourceColor(entry.source),
+                        size: 20,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '\$${entry.amount.toStringAsFixed(2)}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: entry.source == 'Payout' ? Colors.red : Colors.green,
+                            entry.source,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
                               fontSize: 13,
+                              color: AppTheme.dark,
                             ),
                           ),
-                          const SizedBox(height: 2),
-                          _StatusBadge(status: entry.status),
+                          Text(
+                            entry.description,
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: AppTheme.dark.withOpacity(0.5),
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ],
                       ),
-                    ],
-                  ),
-                )),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          '\$${entry.amount.toStringAsFixed(2)}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: entry.source == 'Payout'
+                                ? Colors.red
+                                : Colors.green,
+                            fontSize: 13,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        _StatusBadge(status: entry.status),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -279,14 +357,20 @@ class RevenueTrackingScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Request Payout', style: TextStyle(color: AppTheme.dark)),
+        title: const Text(
+          'Request Payout',
+          style: TextStyle(color: AppTheme.dark),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Obx(
               () => Text(
                 'Available for payout: \$${c.availableForPayout.toStringAsFixed(2)}',
-                style: TextStyle(color: AppTheme.dark.withOpacity(0.6), fontSize: 13),
+                style: TextStyle(
+                  color: AppTheme.dark.withOpacity(0.6),
+                  fontSize: 13,
+                ),
               ),
             ),
             const SizedBox(height: 12),
@@ -391,7 +475,11 @@ class _StatusBadge extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: bgColor),
+        style: TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w600,
+          color: bgColor,
+        ),
       ),
     );
   }

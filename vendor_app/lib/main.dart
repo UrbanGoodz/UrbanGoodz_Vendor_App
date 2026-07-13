@@ -5,6 +5,8 @@ import 'package:urban_goodz_vendor/controllers/vendor_auth_controller.dart';
 import 'package:urban_goodz_vendor/screens/dashboard_screen.dart';
 import 'package:urban_goodz_vendor/screens/vendor_onboarding_screen.dart';
 import 'package:urban_goodz_vendor/theme/app_theme.dart';
+import 'package:urban_goodz_vendor/repositories/vendor_repository.dart';
+import 'package:urban_goodz_vendor/services/vendor_api_client.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,13 +19,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authController = Get.put(VendorAuthController());
+    final api = Get.put(VendorApiClient(), permanent: true);
+    Get.put(VendorRepository(api), permanent: true);
+    final authController = Get.put(
+      VendorAuthController(Get.find<VendorRepository>(), api),
+      permanent: true,
+    );
     return Obx(() {
       return GetMaterialApp(
         title: 'Urban Goodz Vendor',
         theme: AppTheme.lightTheme,
         debugShowCheckedModeBanner: false,
-        home: authController.isLoggedIn.value
+        home: !authController.isInitialized.value
+            ? const Scaffold(body: Center(child: CircularProgressIndicator()))
+            : authController.isLoggedIn.value
             ? DashboardScreen()
             : const VendorOnboardingScreen(),
       );

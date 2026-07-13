@@ -1,14 +1,18 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:urban_goodz_vendor/models/vendor_order_model.dart';
-import 'package:urban_goodz_vendor/repositories/mock_vendor_data.dart';
+import 'package:urban_goodz_vendor/repositories/vendor_repository.dart';
+import 'package:urban_goodz_vendor/services/vendor_api_client.dart';
 
 class OrdersController extends GetxController {
+  final repository = Get.find<VendorRepository>();
   final orders = <VendorOrderModel>[].obs;
   final filteredOrders = <VendorOrderModel>[].obs;
   final selectedFilter = 'all'.obs;
   final searchQuery = ''.obs;
+  final isLoading = false.obs;
+  final errorMessage = RxnString();
 
   @override
   void onInit() {
@@ -17,51 +21,19 @@ class OrdersController extends GetxController {
   }
 
   Future<void> fetchOrders() async {
+    isLoading.value = true;
+    errorMessage.value = null;
     try {
-      final getConnect = GetConnect();
-      final response = await getConnect.get('https://admin.urbangoodzdelivery.com/api/v1/order-anywhere/customer/requests');
-      if (response.status.isOk && response.body != null && response.body['data'] != null) {
-        final rawData = response.body['data'];
-        final List<dynamic> list = (rawData is Map && rawData['data'] != null) ? rawData['data'] : (rawData is List ? rawData : []);
-        
-        final mapped = list.map((json) {
-          final id = json['id']?.toString() ?? '';
-          final budgetEstimate = double.tryParse(json['budget_estimate']?.toString() ?? '0.0') ?? 0.0;
-          final quoteAmount = double.tryParse(json['quote_amount']?.toString() ?? '0.0') ?? 0.0;
-          
-          return VendorOrderModel(
-            id: id,
-            customerName: json['customer_name'] ?? 'Marcus Aurelius',
-            customerPhone: json['customer_phone'] ?? '+18325559876',
-            customerAddress: json['delivery_address'] ?? '2411 Main St, Houston, TX 77002',
-            items: [
-              OrderItemModel(
-                name: json['request_details'] ?? 'Custom Request',
-                quantity: int.tryParse(json['quantity']?.toString() ?? '1') ?? 1,
-                price: budgetEstimate,
-              )
-            ],
-            subtotal: budgetEstimate,
-            deliveryFee: quoteAmount * 0.15 + 7.99,
-            tax: budgetEstimate * 0.0825,
-            total: budgetEstimate * 1.0825 + (quoteAmount * 0.15 + 7.99),
-            status: json['status'] ?? 'pending_review',
-            paymentMethod: json['payment_method'] ?? 'COD',
-            paymentStatus: json['payment_status'] ?? 'pending',
-            createdAt: DateTime.tryParse(json['created_at']?.toString() ?? '') ?? DateTime.now(),
-            notes: json['admin_notes'],
-          );
-        }).toList();
-        
-        orders.value = mapped;
-        _applyFilters();
-        return;
-      }
-    } catch (e) {
-      debugPrint('Error fetching orders from backend: $e');
+      final rows = await repository.allOrders();
+      orders.assignAll(rows.map(fromJson));
+      _applyFilters();
+    } on VendorApiException catch (error) {
+      orders.clear();
+      _applyFilters();
+      errorMessage.value = error.message;
+    } finally {
+      isLoading.value = false;
     }
-    orders.value = [];
-    _applyFilters();
   }
 
   void filterByStatus(String status) {
@@ -76,104 +48,146 @@ class OrdersController extends GetxController {
 
   void _applyFilters() {
     var result = List<VendorOrderModel>.from(orders);
-
     if (selectedFilter.value != 'all') {
-      result = result.where((o) => o.status == selectedFilter.value).toList();
+      result = result
+          .where((order) => order.status == selectedFilter.value)
+          .toList();
     }
-
     if (searchQuery.value.isNotEmpty) {
       final query = searchQuery.value.toLowerCase();
       result = result
-          .where((o) =>
-              o.customerName.toLowerCase().contains(query) ||
-              o.id.toLowerCase().contains(query))
+          .where(
+            (order) =>
+                order.customerName.toLowerCase().contains(query) ||
+                order.id.toLowerCase().contains(query),
+          )
           .toList();
     }
-
-    filteredOrders.value = result;
+    filteredOrders.assignAll(result);
   }
 
-  Future<void> sendVendorUpdateToBackend(String id, String vendorStatus, double quoteAmount) async {
+  Future<void> updateOrderStatus(String id, String uiStatus) async {
+    final backendStatus = const {
+      'confirmed': 'confirmed',
+      'preparing': 'processing',
+      'ready': 'handover',
+      'completed': 'delivered',
+      'cancelled': 'canceled',
+    }[uiStatus];
+    if (backendStatus == null) return;
     try {
-      final getConnect = GetConnect();
-      final response = await getConnect.post(
-        'https://admin.urbangoodzdelivery.com/api/v1/order-anywhere/vendor/requests/$id/update',
-        {
-          'vendor_status': vendorStatus,
-          'vendor_quote_amount': quoteAmount,
-          'vendor_notes': 'Updated status via vendor app.',
-        },
+      await repository.updateOrderStatus(
+        id,
+        backendStatus,
+        reason: backendStatus == 'canceled'
+            ? 'Canceled by vendor from Vendor app'
+            : null,
       );
-      if (response.status.isOk) {
-        Get.snackbar('Sync Success', 'Vendor status updated on backend: $vendorStatus',
-            snackPosition: SnackPosition.BOTTOM, backgroundColor: const Color(0xFF4CAF50), colorText: const Color(0xFFFFFFFF));
-      } else {
-        Get.snackbar('Sync Staged', 'Backend updated locally (Staged).',
-            snackPosition: SnackPosition.BOTTOM);
+      await fetchOrders();
+      Get.snackbar('Order updated', 'Order #$id is now $uiStatus.');
+    } on VendorApiException catch (error) {
+      errorMessage.value = error.message;
+      Get.snackbar('Update failed', error.message);
+    }
+  }
+
+  static VendorOrderModel fromJson(Map<String, dynamic> json) {
+    final customerValue = json['customer'];
+    final customer = customerValue is Map
+        ? Map<String, dynamic>.from(customerValue)
+        : <String, dynamic>{};
+    final address = _address(json['delivery_address']);
+    final detailValue = json['details'] ?? json['order_details'];
+    final details = detailValue is List
+        ? detailValue.whereType<Map>()
+        : const Iterable<Map>.empty();
+    final items = details.map((raw) {
+      final detail = Map<String, dynamic>.from(raw);
+      Map<String, dynamic> itemData = const {};
+      final encoded = detail['item_details'];
+      if (encoded is Map) itemData = Map<String, dynamic>.from(encoded);
+      if (encoded is String && encoded.isNotEmpty) {
+        try {
+          final decoded = jsonDecode(encoded);
+          if (decoded is Map) itemData = Map<String, dynamic>.from(decoded);
+        } catch (_) {}
       }
-    } catch (e) {
-      Get.snackbar('Sync Staged', 'Staging server updated locally (Staged).',
-          snackPosition: SnackPosition.BOTTOM);
-    }
-  }
-
-  void updateOrderStatus(String id, String status) {
-    final index = orders.indexWhere((o) => o.id == id);
-    if (index != -1) {
-      final updated = VendorOrderModel(
-        id: orders[index].id,
-        customerName: orders[index].customerName,
-        customerPhone: orders[index].customerPhone,
-        customerAddress: orders[index].customerAddress,
-        items: orders[index].items,
-        subtotal: orders[index].subtotal,
-        deliveryFee: orders[index].deliveryFee,
-        tax: orders[index].tax,
-        total: orders[index].total,
-        status: status,
-        paymentMethod: orders[index].paymentMethod,
-        paymentStatus: orders[index].paymentStatus,
-        createdAt: orders[index].createdAt,
-        deliveredAt: status == 'completed' ? DateTime.now() : orders[index].deliveredAt,
-        driverId: orders[index].driverId,
-        driverName: orders[index].driverName,
-        notes: orders[index].notes,
+      return OrderItemModel(
+        name:
+            itemData['name']?.toString() ??
+            detail['item_name']?.toString() ??
+            'Item #${detail['item_id'] ?? ''}',
+        quantity: _int(detail['quantity'], fallback: 1),
+        price: _double(detail['price']),
       );
-      orders[index] = updated;
-      _applyFilters();
-      
-      sendVendorUpdateToBackend(id, status, orders[index].subtotal);
-    }
-  }
-
-  void assignDriver(String orderId, String driverId) {
-    final driver = MockVendorData.drivers.firstWhere(
-      (d) => d['id'] == driverId,
-      orElse: () => MockVendorData.drivers.first,
+    }).toList();
+    return VendorOrderModel(
+      id: json['id']?.toString() ?? '',
+      customerName:
+          [customer['f_name'], customer['l_name']]
+              .where((value) => value != null && value.toString().isNotEmpty)
+              .join(' ')
+              .trim()
+              .isEmpty
+          ? (json['is_guest']?.toString() == '1'
+                ? 'Guest customer'
+                : 'Customer')
+          : [
+              customer['f_name'],
+              customer['l_name'],
+            ].where((value) => value != null).join(' '),
+      customerPhone:
+          customer['phone']?.toString() ??
+          address['contact_person_number']?.toString() ??
+          '',
+      customerAddress: address['address']?.toString() ?? '',
+      items: items,
+      subtotal: _double(json['order_amount']),
+      deliveryFee: _double(json['delivery_charge']),
+      tax: _double(json['total_tax_amount']),
+      total: _double(json['order_amount']) + _double(json['delivery_charge']),
+      status: _uiStatus(json['order_status']?.toString() ?? ''),
+      paymentMethod: json['payment_method']?.toString() ?? '',
+      paymentStatus: json['payment_status']?.toString() ?? '',
+      createdAt:
+          DateTime.tryParse(json['created_at']?.toString() ?? '') ??
+          DateTime.now(),
+      deliveredAt: DateTime.tryParse(json['delivered']?.toString() ?? ''),
+      driverId: json['delivery_man_id']?.toString(),
+      driverName: json['delivery_man'] is Map
+          ? '${json['delivery_man']['f_name'] ?? ''} ${json['delivery_man']['l_name'] ?? ''}'
+                .trim()
+          : null,
+      notes: json['order_note']?.toString(),
     );
-    final index = orders.indexWhere((o) => o.id == orderId);
-    if (index != -1) {
-      final updated = VendorOrderModel(
-        id: orders[index].id,
-        customerName: orders[index].customerName,
-        customerPhone: orders[index].customerPhone,
-        customerAddress: orders[index].customerAddress,
-        items: orders[index].items,
-        subtotal: orders[index].subtotal,
-        deliveryFee: orders[index].deliveryFee,
-        tax: orders[index].tax,
-        total: orders[index].total,
-        status: orders[index].status,
-        paymentMethod: orders[index].paymentMethod,
-        paymentStatus: orders[index].paymentStatus,
-        createdAt: orders[index].createdAt,
-        deliveredAt: orders[index].deliveredAt,
-        driverId: driver['id'] ?? '',
-        driverName: driver['name'] ?? '',
-        notes: orders[index].notes,
-      );
-      orders[index] = updated;
-      _applyFilters();
-    }
   }
+
+  static String _uiStatus(String status) =>
+      const {
+        'processing': 'preparing',
+        'handover': 'ready',
+        'picked_up': 'ready',
+        'delivered': 'completed',
+        'refunded': 'completed',
+        'canceled': 'cancelled',
+      }[status] ??
+      status;
+
+  static Map<String, dynamic> _address(Object? value) {
+    if (value is Map) return Map<String, dynamic>.from(value);
+    if (value is String && value.isNotEmpty) {
+      try {
+        final decoded = jsonDecode(value);
+        if (decoded is Map) return Map<String, dynamic>.from(decoded);
+      } catch (_) {
+        return {'address': value};
+      }
+    }
+    return {};
+  }
+
+  static double _double(Object? value) =>
+      double.tryParse(value?.toString() ?? '') ?? 0;
+  static int _int(Object? value, {int fallback = 0}) =>
+      int.tryParse(value?.toString() ?? '') ?? fallback;
 }

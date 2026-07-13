@@ -33,6 +33,7 @@ class InventoryItemModel {
     this.reorderPoint = 0,
   });
 
-  bool get isLowStock => stockQuantity <= lowStockThreshold && stockQuantity > 0;
+  bool get isLowStock =>
+      stockQuantity <= lowStockThreshold && stockQuantity > 0;
   bool get isOutOfStock => stockQuantity == 0;
 }

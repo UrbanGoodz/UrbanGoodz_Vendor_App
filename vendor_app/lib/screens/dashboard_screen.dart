@@ -11,6 +11,7 @@ import 'package:urban_goodz_vendor/screens/customer_reviews_screen.dart';
 import 'package:urban_goodz_vendor/screens/revenue_tracking_screen.dart';
 import 'package:urban_goodz_vendor/screens/service_bookings_screen.dart';
 import 'package:urban_goodz_vendor/screens/reels_screen.dart';
+import 'package:urban_goodz_vendor/screens/notifications_support_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   DashboardScreen({super.key});
@@ -40,11 +41,26 @@ class DashboardScreen extends StatelessWidget {
             backgroundColor: AppTheme.white,
             type: BottomNavigationBarType.fixed,
             items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: 'Dashboard'),
-              BottomNavigationBarItem(icon: Icon(Icons.receipt_long), label: 'Orders'),
-              BottomNavigationBarItem(icon: Icon(Icons.inventory_2), label: 'Inventory'),
-              BottomNavigationBarItem(icon: Icon(Icons.local_offer), label: 'Promotions'),
-              BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.dashboard),
+                label: 'Dashboard',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.receipt_long),
+                label: 'Orders',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.inventory_2),
+                label: 'Inventory',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.local_offer),
+                label: 'Promotions',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Profile',
+              ),
             ],
           ),
         ),
@@ -61,8 +77,14 @@ class _DashboardTab extends StatelessWidget {
     final DashboardController c = Get.find();
     return Scaffold(
       appBar: AppBar(
-        title: Obx(() => Text(Get.find<VendorAuthController>().businessName.value)),
+        title: Obx(
+          () => Text(Get.find<VendorAuthController>().businessName.value),
+        ),
         actions: [
+          IconButton(
+            onPressed: () => Get.to(() => const NotificationsSupportScreen()),
+            icon: const Icon(Icons.notifications_none),
+          ),
           Obx(
             () => Switch(
               value: c.storeStatus.value == 'open',
@@ -144,22 +166,26 @@ class _DashboardTab extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Obx(() => Text(
-                    Get.find<VendorAuthController>().businessName.value,
-                    style: const TextStyle(
-                      color: AppTheme.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                  Obx(
+                    () => Text(
+                      Get.find<VendorAuthController>().businessName.value,
+                      style: const TextStyle(
+                        color: AppTheme.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  )),
+                  ),
                   const SizedBox(height: 4),
-                  Obx(() => Text(
-                    Get.find<VendorAuthController>().city.value,
-                    style: TextStyle(
-                      color: AppTheme.white.withOpacity(0.7),
-                      fontSize: 13,
+                  Obx(
+                    () => Text(
+                      Get.find<VendorAuthController>().city.value,
+                      style: TextStyle(
+                        color: AppTheme.white.withOpacity(0.7),
+                        fontSize: 13,
+                      ),
                     ),
-                  )),
+                  ),
                   const SizedBox(height: 4),
                   Row(
                     children: [
@@ -246,44 +272,54 @@ class _DashboardTab extends StatelessWidget {
               height: 140,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
-                children: List.generate(
-                  c.revenueChart.length,
-                  (i) {
-                    final maxVal = c.revenueChart.reduce(
-                      (a, b) => a > b ? a : b,
-                    );
-                    final height = (c.revenueChart[i] / maxVal) * 120;
-                    final days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-                    return Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 3),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              '\$${(c.revenueChart[i] / 1000).toStringAsFixed(1)}k',
-                              style: const TextStyle(fontSize: 9, color: AppTheme.dark),
+                children: List.generate(c.revenueChart.length, (i) {
+                  final maxVal = c.revenueChart.reduce((a, b) => a > b ? a : b);
+                  final height = (c.revenueChart[i] / maxVal) * 120;
+                  final days = [
+                    'Mon',
+                    'Tue',
+                    'Wed',
+                    'Thu',
+                    'Fri',
+                    'Sat',
+                    'Sun',
+                  ];
+                  return Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 3),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            '\$${(c.revenueChart[i] / 1000).toStringAsFixed(1)}k',
+                            style: const TextStyle(
+                              fontSize: 9,
+                              color: AppTheme.dark,
                             ),
-                            const SizedBox(height: 4),
-                            Container(
-                              height: height.clamp(8.0, 120.0),
-                              decoration: BoxDecoration(
-                                color: AppTheme.primary.withOpacity(0.8),
-                                borderRadius:
-                                    const BorderRadius.vertical(top: Radius.circular(4)),
+                          ),
+                          const SizedBox(height: 4),
+                          Container(
+                            height: height.clamp(8.0, 120.0),
+                            decoration: BoxDecoration(
+                              color: AppTheme.primary.withOpacity(0.8),
+                              borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(4),
                               ),
                             ),
-                            const SizedBox(height: 4),
-                            Text(
-                              days[i],
-                              style: const TextStyle(fontSize: 9, color: AppTheme.dark),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            days[i],
+                            style: const TextStyle(
+                              fontSize: 9,
+                              color: AppTheme.dark,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                }),
               ),
             ),
           ],
@@ -310,7 +346,10 @@ class _DashboardTab extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {},
-                child: const Text('View All', style: TextStyle(color: AppTheme.primary)),
+                child: const Text(
+                  'View All',
+                  style: TextStyle(color: AppTheme.primary),
+                ),
               ),
             ],
           ),
@@ -444,14 +483,51 @@ class _DashboardTab extends StatelessWidget {
           spacing: 12,
           runSpacing: 12,
           children: [
-            _ActionButton(label: 'Orders', icon: Icons.receipt_long, onTap: () {}),
-            _ActionButton(label: 'Inventory', icon: Icons.inventory_2, onTap: () {}),
-            _ActionButton(label: 'Promotions', icon: Icons.local_offer, onTap: () {}),
-            _ActionButton(label: 'Analytics', icon: Icons.analytics, onTap: () => Get.to(() => const AnalyticsScreen())),
-            _ActionButton(label: 'Reviews', icon: Icons.reviews, onTap: () => Get.to(() => const CustomerReviewsScreen())),
-            _ActionButton(label: 'Revenue', icon: Icons.account_balance_wallet, onTap: () => Get.to(() => const RevenueTrackingScreen())),
-            _ActionButton(label: 'Bookings', icon: Icons.calendar_today, onTap: () => Get.to(() => const ServiceBookingsScreen())),
-            _ActionButton(label: 'Reels', icon: Icons.videocam, onTap: () => Get.to(() => const ReelsScreen())),
+            _ActionButton(
+              label: 'Orders',
+              icon: Icons.receipt_long,
+              onTap: () => Get.to(() => const OrdersScreen()),
+            ),
+            _ActionButton(
+              label: 'Inventory',
+              icon: Icons.inventory_2,
+              onTap: () => Get.to(() => const InventoryScreen()),
+            ),
+            _ActionButton(
+              label: 'Promotions',
+              icon: Icons.local_offer,
+              onTap: () => Get.to(() => const PromotionsScreen()),
+            ),
+            _ActionButton(
+              label: 'Analytics',
+              icon: Icons.analytics,
+              onTap: () => Get.to(() => const AnalyticsScreen()),
+            ),
+            _ActionButton(
+              label: 'Reviews',
+              icon: Icons.reviews,
+              onTap: () => Get.to(() => const CustomerReviewsScreen()),
+            ),
+            _ActionButton(
+              label: 'Revenue',
+              icon: Icons.account_balance_wallet,
+              onTap: () => Get.to(() => const RevenueTrackingScreen()),
+            ),
+            _ActionButton(
+              label: 'Bookings',
+              icon: Icons.calendar_today,
+              onTap: () => Get.to(() => const ServiceBookingsScreen()),
+            ),
+            _ActionButton(
+              label: 'Reels',
+              icon: Icons.videocam,
+              onTap: () => Get.to(() => const ReelsScreen()),
+            ),
+            _ActionButton(
+              label: 'Support',
+              icon: Icons.support_agent,
+              onTap: () => Get.to(() => const NotificationsSupportScreen()),
+            ),
           ],
         ),
       ],
@@ -632,8 +708,14 @@ class _ProfileTab extends StatelessWidget {
                 radius: 48,
                 backgroundColor: AppTheme.primary,
                 child: Text(
-                  auth.businessName.value.isNotEmpty ? auth.businessName.value[0].toUpperCase() : 'S',
-                  style: const TextStyle(fontSize: 40, color: AppTheme.dark, fontWeight: FontWeight.bold),
+                  auth.businessName.value.isNotEmpty
+                      ? auth.businessName.value[0].toUpperCase()
+                      : 'S',
+                  style: const TextStyle(
+                    fontSize: 40,
+                    color: AppTheme.dark,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const SizedBox(height: 12),
@@ -648,9 +730,7 @@ class _ProfileTab extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 auth.addressNotes.value,
-                style: TextStyle(
-                  color: AppTheme.dark.withOpacity(0.6),
-                ),
+                style: TextStyle(color: AppTheme.dark.withOpacity(0.6)),
               ),
               const SizedBox(height: 20),
               _ProfileRow(label: 'Owner', value: auth.ownerName.value),
@@ -679,13 +759,29 @@ class _ProfileTab extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildDeliveryStatusRow('Vendor Delivery', 'Pending Urban Goodz Approval', Colors.orange),
-                    _buildDeliveryStatusRow('Active Driver', 'Pending Approval', Colors.orange),
-                    _buildDeliveryStatusRow('Delivery Fee Payout', 'Paid to Urban Goodz Driver', Colors.grey.shade600),
+                    _buildDeliveryStatusRow(
+                      'Vendor Delivery',
+                      'Pending Urban Goodz Approval',
+                      Colors.orange,
+                    ),
+                    _buildDeliveryStatusRow(
+                      'Active Driver',
+                      'Pending Approval',
+                      Colors.orange,
+                    ),
+                    _buildDeliveryStatusRow(
+                      'Delivery Fee Payout',
+                      'Paid to Urban Goodz Driver',
+                      Colors.grey.shade600,
+                    ),
                     const Divider(height: 20),
                     const Text(
                       'Delivery pricing settings are controlled from the Master Admin panel only. Vendor cannot globally change delivery charges.',
-                      style: TextStyle(fontSize: 11, fontStyle: FontStyle.italic, color: AppTheme.dark),
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontStyle: FontStyle.italic,
+                        color: AppTheme.dark,
+                      ),
                     ),
                   ],
                 ),
@@ -705,8 +801,11 @@ class _ProfileTab extends StatelessWidget {
                 title: const Text('Sign Out / Reset Tester Mode'),
                 onTap: () {
                   auth.logout();
-                  Get.snackbar('Logged Out', 'You have exited vendor mode.',
-                      snackPosition: SnackPosition.BOTTOM);
+                  Get.snackbar(
+                    'Logged Out',
+                    'You have exited vendor mode.',
+                    snackPosition: SnackPosition.BOTTOM,
+                  );
                 },
               ),
             ],
@@ -722,7 +821,10 @@ class _ProfileTab extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+          Text(
+            label,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+          ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
@@ -731,7 +833,11 @@ class _ProfileTab extends StatelessWidget {
             ),
             child: Text(
               value,
-              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: color),
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+                color: color,
+              ),
             ),
           ),
         ],

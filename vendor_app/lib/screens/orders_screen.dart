@@ -66,7 +66,15 @@ class OrdersScreen extends StatelessWidget {
   }
 
   Widget _buildFilterChips(OrdersController c) {
-    final statuses = ['all', 'pending', 'confirmed', 'preparing', 'ready', 'completed', 'cancelled'];
+    final statuses = [
+      'all',
+      'pending',
+      'confirmed',
+      'preparing',
+      'ready',
+      'completed',
+      'cancelled',
+    ];
     return Obx(
       () => SizedBox(
         height: 48,
@@ -85,7 +93,9 @@ class OrdersScreen extends StatelessWidget {
                 checkmarkColor: AppTheme.dark,
                 backgroundColor: AppTheme.beige.withOpacity(0.2),
                 labelStyle: TextStyle(
-                  color: selected ? AppTheme.dark : AppTheme.dark.withOpacity(0.7),
+                  color: selected
+                      ? AppTheme.dark
+                      : AppTheme.dark.withOpacity(0.7),
                   fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
                   fontSize: 12,
                 ),
@@ -98,33 +108,36 @@ class OrdersScreen extends StatelessWidget {
   }
 
   Widget _buildOrdersList(OrdersController c) {
-    return Obx(
-      () {
-        if (c.filteredOrders.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.receipt_long, size: 64, color: AppTheme.dark.withOpacity(0.2)),
-                const SizedBox(height: 16),
-                Text(
-                  'No orders found',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: AppTheme.dark.withOpacity(0.4),
-                  ),
+    return Obx(() {
+      if (c.filteredOrders.isEmpty) {
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.receipt_long,
+                size: 64,
+                color: AppTheme.dark.withOpacity(0.2),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'No orders found',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: AppTheme.dark.withOpacity(0.4),
                 ),
-              ],
-            ),
-          );
-        }
-        return ListView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          itemCount: c.filteredOrders.length,
-          itemBuilder: (_, i) => _OrderCard(order: c.filteredOrders[i], controller: c),
+              ),
+            ],
+          ),
         );
-      },
-    );
+      }
+      return ListView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        itemCount: c.filteredOrders.length,
+        itemBuilder: (_, i) =>
+            _OrderCard(order: c.filteredOrders[i], controller: c),
+      );
+    });
   }
 
   Widget _buildFashionFitList(VendorAuthController auth, BuildContext context) {
@@ -134,7 +147,11 @@ class OrdersScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.checkroom, size: 64, color: AppTheme.dark.withOpacity(0.2)),
+              Icon(
+                Icons.checkroom,
+                size: 64,
+                color: AppTheme.dark.withOpacity(0.2),
+              ),
               const SizedBox(height: 16),
               Text(
                 'No Fashion Fit requests',
@@ -158,16 +175,24 @@ class OrdersScreen extends StatelessWidget {
             child: ExpansionTile(
               title: Text(
                 req.customerName,
-                style: const TextStyle(fontWeight: FontWeight.bold, color: AppTheme.dark),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: AppTheme.dark,
+                ),
               ),
               subtitle: Text(
                 'Sizing Code: ${req.id} • ${req.requestType}',
-                style: TextStyle(fontSize: 12, color: AppTheme.dark.withOpacity(0.6)),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: AppTheme.dark.withOpacity(0.6),
+                ),
               ),
               trailing: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: req.status == 'pending' ? Colors.orange.withOpacity(0.15) : Colors.green.withOpacity(0.15),
+                  color: req.status == 'pending'
+                      ? Colors.orange.withOpacity(0.15)
+                      : Colors.green.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
@@ -175,7 +200,9 @@ class OrdersScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
-                    color: req.status == 'pending' ? Colors.orange : Colors.green,
+                    color: req.status == 'pending'
+                        ? Colors.orange
+                        : Colors.green,
                   ),
                 ),
               ),
@@ -187,7 +214,11 @@ class OrdersScreen extends StatelessWidget {
                     children: [
                       const Text(
                         'Customer Sizing Profile:',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: AppTheme.dark),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                          color: AppTheme.dark,
+                        ),
                       ),
                       const SizedBox(height: 6),
                       Row(
@@ -204,11 +235,15 @@ class OrdersScreen extends StatelessWidget {
                       if (req.status == 'quoted') ...[
                         const Divider(),
                         Text(
-                          'Your Submitted Quote: \$${req.quoteAmount?.toStringAsFixed(2)} [Staged Mode]',
-                          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.green),
+                          'Vendor Review Fee: \$${req.quoteAmount?.toStringAsFixed(2)}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
+                          ),
                         ),
                         if (req.notes != null) Text('Notes: ${req.notes}'),
-                        if (req.estCompletion != null) Text('Est. Completion: ${req.estCompletion}'),
+                        if (req.estCompletion != null)
+                          Text('Est. Completion: ${req.estCompletion}'),
                       ],
                       if (req.status == 'pending') ...[
                         const SizedBox(height: 12),
@@ -217,10 +252,11 @@ class OrdersScreen extends StatelessWidget {
                             backgroundColor: AppTheme.primary,
                             foregroundColor: AppTheme.dark,
                           ),
-                          onPressed: () => _showQuoteSubmissionDialog(req, auth, context),
+                          onPressed: () =>
+                              _showQuoteSubmissionDialog(req, auth, context),
                           child: const Text('SUBMIT ALTERATION QUOTE'),
                         ),
-                      ]
+                      ],
                     ],
                   ),
                 ),
@@ -232,7 +268,11 @@ class OrdersScreen extends StatelessWidget {
     });
   }
 
-  void _showQuoteSubmissionDialog(FashionFitQuoteRequest request, VendorAuthController auth, BuildContext context) {
+  void _showQuoteSubmissionDialog(
+    FashionFitQuoteRequest request,
+    VendorAuthController auth,
+    BuildContext context,
+  ) {
     final amountController = TextEditingController(text: '45.00');
     final notesController = TextEditingController();
     final timeController = TextEditingController(text: '3 Days');
@@ -247,9 +287,11 @@ class OrdersScreen extends StatelessWidget {
             children: [
               TextField(
                 controller: amountController,
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
                 decoration: const InputDecoration(
-                  labelText: 'Quote Amount (\$) [Staged]',
+                  labelText: 'Vendor Review Fee (\$)',
                   prefixText: '\$',
                   border: OutlineInputBorder(),
                 ),
@@ -284,39 +326,26 @@ class OrdersScreen extends StatelessWidget {
               backgroundColor: AppTheme.primary,
               foregroundColor: AppTheme.dark,
             ),
-            onPressed: () {
+            onPressed: () async {
               final amt = double.tryParse(amountController.text) ?? 0.0;
               final notes = notesController.text;
-              final est = timeController.text;
-
-              // Find and update item in list
-              final idx = auth.sizingQuoteRequests.indexWhere((r) => r.id == request.id);
-              if (idx != -1) {
-                final current = auth.sizingQuoteRequests[idx];
-                final updated = FashionFitQuoteRequest(
-                  id: current.id,
-                  customerName: current.customerName,
-                  customerPhone: current.customerPhone,
-                  chestSize: current.chestSize,
-                  waistSize: current.waistSize,
-                  inseam: current.inseam,
-                  gender: current.gender,
-                  requestType: current.requestType,
-                  status: 'quoted',
-                  date: current.date,
-                  quoteAmount: amt,
-                  notes: notes.isNotEmpty ? notes : null,
-                  estCompletion: est,
-                );
-                auth.sizingQuoteRequests[idx] = updated;
-              }
-
+              final ok = await auth.submitFashionReview(
+                request,
+                amt,
+                notes.isEmpty
+                    ? null
+                    : '$notes Estimated completion: ${timeController.text}',
+              );
+              if (!context.mounted) return;
               Navigator.pop(context);
               Get.snackbar(
-                'Quote Submitted',
-                'Your alteration quote of \$${amt.toStringAsFixed(2)} was submitted.',
+                ok ? 'Review Submitted' : 'Review Failed',
+                ok
+                    ? 'The Fashion Fit review was saved to the Vendor API.'
+                    : (auth.errorMessage.value ??
+                          'The backend rejected this review.'),
                 snackPosition: SnackPosition.BOTTOM,
-                backgroundColor: Colors.green,
+                backgroundColor: ok ? Colors.green : Colors.red,
                 colorText: Colors.white,
               );
             },
@@ -373,7 +402,10 @@ class _OrderCard extends StatelessWidget {
           padding: const EdgeInsets.only(top: 4),
           child: Text(
             _timeAgo(order.createdAt),
-            style: TextStyle(fontSize: 11, color: AppTheme.dark.withOpacity(0.5)),
+            style: TextStyle(
+              fontSize: 11,
+              color: AppTheme.dark.withOpacity(0.5),
+            ),
           ),
         ),
         children: [
@@ -381,8 +413,12 @@ class _OrderCard extends StatelessWidget {
           _buildDetailRow('Order ID', order.id),
           _buildDetailRow('Phone', order.customerPhone),
           _buildDetailRow('Address', order.customerAddress),
-          _buildDetailRow('Payment', '${order.paymentMethod} - ${order.paymentStatus} [Staged]'),
-          if (order.driverName != null) _buildDetailRow('Driver', order.driverName!),
+          _buildDetailRow(
+            'Payment',
+            '${order.paymentMethod} - ${order.paymentStatus}',
+          ),
+          if (order.driverName != null)
+            _buildDetailRow('Driver', order.driverName!),
           if (order.notes != null) _buildDetailRow('Notes', order.notes!),
           const SizedBox(height: 8),
           const Divider(),
@@ -396,11 +432,24 @@ class _OrderCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 2),
               child: Row(
                 children: [
-                  Expanded(child: Text(item.name, style: const TextStyle(fontSize: 13, color: AppTheme.dark))),
-                  Text('x${item.quantity}', style: const TextStyle(fontSize: 13, color: AppTheme.dark)),
+                  Expanded(
+                    child: Text(
+                      item.name,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: AppTheme.dark,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    'x${item.quantity}',
+                    style: const TextStyle(fontSize: 13, color: AppTheme.dark),
+                  ),
                   const SizedBox(width: 12),
-                  Text('\$${(item.price * item.quantity).toStringAsFixed(2)}',
-                      style: const TextStyle(fontSize: 13, color: AppTheme.dark)),
+                  Text(
+                    '\$${(item.price * item.quantity).toStringAsFixed(2)}',
+                    style: const TextStyle(fontSize: 13, color: AppTheme.dark),
+                  ),
                 ],
               ),
             ),
@@ -411,18 +460,45 @@ class _OrderCard extends StatelessWidget {
             children: [
               Text(
                 'Total: \$${order.total.toStringAsFixed(2)}',
-                style: const TextStyle(fontWeight: FontWeight.bold, color: AppTheme.dark),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: AppTheme.dark,
+                ),
               ),
               if (order.status == 'pending')
-                _ActionChip(label: 'Confirm', color: Colors.blue, onTap: () => controller.updateOrderStatus(order.id, 'confirmed')),
+                _ActionChip(
+                  label: 'Confirm',
+                  color: Colors.blue,
+                  onTap: () =>
+                      controller.updateOrderStatus(order.id, 'confirmed'),
+                ),
               if (order.status == 'confirmed')
-                _ActionChip(label: 'Start Prep', color: AppTheme.primary, onTap: () => controller.updateOrderStatus(order.id, 'preparing')),
+                _ActionChip(
+                  label: 'Start Prep',
+                  color: AppTheme.primary,
+                  onTap: () =>
+                      controller.updateOrderStatus(order.id, 'preparing'),
+                ),
               if (order.status == 'preparing')
-                _ActionChip(label: 'Mark Ready', color: AppTheme.accent, onTap: () => controller.updateOrderStatus(order.id, 'ready')),
+                _ActionChip(
+                  label: 'Mark Ready',
+                  color: AppTheme.accent,
+                  onTap: () => controller.updateOrderStatus(order.id, 'ready'),
+                ),
               if (order.status == 'ready')
-                _ActionChip(label: 'Complete', color: Colors.green, onTap: () => controller.updateOrderStatus(order.id, 'completed')),
+                _ActionChip(
+                  label: 'Complete',
+                  color: Colors.green,
+                  onTap: () =>
+                      controller.updateOrderStatus(order.id, 'completed'),
+                ),
               if (!['completed', 'cancelled'].contains(order.status))
-                _ActionChip(label: 'Cancel', color: Colors.red, onTap: () => controller.updateOrderStatus(order.id, 'cancelled')),
+                _ActionChip(
+                  label: 'Cancel',
+                  color: Colors.red,
+                  onTap: () =>
+                      controller.updateOrderStatus(order.id, 'cancelled'),
+                ),
             ],
           ),
         ],
@@ -447,7 +523,11 @@ class _OrderCard extends StatelessWidget {
             ),
           ),
           Expanded(
-              child: Text(value, style: const TextStyle(fontSize: 12, color: AppTheme.dark))),
+            child: Text(
+              value,
+              style: const TextStyle(fontSize: 12, color: AppTheme.dark),
+            ),
+          ),
         ],
       ),
     );
@@ -507,7 +587,11 @@ class _StatusBadge extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: bgColor),
+        style: TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w600,
+          color: bgColor,
+        ),
       ),
     );
   }
@@ -518,7 +602,11 @@ class _ActionChip extends StatelessWidget {
   final Color color;
   final VoidCallback onTap;
 
-  const _ActionChip({required this.label, required this.color, required this.onTap});
+  const _ActionChip({
+    required this.label,
+    required this.color,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -532,7 +620,11 @@ class _ActionChip extends StatelessWidget {
         ),
         child: Text(
           label,
-          style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: color),
+          style: TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+            color: color,
+          ),
         ),
       ),
     );
