@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:urban_goodz_driver/controllers/driver_auth_controller.dart';
 import 'package:urban_goodz_driver/services/api_client.dart';
 import 'package:urban_goodz_driver/services/driver_api_service.dart';
 import 'package:urban_goodz_driver/models/business_job_model.dart';

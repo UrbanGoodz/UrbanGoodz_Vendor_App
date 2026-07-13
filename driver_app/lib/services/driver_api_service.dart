@@ -29,7 +29,8 @@ class DriverApiService extends GetxService {
       'phone': phone,
       'password': password,
     });
-    return _ok(res);
+    final body = await _ok(res);
+    return body is Map ? Map<String, dynamic>.from(body) : {};
   }
 
   Future<void> updateFcmToken(String fcmToken) async {
@@ -201,7 +202,7 @@ class DriverApiService extends GetxService {
     bool? availableForOrderAnywhere,
     bool? availableForMedicalCourier,
   }) async {
-    final body = await _client.authPost(ApiConfig.capabilityAvailability, {
+    final body = await _ok(await _client.authPost(ApiConfig.capabilityAvailability, {
       if (availabilityPreference != null)
         'availability_preference': availabilityPreference,
       if (availableForBusinessCourier != null)
@@ -212,7 +213,7 @@ class DriverApiService extends GetxService {
         'available_for_order_anywhere': availableForOrderAnywhere,
       if (availableForMedicalCourier != null)
         'available_for_medical_courier': availableForMedicalCourier,
-    });
+    }));
     return CapabilityProfile.fromJson(
         (body is Map ? body['profile'] : null) ?? <String, dynamic>{});
   }
@@ -236,7 +237,7 @@ class DriverApiService extends GetxService {
   }
 
   Future<DiscoveryItem> getDiscoveryDetail(String type, int id) async {
-    final body = await _client.authGet(ApiConfig.jobDiscoveryDetail(type, id));
+    final body = await _ok(await _client.authGet(ApiConfig.jobDiscoveryDetail(type, id)));
     return DiscoveryItem.fromJson(
         (body is Map ? body['job'] : null) ?? <String, dynamic>{});
   }

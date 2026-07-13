@@ -60,7 +60,7 @@ class PayoutHistoryController extends GetxController {
 
   void requestPayout(double amount) async {
     try {
-      final body = await _api.requestPayout(amount);
+      await _api.requestPayout(amount);
       pendingAmount.value += amount;
       Get.snackbar('Request Submitted',
           'Your payout of \$${amount.toStringAsFixed(2)} is being processed.',

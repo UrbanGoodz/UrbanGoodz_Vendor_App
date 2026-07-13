@@ -11,9 +11,20 @@ class EarningsController extends GetxController {
   var todayEarnings = 0.0.obs;
   var thisWeekEarnings = 0.0.obs;
   var thisMonthEarnings = 0.0.obs;
+  var totalTips = 0.0.obs;
+  var totalBonuses = 0.0.obs;
+  var totalMileage = 0.0.obs;
+  var projectedWeeklyEarnings = 0.0.obs;
+  var dailyEarnings = <Map<String, dynamic>>[].obs;
+  var selectedPeriod = 'week'.obs;
   var recentPayouts = <Map<String, dynamic>>[].obs;
   var isLoading = true.obs;
   var errorMessage = ''.obs;
+
+  void changePeriod(String period) {
+    selectedPeriod.value = period;
+    fetchEarnings();
+  }
 
   @override
   void onInit() {
@@ -40,6 +51,14 @@ class EarningsController extends GetxController {
             double.tryParse(dm['this_week_earning']?.toString() ?? '0') ?? 0;
         thisMonthEarnings.value =
             double.tryParse(dm['this_month_earning']?.toString() ?? '0') ?? 0;
+        totalTips.value =
+            double.tryParse(dm['total_tips']?.toString() ?? '0') ?? 0;
+        totalBonuses.value =
+            double.tryParse(dm['total_bonuses']?.toString() ?? '0') ?? 0;
+        totalMileage.value =
+            double.tryParse(dm['total_mileage']?.toString() ?? '0') ?? 0;
+        projectedWeeklyEarnings.value =
+            double.tryParse(dm['projected_weekly_earnings']?.toString() ?? '0') ?? 0;
       }
       isLoading.value = false;
     }).catchError((e) {

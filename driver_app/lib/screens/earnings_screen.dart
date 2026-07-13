@@ -236,14 +236,14 @@ class _EarningsScreenState extends State<EarningsScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(e.source,
+                              Text((e['source'] ?? '').toString(),
                                   style: const TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 13),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis),
                               const SizedBox(height: 2),
-                              Text(e.date,
+                              Text((e['date'] ?? '').toString(),
                                   style: TextStyle(
                                       fontSize: 12,
                                       color:
@@ -254,12 +254,12 @@ class _EarningsScreenState extends State<EarningsScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text('\$${e.amount.toStringAsFixed(2)}',
+                            Text('\$${((e['amount'] as num?) ?? 0).toDouble().toStringAsFixed(2)}',
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 15)),
-                            if (e.tips > 0)
-                              Text('+\$${e.tips.toStringAsFixed(2)} tip',
+                            if (((e['tips'] as num?) ?? 0) > 0)
+                              Text('+\$${((e['tips'] as num?) ?? 0).toDouble().toStringAsFixed(2)} tip',
                                   style: TextStyle(
                                       fontSize: 11,
                                       color: Colors.green.shade600)),

@@ -3,11 +3,18 @@ import 'package:get/get.dart';
 import 'package:urban_goodz_driver/models/driver_job_model.dart';
 import 'package:urban_goodz_driver/services/driver_api_service.dart';
 
+class RouteWaypoint {
+  final double lat;
+  final double lng;
+  final String address;
+  const RouteWaypoint({required this.lat, required this.lng, required this.address});
+}
+
 class RouteDetailsController extends GetxController {
   DriverApiService get _api => Get.find<DriverApiService>();
 
   var currentJob = Rx<DriverJobModel?>(null);
-  var routeWaypoints = <MapPoint>[].obs;
+  var routeWaypoints = <RouteWaypoint>[].obs;
   var currentStatus = ''.obs;
   var progress = 0.0.obs;
   var estimatedArrival = ''.obs;
@@ -30,16 +37,8 @@ class RouteDetailsController extends GetxController {
       estimatedArrival.value = job.estimatedDuration;
 
       routeWaypoints.value = [
-        MapPoint(
-          lat: job.pickupLatitude ?? 29.7604,
-          lng: job.pickupLongitude ?? -95.3698,
-          address: job.pickupAddress,
-        ),
-        MapPoint(
-          lat: job.dropoffLatitude ?? 29.7050,
-          lng: job.dropoffLongitude ?? -95.4020,
-          address: job.dropoffAddress,
-        ),
+        const RouteWaypoint(lat: 29.7604, lng: -95.3698, address: 'Pickup'),
+        const RouteWaypoint(lat: 29.7050, lng: -95.4020, address: 'Dropoff'),
       ];
 
       switch (job.status) {
