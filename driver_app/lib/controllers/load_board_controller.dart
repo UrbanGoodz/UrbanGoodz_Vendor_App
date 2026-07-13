@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'package:urban_goodz_driver/models/driver_job_model.dart';
-import 'package:urban_goodz_driver/repositories/mock_driver_data.dart';
+import 'package:urban_goodz_driver/services/driver_api_service.dart';
 
 class LoadBoardController extends GetxController {
-  final MockJobRepository _repository = MockJobRepository();
+  DriverApiService get _api => Get.find<DriverApiService>();
 
   var availableLoads = <DriverJobModel>[].obs;
   var filteredLoads = <DriverJobModel>[].obs;
@@ -12,6 +12,9 @@ class LoadBoardController extends GetxController {
   var maxPay = 500.0.obs;
   var vehicleFilter = 'all'.obs;
   var isLoading = true.obs;
+  var errorMessage = ''.obs;
+  var currentPage = 1.obs;
+  var hasMore = true.obs;
 
   @override
   void onInit() {
@@ -19,13 +22,47 @@ class LoadBoardController extends GetxController {
     super.onInit();
   }
 
-  void fetchLoads() {
+  void fetchLoads({bool refresh = false}) async {
+    if (refresh) {
+      currentPage.value = 1;
+      hasMore.value = true;
+    }
     isLoading.value = true;
-    _repository.fetchAvailableLoads().then((loads) {
-      availableLoads.value = loads;
+    errorMessage.value = '';
+    try {
+      final body = await _api.getLoadBoard(page: currentPage.value);
+      final loads = body['loads'];
+      final List<DriverJobModel> items;
+      if (loads is Map && loads['data'] is List) {
+        items = (loads['data'] as List)
+            .map((e) => DriverJobModel.fromJson(e))
+            .toList();
+        hasMore.value = loads['next_page_url'] != null;
+      } else if (loads is List) {
+        items = loads.map((e) => DriverJobModel.fromJson(e)).toList();
+        hasMore.value = false;
+      } else {
+        items = [];
+        hasMore.value = false;
+      }
+      if (refresh || currentPage.value == 1) {
+        availableLoads.value = items;
+      } else {
+        availableLoads.addAll(items);
+      }
       applyFilters();
+    } catch (e) {
+      errorMessage.value = e.toString();
+    } finally {
       isLoading.value = false;
-    });
+    }
+  }
+
+  void loadMore() {
+    if (!isLoading.value && hasMore.value) {
+      currentPage.value++;
+      fetchLoads();
+    }
   }
 
   void sortLoads(String by) {
@@ -56,11 +93,15 @@ class LoadBoardController extends GetxController {
     sortLoads(sortBy.value);
   }
 
-  void bidOnLoad(String id) {
-    final idx = availableLoads.indexWhere((l) => l.id == id);
-    if (idx != -1) {
-      Get.snackbar('Bid Submitted',
-          'Your bid on load $id has been submitted. The shipper will review shortly.',
+  void bidOnLoad(String id) async {
+    try {
+      final loadId = int.tryParse(id);
+      if (loadId == null) return;
+      await _api.bidOnLoad(loadId, 0.0);
+      Get.snackbar('Bid Submitted', 'Your bid has been submitted for review.',
+          snackPosition: SnackPosition.BOTTOM);
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to submit bid: $e',
           snackPosition: SnackPosition.BOTTOM);
     }
   }

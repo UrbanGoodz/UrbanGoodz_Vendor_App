@@ -1,14 +1,15 @@
 import 'package:get/get.dart';
 import 'package:urban_goodz_driver/models/vehicle_model.dart';
-import 'package:urban_goodz_driver/repositories/mock_driver_data.dart';
+import 'package:urban_goodz_driver/services/driver_api_service.dart';
 
 class VehicleRequirementsController extends GetxController {
-  final MockVehicleRepository _repository = MockVehicleRepository();
+  DriverApiService get _api => Get.find<DriverApiService>();
 
   var vehicles = <VehicleModel>[].obs;
   var selectedVehicle = Rx<VehicleModel?>(null);
   var requirementChecklist = <String, bool>{}.obs;
   var isLoading = true.obs;
+  var errorMessage = ''.obs;
 
   @override
   void onInit() {
@@ -16,16 +17,22 @@ class VehicleRequirementsController extends GetxController {
     super.onInit();
   }
 
-  void fetchVehicles() {
+  void fetchVehicles() async {
     isLoading.value = true;
-    _repository.fetchVehicles().then((v) {
-      vehicles.value = v;
-      if (v.isNotEmpty) {
-        selectedVehicle.value = v.first;
-        buildChecklist(v.first);
+    errorMessage.value = '';
+    try {
+      final rawVehicles = await _api.getVehicles();
+      final items = rawVehicles.map((e) => VehicleModel.fromJson(e)).toList();
+      vehicles.value = items;
+      if (items.isNotEmpty) {
+        selectedVehicle.value = items.first;
+        buildChecklist(items.first);
       }
+    } catch (e) {
+      errorMessage.value = e.toString();
+    } finally {
       isLoading.value = false;
-    });
+    }
   }
 
   void selectVehicle(String id) {

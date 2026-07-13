@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'package:urban_goodz_driver/models/payout_model.dart';
-import 'package:urban_goodz_driver/repositories/mock_driver_data.dart';
+import 'package:urban_goodz_driver/services/driver_api_service.dart';
 
 class PayoutHistoryController extends GetxController {
-  final MockPayoutRepository _repository = MockPayoutRepository();
+  DriverApiService get _api => Get.find<DriverApiService>();
 
   var payouts = <PayoutModel>[].obs;
   var filteredPayouts = <PayoutModel>[].obs;
@@ -11,6 +11,7 @@ class PayoutHistoryController extends GetxController {
   var pendingAmount = 0.0.obs;
   var selectedFilter = 'all'.obs;
   var isLoading = true.obs;
+  var errorMessage = ''.obs;
 
   @override
   void onInit() {
@@ -18,19 +19,33 @@ class PayoutHistoryController extends GetxController {
     super.onInit();
   }
 
-  void fetchPayoutHistory() {
+  void fetchPayoutHistory() async {
     isLoading.value = true;
-    _repository.fetchPayouts().then((p) {
-      payouts.value = p;
-      totalPaid.value = p
-          .where((po) => po.status == 'completed')
+    errorMessage.value = '';
+    try {
+      final body = await _api.getPayoutHistory();
+      final raw = body['payouts'];
+      List<PayoutModel> items = [];
+      if (raw is Map && raw['data'] is List) {
+        items = (raw['data'] as List)
+            .map((e) => PayoutModel.fromJson(e))
+            .toList();
+      } else if (raw is List) {
+        items = raw.map((e) => PayoutModel.fromJson(e)).toList();
+      }
+      payouts.value = items;
+      totalPaid.value = items
+          .where((po) => po.status == 'completed' || po.status == 'paid')
           .fold(0.0, (sum, po) => sum + po.amount);
-      pendingAmount.value = p
+      pendingAmount.value = items
           .where((po) => po.status == 'pending')
           .fold(0.0, (sum, po) => sum + po.amount);
       filterByStatus(selectedFilter.value);
+    } catch (e) {
+      errorMessage.value = e.toString();
+    } finally {
       isLoading.value = false;
-    });
+    }
   }
 
   void filterByStatus(String status) {
@@ -43,25 +58,17 @@ class PayoutHistoryController extends GetxController {
     }
   }
 
-  void requestPayout(double amount) {
-    _repository.requestPayout(amount).then((success) {
-      if (success) {
-        final newPayout = PayoutModel(
-          id: 'PO-${DateTime.now().millisecondsSinceEpoch}',
-          amount: amount,
-          status: 'pending',
-          requestedDate:
-              '${DateTime.now().year}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().day.toString().padLeft(2, '0')}',
-          paymentMethod: 'Direct Deposit - Bank of America',
-          notes: 'Manual payout request',
-        );
-        payouts.insert(0, newPayout);
-        filterByStatus(selectedFilter.value);
-        pendingAmount.value += amount;
-        Get.snackbar('Request Submitted',
-            'Your payout of \$${amount.toStringAsFixed(2)} is being processed.',
-            snackPosition: SnackPosition.BOTTOM);
-      }
-    });
+  void requestPayout(double amount) async {
+    try {
+      final body = await _api.requestPayout(amount);
+      pendingAmount.value += amount;
+      Get.snackbar('Request Submitted',
+          'Your payout of \$${amount.toStringAsFixed(2)} is being processed.',
+          snackPosition: SnackPosition.BOTTOM);
+      fetchPayoutHistory();
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to request payout: $e',
+          snackPosition: SnackPosition.BOTTOM);
+    }
   }
 }

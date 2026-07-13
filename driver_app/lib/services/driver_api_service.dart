@@ -6,9 +6,8 @@ import 'package:urban_goodz_driver/models/capability_model.dart';
 import 'package:urban_goodz_driver/models/discovery_item_model.dart';
 import 'package:urban_goodz_driver/models/notification_model.dart';
 
-/// Real driver API integration for the 4 Session 2 endpoint groups.
-/// All calls require the bearer token (injected by ApiClient). Errors are
-/// normalized into ApiException. Discovery rows are read-only (can_claim false).
+/// Real driver API integration for the Session 2 endpoint groups.
+/// All calls require the token (injected by ApiClient as ?token= query param).
 class DriverApiService extends GetxService {
   final ApiClient _client = Get.find<ApiClient>();
 
@@ -23,42 +22,76 @@ class DriverApiService extends GetxService {
     throw ApiException(code, msg, errors);
   }
 
+  // ---------- Auth ----------
+
+  Future<Map<String, dynamic>> login(String phone, String password) async {
+    final res = await _client.post(ApiConfig.driverLogin, {
+      'phone': phone,
+      'password': password,
+    });
+    return _ok(res);
+  }
+
+  Future<void> updateFcmToken(String fcmToken) async {
+    await _ok(await _client.authPut(ApiConfig.updateFcmToken, {
+      'fcm_token': fcmToken,
+    }));
+  }
+
+  // ---------- Driver Profile ----------
+
+  Future<Map<String, dynamic>> getProfile() async {
+    final body = await _ok(await _client.authGet(ApiConfig.driverProfile));
+    return body is Map ? Map<String, dynamic>.from(body) : {};
+  }
+
   // ---------- Business Courier (9) ----------
 
   Future<List<BusinessJobModel>> getBusinessJobs() async {
-    final body = await _ok(await _client.get(ApiConfig.businessJobs));
+    final body = await _ok(await _client.authGet(ApiConfig.businessJobs));
     final raw = (body is Map && body['jobs'] is List) ? body['jobs'] as List : [];
     return raw.map((e) => BusinessJobModel.fromJson(e)).toList();
   }
 
   Future<BusinessJobModel> getBusinessJobDetail(int jobId) async {
-    final body = await _ok(await _client.get(ApiConfig.businessJobDetail(jobId)));
-    return BusinessJobModel.fromJson((body is Map ? body['job'] : null) ?? <String, dynamic>{});
+    final body =
+        await _ok(await _client.authGet(ApiConfig.businessJobDetail(jobId)));
+    return BusinessJobModel.fromJson(
+        (body is Map ? body['job'] : null) ?? <String, dynamic>{});
   }
 
   Future<BusinessJobModel> acceptBusinessJob(int jobId) async {
-    final body = await _ok(await _client.post(ApiConfig.businessJobAccept(jobId), {}));
-    return BusinessJobModel.fromJson((body is Map ? body['job'] : null) ?? <String, dynamic>{});
+    final body = await _ok(
+        await _client.authPost(ApiConfig.businessJobAccept(jobId), {}));
+    return BusinessJobModel.fromJson(
+        (body is Map ? body['job'] : null) ?? <String, dynamic>{});
   }
 
   Future<BusinessJobModel> startBusinessJob(int jobId) async {
-    final body = await _ok(await _client.post(ApiConfig.businessJobStart(jobId), {}));
-    return BusinessJobModel.fromJson((body is Map ? body['job'] : null) ?? <String, dynamic>{});
+    final body = await _ok(
+        await _client.authPost(ApiConfig.businessJobStart(jobId), {}));
+    return BusinessJobModel.fromJson(
+        (body is Map ? body['job'] : null) ?? <String, dynamic>{});
   }
 
   Future<BusinessJobModel> pickupBusinessJob(int jobId) async {
-    final body = await _ok(await _client.post(ApiConfig.businessJobPickup(jobId), {}));
-    return BusinessJobModel.fromJson((body is Map ? body['job'] : null) ?? <String, dynamic>{});
+    final body = await _ok(
+        await _client.authPost(ApiConfig.businessJobPickup(jobId), {}));
+    return BusinessJobModel.fromJson(
+        (body is Map ? body['job'] : null) ?? <String, dynamic>{});
   }
 
   Future<BusinessJobModel> deliverBusinessJob(int jobId) async {
-    final body = await _ok(await _client.post(ApiConfig.businessJobDelivery(jobId), {}));
-    return BusinessJobModel.fromJson((body is Map ? body['job'] : null) ?? <String, dynamic>{});
+    final body = await _ok(
+        await _client.authPost(ApiConfig.businessJobDelivery(jobId), {}));
+    return BusinessJobModel.fromJson(
+        (body is Map ? body['job'] : null) ?? <String, dynamic>{});
   }
 
   Future<String> submitPickupProof(int jobId,
       {required String proofUrl, String? notes}) async {
-    final body = await _ok(await _client.post(ApiConfig.businessJobProofPickup(jobId), {
+    final body = await _ok(await _client.authPost(
+        ApiConfig.businessJobProofPickup(jobId), {
       'proof_url': proofUrl,
       if (notes != null && notes.isNotEmpty) 'notes': notes,
     }));
@@ -69,7 +102,8 @@ class DriverApiService extends GetxService {
 
   Future<String> submitDeliveryProof(int jobId,
       {required String proofUrl, String? notes}) async {
-    final body = await _ok(await _client.post(ApiConfig.businessJobProofDelivery(jobId), {
+    final body = await _ok(await _client.authPost(
+        ApiConfig.businessJobProofDelivery(jobId), {
       'proof_url': proofUrl,
       if (notes != null && notes.isNotEmpty) 'notes': notes,
     }));
@@ -80,16 +114,18 @@ class DriverApiService extends GetxService {
 
   Future<BusinessJobModel> reportException(int jobId,
       {required String reason, String? notes}) async {
-    final body = await _ok(await _client.post(ApiConfig.businessJobException(jobId),
+    final body = await _ok(await _client.authPost(
+        ApiConfig.businessJobException(jobId),
         {'reason': reason, if (notes != null && notes.isNotEmpty) 'notes': notes}));
-    return BusinessJobModel.fromJson((body is Map ? body['job'] : null) ?? <String, dynamic>{});
+    return BusinessJobModel.fromJson(
+        (body is Map ? body['job'] : null) ?? <String, dynamic>{});
   }
 
   // ---------- Capability (8) ----------
 
   Future<(CapabilityProfile profile, CapabilityAllowedValues allowed)>
       getCapabilityProfile() async {
-    final body = await _ok(await _client.get(ApiConfig.capabilityProfile));
+    final body = await _ok(await _client.authGet(ApiConfig.capabilityProfile));
     final profile = CapabilityProfile.fromJson(
         (body is Map ? body['profile'] : null) ?? <String, dynamic>{});
     final allowed = CapabilityAllowedValues.fromJson(
@@ -98,7 +134,7 @@ class DriverApiService extends GetxService {
   }
 
   Future<CapabilitySummary> getCapabilitySummary() async {
-    final body = await _ok(await _client.get(ApiConfig.capabilitySummary));
+    final body = await _ok(await _client.authGet(ApiConfig.capabilitySummary));
     return CapabilitySummary.fromJson(
         (body is Map ? body['normalized_capability_summary'] : null) ??
             <String, dynamic>{});
@@ -106,11 +142,12 @@ class DriverApiService extends GetxService {
 
   Future<CapabilityProfile> saveVehicle(
       {String? vehicleType, int? vehicleId}) async {
-    final body = await _ok(await _client.post(ApiConfig.capabilityVehicle, {
+    final body = await _ok(await _client.authPost(ApiConfig.capabilityVehicle, {
       if (vehicleType != null) 'vehicle_type': vehicleType,
       if (vehicleId != null) 'vehicle_id': vehicleId,
     }));
-    return CapabilityProfile.fromJson((body is Map ? body['profile'] : null) ?? <String, dynamic>{});
+    return CapabilityProfile.fromJson(
+        (body is Map ? body['profile'] : null) ?? <String, dynamic>{});
   }
 
   Future<CapabilityProfile> saveCargo({
@@ -122,7 +159,7 @@ class DriverApiService extends GetxService {
     bool? hasMedicalCourierTraining,
     bool? hasLiftgate,
   }) async {
-    final body = await _ok(await _client.post(ApiConfig.capabilityCargo, {
+    final body = await _ok(await _client.authPost(ApiConfig.capabilityCargo, {
       if (cargoCapacityNotes != null) 'cargo_capacity_notes': cargoCapacityNotes,
       if (maxPackageCount != null) 'max_package_count': maxPackageCount,
       if (maxWeightLbs != null) 'max_weight_lbs': maxWeightLbs,
@@ -132,25 +169,29 @@ class DriverApiService extends GetxService {
         'has_medical_courier_training': hasMedicalCourierTraining,
       if (hasLiftgate != null) 'has_liftgate': hasLiftgate,
     }));
-    return CapabilityProfile.fromJson((body is Map ? body['profile'] : null) ?? <String, dynamic>{});
+    return CapabilityProfile.fromJson(
+        (body is Map ? body['profile'] : null) ?? <String, dynamic>{});
   }
 
   Future<CapabilityProfile> saveZones(List<String> zones) async {
     final body = await _ok(await _client
-        .post(ApiConfig.capabilityZones, {'preferred_zones': zones}));
-    return CapabilityProfile.fromJson((body is Map ? body['profile'] : null) ?? <String, dynamic>{});
+        .authPost(ApiConfig.capabilityZones, {'preferred_zones': zones}));
+    return CapabilityProfile.fromJson(
+        (body is Map ? body['profile'] : null) ?? <String, dynamic>{});
   }
 
   Future<CapabilityProfile> saveWorkTypes(List<String> workTypes) async {
-    final body = await _ok(await _client
-        .post(ApiConfig.capabilityWorkTypes, {'preferred_work_types': workTypes}));
-    return CapabilityProfile.fromJson((body is Map ? body['profile'] : null) ?? <String, dynamic>{});
+    final body = await _ok(await _client.authPost(
+        ApiConfig.capabilityWorkTypes, {'preferred_work_types': workTypes}));
+    return CapabilityProfile.fromJson(
+        (body is Map ? body['profile'] : null) ?? <String, dynamic>{});
   }
 
   Future<CapabilityProfile> saveTags(List<String> tags) async {
     final body = await _ok(
-        await _client.post(ApiConfig.capabilityTags, {'capability_tags': tags}));
-    return CapabilityProfile.fromJson((body is Map ? body['profile'] : null) ?? <String, dynamic>{});
+        await _client.authPost(ApiConfig.capabilityTags, {'capability_tags': tags}));
+    return CapabilityProfile.fromJson(
+        (body is Map ? body['profile'] : null) ?? <String, dynamic>{});
   }
 
   Future<CapabilityProfile> saveAvailability({
@@ -160,7 +201,7 @@ class DriverApiService extends GetxService {
     bool? availableForOrderAnywhere,
     bool? availableForMedicalCourier,
   }) async {
-    final body = await _ok(await _client.post(ApiConfig.capabilityAvailability, {
+    final body = await _client.authPost(ApiConfig.capabilityAvailability, {
       if (availabilityPreference != null)
         'availability_preference': availabilityPreference,
       if (availableForBusinessCourier != null)
@@ -171,14 +212,15 @@ class DriverApiService extends GetxService {
         'available_for_order_anywhere': availableForOrderAnywhere,
       if (availableForMedicalCourier != null)
         'available_for_medical_courier': availableForMedicalCourier,
-    }));
-    return CapabilityProfile.fromJson((body is Map ? body['profile'] : null) ?? <String, dynamic>{});
+    });
+    return CapabilityProfile.fromJson(
+        (body is Map ? body['profile'] : null) ?? <String, dynamic>{});
   }
 
   // ---------- Job Discovery (3) ----------
 
   Future<List<DiscoveryItem>> getDiscovery() async {
-    final body = await _ok(await _client.get(ApiConfig.jobDiscovery));
+    final body = await _ok(await _client.authGet(ApiConfig.jobDiscovery));
     final raw = (body is Map && body['discovery'] is List)
         ? body['discovery'] as List
         : [];
@@ -186,50 +228,172 @@ class DriverApiService extends GetxService {
   }
 
   Future<Map<String, dynamic>> getDiscoverySummary() async {
-    final body = await _ok(await _client.get(ApiConfig.jobDiscoverySummary));
+    final body =
+        await _ok(await _client.authGet(ApiConfig.jobDiscoverySummary));
     return (body is Map && body['summary'] is Map)
         ? Map<String, dynamic>.from(body['summary'])
         : {};
   }
 
   Future<DiscoveryItem> getDiscoveryDetail(String type, int id) async {
-    final body = await _ok(await _client.get(ApiConfig.jobDiscoveryDetail(type, id)));
-    return DiscoveryItem.fromJson((body is Map ? body['job'] : null) ?? <String, dynamic>{});
+    final body = await _client.authGet(ApiConfig.jobDiscoveryDetail(type, id));
+    return DiscoveryItem.fromJson(
+        (body is Map ? body['job'] : null) ?? <String, dynamic>{});
   }
 
   // ---------- Dispatch Notifications (5) ----------
 
   Future<(List<DispatchNotification> items, int unreadCount, int total)>
       getNotifications() async {
-    final body = await _ok(await _client.get(ApiConfig.dispatchNotifications));
+    final body =
+        await _ok(await _client.authGet(ApiConfig.dispatchNotifications));
     final raw = (body is Map && body['notifications'] is List)
         ? body['notifications'] as List
         : [];
-    final items =
-        raw.map((e) => DispatchNotification.fromJson(e)).toList();
-    final unreadCount =
-        body is Map ? int.tryParse(body['unread_count']?.toString() ?? '0') ?? 0 : 0;
+    final items = raw.map((e) => DispatchNotification.fromJson(e)).toList();
+    final unreadCount = body is Map
+        ? int.tryParse(body['unread_count']?.toString() ?? '0') ?? 0
+        : 0;
     final total =
         body is Map ? int.tryParse(body['total']?.toString() ?? '0') ?? 0 : 0;
     return (items, unreadCount, total);
   }
 
   Future<int> getUnreadCount() async {
-    final body = await _ok(await _client.get(ApiConfig.dispatchUnreadCount));
+    final body =
+        await _ok(await _client.authGet(ApiConfig.dispatchUnreadCount));
     return body is Map
         ? int.tryParse(body['unread_count']?.toString() ?? '0') ?? 0
         : 0;
   }
 
   Future<void> markNotificationRead(int id) async {
-    await _ok(await _client.post(ApiConfig.dispatchRead(id), {}));
+    await _ok(await _client.authPost(ApiConfig.dispatchRead(id), {}));
   }
 
   Future<void> markAllNotificationsRead() async {
-    await _ok(await _client.post(ApiConfig.dispatchReadAll, {}));
+    await _ok(await _client.authPost(ApiConfig.dispatchReadAll, {}));
   }
 
   Future<void> dismissNotification(int id) async {
-    await _ok(await _client.post(ApiConfig.dispatchDismiss(id), {}));
+    await _ok(await _client.authPost(ApiConfig.dispatchDismiss(id), {}));
+  }
+
+  // ---------- Earnings & Payouts ----------
+
+  Future<Map<String, dynamic>> getEarnings() async {
+    final body = await _ok(await _client.authGet(ApiConfig.earnings));
+    return body is Map ? Map<String, dynamic>.from(body) : {};
+  }
+
+  Future<Map<String, dynamic>> requestPayout(double amount) async {
+    final body = await _ok(
+        await _client.authPost(ApiConfig.payoutRequest, {'amount': amount}));
+    return body is Map ? Map<String, dynamic>.from(body) : {};
+  }
+
+  Future<Map<String, dynamic>> getPayoutHistory() async {
+    final body =
+        await _ok(await _client.authGet(ApiConfig.payoutHistory));
+    return body is Map ? Map<String, dynamic>.from(body) : {};
+  }
+
+  // ---------- Active Jobs (6) ----------
+
+  Future<List<Map<String, dynamic>>> getActiveJobs() async {
+    final body = await _ok(await _client.authGet(ApiConfig.activeJobs));
+    final raw = (body is Map && body['jobs'] is List) ? body['jobs'] as List : [];
+    return raw.map((e) => Map<String, dynamic>.from(e)).toList();
+  }
+
+  Future<Map<String, dynamic>> getActiveJobDetail(int jobId) async {
+    final body = await _ok(await _client.authGet(ApiConfig.activeJobDetail(jobId)));
+    return (body is Map && body['job'] is Map) ? Map<String, dynamic>.from(body['job']) : {};
+  }
+
+  Future<Map<String, dynamic>> startActiveJob(int jobId) async {
+    final body = await _ok(await _client.authPost(ApiConfig.activeJobStart(jobId), {}));
+    return (body is Map && body['job'] is Map) ? Map<String, dynamic>.from(body['job']) : {};
+  }
+
+  Future<Map<String, dynamic>> completeActiveJob(int jobId) async {
+    final body = await _ok(await _client.authPost(ApiConfig.activeJobComplete(jobId), {}));
+    return (body is Map && body['job'] is Map) ? Map<String, dynamic>.from(body['job']) : {};
+  }
+
+  Future<Map<String, dynamic>> cancelActiveJob(int jobId) async {
+    final body = await _ok(await _client.authPost(ApiConfig.activeJobCancel(jobId), {}));
+    return body is Map ? Map<String, dynamic>.from(body) : {};
+  }
+
+  Future<Map<String, dynamic>> updateActiveJobStatus(int jobId, String status) async {
+    final body = await _ok(await _client.authPost(ApiConfig.activeJobStatus(jobId), {
+      'driver_task_status': status,
+    }));
+    return (body is Map && body['job'] is Map) ? Map<String, dynamic>.from(body['job']) : {};
+  }
+
+  // ---------- Load Board (3) ----------
+
+  Future<Map<String, dynamic>> getLoadBoard({int page = 1}) async {
+    final body = await _ok(await _client.authGet('${ApiConfig.loadBoard}?page=$page'));
+    return body is Map ? Map<String, dynamic>.from(body) : {};
+  }
+
+  Future<Map<String, dynamic>> bidOnLoad(int loadId, double bidAmount, {String? notes}) async {
+    final body = await _ok(await _client.authPost(ApiConfig.loadBoardBid(loadId), {
+      'bid_amount': bidAmount,
+      if (notes != null) 'notes': notes,
+    }));
+    return body is Map ? Map<String, dynamic>.from(body) : {};
+  }
+
+  Future<Map<String, dynamic>> acceptLoad(int loadId) async {
+    final body = await _ok(await _client.authPost(ApiConfig.loadBoardAccept(loadId), {}));
+    return (body is Map && body['job'] is Map) ? Map<String, dynamic>.from(body['job']) : {};
+  }
+
+  // ---------- Opportunities (2) ----------
+
+  Future<Map<String, dynamic>> getOpportunities({String? type, int page = 1}) async {
+    final params = <String, String>{'page': page.toString()};
+    if (type != null) params['type'] = type;
+    final query = params.entries.map((e) => '${e.key}=${e.value}').join('&');
+    final body = await _ok(await _client.authGet('${ApiConfig.opportunities}?$query'));
+    return body is Map ? Map<String, dynamic>.from(body) : {};
+  }
+
+  Future<Map<String, dynamic>> claimOpportunity(int opportunityId) async {
+    final body = await _ok(await _client.authPost(ApiConfig.opportunityClaim(opportunityId), {}));
+    return body is Map ? Map<String, dynamic>.from(body) : {};
+  }
+
+  // ---------- Vehicles (1) ----------
+
+  Future<List<Map<String, dynamic>>> getVehicles() async {
+    final body = await _ok(await _client.authGet(ApiConfig.vehicles));
+    final raw = (body is Map && body['vehicles'] is List) ? body['vehicles'] as List : [];
+    return raw.map((e) => Map<String, dynamic>.from(e)).toList();
+  }
+
+  // ---------- Certifications (3) ----------
+
+  Future<List<Map<String, dynamic>>> getCertifications() async {
+    final body = await _ok(await _client.authGet(ApiConfig.certifications));
+    final raw = (body is Map && body['certifications'] is List) ? body['certifications'] as List : [];
+    return raw.map((e) => Map<String, dynamic>.from(e)).toList();
+  }
+
+  Future<Map<String, dynamic>> uploadCertDocument(int certId, String filePath) async {
+    final body = await _ok(await _client.authPost(
+      ApiConfig.certificationUpload(certId),
+      {'document': filePath},
+    ));
+    return body is Map ? Map<String, dynamic>.from(body) : {};
+  }
+
+  Future<Map<String, dynamic>> renewCertification(int certId) async {
+    final body = await _ok(await _client.authPost(ApiConfig.certificationRenew(certId), {}));
+    return body is Map ? Map<String, dynamic>.from(body) : {};
   }
 }

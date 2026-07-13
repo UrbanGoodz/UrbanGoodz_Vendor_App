@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urban_goodz_driver/models/driver_job_model.dart';
-import 'package:urban_goodz_driver/repositories/mock_driver_data.dart';
+import 'package:urban_goodz_driver/services/driver_api_service.dart';
 
 class RouteDetailsController extends GetxController {
-  final MockJobRepository _jobRepository = MockJobRepository();
+  DriverApiService get _api => Get.find<DriverApiService>();
 
   var currentJob = Rx<DriverJobModel?>(null);
   var routeWaypoints = <MapPoint>[].obs;
@@ -12,68 +12,78 @@ class RouteDetailsController extends GetxController {
   var progress = 0.0.obs;
   var estimatedArrival = ''.obs;
   var isLoading = true.obs;
+  var errorMessage = ''.obs;
 
-  void fetchRoute(String jobId) {
+  void fetchRoute(String jobId) async {
     isLoading.value = true;
-    _jobRepository.fetchActiveJobs().then((jobs) {
-      try {
-        final job = jobs.firstWhere((j) => j.id == jobId);
-        currentJob.value = job;
-        currentStatus.value = job.status;
-        estimatedArrival.value = job.estimatedDuration;
-
-        routeWaypoints.value = [
-          MapPoint(
-            lat: 29.7604,
-            lng: -95.3698,
-            address: job.pickupAddress,
-          ),
-          MapPoint(
-            lat: 29.7050,
-            lng: -95.4020,
-            address: job.dropoffAddress,
-          ),
-        ];
-
-        switch (job.status) {
-          case 'assigned':
-            progress.value = 0.1;
-            break;
-          case 'in_progress':
-            progress.value = 0.4;
-            break;
-          case 'completed':
-            progress.value = 1.0;
-            break;
-          default:
-            progress.value = 0.0;
-        }
-
+    errorMessage.value = '';
+    try {
+      final jobIdInt = int.tryParse(jobId);
+      if (jobIdInt == null) {
         isLoading.value = false;
-      } catch (_) {
-        isLoading.value = false;
+        return;
       }
-    });
+      final jobData = await _api.getActiveJobDetail(jobIdInt);
+      final job = DriverJobModel.fromJson(jobData);
+      currentJob.value = job;
+      currentStatus.value = job.status;
+      estimatedArrival.value = job.estimatedDuration;
+
+      routeWaypoints.value = [
+        MapPoint(
+          lat: job.pickupLatitude ?? 29.7604,
+          lng: job.pickupLongitude ?? -95.3698,
+          address: job.pickupAddress,
+        ),
+        MapPoint(
+          lat: job.dropoffLatitude ?? 29.7050,
+          lng: job.dropoffLongitude ?? -95.4020,
+          address: job.dropoffAddress,
+        ),
+      ];
+
+      switch (job.status) {
+        case 'assigned':
+        case 'accepted':
+          progress.value = 0.1;
+          break;
+        case 'in_progress':
+        case 'shopping':
+          progress.value = 0.4;
+          break;
+        case 'picked_up':
+          progress.value = 0.6;
+          break;
+        case 'out_for_delivery':
+          progress.value = 0.8;
+          break;
+        case 'completed':
+        case 'delivered':
+          progress.value = 1.0;
+          break;
+        default:
+          progress.value = 0.0;
+      }
+    } catch (e) {
+      errorMessage.value = e.toString();
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   Future<void> sendStatusUpdateToBackend(String driverTaskStatus) async {
     final job = currentJob.value;
     if (job == null) return;
     try {
-      final getConnect = GetConnect();
-      final url = 'https://admin.urbangoodzdelivery.com/api/v1/order-anywhere/driver/${job.id}/status';
-      final response = await getConnect.post(url, {
-        'driver_task_status': driverTaskStatus,
-      });
-      if (response.status.isOk) {
-        Get.snackbar('Sync Success', 'Status sync\'d to backend database: $driverTaskStatus',
-            snackPosition: SnackPosition.BOTTOM, backgroundColor: const Color(0xFF4CAF50), colorText: const Color(0xFFFFFFFF));
-      } else {
-        Get.snackbar('Sync Staged', 'Backend updated locally (Staged). Code: ${response.statusCode}',
-            snackPosition: SnackPosition.BOTTOM);
-      }
+      final jobId = int.tryParse(job.id);
+      if (jobId == null) return;
+      await _api.updateActiveJobStatus(jobId, driverTaskStatus);
+      Get.snackbar('Synced', 'Status updated: $driverTaskStatus',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: const Color(0xFF4CAF50),
+          colorText: const Color(0xFFFFFFFF));
     } catch (e) {
-      Get.snackbar('Sync Staged', 'Backend offline or staging server (Staged).',
+      Get.snackbar('Sync Failed', 'Backend update failed: $e',
           snackPosition: SnackPosition.BOTTOM);
     }
   }
@@ -81,15 +91,14 @@ class RouteDetailsController extends GetxController {
   void updateProgress() {
     if (progress.value < 1.0) {
       progress.value += 0.2;
-      
-      // Determine status string
+
       String statusStr = 'shopping';
       if (progress.value >= 0.7) {
         statusStr = 'en_route';
       } else if (progress.value >= 0.5) {
         statusStr = 'picked_up';
       }
-      
+
       if (progress.value >= 1.0) {
         progress.value = 1.0;
         currentStatus.value = 'delivered';
@@ -107,7 +116,7 @@ class RouteDetailsController extends GetxController {
       Get.snackbar(
           'Waypoint Reached', 'Arrived at ${routeWaypoints[index].address}',
           snackPosition: SnackPosition.BOTTOM);
-      
+
       String statusStr = index == 0 ? 'picked_up' : 'delivered';
       sendStatusUpdateToBackend(statusStr);
     }

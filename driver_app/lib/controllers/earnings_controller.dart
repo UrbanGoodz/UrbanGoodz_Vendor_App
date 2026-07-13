@@ -1,18 +1,19 @@
 import 'package:get/get.dart';
-import 'package:urban_goodz_driver/models/earnings_model.dart';
-import 'package:urban_goodz_driver/repositories/mock_driver_data.dart';
+import 'package:urban_goodz_driver/services/api_client.dart';
+import 'package:urban_goodz_driver/services/driver_api_service.dart';
 
 class EarningsController extends GetxController {
-  final MockEarningsRepository _repository = MockEarningsRepository();
+  final ApiClient _client = Get.find<ApiClient>();
 
-  var dailyEarnings = <EarningsModel>[].obs;
   var totalEarnings = 0.0.obs;
-  var totalTips = 0.0.obs;
-  var totalBonuses = 0.0.obs;
-  var totalMileage = 0.0.obs;
-  var selectedPeriod = 'weekly'.obs;
-  var projectedWeeklyEarnings = 0.0.obs;
+  var pendingPayout = 0.0.obs;
+  var totalWithdrawn = 0.0.obs;
+  var todayEarnings = 0.0.obs;
+  var thisWeekEarnings = 0.0.obs;
+  var thisMonthEarnings = 0.0.obs;
+  var recentPayouts = <Map<String, dynamic>>[].obs;
   var isLoading = true.obs;
+  var errorMessage = ''.obs;
 
   @override
   void onInit() {
@@ -22,18 +23,35 @@ class EarningsController extends GetxController {
 
   void fetchEarnings() {
     isLoading.value = true;
-    _repository.fetchDailyEarnings().then((earnings) {
-      dailyEarnings.value = earnings;
+    errorMessage.value = '';
+
+    _client.authGet('/api/v1/delivery-man/profile').then((res) {
+      if (res.statusCode == 200 && res.body is Map) {
+        final dm = res.body['delivery_man'] ?? res.body;
+        totalEarnings.value =
+            double.tryParse(dm['total_earning']?.toString() ?? '0') ?? 0;
+        pendingPayout.value =
+            double.tryParse(dm['pending_withdraw']?.toString() ?? '0') ?? 0;
+        totalWithdrawn.value =
+            double.tryParse(dm['total_withdrawn']?.toString() ?? '0') ?? 0;
+        todayEarnings.value =
+            double.tryParse(dm['todays_earning']?.toString() ?? '0') ?? 0;
+        thisWeekEarnings.value =
+            double.tryParse(dm['this_week_earning']?.toString() ?? '0') ?? 0;
+        thisMonthEarnings.value =
+            double.tryParse(dm['this_month_earning']?.toString() ?? '0') ?? 0;
+      }
+      isLoading.value = false;
+    }).catchError((e) {
+      errorMessage.value = 'Failed to load earnings.';
       isLoading.value = false;
     });
-    _repository.fetchTotalEarnings().then((v) => totalEarnings.value = v);
-    _repository.fetchTotalTips().then((v) => totalTips.value = v);
-    _repository.fetchTotalBonuses().then((v) => totalBonuses.value = v);
-    _repository.fetchTotalMileage().then((v) => totalMileage.value = v);
-    _repository.fetchProjectedWeeklyEarnings().then((v) => projectedWeeklyEarnings.value = v);
-  }
 
-  void changePeriod(String period) {
-    selectedPeriod.value = period;
+    Get.find<DriverApiService>().getPayoutHistory().then((res) {
+      final list = res['withdraw_requests'];
+      if (list is List) {
+        recentPayouts.value = List<Map<String, dynamic>>.from(list);
+      }
+    }).catchError((_) {});
   }
 }
