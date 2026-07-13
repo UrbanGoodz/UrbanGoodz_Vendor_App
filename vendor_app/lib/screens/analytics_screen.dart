@@ -73,7 +73,11 @@ class AnalyticsScreen extends StatelessWidget {
               children: [
                 const Text(
                   'Revenue Trend',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.dark),
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.dark,
+                  ),
                 ),
                 Row(
                   children: [
@@ -81,7 +85,11 @@ class AnalyticsScreen extends StatelessWidget {
                     const SizedBox(width: 4),
                     Text(
                       '+${c.revenueGrowth.toStringAsFixed(1)}%',
-                      style: const TextStyle(color: Colors.green, fontWeight: FontWeight.w600, fontSize: 13),
+                      style: const TextStyle(
+                        color: Colors.green,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 13,
+                      ),
                     ),
                   ],
                 ),
@@ -94,7 +102,11 @@ class AnalyticsScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.show_chart, size: 48, color: AppTheme.primary.withOpacity(0.3)),
+                    Icon(
+                      Icons.show_chart,
+                      size: 48,
+                      color: AppTheme.primary.withOpacity(0.3),
+                    ),
                     const SizedBox(height: 8),
                     Text(
                       'Revenue chart for ${c.selectedPeriod.value} period',
@@ -103,7 +115,10 @@ class AnalyticsScreen extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       'Tracking revenue growth at +${c.revenueGrowth.toStringAsFixed(1)}%',
-                      style: TextStyle(fontSize: 12, color: AppTheme.dark.withOpacity(0.3)),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: AppTheme.dark.withOpacity(0.3),
+                      ),
                     ),
                   ],
                 ),
@@ -128,7 +143,11 @@ class AnalyticsScreen extends StatelessWidget {
           children: [
             const Text(
               'Category Performance',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.dark),
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: AppTheme.dark,
+              ),
             ),
             const SizedBox(height: 16),
             ...c.categoryBreakdown.entries.map((entry) {
@@ -140,10 +159,19 @@ class AnalyticsScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(entry.key, style: const TextStyle(fontSize: 13, color: AppTheme.dark)),
+                        Text(
+                          entry.key,
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: AppTheme.dark,
+                          ),
+                        ),
                         Text(
                           '${entry.value.toStringAsFixed(1)}%',
-                          style: const TextStyle(fontWeight: FontWeight.w600, color: AppTheme.primary),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: AppTheme.primary,
+                          ),
                         ),
                       ],
                     ),
@@ -180,18 +208,31 @@ class AnalyticsScreen extends StatelessWidget {
           children: [
             const Text(
               'Peak Order Hours',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.dark),
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: AppTheme.dark,
+              ),
             ),
             const SizedBox(height: 16),
             ...c.popularTimeSlots.map((slot) {
-              final maxCount = c.popularTimeSlots.fold<int>(0, (max, s) => s.value > max ? s.value : max);
+              final maxCount = c.popularTimeSlots.fold<int>(
+                0,
+                (max, s) => s.value > max ? s.value : max,
+              );
               return Padding(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Row(
                   children: [
                     SizedBox(
                       width: 80,
-                      child: Text(slot.key, style: TextStyle(fontSize: 11, color: AppTheme.dark.withOpacity(0.7))),
+                      child: Text(
+                        slot.key,
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: AppTheme.dark.withOpacity(0.7),
+                        ),
+                      ),
                     ),
                     const SizedBox(width: 8),
                     Expanded(
@@ -210,7 +251,11 @@ class AnalyticsScreen extends StatelessWidget {
                       width: 30,
                       child: Text(
                         '${slot.value}',
-                        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppTheme.dark),
+                        style: const TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: AppTheme.dark,
+                        ),
                         textAlign: TextAlign.right,
                       ),
                     ),
@@ -225,7 +270,14 @@ class AnalyticsScreen extends StatelessWidget {
   }
 
   Color _categoryColor(String category) {
-    final colors = [AppTheme.primary, AppTheme.accent, Colors.blue, Colors.green, Colors.purple, Colors.teal];
+    final colors = [
+      AppTheme.primary,
+      AppTheme.accent,
+      Colors.blue,
+      Colors.green,
+      Colors.purple,
+      Colors.teal,
+    ];
     return colors[category.hashCode.abs() % colors.length];
   }
 }
@@ -288,12 +340,21 @@ class _AnalyticsCard extends StatelessWidget {
         children: [
           Text(
             data.label,
-            style: TextStyle(fontSize: 11, color: AppTheme.dark.withOpacity(0.6)),
+            style: TextStyle(
+              fontSize: 11,
+              color: AppTheme.dark.withOpacity(0.6),
+            ),
           ),
           const SizedBox(height: 4),
           Text(
-            data.category == 'revenue' ? '\$${data.value.toStringAsFixed(0)}' : data.value.toStringAsFixed(0),
-            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppTheme.dark),
+            data.category == 'revenue'
+                ? '\$${data.value.toStringAsFixed(0)}'
+                : data.value.toStringAsFixed(0),
+            style: const TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: AppTheme.dark,
+            ),
           ),
           const SizedBox(height: 4),
           Row(

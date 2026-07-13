@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:urban_goodz_vendor/models/customer_review_model.dart';
-import 'package:urban_goodz_vendor/repositories/mock_vendor_data.dart';
+import 'package:urban_goodz_vendor/repositories/vendor_repository.dart';
+import 'package:urban_goodz_vendor/services/vendor_api_client.dart';
 
 class CustomerReviewsController extends GetxController {
   final reviews = <CustomerReviewModel>[].obs;
@@ -9,6 +10,9 @@ class CustomerReviewsController extends GetxController {
   final ratingDistribution = <int, int>{}.obs;
   final replyText = ''.obs;
   final selectedRating = 0.obs;
+  final isLoading = false.obs;
+  final errorMessage = RxnString();
+  final repository = Get.find<VendorRepository>();
 
   @override
   void onInit() {
@@ -16,10 +20,57 @@ class CustomerReviewsController extends GetxController {
     fetchReviews();
   }
 
-  void fetchReviews() {
-    reviews.value = MockVendorData.customerReviews;
-    _calculateStats();
-    filterByRating(selectedRating.value);
+  Future<void> fetchReviews() async {
+    isLoading.value = true;
+    errorMessage.value = null;
+    try {
+      final rows = await repository.reviews();
+      reviews.assignAll(
+        rows.map((row) {
+          final customer = row['customer'] is Map
+              ? Map<String, dynamic>.from(row['customer'])
+              : <String, dynamic>{};
+          return CustomerReviewModel(
+            id: row['id']?.toString() ?? '',
+            customerName:
+                [
+                  customer['f_name'],
+                  customer['l_name'],
+                ].where((v) => v != null).join(' ').trim().isEmpty
+                ? 'Customer'
+                : [
+                    customer['f_name'],
+                    customer['l_name'],
+                  ].where((v) => v != null).join(' '),
+            customerAvatar: customer['image_full_url']?.toString() ?? '',
+            rating: int.tryParse(row['rating']?.toString() ?? '') ?? 0,
+            comment: row['comment']?.toString() ?? '',
+            createdAt:
+                DateTime.tryParse(row['created_at']?.toString() ?? '') ??
+                DateTime.now(),
+            vendorReply: row['reply']?.toString(),
+            replyDate: DateTime.tryParse(row['replied_at']?.toString() ?? ''),
+            serviceName: row['item_name']?.toString() ?? '',
+            orderId: row['order_id']?.toString() ?? '',
+            images: (row['attachment_full_url'] is List
+                ? (row['attachment_full_url'] as List)
+                      .map((e) => e.toString())
+                      .toList()
+                : const []),
+            isVerified: true,
+          );
+        }),
+      );
+      _calculateStats();
+      filterByRating(selectedRating.value);
+    } on VendorApiException catch (e) {
+      errorMessage.value = e.message;
+      reviews.clear();
+      _calculateStats();
+      filterByRating(0);
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   void _calculateStats() {
@@ -29,8 +80,7 @@ class CustomerReviewsController extends GetxController {
       return;
     }
 
-    final total =
-        reviews.fold<int>(0, (sum, r) => sum + r.rating);
+    final total = reviews.fold<int>(0, (sum, r) => sum + r.rating);
     averageRating.value = total / reviews.length;
 
     final dist = <int, int>{1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
@@ -45,28 +95,17 @@ class CustomerReviewsController extends GetxController {
     if (rating == 0) {
       filteredReviews.value = List.from(reviews);
     } else {
-      filteredReviews.value =
-          reviews.where((r) => r.rating == rating).toList();
+      filteredReviews.value = reviews.where((r) => r.rating == rating).toList();
     }
   }
 
-  void replyToReview(String id, String reply) {
-    final index = reviews.indexWhere((r) => r.id == id);
-    if (index != -1) {
-      final r = reviews[index];
-      final updated = CustomerReviewModel(
-        id: r.id,
-        customerName: r.customerName,
-        customerAvatar: r.customerAvatar,
-        rating: r.rating,
-        comment: r.comment,
-        createdAt: r.createdAt,
-        vendorReply: reply,
-        replyDate: DateTime.now(),
-        helpfulCount: r.helpfulCount,
-      );
-      reviews[index] = updated;
-      filterByRating(selectedRating.value);
+  Future<void> replyToReview(String id, String reply) async {
+    try {
+      await repository.replyToReview(id, reply);
+      await fetchReviews();
+    } on VendorApiException catch (e) {
+      errorMessage.value = e.message;
+      Get.snackbar('Reply failed', e.message);
     }
   }
 }

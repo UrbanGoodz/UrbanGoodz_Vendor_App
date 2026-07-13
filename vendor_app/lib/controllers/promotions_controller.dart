@@ -1,11 +1,15 @@
 import 'package:get/get.dart';
 import 'package:urban_goodz_vendor/models/promotion_model.dart';
-import 'package:urban_goodz_vendor/repositories/mock_vendor_data.dart';
+import 'package:urban_goodz_vendor/repositories/vendor_repository.dart';
+import 'package:urban_goodz_vendor/services/vendor_api_client.dart';
 
 class PromotionsController extends GetxController {
   final promotions = <PromotionModel>[].obs;
   final filteredPromotions = <PromotionModel>[].obs;
   final selectedFilter = 'all'.obs;
+  final isLoading = false.obs;
+  final errorMessage = RxnString();
+  final repository = Get.find<VendorRepository>();
 
   @override
   void onInit() {
@@ -13,9 +17,49 @@ class PromotionsController extends GetxController {
     fetchPromotions();
   }
 
-  void fetchPromotions() {
-    promotions.value = MockVendorData.promotions;
-    _applyFilters();
+  Future<void> fetchPromotions() async {
+    isLoading.value = true;
+    errorMessage.value = null;
+    try {
+      final rows = await repository.coupons();
+      promotions.assignAll(
+        rows.map(
+          (row) => PromotionModel(
+            id: row['id']?.toString() ?? '',
+            title:
+                row['title']?.toString() ?? row['code']?.toString() ?? 'Coupon',
+            description: 'Vendor coupon',
+            discountType: row['discount_type']?.toString() ?? 'percent',
+            discountValue:
+                double.tryParse(row['discount']?.toString() ?? '') ?? 0,
+            code: row['code']?.toString(),
+            minOrderAmount: double.tryParse(
+              row['min_purchase']?.toString() ?? '',
+            ),
+            startDate:
+                DateTime.tryParse(row['start_date']?.toString() ?? '') ??
+                DateTime.now(),
+            endDate:
+                DateTime.tryParse(row['expire_date']?.toString() ?? '') ??
+                DateTime.now(),
+            usageLimit: int.tryParse(row['limit']?.toString() ?? '') ?? 0,
+            usageCount: 0,
+            isActive:
+                row['status'] == true ||
+                row['status'] == 1 ||
+                row['status']?.toString() == '1',
+            imageUrl: '',
+          ),
+        ),
+      );
+      _applyFilters();
+    } on VendorApiException catch (e) {
+      errorMessage.value = e.message;
+      promotions.clear();
+      _applyFilters();
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   void filterPromotions(String filter) {
@@ -29,7 +73,9 @@ class PromotionsController extends GetxController {
 
     switch (selectedFilter.value) {
       case 'active':
-        result = result.where((p) => p.isActive && p.endDate.isAfter(now)).toList();
+        result = result
+            .where((p) => p.isActive && p.endDate.isAfter(now))
+            .toList();
         break;
       case 'scheduled':
         result = result.where((p) => p.startDate.isAfter(now)).toList();
@@ -42,37 +88,37 @@ class PromotionsController extends GetxController {
     filteredPromotions.value = result;
   }
 
-  void createPromotion(PromotionModel promotion) {
-    promotions.add(promotion);
-    _applyFilters();
-  }
-
-  void toggleActive(String id) {
-    final index = promotions.indexWhere((p) => p.id == id);
-    if (index != -1) {
-      final p = promotions[index];
-      final updated = PromotionModel(
-        id: p.id,
-        title: p.title,
-        description: p.description,
-        discountType: p.discountType,
-        discountValue: p.discountValue,
-        code: p.code,
-        minOrderAmount: p.minOrderAmount,
-        startDate: p.startDate,
-        endDate: p.endDate,
-        usageLimit: p.usageLimit,
-        usageCount: p.usageCount,
-        isActive: !p.isActive,
-        imageUrl: p.imageUrl,
+  Future<void> createPromotion(PromotionModel promotion) async {
+    try {
+      await repository.createCoupon(
+        title: promotion.title,
+        code: promotion.code ?? '',
+        discount: promotion.discountValue,
       );
-      promotions[index] = updated;
-      _applyFilters();
+      await fetchPromotions();
+    } on VendorApiException catch (e) {
+      errorMessage.value = e.message;
+      Get.snackbar('Promotion failed', e.message);
     }
   }
 
-  void deletePromotion(String id) {
-    promotions.removeWhere((p) => p.id == id);
-    _applyFilters();
+  Future<void> toggleActive(String id) async {
+    final index = promotions.indexWhere((p) => p.id == id);
+    if (index < 0) return;
+    try {
+      await repository.updateCouponStatus(id, !promotions[index].isActive);
+      await fetchPromotions();
+    } on VendorApiException catch (e) {
+      errorMessage.value = e.message;
+    }
+  }
+
+  Future<void> deletePromotion(String id) async {
+    try {
+      await repository.deleteCoupon(id);
+      await fetchPromotions();
+    } on VendorApiException catch (e) {
+      errorMessage.value = e.message;
+    }
   }
 }

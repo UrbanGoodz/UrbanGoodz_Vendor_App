@@ -50,8 +50,5 @@ class TimeSlotData {
   final String hour;
   final int orderCount;
 
-  TimeSlotData({
-    required this.hour,
-    required this.orderCount,
-  });
+  TimeSlotData({required this.hour, required this.orderCount});
 }

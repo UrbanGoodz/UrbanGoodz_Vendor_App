@@ -52,13 +52,19 @@ class CustomerReviewsScreen extends StatelessWidget {
               children: [
                 Text(
                   c.averageRating.toStringAsFixed(1),
-                  style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: AppTheme.dark),
+                  style: const TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.dark,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Row(
                   children: List.generate(5, (i) {
                     return Icon(
-                      i < c.averageRating.round() ? Icons.star : Icons.star_border,
+                      i < c.averageRating.round()
+                          ? Icons.star
+                          : Icons.star_border,
                       color: AppTheme.primary,
                       size: 16,
                     );
@@ -67,7 +73,10 @@ class CustomerReviewsScreen extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   '${c.reviews.length} reviews',
-                  style: TextStyle(fontSize: 12, color: AppTheme.dark.withOpacity(0.5)),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: AppTheme.dark.withOpacity(0.5),
+                  ),
                 ),
               ],
             ),
@@ -77,14 +86,27 @@ class CustomerReviewsScreen extends StatelessWidget {
                 children: List.generate(5, (i) {
                   final star = 5 - i;
                   final count = c.ratingDistribution[star] ?? 0;
-                  final maxCount = c.ratingDistribution.values.fold<int>(0, (a, b) => a > b ? a : b);
+                  final maxCount = c.ratingDistribution.values.fold<int>(
+                    0,
+                    (a, b) => a > b ? a : b,
+                  );
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 2),
                     child: Row(
                       children: [
-                        Text('$star', style: const TextStyle(fontSize: 11, color: AppTheme.dark)),
+                        Text(
+                          '$star',
+                          style: const TextStyle(
+                            fontSize: 11,
+                            color: AppTheme.dark,
+                          ),
+                        ),
                         const SizedBox(width: 4),
-                        const Icon(Icons.star, color: AppTheme.primary, size: 12),
+                        const Icon(
+                          Icons.star,
+                          color: AppTheme.primary,
+                          size: 12,
+                        ),
                         const SizedBox(width: 6),
                         Expanded(
                           child: ClipRRect(
@@ -98,7 +120,13 @@ class CustomerReviewsScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 6),
-                        Text('$count', style: TextStyle(fontSize: 11, color: AppTheme.dark.withOpacity(0.5))),
+                        Text(
+                          '$count',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: AppTheme.dark.withOpacity(0.5),
+                          ),
+                        ),
                       ],
                     ),
                   );
@@ -117,7 +145,12 @@ class CustomerReviewsScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
           children: [
-            _StarChip(label: 'All', rating: 0, selected: c.selectedRating.value, onTap: () => c.filterByRating(0)),
+            _StarChip(
+              label: 'All',
+              rating: 0,
+              selected: c.selectedRating.value,
+              onTap: () => c.filterByRating(0),
+            ),
             const SizedBox(width: 6),
             ...List.generate(5, (i) {
               final star = 5 - i;
@@ -139,30 +172,36 @@ class CustomerReviewsScreen extends StatelessWidget {
   }
 
   Widget _buildReviewsList(CustomerReviewsController c) {
-    return Obx(
-      () {
-        if (c.filteredReviews.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.reviews, size: 64, color: AppTheme.dark.withOpacity(0.2)),
-                const SizedBox(height: 16),
-                Text(
-                  'No reviews found',
-                  style: TextStyle(fontSize: 16, color: AppTheme.dark.withOpacity(0.4)),
+    return Obx(() {
+      if (c.filteredReviews.isEmpty) {
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.reviews,
+                size: 64,
+                color: AppTheme.dark.withOpacity(0.2),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'No reviews found',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: AppTheme.dark.withOpacity(0.4),
                 ),
-              ],
-            ),
-          );
-        }
-        return ListView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          itemCount: c.filteredReviews.length,
-          itemBuilder: (_, i) => _ReviewCard(review: c.filteredReviews[i], controller: c),
+              ),
+            ],
+          ),
         );
-      },
-    );
+      }
+      return ListView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        itemCount: c.filteredReviews.length,
+        itemBuilder: (_, i) =>
+            _ReviewCard(review: c.filteredReviews[i], controller: c),
+      );
+    });
   }
 }
 
@@ -190,7 +229,9 @@ class _StarChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
-          color: isSelected ? AppTheme.primary : AppTheme.beige.withOpacity(0.3),
+          color: isSelected
+              ? AppTheme.primary
+              : AppTheme.beige.withOpacity(0.3),
           borderRadius: BorderRadius.circular(6),
         ),
         child: Row(
@@ -199,14 +240,20 @@ class _StarChip extends StatelessWidget {
             Text(
               label,
               style: TextStyle(
-                color: isSelected ? AppTheme.dark : AppTheme.dark.withOpacity(0.7),
+                color: isSelected
+                    ? AppTheme.dark
+                    : AppTheme.dark.withOpacity(0.7),
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
                 fontSize: 12,
               ),
             ),
             if (showStar) ...[
               const SizedBox(width: 2),
-              Icon(Icons.star, color: isSelected ? AppTheme.dark : AppTheme.primary, size: 12),
+              Icon(
+                Icons.star,
+                color: isSelected ? AppTheme.dark : AppTheme.primary,
+                size: 12,
+              ),
             ],
           ],
         ),
@@ -239,7 +286,10 @@ class _ReviewCard extends StatelessWidget {
                     review.customerName.isNotEmpty
                         ? review.customerName[0].toUpperCase()
                         : '?',
-                    style: const TextStyle(color: AppTheme.primary, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      color: AppTheme.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -249,14 +299,20 @@ class _ReviewCard extends StatelessWidget {
                     children: [
                       Text(
                         review.customerName,
-                        style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14, color: AppTheme.dark),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                          color: AppTheme.dark,
+                        ),
                       ),
                       Row(
                         children: [
                           Row(
                             children: List.generate(5, (i) {
                               return Icon(
-                                i < review.rating ? Icons.star : Icons.star_border,
+                                i < review.rating
+                                    ? Icons.star
+                                    : Icons.star_border,
                                 color: AppTheme.primary,
                                 size: 14,
                               );
@@ -265,7 +321,10 @@ class _ReviewCard extends StatelessWidget {
                           const SizedBox(width: 8),
                           Text(
                             _formatDate(review.createdAt),
-                            style: TextStyle(fontSize: 11, color: AppTheme.dark.withOpacity(0.5)),
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: AppTheme.dark.withOpacity(0.5),
+                            ),
                           ),
                         ],
                       ),
@@ -274,7 +333,10 @@ class _ReviewCard extends StatelessWidget {
                 ),
                 if (review.helpfulCount > 0)
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
                       color: AppTheme.accent.withOpacity(0.3),
                       borderRadius: BorderRadius.circular(4),
@@ -282,11 +344,19 @@ class _ReviewCard extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.thumb_up, size: 10, color: AppTheme.dark),
+                        const Icon(
+                          Icons.thumb_up,
+                          size: 10,
+                          color: AppTheme.dark,
+                        ),
                         const SizedBox(width: 2),
                         Text(
                           '${review.helpfulCount}',
-                          style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppTheme.dark),
+                          style: const TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                            color: AppTheme.dark,
+                          ),
                         ),
                       ],
                     ),
@@ -296,7 +366,11 @@ class _ReviewCard extends StatelessWidget {
             const SizedBox(height: 12),
             Text(
               review.comment,
-              style: TextStyle(fontSize: 13, color: AppTheme.dark.withOpacity(0.8), height: 1.4),
+              style: TextStyle(
+                fontSize: 13,
+                color: AppTheme.dark.withOpacity(0.8),
+                height: 1.4,
+              ),
             ),
             if (review.vendorReply != null) ...[
               const SizedBox(height: 12),
@@ -312,24 +386,38 @@ class _ReviewCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        const Icon(Icons.reply, size: 14, color: AppTheme.primary),
+                        const Icon(
+                          Icons.reply,
+                          size: 14,
+                          color: AppTheme.primary,
+                        ),
                         const SizedBox(width: 4),
                         const Text(
                           'Your Reply',
-                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: AppTheme.primary),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 12,
+                            color: AppTheme.primary,
+                          ),
                         ),
                         const Spacer(),
                         if (review.replyDate != null)
                           Text(
                             _formatDate(review.replyDate!),
-                            style: TextStyle(fontSize: 10, color: AppTheme.dark.withOpacity(0.4)),
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: AppTheme.dark.withOpacity(0.4),
+                            ),
                           ),
                       ],
                     ),
                     const SizedBox(height: 4),
                     Text(
                       review.vendorReply!,
-                      style: TextStyle(fontSize: 12, color: AppTheme.dark.withOpacity(0.7)),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: AppTheme.dark.withOpacity(0.7),
+                      ),
                     ),
                   ],
                 ),
@@ -343,7 +431,9 @@ class _ReviewCard extends StatelessWidget {
                   onPressed: () => _showReplyDialog(context),
                   icon: const Icon(Icons.reply, size: 16),
                   label: const Text('Reply', style: TextStyle(fontSize: 12)),
-                  style: TextButton.styleFrom(foregroundColor: AppTheme.primary),
+                  style: TextButton.styleFrom(
+                    foregroundColor: AppTheme.primary,
+                  ),
                 ),
               ),
             ],
@@ -358,7 +448,10 @@ class _ReviewCard extends StatelessWidget {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Reply to Review', style: TextStyle(color: AppTheme.dark)),
+        title: const Text(
+          'Reply to Review',
+          style: TextStyle(color: AppTheme.dark),
+        ),
         content: TextField(
           controller: replyCtrl,
           maxLines: 3,
@@ -384,7 +477,20 @@ class _ReviewCard extends StatelessWidget {
   }
 
   String _formatDate(DateTime dt) {
-    final months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    final months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
     return '${months[dt.month - 1]} ${dt.day}, ${dt.year}';
   }
 }
