@@ -24,7 +24,9 @@ class MeasurementPhotoModel {
       photoUrl: json['photo_url'],
       orientation: json['orientation'],
       heightRef: json['height_ref']?.toDouble(),
-      uploadedAt: json['uploaded_at'] != null ? DateTime.tryParse(json['uploaded_at']) : null,
+      uploadedAt: json['uploaded_at'] != null
+          ? DateTime.tryParse(json['uploaded_at'])
+          : null,
       status: json['status'],
     );
   }

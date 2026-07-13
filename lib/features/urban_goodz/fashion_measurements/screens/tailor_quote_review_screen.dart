@@ -1,171 +1,131 @@
 import 'package:flutter/material.dart';
-import 'package:sixam_mart/util/styles.dart';
+import 'package:get/get.dart';
+import 'package:sixam_mart/features/profile/controllers/profile_controller.dart';
+import 'package:sixam_mart/features/urban_goodz/fashion_measurements/models/tailor_quote_model.dart';
+import 'package:sixam_mart/features/urban_goodz/fashion_measurements/services/fashion_measurement_api_service.dart';
 
-class TailorQuoteReviewScreen extends StatelessWidget {
+class TailorQuoteReviewScreen extends StatefulWidget {
   const TailorQuoteReviewScreen({super.key});
+  @override
+  State<TailorQuoteReviewScreen> createState() =>
+      _TailorQuoteReviewScreenState();
+}
+
+class _TailorQuoteReviewScreenState extends State<TailorQuoteReviewScreen> {
+  final service = FashionMeasurementApiService();
+  final quotes = <TailorQuoteModel>[];
+  bool loading = true;
+  String? error;
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    setState(() => loading = true);
+    try {
+      final userId = Get.isRegistered<ProfileController>()
+          ? (Get.find<ProfileController>().userInfoModel?.id ?? 0)
+          : 0;
+      final requests = await service.getSubmittedRequests(userId);
+      quotes.clear();
+      for (final request in requests) {
+        if (request.id != null) {
+          quotes.addAll(await service.getTailorQuotes(request.id!));
+        }
+      }
+      error = null;
+    } on FashionFitApiException catch (e) {
+      error = e.message;
+    } finally {
+      if (mounted) setState(() => loading = false);
+    }
+  }
+
+  Future<void> _decision(TailorQuoteModel quote, bool accept) async {
+    if (quote.id == null) return;
+    try {
+      if (accept) {
+        await service.acceptQuote(quote.id!);
+      } else {
+        await service.declineQuote(quote.id!);
+      }
+      await _load();
+      if (mounted) {
+        Get.snackbar(
+          'Decision recorded',
+          accept
+              ? 'Estimate accepted. Sandbox payment is available only when configured by Admin.'
+              : 'Estimate declined and provider access revoked.',
+        );
+      }
+    } on FashionFitApiException catch (e) {
+      setState(() => error = e.message);
+    }
+  }
 
   @override
-  Widget build(BuildContext context) {
-    const Color ugCanvas = Color(0xFFE2D3BF);
-    const Color ugOrange = Color(0xFFED9914);
-    const Color ugBlack = Color(0xFF161616);
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(
-          'Review Fitting Quote',
-          style: robotoBold.copyWith(color: ugBlack),
-        ),
-        backgroundColor: ugCanvas,
-        iconTheme: const IconThemeData(color: ugBlack),
-        elevation: 0,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Custom fitting preview banner
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.amber.shade50,
-                  border: Border.all(color: Colors.amber.shade200),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Quote Status: Pending Acceptance',
-                      style: robotoBold.copyWith(fontSize: 14, color: ugOrange),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Preview how a Stylist Quote may appear after manual profile and photo-reference review.',
-                      style: robotoRegular.copyWith(fontSize: 13, color: ugBlack),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 24),
-
-              Text(
-                'Quote breakdown',
-                style: robotoBold.copyWith(fontSize: 18, color: ugBlack),
-              ),
-              const SizedBox(height: 12),
-
-              _buildQuoteItem('Custom Creation (Tuxedo)', '\$150.00'),
-            _buildQuoteItem('Photo Reference Review', '\$15.00'),
-              _buildQuoteItem('Service Taxes', '\$10.25'),
-              const Divider(height: 32),
-              _buildQuoteItem('Total Estimate', '\$175.25', isTotal: true),
-              const SizedBox(height: 24),
-
-              Text(
-                'Stylist Notes',
-                style: robotoBold.copyWith(fontSize: 16, color: ugBlack),
-              ),
-              const SizedBox(height: 8),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade50,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.grey.shade200),
-                ),
-                child: Text(
-                  'Based on the manual profile and photo-reference preview, the Stylist may suggest fit adjustments before any production work starts.',
-                  style: robotoRegular.copyWith(fontSize: 13, color: Colors.grey.shade800, fontStyle: FontStyle.italic),
-                ),
-              ),
-              const SizedBox(height: 32),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Quote Declined.')),
-                        );
-                        Navigator.pop(context);
-                      },
-                      style: OutlinedButton.styleFrom(
-                        side: const BorderSide(color: Colors.red),
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(
+      title: const Text('Fashion Fit estimates'),
+      actions: [IconButton(onPressed: _load, icon: const Icon(Icons.refresh))],
+    ),
+    body: loading
+        ? const Center(child: CircularProgressIndicator())
+        : error != null
+        ? Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(error!),
+                ElevatedButton(onPressed: _load, child: const Text('Retry')),
+              ],
+            ),
+          )
+        : quotes.isEmpty
+        ? const Center(child: Text('No provider estimates yet.'))
+        : ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: quotes.length,
+            itemBuilder: (_, i) {
+              final quote = quotes[i];
+              return Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '\$${quote.quoteAmount?.toStringAsFixed(2) ?? '—'}',
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
-                      child: Text(
-                        'Decline Quote',
-                        style: robotoBold.copyWith(color: Colors.red, fontSize: 15),
+                      if (quote.comments != null) Text(quote.comments!),
+                      Text(
+                        'Status: ${quote.isAccepted == true ? 'accepted' : 'submitted'}',
                       ),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Quote acceptance preview selected. Live payment and production status are not connected yet.'),
-                            backgroundColor: ugOrange,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: OutlinedButton(
+                              onPressed: () => _decision(quote, false),
+                              child: const Text('Decline'),
+                            ),
                           ),
-                        );
-                        Navigator.pop(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: ugOrange,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () => _decision(quote, true),
+                              child: const Text('Accept'),
+                            ),
+                          ),
+                        ],
                       ),
-                      child: Text(
-                        'Preview Acceptance',
-                        style: robotoBold.copyWith(fontSize: 15),
-                      ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-            ],
+                ),
+              );
+            },
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildQuoteItem(String name, String value, {bool isTotal = false}) {
-    const Color ugBlack = Color(0xFF161616);
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            name,
-            style: isTotal
-                ? robotoBold.copyWith(fontSize: 16, color: ugBlack)
-                : robotoRegular.copyWith(fontSize: 14, color: ugBlack.withValues(alpha: 0.8)),
-          ),
-          Text(
-            value,
-            style: isTotal
-                ? robotoBold.copyWith(fontSize: 18, color: ugBlack)
-                : robotoRegular.copyWith(fontSize: 14, color: ugBlack),
-          ),
-        ],
-      ),
-    );
-  }
+  );
 }

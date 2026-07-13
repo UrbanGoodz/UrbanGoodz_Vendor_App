@@ -1,7 +1,8 @@
 class FashionOrderStatusModel {
   final int? id;
   final int? orderId;
-  final String? currentStatus; // "Draft", "Pending Review", "Quote Offered", "Measuring", "In Production", "Alterations", "Completed"
+  final String?
+  currentStatus; // "Draft", "Pending Review", "Quote Offered", "Measuring", "In Production", "Alterations", "Completed"
   final DateTime? updatedAt;
   final String? statusNotes;
 
@@ -18,7 +19,9 @@ class FashionOrderStatusModel {
       id: json['id'],
       orderId: json['order_id'],
       currentStatus: json['current_status'],
-      updatedAt: json['updated_at'] != null ? DateTime.tryParse(json['updated_at']) : null,
+      updatedAt: json['updated_at'] != null
+          ? DateTime.tryParse(json['updated_at'])
+          : null,
       statusNotes: json['status_notes'],
     );
   }

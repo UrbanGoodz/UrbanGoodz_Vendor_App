@@ -1,5 +1,6 @@
 class MeasurementRequestModel {
   final int? id;
+  final String? uuid;
   final int? userId;
   final int? profileId;
   final int? customerId;
@@ -45,6 +46,7 @@ class MeasurementRequestModel {
 
   MeasurementRequestModel({
     this.id,
+    this.uuid,
     this.userId,
     this.profileId,
     this.customerId,
@@ -92,6 +94,7 @@ class MeasurementRequestModel {
   factory MeasurementRequestModel.fromJson(Map<String, dynamic> json) {
     return MeasurementRequestModel(
       id: json['id'],
+      uuid: json['uuid']?.toString(),
       userId: json['user_id'],
       profileId: json['profile_id'],
       customerId: json['customer_id'],
@@ -128,7 +131,9 @@ class MeasurementRequestModel {
       itemWanted: json['item_wanted'],
       requestType: json['request_type'],
       inspirationImageReference: json['inspiration_image_reference'],
-      dueDate: json['due_date'] != null ? DateTime.tryParse(json['due_date']) : null,
+      dueDate: json['due_date'] != null
+          ? DateTime.tryParse(json['due_date'])
+          : null,
       budget: double.tryParse(json['budget']?.toString() ?? ''),
       consentToSharePhotos: json['consent_to_share_photos'],
       customerProfile: json['customer_profile'] is Map
@@ -158,6 +163,7 @@ class MeasurementRequestModel {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'uuid': uuid,
       'user_id': userId,
       'profile_id': profileId,
       'customer_id': customerId,

@@ -46,7 +46,9 @@ class MeasurementProfileModel {
       neck: json['neck']?.toDouble(),
       preferredFit: json['preferred_fit'],
       notes: json['notes'],
-      updatedAt: json['updated_at'] != null ? DateTime.tryParse(json['updated_at']) : null,
+      updatedAt: json['updated_at'] != null
+          ? DateTime.tryParse(json['updated_at'])
+          : null,
     );
   }
 

@@ -22,10 +22,14 @@ class TailorQuoteModel {
       id: json['id'],
       requestId: json['request_id'],
       serviceId: json['service_id'],
-      quoteAmount: json['quote_amount']?.toDouble(),
-      comments: json['comments'],
-      isAccepted: json['is_accepted'],
-      offeredAt: json['offered_at'] != null ? DateTime.tryParse(json['offered_at']) : null,
+      quoteAmount: double.tryParse(
+        (json['amount'] ?? json['quote_amount'])?.toString() ?? '',
+      ),
+      comments: (json['notes'] ?? json['comments'])?.toString(),
+      isAccepted: json['status'] == 'accepted' || json['is_accepted'] == true,
+      offeredAt: DateTime.tryParse(
+        (json['created_at'] ?? json['offered_at'])?.toString() ?? '',
+      ),
     );
   }
 

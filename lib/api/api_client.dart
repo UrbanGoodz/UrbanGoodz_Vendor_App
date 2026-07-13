@@ -28,38 +28,66 @@ class ApiClient extends GetxService {
 
   ApiClient({required this.appBaseUrl, required this.sharedPreferences}) {
     token = sharedPreferences.getString(AppConstants.token);
-    if (kDebugMode) {
-      print('Token: $token');
-    }
     AddressModel? addressModel;
     try {
-      addressModel = AddressModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.userAddress)!));
+      addressModel = AddressModel.fromJson(
+        jsonDecode(sharedPreferences.getString(AppConstants.userAddress)!),
+      );
     } catch (_) {}
     int? moduleID;
-    if (GetPlatform.isWeb && sharedPreferences.containsKey(AppConstants.moduleId)) {
+    if (GetPlatform.isWeb &&
+        sharedPreferences.containsKey(AppConstants.moduleId)) {
       try {
-        moduleID = ModuleModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.moduleId)!)).id;
+        moduleID = ModuleModel.fromJson(
+          jsonDecode(sharedPreferences.getString(AppConstants.moduleId)!),
+        ).id;
       } catch (_) {}
     }
-    updateHeader(token, addressModel?.zoneIds, addressModel?.areaIds, sharedPreferences.getString(AppConstants.languageCode),
-      moduleID?.toString(), addressModel?.latitude, addressModel?.longitude, null);
+    updateHeader(
+      token,
+      addressModel?.zoneIds,
+      addressModel?.areaIds,
+      sharedPreferences.getString(AppConstants.languageCode),
+      moduleID?.toString(),
+      addressModel?.latitude,
+      addressModel?.longitude,
+      null,
+    );
   }
 
-  Map<String, String> updateHeader(String? token, List<int>? zoneIDs, List<int>? operationIds, String? languageCode, String? moduleID,
-      String? latitude, String? longitude, int? zoneId, {bool setHeader = true, fromModule = false,
+  Map<String, String> updateHeader(
+    String? token,
+    List<int>? zoneIDs,
+    List<int>? operationIds,
+    String? languageCode,
+    String? moduleID,
+    String? latitude,
+    String? longitude,
+    int? zoneId, {
+    bool setHeader = true,
+    fromModule = false,
   }) {
     Map<String, String> header = {};
 
-    if (moduleID != null || sharedPreferences.getString(AppConstants.cacheModuleId) != null) {
-      header.addAll({AppConstants.moduleId: '${moduleID ?? ModuleModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.cacheModuleId)!)).id}'});
+    if (moduleID != null ||
+        sharedPreferences.getString(AppConstants.cacheModuleId) != null) {
+      header.addAll({
+        AppConstants.moduleId:
+            '${moduleID ?? ModuleModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.cacheModuleId)!)).id}',
+      });
     }
     header.addAll({
       'Content-Type': 'application/json; charset=UTF-8',
-      AppConstants.zoneId: (zoneId != null && fromModule) ? '$zoneId' : zoneIDs != null ? jsonEncode(zoneIDs) : '',
+      AppConstants.zoneId: (zoneId != null && fromModule)
+          ? '$zoneId'
+          : zoneIDs != null
+          ? jsonEncode(zoneIDs)
+          : '',
 
       ///this will add in ride module
       // AppConstants.operationAreaId: operationIds != null ? jsonEncode(operationIds) : '',
-      AppConstants.localizationKey: languageCode ?? AppConstants.languages[0].languageCode!,
+      AppConstants.localizationKey:
+          languageCode ?? AppConstants.languages[0].languageCode!,
       AppConstants.latitude: latitude != null ? jsonEncode(latitude) : '',
       AppConstants.longitude: longitude != null ? jsonEncode(longitude) : '',
       'Authorization': 'Bearer $token',
@@ -72,12 +100,19 @@ class ApiClient extends GetxService {
 
   Map<String, String> getHeader() => _mainHeaders;
 
-  Future<Response> getData(String uri, {Map<String, dynamic>? query, Map<String, String>? headers, bool handleError = true}) async {
+  Future<Response> getData(
+    String uri, {
+    Map<String, dynamic>? query,
+    Map<String, String>? headers,
+    bool handleError = true,
+  }) async {
     try {
       if (kDebugMode) {
-        log('====> API Call: $uri\nHeader: ${headers ?? _mainHeaders}');
+        log('====> API Call: $uri');
       }
-      http.Response response = await http.get(Uri.parse(appBaseUrl + uri), headers: headers ?? _mainHeaders).timeout(Duration(seconds: timeoutInSeconds));
+      http.Response response = await http
+          .get(Uri.parse(appBaseUrl + uri), headers: headers ?? _mainHeaders)
+          .timeout(Duration(seconds: timeoutInSeconds));
       return handleResponse(response, uri, handleError);
     } catch (e) {
       if (kDebugMode) {
@@ -87,11 +122,16 @@ class ApiClient extends GetxService {
     }
   }
 
-  Future<Response> postData(String uri, dynamic body, {Map<String, String>? headers, int? timeout, bool handleError = true,}) async {
+  Future<Response> postData(
+    String uri,
+    dynamic body, {
+    Map<String, String>? headers,
+    int? timeout,
+    bool handleError = true,
+  }) async {
     try {
       if (kDebugMode) {
-        print('====> API Call: $uri\nHeader: ${headers ?? _mainHeaders}');
-        print('====> API Body: $body');
+        print('====> API Call: $uri');
       }
 
       Map<dynamic, dynamic> newBody = {};
@@ -103,10 +143,13 @@ class ApiClient extends GetxService {
         });
       }
 
-      http.Response response = await http.post(
-        Uri.parse(appBaseUrl + uri),
-        body: jsonEncode(newBody), headers: headers ?? _mainHeaders).timeout(Duration(seconds: timeout ?? timeoutInSeconds)
-      );
+      http.Response response = await http
+          .post(
+            Uri.parse(appBaseUrl + uri),
+            body: jsonEncode(newBody),
+            headers: headers ?? _mainHeaders,
+          )
+          .timeout(Duration(seconds: timeout ?? timeoutInSeconds));
       return handleResponse(response, uri, handleError);
     } catch (e) {
       return Response(statusCode: 1, statusText: noInternetMessage);
@@ -122,29 +165,42 @@ class ApiClient extends GetxService {
     bool handleError = true,
   }) async {
     try {
-      debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');
       debugPrint(
-        '====> API Body: $body with ${multipartBody.length} and multipart ${multipartDoc?.length}',
+        '====> Multipart API Call: $uri (${multipartBody.length} files)',
       );
       http.MultipartRequest request = http.MultipartRequest(
         'POST',
         Uri.parse(appBaseUrl + uri),
       );
-      final Map<String, String> multipartHeaders = Map<String, String>.from(headers ?? _mainHeaders);
-      multipartHeaders.removeWhere((key, value) => key.toLowerCase() == 'content-type');
+      final Map<String, String> multipartHeaders = Map<String, String>.from(
+        headers ?? _mainHeaders,
+      );
+      multipartHeaders.removeWhere(
+        (key, value) => key.toLowerCase() == 'content-type',
+      );
       request.headers.addAll(multipartHeaders);
       for (MultipartBody multipart in multipartBody) {
         if (multipart.file != null) {
           if (kIsWeb) {
             Uint8List bytes = await multipart.file!.readAsBytes();
 
-            http.MultipartFile part = http.MultipartFile.fromBytes(multipart.key, bytes, filename: 'image.jpg', contentType: MediaType('image', 'jpeg'));
+            http.MultipartFile part = http.MultipartFile.fromBytes(
+              multipart.key,
+              bytes,
+              filename: 'image.jpg',
+              contentType: MediaType('image', 'jpeg'),
+            );
 
             request.files.add(part);
           } else {
             File file = File(multipart.file!.path);
             request.files.add(
-              http.MultipartFile(multipart.key, file.readAsBytes().asStream(), file.lengthSync(), filename: file.path.split('/').last),
+              http.MultipartFile(
+                multipart.key,
+                file.readAsBytes().asStream(),
+                file.lengthSync(),
+                filename: file.path.split('/').last,
+              ),
             );
           }
         }
@@ -155,19 +211,30 @@ class ApiClient extends GetxService {
           if (kIsWeb) {
             PlatformFile platformFile = file.file!.files.first;
             request.files.add(
-              http.MultipartFile.fromBytes(file.key, platformFile.bytes!, filename: platformFile.name),
+              http.MultipartFile.fromBytes(
+                file.key,
+                platformFile.bytes!,
+                filename: platformFile.name,
+              ),
             );
           } else {
             File other = File(file.file!.files.single.path!);
             Uint8List list0 = await other.readAsBytes();
-            var part = http.MultipartFile(file.key, other.readAsBytes().asStream(), list0.length, filename: basename(other.path));
+            var part = http.MultipartFile(
+              file.key,
+              other.readAsBytes().asStream(),
+              list0.length,
+              filename: basename(other.path),
+            );
             request.files.add(part);
           }
         }
       }
 
       request.fields.addAll(body);
-      http.Response response = await http.Response.fromStream(await request.send());
+      http.Response response = await http.Response.fromStream(
+        await request.send(),
+      );
       return handleResponse(response, uri, handleError);
     } catch (e) {
       return Response(statusCode: 1, statusText: noInternetMessage);
@@ -176,13 +243,21 @@ class ApiClient extends GetxService {
 
   Future<Response> putData(
     String uri,
-    dynamic body, {Map<String, String>? headers, bool handleError = true}) async {
+    dynamic body, {
+    Map<String, String>? headers,
+    bool handleError = true,
+  }) async {
     try {
       if (kDebugMode) {
-        print('====> API Call: $uri\nHeader: ${headers ?? _mainHeaders}');
-        print('====> API Body: $body');
+        print('====> API Call: $uri');
       }
-      http.Response response = await http.put(Uri.parse(appBaseUrl + uri), body: jsonEncode(body), headers: headers ?? _mainHeaders).timeout(Duration(seconds: timeoutInSeconds));
+      http.Response response = await http
+          .put(
+            Uri.parse(appBaseUrl + uri),
+            body: jsonEncode(body),
+            headers: headers ?? _mainHeaders,
+          )
+          .timeout(Duration(seconds: timeoutInSeconds));
       return handleResponse(response, uri, handleError);
     } catch (e) {
       return Response(statusCode: 1, statusText: noInternetMessage);
@@ -196,7 +271,7 @@ class ApiClient extends GetxService {
   }) async {
     try {
       if (kDebugMode) {
-        print('====> API Call: $uri\nHeader: ${headers ?? _mainHeaders}');
+        print('====> API Call: $uri');
       }
       http.Response response = await http
           .delete(Uri.parse(appBaseUrl + uri), headers: headers ?? _mainHeaders)
@@ -238,12 +313,28 @@ class ApiClient extends GetxService {
           body: response0.body,
           statusText: errorResponse.errors![0].message,
         );
-      } else if (response0.body.toString().startsWith('{response_code: zone_404, message:')) {
-        response0 = Response(statusCode: response0.statusCode, body: response0.body, statusText: response0.body['message']);
-      } else if(response0.body.toString().startsWith('{response_code: route_404, message:')) {
-        response0 = Response(statusCode: response0.statusCode, body: response0.body, statusText: response0.body['message']);
-      }else if (response0.body.toString().startsWith('{message')) {
-        response0 = Response(statusCode: response0.statusCode, body: response0.body, statusText: response0.body['message']);
+      } else if (response0.body.toString().startsWith(
+        '{response_code: zone_404, message:',
+      )) {
+        response0 = Response(
+          statusCode: response0.statusCode,
+          body: response0.body,
+          statusText: response0.body['message'],
+        );
+      } else if (response0.body.toString().startsWith(
+        '{response_code: route_404, message:',
+      )) {
+        response0 = Response(
+          statusCode: response0.statusCode,
+          body: response0.body,
+          statusText: response0.body['message'],
+        );
+      } else if (response0.body.toString().startsWith('{message')) {
+        response0 = Response(
+          statusCode: response0.statusCode,
+          body: response0.body,
+          statusText: response0.body['message'],
+        );
       }
     } else if (response0.statusCode != 200 && response0.body == null) {
       response0 = Response(statusCode: 0, statusText: noInternetMessage);
