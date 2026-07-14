@@ -142,7 +142,7 @@ class _VendorOnboardingScreenState extends State<VendorOnboardingScreen> {
                         ),
                         const SizedBox(height: 12),
                         const Text(
-                          'Pending or suspended accounts are reported by the backend and cannot enter tester mode.',
+                          'Pending or suspended accounts are reported by the backend and cannot sign in.',
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 12, color: Colors.black54),
                         ),

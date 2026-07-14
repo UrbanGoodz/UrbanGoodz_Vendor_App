@@ -1,3 +1,4 @@
+// DEAD CODE: This file is not imported anywhere. Retained for reference only.
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart';
 import 'package:urban_goodz_driver/models/driver_job_model.dart';

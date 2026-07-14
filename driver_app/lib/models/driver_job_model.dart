@@ -5,6 +5,10 @@ class DriverJobModel {
   final String description;
   final String pickupAddress;
   final String dropoffAddress;
+  final double? pickupLatitude;
+  final double? pickupLongitude;
+  final double? dropoffLatitude;
+  final double? dropoffLongitude;
   final String status;
   final double earnings;
   final double distance;
@@ -25,6 +29,10 @@ class DriverJobModel {
     required this.description,
     required this.pickupAddress,
     required this.dropoffAddress,
+    this.pickupLatitude,
+    this.pickupLongitude,
+    this.dropoffLatitude,
+    this.dropoffLongitude,
     required this.status,
     required this.earnings,
     required this.distance,
@@ -39,6 +47,12 @@ class DriverJobModel {
     this.specialRequirements,
   });
 
+  bool get hasCoordinates =>
+      pickupLatitude != null &&
+      pickupLongitude != null &&
+      dropoffLatitude != null &&
+      dropoffLongitude != null;
+
   factory DriverJobModel.fromJson(Map<String, dynamic> json) {
     return DriverJobModel(
       id: json['id'] as String,
@@ -47,6 +61,10 @@ class DriverJobModel {
       description: json['description'] as String,
       pickupAddress: json['pickup_address'] as String,
       dropoffAddress: json['dropoff_address'] as String,
+      pickupLatitude: (json['pickup_latitude'] as num?)?.toDouble(),
+      pickupLongitude: (json['pickup_longitude'] as num?)?.toDouble(),
+      dropoffLatitude: (json['dropoff_latitude'] as num?)?.toDouble(),
+      dropoffLongitude: (json['dropoff_longitude'] as num?)?.toDouble(),
       status: json['status'] as String,
       earnings: (json['earnings'] as num).toDouble(),
       distance: (json['distance'] as num).toDouble(),
@@ -74,6 +92,10 @@ class DriverJobModel {
       'description': description,
       'pickup_address': pickupAddress,
       'dropoff_address': dropoffAddress,
+      'pickup_latitude': pickupLatitude,
+      'pickup_longitude': pickupLongitude,
+      'dropoff_latitude': dropoffLatitude,
+      'dropoff_longitude': dropoffLongitude,
       'status': status,
       'earnings': earnings,
       'distance': distance,

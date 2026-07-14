@@ -53,33 +53,28 @@ class RidePaymentRepository implements RidePaymentRepositoryInterface {
   }
 
   @override
-  Future add(value) {
-    // TODO: implement add
-    throw UnimplementedError();
+  Future add(value) async {
+    return await apiClient.postData(AppConstants.paymentUri, value);
   }
 
   @override
-  Future delete(int? id) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future delete(int? id) async {
+    return await apiClient.deleteData('${AppConstants.paymentUri}/$id');
   }
 
   @override
-  Future get(String? id) {
-    // TODO: implement get
-    throw UnimplementedError();
+  Future get(String? id) async {
+    return await apiClient.getData('${AppConstants.paymentUri}/$id');
   }
 
   @override
-  Future getList({int? offset}) {
-    // TODO: implement getList
-    throw UnimplementedError();
+  Future getList({int? offset}) async {
+    return await apiClient.getData('${AppConstants.getPaymentMethods}?limit=10&offset=$offset');
   }
 
   @override
-  Future update(Map<String, dynamic> body, int? id) {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future update(Map<String, dynamic> body, int? id) async {
+    return await apiClient.postData('${AppConstants.paymentUri}/$id', body);
   }
 
 }

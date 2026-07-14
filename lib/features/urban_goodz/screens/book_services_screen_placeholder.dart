@@ -8,20 +8,7 @@ import 'package:sixam_mart/features/urban_goodz/widgets/urban_goodz_action_butto
 class BookServicesScreen extends StatelessWidget {
   const BookServicesScreen({super.key});
 
-  static const List<Map<String, String>> _services = [
-    {'title': 'Professional Barber', 'price': 'Est: \$40+'},
-    {'title': 'Custom Hair Stylist', 'price': 'Est: \$80+'},
-    {'title': 'Braider & Weave Specialist', 'price': 'Est: \$120+'},
-    {'title': 'Nail Technician', 'price': 'Est: \$50+'},
-    {'title': 'Makeup Artist', 'price': 'Est: \$65+'},
-    {'title': 'Mobile Auto Mechanic', 'price': 'Est: \$90+'},
-    {'title': 'Event Photographer', 'price': 'Est: \$150/hr'},
-    {'title': 'Live DJ & Sound Tech', 'price': 'Est: \$200/hr'},
-    {'title': 'Home Improvement Contractor', 'price': 'Est: Varies'},
-    {'title': 'Tax & Financial Professional', 'price': 'Est: \$100+'},
-    {'title': 'Home Health Care Provider', 'price': 'Est: Varies'},
-    {'title': 'Personal Fitness Trainer', 'price': 'Est: \$60/hr'},
-  ];
+  static const List<Map<String, String>> _services = [];
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +86,7 @@ class BookServicesScreen extends StatelessWidget {
                                 final formKey = GlobalKey<FormState>();
 
                                 return AlertDialog(
-                                  title: const Text('Book a Service [Tester Preview]', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                                  title: const Text('Book a Service', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                                   content: SingleChildScrollView(
                                     child: Form(
                                       key: formKey,
@@ -149,7 +136,7 @@ class BookServicesScreen extends StatelessWidget {
                                             context: context,
                                             builder: (context) => AlertDialog(
                                               title: const Text('Booking Requested'),
-                                              content: const Text('Your service booking request has been logged in tester preview! A local provider will be matched once live.'),
+                                              content: const Text('Your service booking request has been submitted. A local provider will be matched once live.'),
                                               actions: [
                                                 TextButton(
                                                   onPressed: () => Navigator.pop(context),

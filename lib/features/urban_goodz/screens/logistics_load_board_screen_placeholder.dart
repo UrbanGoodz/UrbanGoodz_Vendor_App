@@ -19,44 +19,7 @@ class _LogisticsLoadBoardScreenState extends State<LogisticsLoadBoardScreen> {
   late Future<List<LogisticsOpportunityModel>> _loadsFuture;
   LogisticsApiService? _service;
 
-  static const List<LogisticsOpportunityModel> _fallbackLoads = [
-    LogisticsOpportunityModel(
-      id: 'preview_hou_092',
-      title: 'Same-Day Local Delivery',
-      category: 'Same-Day',
-      pickupLabel: 'North Warehouse - Houston, TX',
-      dropoffLabel: 'Dallas hub - Dallas, TX',
-      vehicleType: 'Cargo Van',
-      payLabel: '\$240.00 Est',
-      distanceLabel: '240 mi',
-      scheduleLabel: 'available',
-      icon: Icons.airport_shuttle_outlined,
-    ),
-    LogisticsOpportunityModel(
-      id: 'preview_hou_105',
-      title: 'Last-Mile Distribution Route',
-      category: 'Last-Mile',
-      pickupLabel: 'Houston micro-hub',
-      dropoffLabel: 'Northside local route',
-      vehicleType: 'Cargo Van',
-      payLabel: '\$380.00 Est',
-      distanceLabel: 'Local loop',
-      scheduleLabel: 'available',
-      icon: Icons.airport_shuttle_outlined,
-    ),
-    LogisticsOpportunityModel(
-      id: 'preview_tx_847',
-      title: 'Middle-Mile Cargo Transport',
-      category: 'Middle-Mile',
-      pickupLabel: 'Houston metro area',
-      dropoffLabel: 'Regional drop zone',
-      vehicleType: 'Box Truck',
-      payLabel: '\$620.00 Est',
-      distanceLabel: 'Metro area',
-      scheduleLabel: 'available',
-      icon: Icons.inventory_2_outlined,
-    ),
-  ];
+  static const List<LogisticsOpportunityModel> _fallbackLoads = [];
 
   @override
   void initState() {
@@ -108,7 +71,7 @@ class _LogisticsLoadBoardScreenState extends State<LogisticsLoadBoardScreen> {
             children: [
               UrbanGoodzPreviewBanner(
                 message: usingFallback
-                    ? 'Opportunity Network - Backend load feed unavailable; showing tester fallback loads for APK validation.'
+                    ? 'Opportunity Network - Backend load feed unavailable; showing fallback loads for validation.'
                     : 'Opportunity Network - Available loads are loaded from the backend opportunity feed.',
               ),
               _DispatchStatusBar(usingFallback: usingFallback),
@@ -345,7 +308,7 @@ class _LoadCard extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(usingFallback ? 'Load Details [Tester Fallback]' : 'Load Details'),
+        title: Text(usingFallback ? 'Load Details [Fallback]' : 'Load Details'),
         content: Text(
           '"${load.title}"\n\n'
           'Pickup: ${load.pickupLabel}\n'
@@ -371,7 +334,7 @@ class _LoadCard extends StatelessWidget {
               }
               final activeService = service;
               if (activeService == null) {
-                Get.snackbar('Load accept unavailable', 'API client is not ready for this tester session.');
+                Get.snackbar('Load accept unavailable', 'API client is not ready for this session.');
                 return;
               }
               final response = await activeService.acceptLoad(load.id);

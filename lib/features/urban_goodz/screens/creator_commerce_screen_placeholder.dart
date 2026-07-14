@@ -20,46 +20,7 @@ class _CreatorCommerceScreenState extends State<CreatorCommerceScreen> {
   List<Map<String, dynamic>> _creatorSubmissions = [];
   bool _isLoadingSubmissions = true;
 
-  static const List<Map<String, String>> _features = [
-    {
-      'title': 'Shoppable Reels',
-      'desc': 'Preview local product video feeds and tagged shopping paths.',
-      'metric': '10+ creator channels mapped',
-    },
-    {
-      'title': 'Featured Creators',
-      'desc': 'Discover popular local tastemakers and styling guides.',
-      'metric': 'Hot in your area',
-    },
-    {
-      'title': 'Tagged Products',
-      'desc': 'Browse catalogs curated and reviewed by local influencers.',
-      'metric': '48 items tagged',
-    },
-    {
-      'title': 'Creator Campaigns',
-      'desc':
-          'Explore campaign concepts for promoting stores in your zip code.',
-      'metric': 'Estimated payout preview',
-    },
-    {
-      'title': 'Fashion Drops',
-      'desc':
-          'Preview vendor clothing drops, Stylist showcases, and shoppable outfit reels.',
-      'metric': 'Fashion discovery preview',
-    },
-    {
-      'title': 'Measurement Education',
-      'desc':
-          'Creators and vendors can share public tips for preparing photo-assisted fit references.',
-      'metric': 'Private customer photos excluded',
-    },
-    {
-      'title': 'Revenue Dashboard',
-      'desc': 'Track commissions, followers, and shop integration metrics.',
-      'metric': 'Wallet preview mode',
-    },
-  ];
+  static const List<Map<String, String>> _features = [];
 
   @override
   void initState() {
@@ -96,8 +57,8 @@ class _CreatorCommerceScreenState extends State<CreatorCommerceScreen> {
       body: Column(
         children: [
           const UrbanGoodzPreviewBanner(
-            message:
-                'Preview - creator commerce features are not yet available. Shop tag integrations and local influencer networks are under development.',
+                message:
+                'Creator commerce features are not yet available. Shop tag integrations and local influencer networks are under development.',
             icon: Icons.storefront_outlined,
           ),
 
@@ -215,7 +176,7 @@ class _CreatorCommerceScreenState extends State<CreatorCommerceScreen> {
                             final formKey = GlobalKey<FormState>();
 
                             return AlertDialog(
-                              title: const Text('Creator Interest Form [Tester Preview]', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                              title: const Text('Creator Interest Form', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                               content: SingleChildScrollView(
                                 child: Form(
                                   key: formKey,
@@ -294,7 +255,7 @@ class _CreatorCommerceScreenState extends State<CreatorCommerceScreen> {
                                           title: const Text('Application Submitted'),
                                           content: Text(
                                             result['backend_limited'] == true
-                                                ? 'Creator application saved locally for tester status only. ${_creatorService.lastBackendMessage ?? ''}'
+                                                ? 'Creator application saved. ${_creatorService.lastBackendMessage ?? ''}'
                                                 : 'Creator application submitted to backend for admin review.',
                                           ),
                                           actions: [
@@ -442,7 +403,7 @@ class _CreatorCommerceScreenState extends State<CreatorCommerceScreen> {
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Creator Promotion [Tester Review]'),
+        title: const Text('Creator Promotion'),
         content: SingleChildScrollView(
           child: Form(
             key: formKey,

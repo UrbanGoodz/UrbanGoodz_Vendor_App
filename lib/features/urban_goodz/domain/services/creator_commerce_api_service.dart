@@ -45,9 +45,9 @@ class CreatorCommerceApiService {
         _localApplications.insert(0, {...data, 'backend_limited': false});
         return {...data, 'backend_limited': false};
       }
-      _lastBackendMessage = 'Creator backend unavailable (${response.statusCode ?? 'no response'}); saved locally for tester status only.';
+      _lastBackendMessage = 'Creator backend unavailable (${response.statusCode ?? 'no response'}); saved locally.';
     } else {
-      _lastBackendMessage = 'Creator backend client unavailable; saved locally for tester status only.';
+      _lastBackendMessage = 'Creator backend client unavailable; saved locally.';
     }
 
     final fallback = {...record, 'backend_limited': true, 'admin_notes': _lastBackendMessage};
@@ -77,9 +77,9 @@ class CreatorCommerceApiService {
         _localPromotions.insert(0, {...data, 'backend_limited': false});
         return {...data, 'backend_limited': false};
       }
-      _lastBackendMessage = 'Creator promotion backend unavailable (${response.statusCode ?? 'no response'}); saved locally for tester status only.';
+      _lastBackendMessage = 'Creator promotion backend unavailable (${response.statusCode ?? 'no response'}); saved locally.';
     } else {
-      _lastBackendMessage = 'Creator backend client unavailable; saved locally for tester status only.';
+      _lastBackendMessage = 'Creator backend client unavailable; saved locally.';
     }
 
     final fallback = {...record, 'backend_limited': true, 'admin_notes': _lastBackendMessage};

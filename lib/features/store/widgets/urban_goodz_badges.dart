@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// Minimal badge widgets for Urban Goodz store screen.
-/// These are lightweight placeholders to satisfy analyzer/build during tester mode.
+/// These are lightweight placeholders to satisfy analyzer/build during early access.
 /// Replace with branded widgets or real implementations as needed.
 
 class UrbanGoodzPartnerBadge extends StatelessWidget {

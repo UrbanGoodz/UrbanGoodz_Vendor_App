@@ -72,3 +72,13 @@ app.*.map.json
 *.apk
 
 *.aab
+
+*.keystore
+
+*.jks
+
+.env
+
+*secret*
+
+docs/dcp/

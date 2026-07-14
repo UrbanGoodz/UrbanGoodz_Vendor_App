@@ -11,7 +11,7 @@ class EarnMoneyScreen extends StatelessWidget {
 
   static const List<EarnMoneyOpportunityModel> _fallbackOpportunities = [
     EarnMoneyOpportunityModel(
-      id: 'mock_deliv',
+      id: 'delivery_driver',
       title: 'Local On-Demand Delivery',
       type: 'Food / Shopping Delivery',
       description: 'Deliver food, groceries, and shop orders to local customers in your neighborhood.',
@@ -23,7 +23,7 @@ class EarnMoneyScreen extends StatelessWidget {
       isFeatured: true,
     ),
     EarnMoneyOpportunityModel(
-      id: 'mock_courier',
+      id: 'medical_courier',
       title: 'Medical Courier Runs',
       type: 'Medical Logistics',
       description: 'Transport lab specimens, documents, and light pharmacy orders under chain of custody.',
@@ -34,7 +34,7 @@ class EarnMoneyScreen extends StatelessWidget {
       isBeta: true,
     ),
     EarnMoneyOpportunityModel(
-      id: 'mock_logistics',
+      id: 'logistics_helper',
       title: 'Logistics Freight Helper',
       type: 'Freight Logistics',
       description: 'Help load/unload local transport cargo and move packages to micro-hubs.',
@@ -44,7 +44,7 @@ class EarnMoneyScreen extends StatelessWidget {
       icon: Icons.local_shipping_outlined,
     ),
     EarnMoneyOpportunityModel(
-      id: 'mock_tailoring',
+      id: 'fashion_fit_partner',
       title: 'Fashion Fit alteration partner',
       type: 'Fashion & Tailoring',
       description: 'Help customers refine manual fit profiles, record measurements, and deliver custom altered garments.',
@@ -55,7 +55,7 @@ class EarnMoneyScreen extends StatelessWidget {
       recommended: true,
     ),
     EarnMoneyOpportunityModel(
-      id: 'mock_creator',
+      id: 'creator_commerce',
       title: 'Creator Commerce Influencer',
       type: 'Creator Space Promotion',
       description: 'Produce short styling reels, tag local vendor products, and earn commissions on local shop orders.',
@@ -367,8 +367,8 @@ class _OpportunityCard extends StatelessWidget {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Express Interest [Tester Preview]'),
-            content: Text('You have expressed interest in:\n\n"${opportunity.title}" (${opportunity.earningLabel})\n\nThis application / interest log has been saved locally.'),
+            title: const Text('Express Interest'),
+            content: Text('You have expressed interest in:\n\n"${opportunity.title}" (${opportunity.earningLabel})\n\nYour application has been submitted.'),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),

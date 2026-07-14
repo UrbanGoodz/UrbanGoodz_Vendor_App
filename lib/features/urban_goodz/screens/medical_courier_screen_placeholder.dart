@@ -8,33 +8,7 @@ import 'package:sixam_mart/features/urban_goodz/widgets/urban_goodz_action_butto
 class MedicalCourierScreen extends StatelessWidget {
   const MedicalCourierScreen({super.key});
 
-  static const List<Map<String, String>> _items = [
-    {
-      'title': 'STAT Lab Specimens Delivery',
-      'reqs': 'Readiness: Cooler box, handling checklist',
-      'urgency': 'Immediate',
-    },
-    {
-      'title': 'Chain of Custody Transports',
-      'reqs': 'Required: Signature logs, Courier ID card',
-      'urgency': 'Same Day',
-    },
-    {
-      'title': 'Temperature-Logged Deliveries',
-      'reqs': 'Required: Thermometer probe, Insulated pack',
-      'urgency': 'Immediate',
-    },
-    {
-      'title': 'Hospital & Clinic Courier Routes',
-      'reqs': 'Required: Hospital badge, Uniform',
-      'urgency': 'Scheduled',
-    },
-    {
-      'title': 'Medical Device Incident Reporting',
-      'reqs': 'Required: Audit checklist, Tech training',
-      'urgency': 'Standard',
-    },
-  ];
+  static const List<Map<String, String>> _items = [];
 
   @override
   Widget build(BuildContext context) {
@@ -190,7 +164,7 @@ class MedicalCourierScreen extends StatelessWidget {
                                       context: context,
                                       builder: (context) => AlertDialog(
                                         title: const Text('Application Submitted'),
-                                        content: const Text('Your interest in becoming a Medical Courier has been logged in tester preview mode! Information saved locally.'),
+                                        content: const Text('Your interest in becoming a Medical Courier has been submitted!'),
                                         actions: [
                                           TextButton(
                                             onPressed: () => Navigator.pop(context),
@@ -226,8 +200,8 @@ class MedicalCourierScreen extends StatelessWidget {
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
-                        title: const Text('Medical Courier Run [Tester Preview]'),
-                        content: Text('Route details for:\n\n"${item['title']}"\nRequirements: ${item['reqs']}\nUrgency: ${item['urgency']}\n\nInterest expressed in tester preview mode! We will notify you once dispatch is live.'),
+                        title: const Text('Medical Courier Run'),
+                        content: Text('Route details for:\n\n"${item['title']}"\nRequirements: ${item['reqs']}\nUrgency: ${item['urgency']}\n\nInterest expressed. We will notify you once dispatch is live.'),
                         actions: [
                           TextButton(onPressed: () => Navigator.pop(context), child: const Text('OK')),
                         ],

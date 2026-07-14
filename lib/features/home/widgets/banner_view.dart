@@ -23,10 +23,10 @@ class BannerView extends StatelessWidget {
   final bool isFeatured;
   const BannerView({super.key, required this.isFeatured});
 
-  static const String _testerHeroAsset =
+  static const String _heroAsset =
       'assets/image/urban_goodz_hero/urban_goodz_local_everything_banner.png';
 
-  static const List<String> _testerBannerMessages = [
+  static const List<String> _bannerMessages = [
     'Your Connection To Local Everything',
     'Everything Local. One App.',
     'Shop. Book. Rent. Discover. Earn.',
@@ -383,12 +383,12 @@ class BannerView extends StatelessWidget {
               child: AspectRatio(
                 aspectRatio: 1024 / 682,
                 child: Image.asset(
-                  _testerHeroAsset,
+                   _heroAsset,
                   fit: BoxFit.contain,
                   alignment: Alignment.center,
                   errorBuilder: (context, error, stackTrace) {
                     debugPrint(
-                      '[UG_HERO_ASSET_MISSING] $_testerHeroAsset: $error',
+                      '[UG_HERO_ASSET_MISSING] $_heroAsset: $error',
                     );
                     return _buildMissingHeroAssetFallback(context);
                   },
@@ -407,7 +407,7 @@ class BannerView extends StatelessWidget {
       padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
       color: const Color(0xFFFFF2DE),
       child: Text(
-        'Urban Goodz hero asset missing:\n$_testerHeroAsset',
+        'Urban Goodz hero asset missing:\n$_heroAsset',
         textAlign: TextAlign.center,
         style: robotoBold.copyWith(
           color: const Color(0xFF161616),

@@ -66,7 +66,7 @@ class MeasurementRequestModel {
     this.vendorPayoutStatus,
     this.vendorReviewFeeEnabled,
     this.adminFeeEnabled,
-    this.freeTesterMode,
+    this.freeTesterMode = false,
     this.measurementStatus,
     this.reviewStatus,
     this.tailorNotes,

@@ -8,53 +8,7 @@ import 'package:sixam_mart/features/urban_goodz/widgets/urban_goodz_action_butto
 class CommunityMarketplaceScreen extends StatelessWidget {
   const CommunityMarketplaceScreen({super.key});
 
-  static const List<_CommunityItem> _items = [
-    _CommunityItem(
-      'Featured Zone Groups',
-      'Local conversations organized by market area.',
-      '14 group concepts',
-    ),
-    _CommunityItem(
-      'Trending Local Posts',
-      'Community recommendations and neighborhood updates.',
-      'Sample post activity',
-    ),
-    _CommunityItem(
-      'Nationwide Discussions',
-      'Urban Goodz market network conversations.',
-      'Global Network',
-    ),
-    _CommunityItem(
-      'Business Recommendations',
-      'Ask for trusted local shops and providers.',
-      'Engagement preview',
-    ),
-    _CommunityItem(
-      'Ask The Community',
-      'Get answers from nearby customers and creators.',
-      'Quick Answers',
-    ),
-    _CommunityItem(
-      'Earn Money Opportunities',
-      'Preview local ways to earn through Urban Goodz.',
-      'Earning links preview',
-    ),
-    _CommunityItem(
-      'Post Actions',
-      'View Business, Order Anywhere, Book Service, Request Delivery, Rent Now, Follow.',
-      'Action previews',
-    ),
-    _CommunityItem(
-      'Photos & Videos',
-      'Media placeholders for the tester experience.',
-      'Rich Media Enabled',
-    ),
-    _CommunityItem(
-      'Experience Sharing',
-      'Community reviews and recommendations.',
-      'Review preview',
-    ),
-  ];
+  static const List<_CommunityItem> _items = [];
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +30,7 @@ class CommunityMarketplaceScreen extends StatelessWidget {
       body: Column(
         children: [
           const UrbanGoodzPreviewBanner(
-            message: 'Preview - community features are not yet available. Join local neighborhood channels and share recommendations soon.',
+              message: 'Community features are not yet available. Join local neighborhood channels and share recommendations soon.',
             icon: Icons.groups_outlined,
           ),
 
@@ -177,7 +131,7 @@ class CommunityMarketplaceScreen extends StatelessWidget {
                                         context: context,
                                         builder: (context) => AlertDialog(
                                           title: const Text('Waitlist Confirmed'),
-                                          content: const Text('Added to the Community Marketplace waitlist in tester preview! We will notify you once neighbor-to-neighbor zones roll out.'),
+                                          content: const Text('Added to the Community Marketplace waitlist! We will notify you once neighbor-to-neighbor zones roll out.'),
                                           actions: [
                                             TextButton(
                                               onPressed: () => Navigator.pop(context),

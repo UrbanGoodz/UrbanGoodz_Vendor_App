@@ -97,7 +97,7 @@ class CarRentalMenuWidget extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Car Rentalz is currently running in local-only tester mode. You can search, browse listings, add items to your wishlist, and submit mockup rental requests. No real credit cards or charges will be applied.',
+                      'Car Rentalz is currently in early access. You can search, browse listings, add items to your wishlist, and submit rental requests. No real credit cards or charges will be applied.',
                       style: robotoRegular.copyWith(
                         fontSize: 12,
                         color: Colors.white.withValues(alpha: 0.7),

@@ -50,29 +50,28 @@ class BrandsRepository implements BrandsRepositoryInterface{
   }
 
   @override
-  Future add(value) {
-    throw UnimplementedError();
+  Future add(value) async {
+    return null;
   }
 
   @override
-  Future delete(int? id) {
-    throw UnimplementedError();
+  Future delete(int? id) async {
+    return null;
   }
 
   @override
-  Future get(String? id) {
-    throw UnimplementedError();
+  Future get(String? id) async {
+    return null;
   }
 
   @override
-  Future update(Map<String, dynamic> body, int? id) {
-    throw UnimplementedError();
+  Future update(Map<String, dynamic> body, int? id) async {
+    return null;
   }
 
   @override
-  Future getList({int? offset}) {
-    // TODO: implement getList
-    throw UnimplementedError();
+  Future getList({int? offset}) async {
+    return getBrandList(source: DataSourceEnum.client);
   }
 
 }

@@ -36,10 +36,25 @@ class RouteDetailsController extends GetxController {
       currentStatus.value = job.status;
       estimatedArrival.value = job.estimatedDuration;
 
-      routeWaypoints.value = [
-        const RouteWaypoint(lat: 29.7604, lng: -95.3698, address: 'Pickup'),
-        const RouteWaypoint(lat: 29.7050, lng: -95.4020, address: 'Dropoff'),
-      ];
+      if (job.hasCoordinates) {
+        routeWaypoints.value = [
+          RouteWaypoint(
+            lat: job.pickupLatitude!,
+            lng: job.pickupLongitude!,
+            address: job.pickupAddress,
+          ),
+          RouteWaypoint(
+            lat: job.dropoffLatitude!,
+            lng: job.dropoffLongitude!,
+            address: job.dropoffAddress,
+          ),
+        ];
+      } else {
+        routeWaypoints.value = [
+          RouteWaypoint(lat: 0, lng: 0, address: job.pickupAddress),
+          RouteWaypoint(lat: 0, lng: 0, address: job.dropoffAddress),
+        ];
+      }
 
       switch (job.status) {
         case 'assigned':
