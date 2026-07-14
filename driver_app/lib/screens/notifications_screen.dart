@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urban_goodz_driver/controllers/dispatch_notification_controller.dart';
+import 'package:urban_goodz_driver/models/notification_model.dart';
 import 'package:urban_goodz_driver/screens/business_job_detail_screen.dart';
 import 'package:urban_goodz_driver/theme/app_theme.dart';
 
@@ -68,7 +69,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           child: ListView.separated(
             padding: const EdgeInsets.all(12),
             itemCount: controller.notifications.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 10),
+            separatorBuilder: (_, _) => const SizedBox(height: 10),
             itemBuilder: (context, index) {
               final n = controller.notifications[index];
               return _card(n);
@@ -79,7 +80,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     );
   }
 
-  Widget _card(n) {
+  Widget _card(DispatchNotification n) {
     final isUnread = n.status != 'read';
     return Dismissible(
       key: Key('notif-${n.id}'),

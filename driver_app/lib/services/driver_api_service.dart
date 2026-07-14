@@ -179,8 +179,8 @@ class DriverApiService extends GetxService {
   }) async {
     final body = await _ok(
       await _client.authPost(ApiConfig.capabilityVehicle, {
-        if (vehicleType != null) 'vehicle_type': vehicleType,
-        if (vehicleId != null) 'vehicle_id': vehicleId,
+        'vehicle_type': ?vehicleType,
+        'vehicle_id': ?vehicleId,
       }),
     );
     return CapabilityProfile.fromJson(
@@ -199,15 +199,13 @@ class DriverApiService extends GetxService {
   }) async {
     final body = await _ok(
       await _client.authPost(ApiConfig.capabilityCargo, {
-        if (cargoCapacityNotes != null)
-          'cargo_capacity_notes': cargoCapacityNotes,
-        if (maxPackageCount != null) 'max_package_count': maxPackageCount,
-        if (maxWeightLbs != null) 'max_weight_lbs': maxWeightLbs,
-        if (hasCargoSpace != null) 'has_cargo_space': hasCargoSpace,
-        if (hasCoolerBag != null) 'has_cooler_bag': hasCoolerBag,
-        if (hasMedicalCourierTraining != null)
-          'has_medical_courier_training': hasMedicalCourierTraining,
-        if (hasLiftgate != null) 'has_liftgate': hasLiftgate,
+        'cargo_capacity_notes': ?cargoCapacityNotes,
+        'max_package_count': ?maxPackageCount,
+        'max_weight_lbs': ?maxWeightLbs,
+        'has_cargo_space': ?hasCargoSpace,
+        'has_cooler_bag': ?hasCoolerBag,
+        'has_medical_courier_training': ?hasMedicalCourierTraining,
+        'has_liftgate': ?hasLiftgate,
       }),
     );
     return CapabilityProfile.fromJson(
@@ -257,16 +255,11 @@ class DriverApiService extends GetxService {
   }) async {
     final body = await _ok(
       await _client.authPost(ApiConfig.capabilityAvailability, {
-        if (availabilityPreference != null)
-          'availability_preference': availabilityPreference,
-        if (availableForBusinessCourier != null)
-          'available_for_business_courier': availableForBusinessCourier,
-        if (availableForPackageRoutes != null)
-          'available_for_package_routes': availableForPackageRoutes,
-        if (availableForOrderAnywhere != null)
-          'available_for_order_anywhere': availableForOrderAnywhere,
-        if (availableForMedicalCourier != null)
-          'available_for_medical_courier': availableForMedicalCourier,
+        'availability_preference': ?availabilityPreference,
+        'available_for_business_courier': ?availableForBusinessCourier,
+        'available_for_package_routes': ?availableForPackageRoutes,
+        'available_for_order_anywhere': ?availableForOrderAnywhere,
+        'available_for_medical_courier': ?availableForMedicalCourier,
       }),
     );
     return CapabilityProfile.fromJson(
@@ -437,7 +430,7 @@ class DriverApiService extends GetxService {
     final body = await _ok(
       await _client.authPost(ApiConfig.loadBoardBid(loadId), {
         'bid_amount': bidAmount,
-        if (notes != null) 'notes': notes,
+        'notes': ?notes,
       }),
     );
     return body is Map ? Map<String, dynamic>.from(body) : {};

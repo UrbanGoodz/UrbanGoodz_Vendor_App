@@ -43,6 +43,7 @@ get_changed_files.sh
 changed_files.zip
 script.dart
 android/.kotlin/
+**/android/.kotlin/
 6ammart_user_build_app.sh
 rental_module.zip
 AI_CONTEXT.md

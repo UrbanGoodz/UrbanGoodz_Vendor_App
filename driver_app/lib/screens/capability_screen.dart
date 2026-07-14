@@ -84,7 +84,7 @@ class _CapabilityScreenState extends State<CapabilityScreen> {
                 ),
                 const SizedBox(height: 8),
                 DropdownButtonFormField<String>(
-                  value: _vehicleCtrl.text.isNotEmpty
+                  initialValue: _vehicleCtrl.text.isNotEmpty
                       ? _vehicleCtrl.text
                       : null,
                   decoration: const InputDecoration(labelText: 'Vehicle Type'),
@@ -226,7 +226,9 @@ class _CapabilityScreenState extends State<CapabilityScreen> {
                 ),
                 const SizedBox(height: 8),
                 DropdownButtonFormField<String>(
-                  value: _availCtrl.text.isNotEmpty ? _availCtrl.text : null,
+                  initialValue: _availCtrl.text.isNotEmpty
+                      ? _availCtrl.text
+                      : null,
                   decoration: const InputDecoration(labelText: 'Preference'),
                   items: (allowed?.availabilityPreferences ?? [])
                       .map((t) => DropdownMenuItem(value: t, child: Text(t)))
@@ -279,7 +281,7 @@ class _CapabilityScreenState extends State<CapabilityScreen> {
       SwitchListTile(
         title: Text(label),
         value: value,
-        activeColor: AppTheme.primary,
+        activeThumbColor: AppTheme.primary,
         onChanged: onChanged,
         contentPadding: EdgeInsets.zero,
       );
@@ -301,10 +303,11 @@ class _CapabilityScreenState extends State<CapabilityScreen> {
               label: Text(o),
               selected: isSel,
               onSelected: (v) => setState(() {
-                if (v)
+                if (v) {
                   selected.add(o);
-                else
+                } else {
                   selected.remove(o);
+                }
               }),
               backgroundColor: AppTheme.beige,
               selectedColor: AppTheme.primary,

@@ -251,7 +251,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                       ),
                       const SizedBox(height: 12),
                       DropdownButtonFormField<String>(
-                        value: _selectedIdentityType,
+                        initialValue: _selectedIdentityType,
                         decoration: const InputDecoration(
                           labelText: 'Identity Document Type',
                           prefixIcon: Icon(Icons.badge_outlined),
@@ -300,7 +300,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                       const SizedBox(height: 12),
                       if (_zones.isNotEmpty)
                         DropdownButtonFormField<String>(
-                          value: _selectedZoneId,
+                          initialValue: _selectedZoneId,
                           decoration: const InputDecoration(
                             labelText: 'Preferred Zone',
                             prefixIcon: Icon(Icons.map_outlined),
@@ -322,7 +322,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                       const SizedBox(height: 12),
                       if (_vehicles.isNotEmpty)
                         DropdownButtonFormField<String>(
-                          value: _selectedVehicleId,
+                          initialValue: _selectedVehicleId,
                           decoration: const InputDecoration(
                             labelText: 'Vehicle Assignment',
                             prefixIcon: Icon(Icons.directions_car_outlined),
@@ -343,7 +343,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                         ),
                       const SizedBox(height: 12),
                       DropdownButtonFormField<String>(
-                        value: _selectedEarningType,
+                        initialValue: _selectedEarningType,
                         decoration: const InputDecoration(
                           labelText: 'Earning Mode',
                           prefixIcon: Icon(Icons.payments_outlined),

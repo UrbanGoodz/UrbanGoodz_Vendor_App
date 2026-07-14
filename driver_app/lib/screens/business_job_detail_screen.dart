@@ -204,8 +204,9 @@ class _BusinessJobDetailScreenState extends State<BusinessJobDetailScreen> {
   Widget _requirements(BusinessJobModel job) {
     final r = job.requirements;
     final lines = <String>[];
-    if (r.vehicleTypeNeeded != null)
+    if (r.vehicleTypeNeeded != null) {
       lines.add('Vehicle: ${r.vehicleTypeNeeded}');
+    }
     if (r.needsLiftgate) lines.add('Needs liftgate');
     if (r.needsDock) lines.add('Needs dock');
     if (r.loadType != null) lines.add('Load: ${r.loadType}');
