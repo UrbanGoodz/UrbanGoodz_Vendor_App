@@ -27,13 +27,17 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       appBar: AppBar(
         title: const Text('Dispatch Notifications'),
         actions: [
-          Obx(() => controller.unreadCount.value > 0
-              ? TextButton(
-                  onPressed: () => controller.markAllRead(),
-                  child: const Text('Mark all read',
-                      style: TextStyle(color: AppTheme.white)),
-                )
-              : const SizedBox.shrink()),
+          Obx(
+            () => controller.unreadCount.value > 0
+                ? TextButton(
+                    onPressed: () => controller.markAllRead(),
+                    child: const Text(
+                      'Mark all read',
+                      style: TextStyle(color: AppTheme.white),
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ),
         ],
       ),
       body: Obx(() {
@@ -45,12 +49,16 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.notifications_off,
-                    size: 64, color: AppTheme.dark.withAlpha(60)),
+                Icon(
+                  Icons.notifications_off,
+                  size: 64,
+                  color: AppTheme.dark.withAlpha(60),
+                ),
                 const SizedBox(height: 16),
-                const Text('No notifications',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                const Text(
+                  'No notifications',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                ),
               ],
             ),
           );
@@ -96,14 +104,19 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           title: Row(
             children: [
               Expanded(
-                  child: Text(n.title,
-                      style: const TextStyle(fontWeight: FontWeight.bold))),
+                child: Text(
+                  n.title,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
               if (isUnread)
                 Container(
                   width: 8,
                   height: 8,
                   decoration: const BoxDecoration(
-                      color: Colors.blue, shape: BoxShape.circle),
+                    color: AppTheme.accent,
+                    shape: BoxShape.circle,
+                  ),
                 ),
             ],
           ),
@@ -114,17 +127,22 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               if (n.isAgeOrMedical)
                 Container(
                   margin: const EdgeInsets.only(top: 6),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 3,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.orange.withAlpha(30),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Text('Age / medical review required',
-                      style: TextStyle(
-                          fontSize: 11,
-                          color: Colors.orange,
-                          fontWeight: FontWeight.w600)),
+                  child: const Text(
+                    'Age / medical review required',
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Colors.orange,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
             ],
           ),

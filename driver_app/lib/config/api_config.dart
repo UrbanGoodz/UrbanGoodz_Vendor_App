@@ -4,10 +4,10 @@ class ApiConfig {
 
   // Auth (legacy delivery-man routes)
   static const String driverLogin = '/api/v1/auth/delivery-man/login';
-  static const String updateFcmToken =
-      '/api/v1/delivery-man/update-fcm-token';
+  static const String updateFcmToken = '/api/v1/delivery-man/update-fcm-token';
   static const String driverProfile = '/api/v1/delivery-man/profile';
-  static const String recordLocation = '/api/v1/delivery-man/record-location-data';
+  static const String recordLocation =
+      '/api/v1/delivery-man/record-location-data';
 
   // Business Courier (9)
   static const String businessJobs = '$driverApiPrefix/business-jobs';
@@ -70,26 +70,36 @@ class ApiConfig {
 
   // Active Jobs (6)
   static const String activeJobs = '$driverApiPrefix/active-jobs';
-  static String activeJobDetail(int jobId) => '$driverApiPrefix/active-jobs/$jobId';
-  static String activeJobStart(int jobId) => '$driverApiPrefix/active-jobs/$jobId/start';
-  static String activeJobComplete(int jobId) => '$driverApiPrefix/active-jobs/$jobId/complete';
-  static String activeJobCancel(int jobId) => '$driverApiPrefix/active-jobs/$jobId/cancel';
-  static String activeJobStatus(int jobId) => '$driverApiPrefix/active-jobs/$jobId/status';
+  static String activeJobDetail(int jobId) =>
+      '$driverApiPrefix/active-jobs/$jobId';
+  static String activeJobStart(int jobId) =>
+      '$driverApiPrefix/active-jobs/$jobId/start';
+  static String activeJobComplete(int jobId) =>
+      '$driverApiPrefix/active-jobs/$jobId/complete';
+  static String activeJobCancel(int jobId) =>
+      '$driverApiPrefix/active-jobs/$jobId/cancel';
+  static String activeJobStatus(int jobId) =>
+      '$driverApiPrefix/active-jobs/$jobId/status';
 
   // Load Board (2)
   static const String loadBoard = '$driverApiPrefix/load-board';
-  static String loadBoardBid(int loadId) => '$driverApiPrefix/load-board/$loadId/bid';
-  static String loadBoardAccept(int loadId) => '$driverApiPrefix/load-board/$loadId/accept';
+  static String loadBoardBid(int loadId) =>
+      '$driverApiPrefix/load-board/$loadId/bid';
+  static String loadBoardAccept(int loadId) =>
+      '$driverApiPrefix/load-board/$loadId/accept';
 
   // Opportunities (2)
   static const String opportunities = '$driverApiPrefix/opportunities';
-  static String opportunityClaim(int id) => '$driverApiPrefix/opportunities/$id/claim';
+  static String opportunityClaim(int id) =>
+      '$driverApiPrefix/opportunities/$id/claim';
 
   // Vehicles (1)
   static const String vehicles = '$driverApiPrefix/vehicles';
 
   // Certifications (3)
   static const String certifications = '$driverApiPrefix/certifications';
-  static String certificationUpload(int id) => '$driverApiPrefix/certifications/$id/upload';
-  static String certificationRenew(int id) => '$driverApiPrefix/certifications/$id/renew';
+  static String certificationUpload(int id) =>
+      '$driverApiPrefix/certifications/$id/upload';
+  static String certificationRenew(int id) =>
+      '$driverApiPrefix/certifications/$id/renew';
 }

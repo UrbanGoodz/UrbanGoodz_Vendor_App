@@ -36,41 +36,52 @@ class EarningsController extends GetxController {
     isLoading.value = true;
     errorMessage.value = '';
 
-    _client.authGet('/api/v1/delivery-man/profile').then((res) {
-      if (res.statusCode == 200 && res.body is Map) {
-        final dm = res.body['delivery_man'] ?? res.body;
-        totalEarnings.value =
-            double.tryParse(dm['total_earning']?.toString() ?? '0') ?? 0;
-        pendingPayout.value =
-            double.tryParse(dm['pending_withdraw']?.toString() ?? '0') ?? 0;
-        totalWithdrawn.value =
-            double.tryParse(dm['total_withdrawn']?.toString() ?? '0') ?? 0;
-        todayEarnings.value =
-            double.tryParse(dm['todays_earning']?.toString() ?? '0') ?? 0;
-        thisWeekEarnings.value =
-            double.tryParse(dm['this_week_earning']?.toString() ?? '0') ?? 0;
-        thisMonthEarnings.value =
-            double.tryParse(dm['this_month_earning']?.toString() ?? '0') ?? 0;
-        totalTips.value =
-            double.tryParse(dm['total_tips']?.toString() ?? '0') ?? 0;
-        totalBonuses.value =
-            double.tryParse(dm['total_bonuses']?.toString() ?? '0') ?? 0;
-        totalMileage.value =
-            double.tryParse(dm['total_mileage']?.toString() ?? '0') ?? 0;
-        projectedWeeklyEarnings.value =
-            double.tryParse(dm['projected_weekly_earnings']?.toString() ?? '0') ?? 0;
-      }
-      isLoading.value = false;
-    }).catchError((e) {
-      errorMessage.value = 'Failed to load earnings.';
-      isLoading.value = false;
-    });
+    _client
+        .authGet('/api/v1/delivery-man/profile')
+        .then((res) {
+          if (res.statusCode == 200 && res.body is Map) {
+            final dm = res.body['delivery_man'] ?? res.body;
+            totalEarnings.value =
+                double.tryParse(dm['total_earning']?.toString() ?? '0') ?? 0;
+            pendingPayout.value =
+                double.tryParse(dm['pending_withdraw']?.toString() ?? '0') ?? 0;
+            totalWithdrawn.value =
+                double.tryParse(dm['total_withdrawn']?.toString() ?? '0') ?? 0;
+            todayEarnings.value =
+                double.tryParse(dm['todays_earning']?.toString() ?? '0') ?? 0;
+            thisWeekEarnings.value =
+                double.tryParse(dm['this_week_earning']?.toString() ?? '0') ??
+                0;
+            thisMonthEarnings.value =
+                double.tryParse(dm['this_month_earning']?.toString() ?? '0') ??
+                0;
+            totalTips.value =
+                double.tryParse(dm['total_tips']?.toString() ?? '0') ?? 0;
+            totalBonuses.value =
+                double.tryParse(dm['total_bonuses']?.toString() ?? '0') ?? 0;
+            totalMileage.value =
+                double.tryParse(dm['total_mileage']?.toString() ?? '0') ?? 0;
+            projectedWeeklyEarnings.value =
+                double.tryParse(
+                  dm['projected_weekly_earnings']?.toString() ?? '0',
+                ) ??
+                0;
+          }
+          isLoading.value = false;
+        })
+        .catchError((e) {
+          errorMessage.value = 'Failed to load earnings.';
+          isLoading.value = false;
+        });
 
-    Get.find<DriverApiService>().getPayoutHistory().then((res) {
-      final list = res['withdraw_requests'];
-      if (list is List) {
-        recentPayouts.value = List<Map<String, dynamic>>.from(list);
-      }
-    }).catchError((_) {});
+    Get.find<DriverApiService>()
+        .getPayoutHistory()
+        .then((res) {
+          final list = res['withdraw_requests'];
+          if (list is List) {
+            recentPayouts.value = List<Map<String, dynamic>>.from(list);
+          }
+        })
+        .catchError((_) {});
   }
 }

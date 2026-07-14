@@ -64,10 +64,13 @@ class DispatchNotificationController extends GetxController {
         if (unreadCount.value > 0) unreadCount.value--;
       }
     } catch (e) {
-      Get.snackbar('Failed', _msg(e),
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.redAccent,
-          colorText: Colors.white);
+      Get.snackbar(
+        'Failed',
+        _msg(e),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+      );
     }
   }
 
@@ -75,29 +78,34 @@ class DispatchNotificationController extends GetxController {
     try {
       await _api.markAllNotificationsRead();
       notifications.value = notifications
-          .map((n) => DispatchNotification(
-                id: n.id,
-                type: n.type,
-                title: n.title,
-                body: n.body,
-                jobType: n.jobType,
-                jobId: n.jobId,
-                status: 'read',
-                priority: n.priority,
-                requiresAction: n.requiresAction,
-                reviewFlags: n.reviewFlags,
-                createdAt: n.createdAt,
-                readAt: n.readAt ?? DateTime.now().toIso8601String(),
-                canOpen: n.canOpen,
-                canDismiss: n.canDismiss,
-              ))
+          .map(
+            (n) => DispatchNotification(
+              id: n.id,
+              type: n.type,
+              title: n.title,
+              body: n.body,
+              jobType: n.jobType,
+              jobId: n.jobId,
+              status: 'read',
+              priority: n.priority,
+              requiresAction: n.requiresAction,
+              reviewFlags: n.reviewFlags,
+              createdAt: n.createdAt,
+              readAt: n.readAt ?? DateTime.now().toIso8601String(),
+              canOpen: n.canOpen,
+              canDismiss: n.canDismiss,
+            ),
+          )
           .toList();
       unreadCount.value = 0;
     } catch (e) {
-      Get.snackbar('Failed', _msg(e),
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.redAccent,
-          colorText: Colors.white);
+      Get.snackbar(
+        'Failed',
+        _msg(e),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+      );
     }
   }
 
@@ -108,10 +116,13 @@ class DispatchNotificationController extends GetxController {
       total.value = notifications.length;
       await refreshUnreadCount();
     } catch (e) {
-      Get.snackbar('Failed', _msg(e),
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.redAccent,
-          colorText: Colors.white);
+      Get.snackbar(
+        'Failed',
+        _msg(e),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+      );
     }
   }
 

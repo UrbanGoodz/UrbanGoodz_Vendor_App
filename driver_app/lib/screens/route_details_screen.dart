@@ -24,9 +24,7 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Route Details'),
-      ),
+      appBar: AppBar(title: const Text('Route Details')),
       body: Obx(() {
         if (controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
@@ -50,63 +48,117 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                        color: AppTheme.dark.withAlpha(15), blurRadius: 8)
+                      color: AppTheme.dark.withAlpha(15),
+                      blurRadius: 8,
+                    ),
                   ],
                 ),
                 child: Column(
                   children: [
-                    Icon(Icons.local_shipping,
-                        size: 48, color: AppTheme.primary),
+                    Icon(
+                      Icons.local_shipping,
+                      size: 48,
+                      color: AppTheme.primary,
+                    ),
                     const SizedBox(height: 8),
-                    Text(job.title,
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.center),
+                    Text(
+                      job.title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                     const SizedBox(height: 12),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 5,
+                          ),
                           decoration: BoxDecoration(
                             color: AppTheme.primary.withAlpha(25),
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: Row(children: [
-                            const Icon(Icons.navigation, size: 14, color: AppTheme.primary),
-                            const SizedBox(width: 4),
-                            Text('${job.distance.toStringAsFixed(1)} miles',
-                                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.primary)),
-                          ]),
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.navigation,
+                                size: 14,
+                                color: AppTheme.primary,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                '${job.distance.toStringAsFixed(1)} miles',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppTheme.primary,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         const SizedBox(width: 8),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 5,
+                          ),
                           decoration: BoxDecoration(
-                            color: Colors.green.withAlpha(25),
+                            color: AppTheme.primary.withAlpha(25),
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: Row(children: [
-                            const Icon(Icons.attach_money, size: 14, color: Colors.green),
-                            const SizedBox(width: 2),
-                            Text('\$${job.earnings.toStringAsFixed(2)} Payout',
-                                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.green)),
-                          ]),
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.attach_money,
+                                size: 14,
+                                color: AppTheme.primary,
+                              ),
+                              const SizedBox(width: 2),
+                              Text(
+                                '\$${job.earnings.toStringAsFixed(2)} Payout',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppTheme.primary,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         if (job.distance > 20) ...[
                           const SizedBox(width: 8),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 5,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.orange.withAlpha(25),
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            child: const Row(children: [
-                              Icon(Icons.warning_amber_rounded, size: 14, color: Colors.orange),
-                              SizedBox(width: 4),
-                              Text('Long Distance',
-                                  style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.orange)),
-                            ]),
+                            child: const Row(
+                              children: [
+                                Icon(
+                                  Icons.warning_amber_rounded,
+                                  size: 14,
+                                  color: Colors.orange,
+                                ),
+                                SizedBox(width: 4),
+                                Text(
+                                  'Long Distance',
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.orange,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ],
@@ -117,29 +169,41 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
                         Expanded(
                           child: Column(
                             children: [
-                              Icon(Icons.location_on,
-                                  color: Colors.green, size: 20),
+                              Icon(
+                                Icons.location_on,
+                                color: AppTheme.primary,
+                                size: 20,
+                              ),
                               const SizedBox(height: 4),
-                              Text('Pickup',
-                                  style: TextStyle(
-                                      fontSize: 11, color: Colors.green)),
+                              Text(
+                                'Pickup',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: AppTheme.primary,
+                                ),
+                              ),
                             ],
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Icon(Icons.arrow_forward,
-                              color: AppTheme.primary.withAlpha(120)),
+                          child: Icon(
+                            Icons.arrow_forward,
+                            color: AppTheme.primary.withAlpha(120),
+                          ),
                         ),
                         Expanded(
                           child: Column(
                             children: [
-                              Icon(Icons.flag,
-                                  color: Colors.red, size: 20),
+                              Icon(Icons.flag, color: Colors.red, size: 20),
                               const SizedBox(height: 4),
-                              Text('Dropoff',
-                                  style: TextStyle(
-                                      fontSize: 11, color: Colors.red)),
+                              Text(
+                                'Dropoff',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.red,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -154,50 +218,58 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
                         backgroundColor: AppTheme.beige,
                         valueColor: AlwaysStoppedAnimation<Color>(
                           controller.progress.value >= 1.0
-                              ? Colors.green
+                              ? AppTheme.primary
                               : AppTheme.primary,
                         ),
                       ),
                     ),
                     const SizedBox(height: 8),
                     Text(
-                        '${(controller.progress.value * 100).toStringAsFixed(0)}% Complete',
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 14)),
+                      '${(controller.progress.value * 100).toStringAsFixed(0)}% Complete',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),
+                    ),
                   ],
                 ),
               ),
               const SizedBox(height: 20),
-              const Text('Progress Steps',
-                  style:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              const Text(
+                'Progress Steps',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 12),
               _ProgressStep(
                 title: 'Accepted',
                 subtitle: 'Job has been assigned to you',
                 isComplete: controller.progress.value >= 0.1,
-                isActive: controller.progress.value >= 0.1 &&
+                isActive:
+                    controller.progress.value >= 0.1 &&
                     controller.progress.value < 0.3,
               ),
               _ProgressStep(
                 title: 'Arrived at Pickup',
                 subtitle: job.pickupAddress,
                 isComplete: controller.progress.value >= 0.3,
-                isActive: controller.progress.value >= 0.3 &&
+                isActive:
+                    controller.progress.value >= 0.3 &&
                     controller.progress.value < 0.5,
               ),
               _ProgressStep(
                 title: 'Picked Up',
                 subtitle: 'Items collected from pickup location',
                 isComplete: controller.progress.value >= 0.5,
-                isActive: controller.progress.value >= 0.5 &&
+                isActive:
+                    controller.progress.value >= 0.5 &&
                     controller.progress.value < 0.7,
               ),
               _ProgressStep(
                 title: 'In Transit',
                 subtitle: 'En route to ${job.dropoffAddress}',
                 isComplete: controller.progress.value >= 0.7,
-                isActive: controller.progress.value >= 0.7 &&
+                isActive:
+                    controller.progress.value >= 0.7 &&
                     controller.progress.value < 0.9,
               ),
               _ProgressStep(
@@ -207,9 +279,10 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
                 isActive: controller.progress.value >= 0.9,
               ),
               const SizedBox(height: 20),
-              const Text('Route Waypoints',
-                  style:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              const Text(
+                'Route Waypoints',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 12),
               ...controller.routeWaypoints.asMap().entries.map((entry) {
                 final isLast =
@@ -221,9 +294,10 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
                     color: AppTheme.white,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
-                      color: controller.progress.value >
+                      color:
+                          controller.progress.value >
                               (entry.key / controller.routeWaypoints.length)
-                          ? Colors.green
+                          ? AppTheme.primary
                           : AppTheme.dark.withAlpha(30),
                     ),
                   ),
@@ -233,53 +307,59 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
                         width: 32,
                         height: 32,
                         decoration: BoxDecoration(
-                          color: controller.progress.value >
-                                  (entry.key /
-                                      controller.routeWaypoints.length)
-                              ? Colors.green
+                          color:
+                              controller.progress.value >
+                                  (entry.key / controller.routeWaypoints.length)
+                              ? AppTheme.primary
                               : AppTheme.primary.withAlpha(30),
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
                           controller.progress.value >
-                                  (entry.key /
-                                      controller.routeWaypoints.length)
+                                  (entry.key / controller.routeWaypoints.length)
                               ? Icons.check
                               : isLast
-                                  ? Icons.flag
-                                  : Icons.location_on,
+                              ? Icons.flag
+                              : Icons.location_on,
                           size: 16,
-                          color: controller.progress.value >
-                                  (entry.key /
-                                      controller.routeWaypoints.length)
+                          color:
+                              controller.progress.value >
+                                  (entry.key / controller.routeWaypoints.length)
                               ? AppTheme.white
                               : AppTheme.primary,
                         ),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
-                        child: Text(entry.value.address,
-                            style: const TextStyle(fontSize: 13),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis),
+                        child: Text(
+                          entry.value.address,
+                          style: const TextStyle(fontSize: 13),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                       if (controller.progress.value <=
                           (entry.key / controller.routeWaypoints.length))
                         TextButton(
-                          onPressed: () => controller
-                              .markWaypointReached(entry.key),
-                          child: const Text('Mark',
-                              style: TextStyle(
-                                  color: AppTheme.primary, fontSize: 12)),
+                          onPressed: () =>
+                              controller.markWaypointReached(entry.key),
+                          child: const Text(
+                            'Mark',
+                            style: TextStyle(
+                              color: AppTheme.primary,
+                              fontSize: 12,
+                            ),
+                          ),
                         ),
                     ],
                   ),
                 );
               }),
               const SizedBox(height: 20),
-              const Text('Customer',
-                  style:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              const Text(
+                'Customer',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 12),
               Container(
                 padding: const EdgeInsets.all(14),
@@ -292,35 +372,35 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
                     CircleAvatar(
                       backgroundColor: AppTheme.primary.withAlpha(30),
                       child: Text(
-                          job.customerName
-                              .split(' ')
-                              .map((n) => n[0])
-                              .join(''),
-                          style: const TextStyle(color: AppTheme.primary)),
+                        job.customerName.split(' ').map((n) => n[0]).join(''),
+                        style: const TextStyle(color: AppTheme.primary),
+                      ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(job.customerName,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold)),
-                          Text(job.customerPhone,
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  color: AppTheme.dark.withAlpha(150))),
+                          Text(
+                            job.customerName,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            job.customerPhone,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: AppTheme.dark.withAlpha(150),
+                            ),
+                          ),
                         ],
                       ),
                     ),
                     IconButton(
-                      icon:
-                          const Icon(Icons.phone, color: AppTheme.primary),
+                      icon: const Icon(Icons.phone, color: AppTheme.primary),
                       onPressed: () {},
                     ),
                     IconButton(
-                      icon: const Icon(Icons.message,
-                          color: AppTheme.primary),
+                      icon: const Icon(Icons.message, color: AppTheme.primary),
                       onPressed: () {},
                     ),
                   ],
@@ -335,7 +415,7 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
                       : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: controller.progress.value >= 1.0
-                        ? Colors.green
+                        ? AppTheme.primary
                         : AppTheme.primary,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
@@ -344,7 +424,9 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
                         ? 'Delivery Complete'
                         : 'Mark Next Step',
                     style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -377,17 +459,17 @@ class _ProgressStep extends StatelessWidget {
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: isComplete
-            ? Colors.green.withAlpha(15)
+            ? AppTheme.primary.withAlpha(15)
             : isActive
-                ? AppTheme.primary.withAlpha(15)
-                : AppTheme.white,
+            ? AppTheme.primary.withAlpha(15)
+            : AppTheme.white,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
           color: isComplete
-              ? Colors.green
+              ? AppTheme.primary
               : isActive
-                  ? AppTheme.primary
-                  : AppTheme.dark.withAlpha(25),
+              ? AppTheme.primary
+              : AppTheme.dark.withAlpha(25),
         ),
       ),
       child: Row(
@@ -397,10 +479,10 @@ class _ProgressStep extends StatelessWidget {
             height: 28,
             decoration: BoxDecoration(
               color: isComplete
-                  ? Colors.green
+                  ? AppTheme.primary
                   : isActive
-                      ? AppTheme.primary
-                      : AppTheme.dark.withAlpha(25),
+                  ? AppTheme.primary
+                  : AppTheme.dark.withAlpha(25),
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -416,21 +498,25 @@ class _ProgressStep extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                      color: isComplete || isActive
-                          ? AppTheme.dark
-                          : AppTheme.dark.withAlpha(100),
-                    )),
-                Text(subtitle,
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: isComplete || isActive
-                          ? AppTheme.dark.withAlpha(150)
-                          : AppTheme.dark.withAlpha(80),
-                    )),
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    color: isComplete || isActive
+                        ? AppTheme.dark
+                        : AppTheme.dark.withAlpha(100),
+                  ),
+                ),
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: isComplete || isActive
+                        ? AppTheme.dark.withAlpha(150)
+                        : AppTheme.dark.withAlpha(80),
+                  ),
+                ),
               ],
             ),
           ),

@@ -81,12 +81,12 @@ class AnalyticsScreen extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Icon(Icons.trending_up, color: Colors.green, size: 16),
+                    Icon(Icons.trending_up, color: AppTheme.primary, size: 16),
                     const SizedBox(width: 4),
                     Text(
                       '+${c.revenueGrowth.toStringAsFixed(1)}%',
                       style: const TextStyle(
-                        color: Colors.green,
+                        color: AppTheme.primary,
                         fontWeight: FontWeight.w600,
                         fontSize: 13,
                       ),
@@ -273,10 +273,10 @@ class AnalyticsScreen extends StatelessWidget {
     final colors = [
       AppTheme.primary,
       AppTheme.accent,
-      Colors.blue,
-      Colors.green,
-      Colors.purple,
-      Colors.teal,
+      AppTheme.accent,
+      AppTheme.primary,
+      AppTheme.accent,
+      AppTheme.primary,
     ];
     return colors[category.hashCode.abs() % colors.length];
   }
@@ -362,7 +362,7 @@ class _AnalyticsCard extends StatelessWidget {
               Icon(
                 isPositive ? Icons.arrow_upward : Icons.arrow_downward,
                 size: 14,
-                color: isPositive ? Colors.green : Colors.red,
+                color: isPositive ? AppTheme.primary : Colors.red,
               ),
               const SizedBox(width: 2),
               Text(
@@ -370,7 +370,7 @@ class _AnalyticsCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  color: isPositive ? Colors.green : Colors.red,
+                  color: isPositive ? AppTheme.primary : Colors.red,
                 ),
               ),
             ],

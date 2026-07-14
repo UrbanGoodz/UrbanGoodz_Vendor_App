@@ -23,7 +23,9 @@ class CertificationsController extends GetxController {
     errorMessage.value = '';
     try {
       final rawCerts = await _api.getCertifications();
-      final items = rawCerts.map((e) => CertificationModel.fromJson(e)).toList();
+      final items = rawCerts
+          .map((e) => CertificationModel.fromJson(e))
+          .toList();
       certifications.value = items;
       validCount.value = items.where((c) => c.status == 'valid').length;
       expiredCount.value = items.where((c) => c.status == 'expired').length;
@@ -40,12 +42,18 @@ class CertificationsController extends GetxController {
       final certIdInt = int.tryParse(certId);
       if (certIdInt == null) return;
       await _api.uploadCertDocument(certIdInt, '');
-      Get.snackbar('Uploaded', 'Document uploaded successfully.',
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Uploaded',
+        'Document uploaded successfully.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
       fetchCertifications();
     } catch (e) {
-      Get.snackbar('Error', 'Failed to upload document: $e',
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Error',
+        'Failed to upload document: $e',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 
@@ -54,13 +62,18 @@ class CertificationsController extends GetxController {
       final certId = int.tryParse(id);
       if (certId == null) return;
       await _api.renewCertification(certId);
-      Get.snackbar('Renewal Requested',
-          'Your renewal application has been submitted for review.',
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Renewal Requested',
+        'Your renewal application has been submitted for review.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
       fetchCertifications();
     } catch (e) {
-      Get.snackbar('Error', 'Failed to request renewal: $e',
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Error',
+        'Failed to request renewal: $e',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 }

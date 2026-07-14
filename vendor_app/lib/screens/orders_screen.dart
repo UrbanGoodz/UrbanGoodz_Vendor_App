@@ -192,7 +192,7 @@ class OrdersScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: req.status == 'pending'
                       ? Colors.orange.withOpacity(0.15)
-                      : Colors.green.withOpacity(0.15),
+                       : AppTheme.primary.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
@@ -202,7 +202,7 @@ class OrdersScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: req.status == 'pending'
                         ? Colors.orange
-                        : Colors.green,
+                        : AppTheme.primary,
                   ),
                 ),
               ),
@@ -238,7 +238,7 @@ class OrdersScreen extends StatelessWidget {
                           'Vendor Review Fee: \$${req.quoteAmount?.toStringAsFixed(2)}',
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: Colors.green,
+                            color: AppTheme.primary,
                           ),
                         ),
                         if (req.notes != null) Text('Notes: ${req.notes}'),
@@ -345,7 +345,7 @@ class OrdersScreen extends StatelessWidget {
                     : (auth.errorMessage.value ??
                           'The backend rejected this review.'),
                 snackPosition: SnackPosition.BOTTOM,
-                backgroundColor: ok ? Colors.green : Colors.red,
+                backgroundColor: ok ? AppTheme.primary : Colors.red,
                 colorText: Colors.white,
               );
             },
@@ -468,7 +468,7 @@ class _OrderCard extends StatelessWidget {
               if (order.status == 'pending')
                 _ActionChip(
                   label: 'Confirm',
-                  color: Colors.blue,
+                  color: AppTheme.accent,
                   onTap: () =>
                       controller.updateOrderStatus(order.id, 'confirmed'),
                 ),
@@ -488,7 +488,7 @@ class _OrderCard extends StatelessWidget {
               if (order.status == 'ready')
                 _ActionChip(
                   label: 'Complete',
-                  color: Colors.green,
+                  color: AppTheme.primary,
                   onTap: () =>
                       controller.updateOrderStatus(order.id, 'completed'),
                 ),
@@ -556,7 +556,7 @@ class _StatusBadge extends StatelessWidget {
         label = 'Pending';
         break;
       case 'confirmed':
-        bgColor = Colors.blue;
+        bgColor = AppTheme.accent;
         label = 'Confirmed';
         break;
       case 'preparing':
@@ -568,7 +568,7 @@ class _StatusBadge extends StatelessWidget {
         label = 'Ready';
         break;
       case 'completed':
-        bgColor = Colors.green;
+        bgColor = AppTheme.primary;
         label = 'Completed';
         break;
       case 'cancelled':

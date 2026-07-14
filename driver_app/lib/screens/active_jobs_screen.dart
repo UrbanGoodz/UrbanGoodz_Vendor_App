@@ -28,8 +28,11 @@ class ActiveJobsScreen extends StatelessWidget {
         if (controller.errorMessage.value.isNotEmpty &&
             controller.jobs.isEmpty) {
           return Center(
-              child: Text(controller.errorMessage.value,
-                  textAlign: TextAlign.center));
+            child: Text(
+              controller.errorMessage.value,
+              textAlign: TextAlign.center,
+            ),
+          );
         }
         if (controller.jobs.isEmpty) {
           return Center(
@@ -38,15 +41,19 @@ class ActiveJobsScreen extends StatelessWidget {
               children: [
                 Icon(Icons.inbox, size: 64, color: AppTheme.dark.withAlpha(60)),
                 const SizedBox(height: 16),
-                const Text('No assigned business jobs',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                const Text(
+                  'No assigned business jobs',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                ),
                 const SizedBox(height: 8),
                 Text(
-                    'Jobs assigned to you by dispatch will appear here.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 14, color: AppTheme.dark.withAlpha(120))),
+                  'Jobs assigned to you by dispatch will appear here.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: AppTheme.dark.withAlpha(120),
+                  ),
+                ),
               ],
             ),
           );
@@ -77,12 +84,12 @@ class _JobCard extends StatelessWidget {
         return AppTheme.primary;
       case 'driver_accepted':
       case 'driver_en_route':
-        return Colors.blue;
+        return AppTheme.accent;
       case 'picked_up':
       case 'in_transit':
-        return Colors.purple;
+        return AppTheme.primary;
       case 'delivered':
-        return Colors.green;
+        return AppTheme.primary;
       case 'delayed':
         return Colors.orange;
       default:
@@ -122,7 +129,7 @@ class _JobCard extends StatelessWidget {
           color: AppTheme.white,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
-            BoxShadow(color: AppTheme.dark.withAlpha(15), blurRadius: 8)
+            BoxShadow(color: AppTheme.dark.withAlpha(15), blurRadius: 8),
           ],
         ),
         child: Column(
@@ -131,71 +138,100 @@ class _JobCard extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: AppTheme.primary.withAlpha(30),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Text(job.jobType.toUpperCase(),
-                      style: const TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                          color: AppTheme.primary)),
+                  child: Text(
+                    job.jobType.toUpperCase(),
+                    style: const TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.primary,
+                    ),
+                  ),
                 ),
                 const Spacer(),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: _statusColor(job.status).withAlpha(30),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Text(_statusLabel(job.status),
-                      style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                          color: _statusColor(job.status))),
+                  child: Text(
+                    _statusLabel(job.status),
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                      color: _statusColor(job.status),
+                    ),
+                  ),
                 ),
               ],
             ),
             const SizedBox(height: 10),
-            Text(job.jobNumber,
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Text(
+              job.jobNumber,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
             if (job.businessClientName != null) ...[
               const SizedBox(height: 4),
-              Text(job.businessClientName!,
-                  style: TextStyle(
-                      fontSize: 13, color: AppTheme.dark.withAlpha(150))),
+              Text(
+                job.businessClientName!,
+                style: TextStyle(
+                  fontSize: 13,
+                  color: AppTheme.dark.withAlpha(150),
+                ),
+              ),
             ],
             const SizedBox(height: 8),
             Row(
               children: [
-                Icon(Icons.location_on,
-                    size: 16, color: AppTheme.primary.withAlpha(180)),
+                Icon(
+                  Icons.location_on,
+                  size: 16,
+                  color: AppTheme.primary.withAlpha(180),
+                ),
                 const SizedBox(width: 4),
                 Expanded(
-                  child: Text(job.pickup.address ?? '',
-                      style: TextStyle(
-                          fontSize: 12, color: AppTheme.dark.withAlpha(150)),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis),
+                  child: Text(
+                    job.pickup.address ?? '',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: AppTheme.dark.withAlpha(150),
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),
             const SizedBox(height: 4),
             Row(
               children: [
-                Icon(Icons.flag,
-                    size: 16, color: AppTheme.accent.withAlpha(180)),
+                Icon(
+                  Icons.flag,
+                  size: 16,
+                  color: AppTheme.accent.withAlpha(180),
+                ),
                 const SizedBox(width: 4),
                 Expanded(
-                  child: Text(job.dropoff.address ?? '',
-                      style: TextStyle(
-                          fontSize: 12, color: AppTheme.dark.withAlpha(150)),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis),
+                  child: Text(
+                    job.dropoff.address ?? '',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: AppTheme.dark.withAlpha(150),
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),
@@ -203,9 +239,13 @@ class _JobCard extends StatelessWidget {
             Row(
               children: [
                 Icon(Icons.attach_money, size: 18, color: AppTheme.primary),
-                Text(job.displayRate,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 18)),
+                Text(
+                  job.displayRate,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
                 const Spacer(),
                 const Icon(Icons.chevron_right, color: Colors.grey),
               ],

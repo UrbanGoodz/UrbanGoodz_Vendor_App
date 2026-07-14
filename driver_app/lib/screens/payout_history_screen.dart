@@ -11,8 +11,7 @@ class PayoutHistoryScreen extends StatefulWidget {
 }
 
 class _PayoutHistoryScreenState extends State<PayoutHistoryScreen> {
-  final PayoutHistoryController controller =
-      Get.put(PayoutHistoryController());
+  final PayoutHistoryController controller = Get.put(PayoutHistoryController());
 
   final List<String> _statuses = ['all', 'pending', 'completed', 'failed'];
 
@@ -48,26 +47,35 @@ class _PayoutHistoryScreenState extends State<PayoutHistoryScreen> {
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
                           BoxShadow(
-                              color: AppTheme.dark.withAlpha(15),
-                              blurRadius: 8)
+                            color: AppTheme.dark.withAlpha(15),
+                            blurRadius: 8,
+                          ),
                         ],
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Total Paid',
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  color: AppTheme.dark)),
+                          const Text(
+                            'Total Paid',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: AppTheme.dark,
+                            ),
+                          ),
                           const SizedBox(height: 4),
                           Text(
-                              '\$${controller.totalPaid.value.toStringAsFixed(2)}',
-                              style: const TextStyle(
-                                  fontSize: 26,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.green)),
-                          Icon(Icons.trending_up,
-                              color: Colors.green, size: 20),
+                            '\$${controller.totalPaid.value.toStringAsFixed(2)}',
+                            style: const TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
+                              color: AppTheme.primary,
+                            ),
+                          ),
+                          Icon(
+                            Icons.trending_up,
+                            color: AppTheme.primary,
+                            size: 20,
+                          ),
                         ],
                       ),
                     ),
@@ -81,26 +89,35 @@ class _PayoutHistoryScreenState extends State<PayoutHistoryScreen> {
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
                           BoxShadow(
-                              color: AppTheme.dark.withAlpha(15),
-                              blurRadius: 8)
+                            color: AppTheme.dark.withAlpha(15),
+                            blurRadius: 8,
+                          ),
                         ],
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Pending',
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  color: AppTheme.dark)),
+                          const Text(
+                            'Pending',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: AppTheme.dark,
+                            ),
+                          ),
                           const SizedBox(height: 4),
                           Text(
-                              '\$${controller.pendingAmount.value.toStringAsFixed(2)}',
-                              style: const TextStyle(
-                                  fontSize: 26,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppTheme.primary)),
-                          Icon(Icons.hourglass_empty,
-                              color: AppTheme.primary, size: 20),
+                            '\$${controller.pendingAmount.value.toStringAsFixed(2)}',
+                            style: const TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
+                              color: AppTheme.primary,
+                            ),
+                          ),
+                          Icon(
+                            Icons.hourglass_empty,
+                            color: AppTheme.primary,
+                            size: 20,
+                          ),
                         ],
                       ),
                     ),
@@ -118,16 +135,13 @@ class _PayoutHistoryScreenState extends State<PayoutHistoryScreen> {
                         label: Text(
                           s[0].toUpperCase() + s.substring(1),
                           style: TextStyle(
-                            color: isSelected
-                                ? AppTheme.white
-                                : AppTheme.dark,
+                            color: isSelected ? AppTheme.white : AppTheme.dark,
                             fontWeight: FontWeight.w600,
                             fontSize: 12,
                           ),
                         ),
                         selected: isSelected,
-                        onSelected: (_) =>
-                            controller.filterByStatus(s),
+                        onSelected: (_) => controller.filterByStatus(s),
                         selectedColor: AppTheme.primary,
                         backgroundColor: AppTheme.beige,
                         side: BorderSide.none,
@@ -141,7 +155,7 @@ class _PayoutHistoryScreenState extends State<PayoutHistoryScreen> {
                 Color statusColor;
                 switch (payout.status) {
                   case 'completed':
-                    statusColor = Colors.green;
+                    statusColor = AppTheme.primary;
                     break;
                   case 'pending':
                     statusColor = AppTheme.primary;
@@ -174,43 +188,46 @@ class _PayoutHistoryScreenState extends State<PayoutHistoryScreen> {
                   decoration: BoxDecoration(
                     color: AppTheme.white,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: statusColor.withAlpha(40),
-                    ),
+                    border: Border.all(color: statusColor.withAlpha(40)),
                     boxShadow: [
                       BoxShadow(
-                          color: AppTheme.dark.withAlpha(10),
-                          blurRadius: 4)
+                        color: AppTheme.dark.withAlpha(10),
+                        blurRadius: 4,
+                      ),
                     ],
                   ),
                   child: Column(
                     children: [
                       Row(
                         children: [
-                          Icon(statusIcon,
-                              color: statusColor, size: 28),
+                          Icon(statusIcon, color: statusColor, size: 28),
                           const SizedBox(width: 12),
                           Expanded(
                             child: Column(
-                              crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                    '\$${payout.amount.toStringAsFixed(2)}',
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18)),
-                                Text(payout.requestedDate,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: AppTheme.dark
-                                            .withAlpha(120))),
+                                  '\$${payout.amount.toStringAsFixed(2)}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                Text(
+                                  payout.requestedDate,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: AppTheme.dark.withAlpha(120),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
                           Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 4),
+                              horizontal: 10,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
                               color: statusColor.withAlpha(30),
                               borderRadius: BorderRadius.circular(12),
@@ -230,16 +247,20 @@ class _PayoutHistoryScreenState extends State<PayoutHistoryScreen> {
                       const SizedBox(height: 8),
                       Row(
                         children: [
-                          Icon(Icons.account_balance,
-                              size: 14,
-                              color: AppTheme.dark.withAlpha(120)),
+                          Icon(
+                            Icons.account_balance,
+                            size: 14,
+                            color: AppTheme.dark.withAlpha(120),
+                          ),
                           const SizedBox(width: 4),
                           Expanded(
-                            child: Text(payout.paymentMethod,
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: AppTheme.dark
-                                        .withAlpha(120))),
+                            child: Text(
+                              payout.paymentMethod,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppTheme.dark.withAlpha(120),
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -247,15 +268,19 @@ class _PayoutHistoryScreenState extends State<PayoutHistoryScreen> {
                         const SizedBox(height: 4),
                         Row(
                           children: [
-                            Icon(Icons.receipt,
-                                size: 14,
-                                color: AppTheme.dark.withAlpha(120)),
+                            Icon(
+                              Icons.receipt,
+                              size: 14,
+                              color: AppTheme.dark.withAlpha(120),
+                            ),
                             const SizedBox(width: 4),
-                            Text('ID: ${payout.transactionId}',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: AppTheme.dark
-                                        .withAlpha(120))),
+                            Text(
+                              'ID: ${payout.transactionId}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppTheme.dark.withAlpha(120),
+                              ),
+                            ),
                           ],
                         ),
                       ],
@@ -263,16 +288,20 @@ class _PayoutHistoryScreenState extends State<PayoutHistoryScreen> {
                         const SizedBox(height: 4),
                         Row(
                           children: [
-                            Icon(Icons.note,
-                                size: 14,
-                                color: AppTheme.dark.withAlpha(120)),
+                            Icon(
+                              Icons.note,
+                              size: 14,
+                              color: AppTheme.dark.withAlpha(120),
+                            ),
                             const SizedBox(width: 4),
                             Expanded(
-                              child: Text(payout.notes,
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: AppTheme.dark
-                                          .withAlpha(120))),
+                              child: Text(
+                                payout.notes,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: AppTheme.dark.withAlpha(120),
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -282,9 +311,10 @@ class _PayoutHistoryScreenState extends State<PayoutHistoryScreen> {
                 );
               }),
               const SizedBox(height: 20),
-              const Text('Withdrawal Method',
-                  style:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              const Text(
+                'Withdrawal Method',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 12),
               Container(
                 padding: const EdgeInsets.all(16),
@@ -293,33 +323,45 @@ class _PayoutHistoryScreenState extends State<PayoutHistoryScreen> {
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                        color: AppTheme.dark.withAlpha(15),
-                        blurRadius: 8)
+                      color: AppTheme.dark.withAlpha(15),
+                      blurRadius: 8,
+                    ),
                   ],
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.account_balance,
-                        color: AppTheme.primary, size: 28),
+                    Icon(
+                      Icons.account_balance,
+                      color: AppTheme.primary,
+                      size: 28,
+                    ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Bank of America',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15)),
-                          Text('Checking Account ****4521',
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  color:
-                                      AppTheme.dark.withAlpha(150))),
+                          const Text(
+                            'Bank of America',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
+                          Text(
+                            'Checking Account ****4521',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: AppTheme.dark.withAlpha(150),
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                    const Icon(Icons.check_circle,
-                        color: Colors.green, size: 22),
+                    const Icon(
+                      Icons.check_circle,
+                      color: AppTheme.primary,
+                      size: 22,
+                    ),
                   ],
                 ),
               ),
@@ -332,9 +374,10 @@ class _PayoutHistoryScreenState extends State<PayoutHistoryScreen> {
                     backgroundColor: AppTheme.primary,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
-                  child: const Text('Request Payout',
-                      style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold)),
+                  child: const Text(
+                    'Request Payout',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
@@ -354,7 +397,8 @@ class _PayoutHistoryScreenState extends State<PayoutHistoryScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-                'Enter the amount you would like to withdraw to your bank account.'),
+              'Enter the amount you would like to withdraw to your bank account.',
+            ),
             const SizedBox(height: 16),
             TextField(
               controller: amountController,
@@ -367,10 +411,7 @@ class _PayoutHistoryScreenState extends State<PayoutHistoryScreen> {
           ],
         ),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Get.back(), child: const Text('Cancel')),
           ElevatedButton(
             onPressed: () {
               final amount = double.tryParse(amountController.text);

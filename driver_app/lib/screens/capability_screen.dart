@@ -71,17 +71,22 @@ class _CapabilityScreenState extends State<CapabilityScreen> {
         }
         final allowed = controller.allowed.value;
         return RefreshIndicator(
-          onRefresh: () async => controller.loadProfile().then((_) => _syncFromProfile()),
+          onRefresh: () async =>
+              controller.loadProfile().then((_) => _syncFromProfile()),
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Vehicle',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                const Text(
+                  'Vehicle',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 8),
                 DropdownButtonFormField<String>(
-                  value: _vehicleCtrl.text.isNotEmpty ? _vehicleCtrl.text : null,
+                  value: _vehicleCtrl.text.isNotEmpty
+                      ? _vehicleCtrl.text
+                      : null,
                   decoration: const InputDecoration(labelText: 'Vehicle Type'),
                   items: (allowed?.vehicleTypes ?? [])
                       .map((t) => DropdownMenuItem(value: t, child: Text(t)))
@@ -92,12 +97,16 @@ class _CapabilityScreenState extends State<CapabilityScreen> {
                 ElevatedButton(
                   onPressed: controller.isSaving.value
                       ? null
-                      : () => controller.saveVehicle(vehicleType: _vehicleCtrl.text),
+                      : () => controller.saveVehicle(
+                          vehicleType: _vehicleCtrl.text,
+                        ),
                   child: const Text('Save Vehicle'),
                 ),
                 const SizedBox(height: 16),
-                const Text('Cargo Capacity',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                const Text(
+                  'Cargo Capacity',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 8),
                 TextField(
                   controller: _cargoNotesCtrl,
@@ -110,7 +119,9 @@ class _CapabilityScreenState extends State<CapabilityScreen> {
                       child: TextField(
                         controller: _maxPackagesCtrl,
                         keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(labelText: 'Max packages'),
+                        decoration: const InputDecoration(
+                          labelText: 'Max packages',
+                        ),
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -118,70 +129,101 @@ class _CapabilityScreenState extends State<CapabilityScreen> {
                       child: TextField(
                         controller: _maxWeightCtrl,
                         keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(labelText: 'Max weight (lbs)'),
+                        decoration: const InputDecoration(
+                          labelText: 'Max weight (lbs)',
+                        ),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 8),
-                _switch('Has cargo space', _hasCargoSpace,
-                    (v) => setState(() => _hasCargoSpace = v)),
-                _switch('Has cooler bag', _hasCoolerBag,
-                    (v) => setState(() => _hasCoolerBag = v)),
-                _switch('Has liftgate', _hasLiftgate,
-                    (v) => setState(() => _hasLiftgate = v)),
-                _switch('Medical courier training', _hasMedical,
-                    (v) => setState(() => _hasMedical = v)),
+                _switch(
+                  'Has cargo space',
+                  _hasCargoSpace,
+                  (v) => setState(() => _hasCargoSpace = v),
+                ),
+                _switch(
+                  'Has cooler bag',
+                  _hasCoolerBag,
+                  (v) => setState(() => _hasCoolerBag = v),
+                ),
+                _switch(
+                  'Has liftgate',
+                  _hasLiftgate,
+                  (v) => setState(() => _hasLiftgate = v),
+                ),
+                _switch(
+                  'Medical courier training',
+                  _hasMedical,
+                  (v) => setState(() => _hasMedical = v),
+                ),
                 const SizedBox(height: 8),
                 ElevatedButton(
                   onPressed: controller.isSaving.value
                       ? null
                       : () => controller.saveCargo(
-                            cargoCapacityNotes: _cargoNotesCtrl.text,
-                            maxPackageCount: int.tryParse(_maxPackagesCtrl.text),
-                            maxWeightLbs: double.tryParse(_maxWeightCtrl.text),
-                            hasCargoSpace: _hasCargoSpace,
-                            hasCoolerBag: _hasCoolerBag,
-                            hasLiftgate: _hasLiftgate,
-                            hasMedicalCourierTraining: _hasMedical,
-                          ),
+                          cargoCapacityNotes: _cargoNotesCtrl.text,
+                          maxPackageCount: int.tryParse(_maxPackagesCtrl.text),
+                          maxWeightLbs: double.tryParse(_maxWeightCtrl.text),
+                          hasCargoSpace: _hasCargoSpace,
+                          hasCoolerBag: _hasCoolerBag,
+                          hasLiftgate: _hasLiftgate,
+                          hasMedicalCourierTraining: _hasMedical,
+                        ),
                   child: const Text('Save Cargo'),
                 ),
                 const SizedBox(height: 16),
-                const Text('Preferred Zones',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                const Text(
+                  'Preferred Zones',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 8),
                 TextField(
                   controller: _zonesCtrl,
                   decoration: const InputDecoration(
-                      labelText: 'Comma-separated, e.g. Houston, TX, Austin, TX'),
+                    labelText: 'Comma-separated, e.g. Houston, TX, Austin, TX',
+                  ),
                 ),
                 const SizedBox(height: 8),
                 ElevatedButton(
                   onPressed: controller.isSaving.value
                       ? null
-                      : () => controller.saveZones(_zonesCtrl.text
-                          .split(',')
-                          .map((e) => e.trim())
-                          .where((e) => e.isNotEmpty)
-                          .toList()),
+                      : () => controller.saveZones(
+                          _zonesCtrl.text
+                              .split(',')
+                              .map((e) => e.trim())
+                              .where((e) => e.isNotEmpty)
+                              .toList(),
+                        ),
                   child: const Text('Save Zones'),
                 ),
                 const SizedBox(height: 16),
-                const Text('Work Types',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                const Text(
+                  'Work Types',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 8),
-                _chipGroup(allowed?.preferredWorkTypes ?? [], _workTypes,
-                    () => controller.saveWorkTypes(_workTypes.toList())),
+                _chipGroup(
+                  allowed?.preferredWorkTypes ?? [],
+                  _workTypes,
+                  () => controller.saveWorkTypes(_workTypes.toList()),
+                ),
                 const SizedBox(height: 16),
-                const Text('Capability Tags',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                const Text(
+                  'Capability Tags',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 8),
-                _chipGroup(allowed?.capabilityTags ?? [], _tags,
-                    () => controller.saveTags(_tags.toList())),
+                _chipGroup(
+                  allowed?.capabilityTags ?? [],
+                  _tags,
+                  () => controller.saveTags(_tags.toList()),
+                ),
                 const SizedBox(height: 16),
-                const Text('Availability',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                const Text(
+                  'Availability',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 8),
                 DropdownButtonFormField<String>(
                   value: _availCtrl.text.isNotEmpty ? _availCtrl.text : null,
@@ -192,25 +234,37 @@ class _CapabilityScreenState extends State<CapabilityScreen> {
                   onChanged: (v) => setState(() => _availCtrl.text = v ?? ''),
                 ),
                 const SizedBox(height: 8),
-                _switch('Available: Business Courier', _availBusiness,
-                    (v) => setState(() => _availBusiness = v)),
-                _switch('Available: Package Routes', _availPackage,
-                    (v) => setState(() => _availPackage = v)),
-                _switch('Available: Order Anywhere', _availOrderAnywhere,
-                    (v) => setState(() => _availOrderAnywhere = v)),
-                _switch('Available: Medical Courier', _availMedical,
-                    (v) => setState(() => _availMedical = v)),
+                _switch(
+                  'Available: Business Courier',
+                  _availBusiness,
+                  (v) => setState(() => _availBusiness = v),
+                ),
+                _switch(
+                  'Available: Package Routes',
+                  _availPackage,
+                  (v) => setState(() => _availPackage = v),
+                ),
+                _switch(
+                  'Available: Order Anywhere',
+                  _availOrderAnywhere,
+                  (v) => setState(() => _availOrderAnywhere = v),
+                ),
+                _switch(
+                  'Available: Medical Courier',
+                  _availMedical,
+                  (v) => setState(() => _availMedical = v),
+                ),
                 const SizedBox(height: 8),
                 ElevatedButton(
                   onPressed: controller.isSaving.value
                       ? null
                       : () => controller.saveAvailability(
-                            availabilityPreference: _availCtrl.text,
-                            availableForBusinessCourier: _availBusiness,
-                            availableForPackageRoutes: _availPackage,
-                            availableForOrderAnywhere: _availOrderAnywhere,
-                            availableForMedicalCourier: _availMedical,
-                          ),
+                          availabilityPreference: _availCtrl.text,
+                          availableForBusinessCourier: _availBusiness,
+                          availableForPackageRoutes: _availPackage,
+                          availableForOrderAnywhere: _availOrderAnywhere,
+                          availableForMedicalCourier: _availMedical,
+                        ),
                   child: const Text('Save Availability'),
                 ),
               ],
@@ -230,10 +284,12 @@ class _CapabilityScreenState extends State<CapabilityScreen> {
         contentPadding: EdgeInsets.zero,
       );
 
-  Widget _chipGroup(List<String> options, Set<String> selected, VoidCallback onSave) {
-    final opts = options.isEmpty
-        ? selected.toList()
-        : options;
+  Widget _chipGroup(
+    List<String> options,
+    Set<String> selected,
+    VoidCallback onSave,
+  ) {
+    final opts = options.isEmpty ? selected.toList() : options;
     return Column(
       children: [
         Wrap(
@@ -245,18 +301,25 @@ class _CapabilityScreenState extends State<CapabilityScreen> {
               label: Text(o),
               selected: isSel,
               onSelected: (v) => setState(() {
-                if (v) selected.add(o); else selected.remove(o);
+                if (v)
+                  selected.add(o);
+                else
+                  selected.remove(o);
               }),
               backgroundColor: AppTheme.beige,
               selectedColor: AppTheme.primary,
               checkmarkColor: AppTheme.white,
-              labelStyle: TextStyle(color: isSel ? AppTheme.white : AppTheme.dark),
+              labelStyle: TextStyle(
+                color: isSel ? AppTheme.white : AppTheme.dark,
+              ),
             );
           }).toList(),
         ),
         const SizedBox(height: 8),
-        ElevatedButton(onPressed: controller.isSaving.value ? null : onSave,
-            child: const Text('Save')),
+        ElevatedButton(
+          onPressed: controller.isSaving.value ? null : onSave,
+          child: const Text('Save'),
+        ),
       ],
     );
   }

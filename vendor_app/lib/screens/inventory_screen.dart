@@ -453,7 +453,7 @@ class _InventoryCard extends StatelessWidget {
                           ? Colors.red
                           : item.isLowStock
                           ? AppTheme.primary
-                          : Colors.green,
+                          : AppTheme.primary,
                     ),
                   ),
                 ],

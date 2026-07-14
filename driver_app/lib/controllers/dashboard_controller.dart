@@ -30,51 +30,58 @@ class DashboardController extends GetxController {
     errorMessage.value = '';
 
     // Load profile
-    _client.authGet('/api/v1/delivery-man/profile').then((res) {
-      if (res.statusCode == 200 && res.body is Map) {
-        final body = res.body;
-        final dm = body['delivery_man'] ?? body;
-        rating.value =
-            double.tryParse(dm['avg_rating']?.toString() ?? '0') ?? 0;
-        completedJobs.value =
-            int.tryParse(dm['order_count']?.toString() ?? '0') ?? 0;
-        todayEarnings.value =
-            double.tryParse(dm['todays_earning']?.toString() ?? '0') ?? 0;
-        weeklyEarnings.value =
-            double.tryParse(dm['this_week_earning']?.toString() ?? '0') ?? 0;
-        monthlyEarnings.value =
-            double.tryParse(dm['this_month_earning']?.toString() ?? '0') ?? 0;
+    _client
+        .authGet('/api/v1/delivery-man/profile')
+        .then((res) {
+          if (res.statusCode == 200 && res.body is Map) {
+            final body = res.body;
+            final dm = body['delivery_man'] ?? body;
+            rating.value =
+                double.tryParse(dm['avg_rating']?.toString() ?? '0') ?? 0;
+            completedJobs.value =
+                int.tryParse(dm['order_count']?.toString() ?? '0') ?? 0;
+            todayEarnings.value =
+                double.tryParse(dm['todays_earning']?.toString() ?? '0') ?? 0;
+            weeklyEarnings.value =
+                double.tryParse(dm['this_week_earning']?.toString() ?? '0') ??
+                0;
+            monthlyEarnings.value =
+                double.tryParse(dm['this_month_earning']?.toString() ?? '0') ??
+                0;
 
-        // Build weekly chart from available data
-        weeklyEarningsChart.value = [
-          weeklyEarnings.value * 0.12,
-          weeklyEarnings.value * 0.15,
-          weeklyEarnings.value * 0.18,
-          weeklyEarnings.value * 0.13,
-          weeklyEarnings.value * 0.20,
-          weeklyEarnings.value * 0.14,
-          weeklyEarnings.value * 0.08,
-        ];
-      }
-    }).catchError((_) {});
+            // Build weekly chart from available data
+            weeklyEarningsChart.value = [
+              weeklyEarnings.value * 0.12,
+              weeklyEarnings.value * 0.15,
+              weeklyEarnings.value * 0.18,
+              weeklyEarnings.value * 0.13,
+              weeklyEarnings.value * 0.20,
+              weeklyEarnings.value * 0.14,
+              weeklyEarnings.value * 0.08,
+            ];
+          }
+        })
+        .catchError((_) {});
 
     // Load active business jobs
     try {
       final svc = Get.find<DriverApiService>();
-      svc.getBusinessJobs().then((jobs) {
-        activeJobsList.value = jobs;
-        activeJobs.value = jobs.length;
-        isLoading.value = false;
-      }).catchError((_) {
-        isLoading.value = false;
-      });
+      svc
+          .getBusinessJobs()
+          .then((jobs) {
+            activeJobsList.value = jobs;
+            activeJobs.value = jobs.length;
+            isLoading.value = false;
+          })
+          .catchError((_) {
+            isLoading.value = false;
+          });
     } catch (_) {
       isLoading.value = false;
     }
   }
 
   void toggleOnlineStatus() {
-    driverStatus.value =
-        driverStatus.value == 'online' ? 'offline' : 'online';
+    driverStatus.value = driverStatus.value == 'online' ? 'offline' : 'online';
   }
 }

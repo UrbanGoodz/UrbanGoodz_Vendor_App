@@ -45,12 +45,15 @@ class VehicleRequirementsController extends GetxController {
     requirementChecklist.value = {
       'Insurance': vehicle.isInsured,
       'Registration': vehicle.isRegistered,
-      'Vehicle Inspection': vehicle.certifications
-          .any((c) => c.contains('Inspection')),
-      'Emissions Test':
-          vehicle.certifications.any((c) => c.contains('Emissions')),
-      'Cargo Restraint': vehicle.certifications
-          .any((c) => c.contains('Cargo Restraint')),
+      'Vehicle Inspection': vehicle.certifications.any(
+        (c) => c.contains('Inspection'),
+      ),
+      'Emissions Test': vehicle.certifications.any(
+        (c) => c.contains('Emissions'),
+      ),
+      'Cargo Restraint': vehicle.certifications.any(
+        (c) => c.contains('Cargo Restraint'),
+      ),
     };
   }
 

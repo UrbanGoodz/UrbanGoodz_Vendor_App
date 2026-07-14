@@ -75,9 +75,8 @@ class DriverJobModel {
       scheduledTime: json['scheduled_time'] as String,
       vehicleType: json['vehicle_type'] as String,
       isUrgent: json['is_urgent'] as bool? ?? false,
-      tags: (json['tags'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
+      tags:
+          (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
           [],
       specialRequirements:
           json['special_requirements'] as Map<String, dynamic>?,

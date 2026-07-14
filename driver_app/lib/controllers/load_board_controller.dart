@@ -87,7 +87,9 @@ class LoadBoardController extends GetxController {
     result = result.where((l) => l.earnings >= minPay.value).toList();
     result = result.where((l) => l.earnings <= maxPay.value).toList();
     if (vehicleFilter.value != 'all') {
-      result = result.where((l) => l.vehicleType == vehicleFilter.value).toList();
+      result = result
+          .where((l) => l.vehicleType == vehicleFilter.value)
+          .toList();
     }
     filteredLoads.value = result;
     sortLoads(sortBy.value);
@@ -98,11 +100,17 @@ class LoadBoardController extends GetxController {
       final loadId = int.tryParse(id);
       if (loadId == null) return;
       await _api.bidOnLoad(loadId, 0.0);
-      Get.snackbar('Bid Submitted', 'Your bid has been submitted for review.',
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Bid Submitted',
+        'Your bid has been submitted for review.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     } catch (e) {
-      Get.snackbar('Error', 'Failed to submit bid: $e',
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Error',
+        'Failed to submit bid: $e',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 }

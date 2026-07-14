@@ -29,14 +29,20 @@ class ApiClient extends GetConnect {
     return get(path, query: merged);
   }
 
-  Future<Response> authPost(String path, dynamic body,
-      {Map<String, dynamic>? query}) {
+  Future<Response> authPost(
+    String path,
+    dynamic body, {
+    Map<String, dynamic>? query,
+  }) {
     final merged = <String, dynamic>{..._authQuery, ...?query};
     return post(path, body, query: merged);
   }
 
-  Future<Response> authPut(String path, dynamic body,
-      {Map<String, dynamic>? query}) {
+  Future<Response> authPut(
+    String path,
+    dynamic body, {
+    Map<String, dynamic>? query,
+  }) {
     final merged = <String, dynamic>{..._authQuery, ...?query};
     return put(path, body, query: merged);
   }

@@ -91,18 +91,19 @@ class JobLocation {
   });
 
   factory JobLocation.fromJson(Map<String, dynamic> j) => JobLocation(
-        name: j['name']?.toString(),
-        address: j['address']?.toString(),
-        city: j['city']?.toString(),
-        state: j['state']?.toString(),
-        contactName: j['contact_name']?.toString(),
-        contactPhone: j['contact_phone']?.toString(),
-        instructions: j['pickup_instructions']?.toString() ??
-            j['delivery_instructions']?.toString(),
-        earliest: j['pickup_earliest']?.toString(),
-        latest: j['pickup_latest']?.toString(),
-        deadline: j['delivery_deadline']?.toString(),
-      );
+    name: j['name']?.toString(),
+    address: j['address']?.toString(),
+    city: j['city']?.toString(),
+    state: j['state']?.toString(),
+    contactName: j['contact_name']?.toString(),
+    contactPhone: j['contact_phone']?.toString(),
+    instructions:
+        j['pickup_instructions']?.toString() ??
+        j['delivery_instructions']?.toString(),
+    earliest: j['pickup_earliest']?.toString(),
+    latest: j['pickup_latest']?.toString(),
+    deadline: j['delivery_deadline']?.toString(),
+  );
 }
 
 class JobRequirements {
@@ -131,17 +132,17 @@ class JobRequirements {
   });
 
   factory JobRequirements.fromJson(Map<String, dynamic> j) => JobRequirements(
-        vehicleTypeNeeded: j['vehicle_type_needed']?.toString(),
-        needsLiftgate: j['needs_liftgate'] == true,
-        needsDock: j['needs_dock'] == true,
-        specialHandling: j['special_handling']?.toString(),
-        loadType: j['load_type']?.toString(),
-        weight: j['weight']?.toString(),
-        temperatureRequirement: j['temperature_requirement']?.toString(),
-        courierCertificationRequired: j['courier_certification_required'] == true,
-        chainOfCustodyRequired: j['chain_of_custody_required'] == true,
-        urgencyLevel: j['urgency_level']?.toString(),
-      );
+    vehicleTypeNeeded: j['vehicle_type_needed']?.toString(),
+    needsLiftgate: j['needs_liftgate'] == true,
+    needsDock: j['needs_dock'] == true,
+    specialHandling: j['special_handling']?.toString(),
+    loadType: j['load_type']?.toString(),
+    weight: j['weight']?.toString(),
+    temperatureRequirement: j['temperature_requirement']?.toString(),
+    courierCertificationRequired: j['courier_certification_required'] == true,
+    chainOfCustodyRequired: j['chain_of_custody_required'] == true,
+    urgencyLevel: j['urgency_level']?.toString(),
+  );
 }
 
 class JobPricing {
@@ -151,9 +152,9 @@ class JobPricing {
   JobPricing({this.rateOffered, this.currency});
 
   factory JobPricing.fromJson(Map<String, dynamic> j) => JobPricing(
-        rateOffered: j['rate_offered']?.toString(),
-        currency: j['currency']?.toString(),
-      );
+    rateOffered: j['rate_offered']?.toString(),
+    currency: j['currency']?.toString(),
+  );
 }
 
 class JobException {
@@ -161,14 +162,13 @@ class JobException {
   final String? reason;
   final String? reportedAt;
 
-  JobException(
-      {required this.hasException, this.reason, this.reportedAt});
+  JobException({required this.hasException, this.reason, this.reportedAt});
 
   factory JobException.fromJson(Map<String, dynamic> j) => JobException(
-        hasException: j['has_exception'] == true,
-        reason: j['reason']?.toString(),
-        reportedAt: j['reported_at']?.toString(),
-      );
+    hasException: j['has_exception'] == true,
+    reason: j['reason']?.toString(),
+    reportedAt: j['reported_at']?.toString(),
+  );
 }
 
 class JobProof {
@@ -185,9 +185,9 @@ class JobProof {
   });
 
   factory JobProof.fromJson(Map<String, dynamic> j) => JobProof(
-        proofOfPickup: j['proof_of_pickup']?.toString(),
-        proofOfDelivery: j['proof_of_delivery']?.toString(),
-        pickupProofSubmitted: j['pickup_proof_submitted'] == true,
-        deliveryProofSubmitted: j['delivery_proof_submitted'] == true,
-      );
+    proofOfPickup: j['proof_of_pickup']?.toString(),
+    proofOfDelivery: j['proof_of_delivery']?.toString(),
+    pickupProofSubmitted: j['pickup_proof_submitted'] == true,
+    deliveryProofSubmitted: j['delivery_proof_submitted'] == true,
+  );
 }

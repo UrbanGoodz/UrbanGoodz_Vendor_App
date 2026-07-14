@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:urban_goodz_driver/theme/app_theme.dart';
 import 'package:get/get.dart';
 import 'package:urban_goodz_driver/services/driver_api_service.dart';
 import 'package:urban_goodz_driver/services/api_client.dart';
@@ -33,22 +34,29 @@ class CapabilityController extends GetxController {
     isSaving.value = true;
     try {
       profile.value = await call();
-      Get.snackbar('Saved', 'Capability updated',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
-          colorText: Colors.white);
+      Get.snackbar(
+        'Saved',
+        'Capability updated',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: AppTheme.primary,
+        colorText: Colors.white,
+      );
     } catch (e) {
-      Get.snackbar('Save failed', _msg(e),
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.redAccent,
-          colorText: Colors.white);
+      Get.snackbar(
+        'Save failed',
+        _msg(e),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+      );
     } finally {
       isSaving.value = false;
     }
   }
 
-  void saveVehicle({String? vehicleType, int? vehicleId}) =>
-      _save(() => _api.saveVehicle(vehicleType: vehicleType, vehicleId: vehicleId));
+  void saveVehicle({String? vehicleType, int? vehicleId}) => _save(
+    () => _api.saveVehicle(vehicleType: vehicleType, vehicleId: vehicleId),
+  );
 
   void saveCargo({
     String? cargoCapacityNotes,
@@ -58,19 +66,19 @@ class CapabilityController extends GetxController {
     bool? hasCoolerBag,
     bool? hasMedicalCourierTraining,
     bool? hasLiftgate,
-  }) =>
-      _save(() => _api.saveCargo(
-            cargoCapacityNotes: cargoCapacityNotes,
-            maxPackageCount: maxPackageCount,
-            maxWeightLbs: maxWeightLbs,
-            hasCargoSpace: hasCargoSpace,
-            hasCoolerBag: hasCoolerBag,
-            hasMedicalCourierTraining: hasMedicalCourierTraining,
-            hasLiftgate: hasLiftgate,
-          ));
+  }) => _save(
+    () => _api.saveCargo(
+      cargoCapacityNotes: cargoCapacityNotes,
+      maxPackageCount: maxPackageCount,
+      maxWeightLbs: maxWeightLbs,
+      hasCargoSpace: hasCargoSpace,
+      hasCoolerBag: hasCoolerBag,
+      hasMedicalCourierTraining: hasMedicalCourierTraining,
+      hasLiftgate: hasLiftgate,
+    ),
+  );
 
-  void saveZones(List<String> zones) =>
-      _save(() => _api.saveZones(zones));
+  void saveZones(List<String> zones) => _save(() => _api.saveZones(zones));
 
   void saveWorkTypes(List<String> workTypes) =>
       _save(() => _api.saveWorkTypes(workTypes));
@@ -83,14 +91,15 @@ class CapabilityController extends GetxController {
     bool? availableForPackageRoutes,
     bool? availableForOrderAnywhere,
     bool? availableForMedicalCourier,
-  }) =>
-      _save(() => _api.saveAvailability(
-            availabilityPreference: availabilityPreference,
-            availableForBusinessCourier: availableForBusinessCourier,
-            availableForPackageRoutes: availableForPackageRoutes,
-            availableForOrderAnywhere: availableForOrderAnywhere,
-            availableForMedicalCourier: availableForMedicalCourier,
-          ));
+  }) => _save(
+    () => _api.saveAvailability(
+      availabilityPreference: availabilityPreference,
+      availableForBusinessCourier: availableForBusinessCourier,
+      availableForPackageRoutes: availableForPackageRoutes,
+      availableForOrderAnywhere: availableForOrderAnywhere,
+      availableForMedicalCourier: availableForMedicalCourier,
+    ),
+  );
 
   String _msg(Object e) => e is ApiException ? e.message : e.toString();
 }

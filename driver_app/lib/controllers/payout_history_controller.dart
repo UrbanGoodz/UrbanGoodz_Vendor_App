@@ -53,8 +53,7 @@ class PayoutHistoryController extends GetxController {
     if (status == 'all') {
       filteredPayouts.value = List.from(payouts);
     } else {
-      filteredPayouts.value =
-          payouts.where((p) => p.status == status).toList();
+      filteredPayouts.value = payouts.where((p) => p.status == status).toList();
     }
   }
 
@@ -62,13 +61,18 @@ class PayoutHistoryController extends GetxController {
     try {
       await _api.requestPayout(amount);
       pendingAmount.value += amount;
-      Get.snackbar('Request Submitted',
-          'Your payout of \$${amount.toStringAsFixed(2)} is being processed.',
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Request Submitted',
+        'Your payout of \$${amount.toStringAsFixed(2)} is being processed.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
       fetchPayoutHistory();
     } catch (e) {
-      Get.snackbar('Error', 'Failed to request payout: $e',
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Error',
+        'Failed to request payout: $e',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 }

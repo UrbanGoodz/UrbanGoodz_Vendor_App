@@ -5,6 +5,7 @@ import 'package:urban_goodz_driver/controllers/driver_auth_controller.dart';
 import 'package:urban_goodz_driver/services/api_client.dart';
 import 'package:urban_goodz_driver/services/driver_api_service.dart';
 import 'package:urban_goodz_driver/theme/app_theme.dart';
+import 'package:urban_goodz_driver/screens/driver_registration_screen.dart';
 
 class DriverOnboardingScreen extends StatefulWidget {
   const DriverOnboardingScreen({super.key});
@@ -50,7 +51,8 @@ class _DriverOnboardingScreenState extends State<DriverOnboardingScreen> {
       // Fetch profile to populate name/email
       try {
         final profile = await service.getProfile();
-        authController.name.value = profile['first_name']?.toString() ??
+        authController.name.value =
+            profile['first_name']?.toString() ??
             profile['f_name']?.toString() ??
             '';
         authController.phone.value =
@@ -101,8 +103,11 @@ class _DriverOnboardingScreenState extends State<DriverOnboardingScreen> {
                       color: AppTheme.primary.withAlpha(30),
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(Icons.local_shipping,
-                        color: AppTheme.primary, size: 64),
+                    child: Icon(
+                      Icons.local_shipping,
+                      color: AppTheme.primary,
+                      size: 64,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -137,8 +142,10 @@ class _DriverOnboardingScreenState extends State<DriverOnboardingScreen> {
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(color: Colors.red.withAlpha(80)),
                     ),
-                    child: Text(_error!,
-                        style: const TextStyle(color: Colors.red, fontSize: 13)),
+                    child: Text(
+                      _error!,
+                      style: const TextStyle(color: Colors.red, fontSize: 13),
+                    ),
                   ),
                 TextFormField(
                   controller: _phoneController,
@@ -181,7 +188,9 @@ class _DriverOnboardingScreenState extends State<DriverOnboardingScreen> {
                           height: 20,
                           width: 20,
                           child: CircularProgressIndicator(
-                              strokeWidth: 2, color: Colors.white),
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
                         )
                       : const Text(
                           'SIGN IN',
@@ -191,6 +200,19 @@ class _DriverOnboardingScreenState extends State<DriverOnboardingScreen> {
                             letterSpacing: 0.5,
                           ),
                         ),
+                ),
+                const SizedBox(height: 16),
+                TextButton(
+                  onPressed: () =>
+                      Get.to(() => const DriverRegistrationScreen()),
+                  child: const Text(
+                    'Apply to Join as a Driver',
+                    style: TextStyle(
+                      color: AppTheme.primary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                    ),
+                  ),
                 ),
               ],
             ),

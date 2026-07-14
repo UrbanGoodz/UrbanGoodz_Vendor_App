@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:urban_goodz_driver/theme/app_theme.dart';
 import 'package:get/get.dart';
 import 'package:urban_goodz_driver/models/driver_job_model.dart';
 import 'package:urban_goodz_driver/services/driver_api_service.dart';
@@ -7,7 +8,11 @@ class RouteWaypoint {
   final double lat;
   final double lng;
   final String address;
-  const RouteWaypoint({required this.lat, required this.lng, required this.address});
+  const RouteWaypoint({
+    required this.lat,
+    required this.lng,
+    required this.address,
+  });
 }
 
 class RouteDetailsController extends GetxController {
@@ -92,13 +97,19 @@ class RouteDetailsController extends GetxController {
       final jobId = int.tryParse(job.id);
       if (jobId == null) return;
       await _api.updateActiveJobStatus(jobId, driverTaskStatus);
-      Get.snackbar('Synced', 'Status updated: $driverTaskStatus',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: const Color(0xFF4CAF50),
-          colorText: const Color(0xFFFFFFFF));
+      Get.snackbar(
+        'Synced',
+        'Status updated: $driverTaskStatus',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: AppTheme.primary,
+        colorText: const Color(0xFFFFFFFF),
+      );
     } catch (e) {
-      Get.snackbar('Sync Failed', 'Backend update failed: $e',
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Sync Failed',
+        'Backend update failed: $e',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 
@@ -117,8 +128,11 @@ class RouteDetailsController extends GetxController {
         progress.value = 1.0;
         currentStatus.value = 'delivered';
         statusStr = 'delivered';
-        Get.snackbar('Delivery Complete', 'You have reached your destination.',
-            snackPosition: SnackPosition.BOTTOM);
+        Get.snackbar(
+          'Delivery Complete',
+          'You have reached your destination.',
+          snackPosition: SnackPosition.BOTTOM,
+        );
       }
       sendStatusUpdateToBackend(statusStr);
     }
@@ -128,8 +142,10 @@ class RouteDetailsController extends GetxController {
     if (index < routeWaypoints.length) {
       progress.value = (index + 1) / routeWaypoints.length;
       Get.snackbar(
-          'Waypoint Reached', 'Arrived at ${routeWaypoints[index].address}',
-          snackPosition: SnackPosition.BOTTOM);
+        'Waypoint Reached',
+        'Arrived at ${routeWaypoints[index].address}',
+        snackPosition: SnackPosition.BOTTOM,
+      );
 
       String statusStr = index == 0 ? 'picked_up' : 'delivered';
       sendStatusUpdateToBackend(statusStr);

@@ -76,7 +76,7 @@ class RevenueTrackingScreen extends StatelessWidget {
             'Available',
             '\$${c.availableForPayout.toStringAsFixed(0)}',
             Icons.check_circle,
-            Colors.green,
+            AppTheme.primary,
           ),
           _buildSummaryCard(
             'Total Paid Out',
@@ -322,7 +322,7 @@ class RevenueTrackingScreen extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             color: entry.source == 'Payout'
                                 ? Colors.red
-                                : Colors.green,
+                                : AppTheme.primary,
                             fontSize: 13,
                           ),
                         ),
@@ -344,7 +344,7 @@ class RevenueTrackingScreen extends StatelessWidget {
       case 'Order Revenue':
         return AppTheme.primary;
       case 'Service Booking':
-        return Colors.blue;
+        return AppTheme.accent;
       case 'Payout':
         return Colors.red;
       default:
@@ -452,7 +452,7 @@ class _StatusBadge extends StatelessWidget {
     String label;
     switch (status) {
       case 'settled':
-        bgColor = Colors.green;
+        bgColor = AppTheme.primary;
         label = 'Settled';
         break;
       case 'pending':
@@ -460,7 +460,7 @@ class _StatusBadge extends StatelessWidget {
         label = 'Pending';
         break;
       case 'completed':
-        bgColor = Colors.blue;
+        bgColor = AppTheme.accent;
         label = 'Completed';
         break;
       default:

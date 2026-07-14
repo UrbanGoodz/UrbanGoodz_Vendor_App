@@ -47,8 +47,9 @@ class OpportunitiesController extends GetxController {
     if (category == 'all') {
       filteredOpportunities.value = List.from(opportunities);
     } else {
-      filteredOpportunities.value =
-          opportunities.where((o) => o.type == category).toList();
+      filteredOpportunities.value = opportunities
+          .where((o) => o.type == category)
+          .toList();
     }
   }
 
@@ -74,11 +75,17 @@ class OpportunitiesController extends GetxController {
         opportunities[idx] = updated;
         filterByCategory(selectedCategory.value);
       }
-      Get.snackbar('Claimed!', 'Opportunity has been added to your profile.',
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Claimed!',
+        'Opportunity has been added to your profile.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     } catch (e) {
-      Get.snackbar('Error', 'Failed to claim opportunity: $e',
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Error',
+        'Failed to claim opportunity: $e',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 }

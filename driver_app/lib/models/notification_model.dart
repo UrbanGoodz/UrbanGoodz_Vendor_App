@@ -38,7 +38,9 @@ class DispatchNotification {
         title: n['title']?.toString() ?? '',
         body: n['body']?.toString() ?? '',
         jobType: n['job_type']?.toString(),
-        jobId: n['job_id'] == null ? null : int.tryParse(n['job_id'].toString()),
+        jobId: n['job_id'] == null
+            ? null
+            : int.tryParse(n['job_id'].toString()),
         status: n['status']?.toString() ?? 'unread',
         priority: n['priority']?.toString() ?? 'normal',
         requiresAction: n['requires_action'] == true,

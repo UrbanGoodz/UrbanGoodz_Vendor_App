@@ -144,7 +144,7 @@ class _DashboardTab extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           gradient: const LinearGradient(
-            colors: [AppTheme.dark, Color(0xFF2A2A2A)],
+            colors: [AppTheme.dark, AppTheme.dark],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -241,7 +241,7 @@ class _DashboardTab extends StatelessWidget {
             title: 'Low Stock Alerts',
             value: '${c.lowStockItems.value}',
             icon: Icons.warning_amber,
-            color: c.lowStockItems.value > 0 ? Colors.red : Colors.green,
+            color: c.lowStockItems.value > 0 ? Colors.red : AppTheme.primary,
           ),
         ],
       ),
@@ -612,7 +612,7 @@ class _StatusBadge extends StatelessWidget {
         label = 'Pending';
         break;
       case 'confirmed':
-        bgColor = Colors.blue;
+        bgColor = AppTheme.accent;
         label = 'Confirmed';
         break;
       case 'preparing':
@@ -624,7 +624,7 @@ class _StatusBadge extends StatelessWidget {
         label = 'Ready';
         break;
       case 'completed':
-        bgColor = Colors.green;
+        bgColor = AppTheme.primary;
         label = 'Completed';
         break;
       case 'cancelled':

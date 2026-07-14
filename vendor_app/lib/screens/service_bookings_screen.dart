@@ -264,7 +264,7 @@ class _BookingCard extends StatelessWidget {
                 children: [
                   _ActionChip(
                     label: 'Accept fixed price',
-                    color: Colors.blue,
+                    color: AppTheme.accent,
                     onTap: () => controller.confirmBooking(booking.id),
                   ),
                   const SizedBox(width: 8),
@@ -290,7 +290,7 @@ class _BookingCard extends StatelessWidget {
                 children: [
                   _ActionChip(
                     label: 'En route',
-                    color: Colors.blue,
+                    color: AppTheme.accent,
                     onTap: () =>
                         controller.updateStatus(booking.id, 'en_route'),
                   ),
@@ -323,7 +323,7 @@ class _BookingCard extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: _ActionChip(
                   label: 'Complete',
-                  color: Colors.green,
+                  color: AppTheme.primary,
                   onTap: () => controller.completeBooking(booking.id),
                 ),
               ),
@@ -417,7 +417,7 @@ class _StatusBadge extends StatelessWidget {
     String label;
     switch (status) {
       case 'upcoming':
-        bgColor = Colors.blue;
+        bgColor = AppTheme.accent;
         label = 'Upcoming';
         break;
       case 'requested':
@@ -425,15 +425,15 @@ class _StatusBadge extends StatelessWidget {
         label = 'Requested';
         break;
       case 'quoted':
-        bgColor = Colors.purple;
+        bgColor = AppTheme.accent;
         label = 'Quoted';
         break;
       case 'accepted':
-        bgColor = Colors.blueGrey;
+        bgColor = AppTheme.dark;
         label = 'Accepted';
         break;
       case 'en_route':
-        bgColor = Colors.blue;
+        bgColor = AppTheme.accent;
         label = 'En route';
         break;
       case 'started':
@@ -453,7 +453,7 @@ class _StatusBadge extends StatelessWidget {
         label = 'Confirmed';
         break;
       case 'completed':
-        bgColor = Colors.green;
+        bgColor = AppTheme.primary;
         label = 'Completed';
         break;
       case 'cancelled':

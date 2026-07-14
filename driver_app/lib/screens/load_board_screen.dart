@@ -40,16 +40,17 @@ class _LoadBoardScreenState extends State<LoadBoardScreen> {
                   TextField(
                     decoration: InputDecoration(
                       hintText: 'Search loads...',
-                      prefixIcon:
-                          const Icon(Icons.search, color: AppTheme.dark),
+                      prefixIcon: const Icon(
+                        Icons.search,
+                        color: AppTheme.dark,
+                      ),
                       filled: true,
                       fillColor: AppTheme.white,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide.none,
                       ),
-                      contentPadding:
-                          const EdgeInsets.symmetric(vertical: 10),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 10),
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -83,14 +84,19 @@ class _LoadBoardScreenState extends State<LoadBoardScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.local_shipping,
-                              size: 64,
-                              color: AppTheme.dark.withAlpha(60)),
+                          Icon(
+                            Icons.local_shipping,
+                            size: 64,
+                            color: AppTheme.dark.withAlpha(60),
+                          ),
                           const SizedBox(height: 16),
-                          const Text('No loads available',
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600)),
+                          const Text(
+                            'No loads available',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                         ],
                       ),
                     )
@@ -134,12 +140,14 @@ class _SortButton extends StatelessWidget {
           color: isSelected ? AppTheme.primary : AppTheme.beige,
           borderRadius: BorderRadius.circular(20),
         ),
-        child: Text(label,
-            style: TextStyle(
-              color: isSelected ? AppTheme.white : AppTheme.dark,
-              fontWeight: FontWeight.w600,
-              fontSize: 13,
-            )),
+        child: Text(
+          label,
+          style: TextStyle(
+            color: isSelected ? AppTheme.white : AppTheme.dark,
+            fontWeight: FontWeight.w600,
+            fontSize: 13,
+          ),
+        ),
       ),
     );
   }
@@ -160,7 +168,7 @@ class _LoadCard extends StatelessWidget {
         color: AppTheme.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
-          BoxShadow(color: AppTheme.dark.withAlpha(15), blurRadius: 8)
+          BoxShadow(color: AppTheme.dark.withAlpha(15), blurRadius: 8),
         ],
       ),
       child: Column(
@@ -169,84 +177,124 @@ class _LoadCard extends StatelessWidget {
           Row(
             children: [
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: AppTheme.primary.withAlpha(30),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Text(load.type.toUpperCase(),
-                    style: const TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                        color: AppTheme.primary)),
+                child: Text(
+                  load.type.toUpperCase(),
+                  style: const TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.primary,
+                  ),
+                ),
               ),
               const Spacer(),
-              Text('\$${load.earnings.toStringAsFixed(2)}',
-                  style: const TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.dark)),
+              Text(
+                '\$${load.earnings.toStringAsFixed(2)}',
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: AppTheme.dark,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 10),
-          Text(load.title,
-              style:
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          Text(
+            load.title,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 8),
           Row(
             children: [
-              Icon(Icons.location_on,
-                  size: 16, color: AppTheme.primary.withAlpha(180)),
+              Icon(
+                Icons.location_on,
+                size: 16,
+                color: AppTheme.primary.withAlpha(180),
+              ),
               const SizedBox(width: 4),
               Expanded(
-                child: Text(load.pickupAddress,
-                    style: TextStyle(
-                        fontSize: 12, color: AppTheme.dark.withAlpha(150)),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis),
+                child: Text(
+                  load.pickupAddress,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: AppTheme.dark.withAlpha(150),
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ],
           ),
           const SizedBox(height: 4),
           Row(
             children: [
-              Icon(Icons.flag,
-                  size: 16, color: AppTheme.accent.withAlpha(180)),
+              Icon(Icons.flag, size: 16, color: AppTheme.accent.withAlpha(180)),
               const SizedBox(width: 4),
               Expanded(
-                child: Text(load.dropoffAddress,
-                    style: TextStyle(
-                        fontSize: 12, color: AppTheme.dark.withAlpha(150)),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis),
+                child: Text(
+                  load.dropoffAddress,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: AppTheme.dark.withAlpha(150),
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ],
           ),
           const SizedBox(height: 12),
           Row(
             children: [
-              Icon(Icons.straighten,
-                  size: 16, color: AppTheme.dark.withAlpha(120)),
+              Icon(
+                Icons.straighten,
+                size: 16,
+                color: AppTheme.dark.withAlpha(120),
+              ),
               const SizedBox(width: 4),
-              Text('${load.distance.toStringAsFixed(1)} mi',
-                  style: TextStyle(
-                      fontSize: 13, color: AppTheme.dark.withAlpha(150))),
+              Text(
+                '${load.distance.toStringAsFixed(1)} mi',
+                style: TextStyle(
+                  fontSize: 13,
+                  color: AppTheme.dark.withAlpha(150),
+                ),
+              ),
               const SizedBox(width: 16),
-              Icon(Icons.directions_car,
-                  size: 16, color: AppTheme.dark.withAlpha(120)),
+              Icon(
+                Icons.directions_car,
+                size: 16,
+                color: AppTheme.dark.withAlpha(120),
+              ),
               const SizedBox(width: 4),
-              Text(load.vehicleType[0].toUpperCase() +
-                      load.vehicleType.substring(1),
-                  style: TextStyle(
-                      fontSize: 13, color: AppTheme.dark.withAlpha(150))),
+              Text(
+                load.vehicleType[0].toUpperCase() +
+                    load.vehicleType.substring(1),
+                style: TextStyle(
+                  fontSize: 13,
+                  color: AppTheme.dark.withAlpha(150),
+                ),
+              ),
               const SizedBox(width: 16),
-              Icon(Icons.access_time,
-                  size: 16, color: AppTheme.dark.withAlpha(120)),
+              Icon(
+                Icons.access_time,
+                size: 16,
+                color: AppTheme.dark.withAlpha(120),
+              ),
               const SizedBox(width: 4),
-              Text(load.scheduledTime,
-                  style: TextStyle(
-                      fontSize: 13, color: AppTheme.dark.withAlpha(150))),
+              Text(
+                load.scheduledTime,
+                style: TextStyle(
+                  fontSize: 13,
+                  color: AppTheme.dark.withAlpha(150),
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 12),

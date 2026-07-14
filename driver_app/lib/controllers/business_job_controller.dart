@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:urban_goodz_driver/theme/app_theme.dart';
 import 'package:get/get.dart';
 import 'package:urban_goodz_driver/services/driver_api_service.dart';
 import 'package:urban_goodz_driver/services/api_client.dart';
@@ -21,10 +22,17 @@ class BusinessJobController extends GetxController {
   bool canStart(String s) => s == 'assigned' || s == 'driver_en_route';
   bool canPickup(String s) => s == 'driver_en_route' || s == 'picked_up';
   bool canDeliver(String s) =>
-      s == 'picked_up' || s == 'in_transit' || s == 'delayed' || s == 'delivered';
-  bool canReportException(String s) =>
-      ['assigned', 'driver_en_route', 'picked_up', 'in_transit', 'delayed']
-          .contains(s);
+      s == 'picked_up' ||
+      s == 'in_transit' ||
+      s == 'delayed' ||
+      s == 'delivered';
+  bool canReportException(String s) => [
+    'assigned',
+    'driver_en_route',
+    'picked_up',
+    'in_transit',
+    'delayed',
+  ].contains(s);
 
   Future<void> fetchJobs() async {
     isLoading.value = true;
@@ -51,21 +59,29 @@ class BusinessJobController extends GetxController {
   }
 
   Future<void> _run(
-      Future<BusinessJobModel> Function() call, String successMsg) async {
+    Future<BusinessJobModel> Function() call,
+    String successMsg,
+  ) async {
     actionLoading.value = true;
     try {
       final updated = await call();
       _replace(updated);
       selectedJob.value = updated;
-      Get.snackbar('Success', successMsg,
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
-          colorText: Colors.white);
+      Get.snackbar(
+        'Success',
+        successMsg,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: AppTheme.primary,
+        colorText: Colors.white,
+      );
     } catch (e) {
-      Get.snackbar('Action failed', _msg(e),
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.redAccent,
-          colorText: Colors.white);
+      Get.snackbar(
+        'Action failed',
+        _msg(e),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+      );
     } finally {
       actionLoading.value = false;
     }
@@ -73,18 +89,25 @@ class BusinessJobController extends GetxController {
 
   void accept(int jobId) =>
       _run(() => _api.acceptBusinessJob(jobId), 'Job accepted');
-  void start(int jobId) => _run(() => _api.startBusinessJob(jobId), 'Job started');
+  void start(int jobId) =>
+      _run(() => _api.startBusinessJob(jobId), 'Job started');
   void pickup(int jobId) =>
       _run(() => _api.pickupBusinessJob(jobId), 'Pickup complete');
   void deliver(int jobId) =>
       _run(() => _api.deliverBusinessJob(jobId), 'Delivery complete');
 
-  Future<void> submitPickupProof(int jobId,
-      {required String proofUrl, String? notes}) async {
+  Future<void> submitPickupProof(
+    int jobId, {
+    required String proofUrl,
+    String? notes,
+  }) async {
     actionLoading.value = true;
     try {
-      final url =
-          await _api.submitPickupProof(jobId, proofUrl: proofUrl, notes: notes);
+      final url = await _api.submitPickupProof(
+        jobId,
+        proofUrl: proofUrl,
+        notes: notes,
+      );
       if (selectedJob.value != null) {
         final j = selectedJob.value!;
         selectedJob.value = BusinessJobModel(
@@ -112,26 +135,38 @@ class BusinessJobController extends GetxController {
           hasException: j.hasException,
         );
       }
-      Get.snackbar('Success', 'Pickup proof submitted',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
-          colorText: Colors.white);
+      Get.snackbar(
+        'Success',
+        'Pickup proof submitted',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: AppTheme.primary,
+        colorText: Colors.white,
+      );
     } catch (e) {
-      Get.snackbar('Failed', _msg(e),
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.redAccent,
-          colorText: Colors.white);
+      Get.snackbar(
+        'Failed',
+        _msg(e),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+      );
     } finally {
       actionLoading.value = false;
     }
   }
 
-  Future<void> submitDeliveryProof(int jobId,
-      {required String proofUrl, String? notes}) async {
+  Future<void> submitDeliveryProof(
+    int jobId, {
+    required String proofUrl,
+    String? notes,
+  }) async {
     actionLoading.value = true;
     try {
-      final url = await _api.submitDeliveryProof(jobId,
-          proofUrl: proofUrl, notes: notes);
+      final url = await _api.submitDeliveryProof(
+        jobId,
+        proofUrl: proofUrl,
+        notes: notes,
+      );
       if (selectedJob.value != null) {
         final j = selectedJob.value!;
         selectedJob.value = BusinessJobModel(
@@ -159,37 +194,55 @@ class BusinessJobController extends GetxController {
           hasException: j.hasException,
         );
       }
-      Get.snackbar('Success', 'Delivery proof submitted',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
-          colorText: Colors.white);
+      Get.snackbar(
+        'Success',
+        'Delivery proof submitted',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: AppTheme.primary,
+        colorText: Colors.white,
+      );
     } catch (e) {
-      Get.snackbar('Failed', _msg(e),
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.redAccent,
-          colorText: Colors.white);
+      Get.snackbar(
+        'Failed',
+        _msg(e),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+      );
     } finally {
       actionLoading.value = false;
     }
   }
 
-  Future<void> reportException(int jobId,
-      {required String reason, String? notes}) async {
+  Future<void> reportException(
+    int jobId, {
+    required String reason,
+    String? notes,
+  }) async {
     actionLoading.value = true;
     try {
-      final updated = await _api.reportException(jobId,
-          reason: reason, notes: notes);
+      final updated = await _api.reportException(
+        jobId,
+        reason: reason,
+        notes: notes,
+      );
       _replace(updated);
       selectedJob.value = updated;
-      Get.snackbar('Reported', 'Exception submitted',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.orange,
-          colorText: Colors.white);
+      Get.snackbar(
+        'Reported',
+        'Exception submitted',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.orange,
+        colorText: Colors.white,
+      );
     } catch (e) {
-      Get.snackbar('Failed', _msg(e),
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.redAccent,
-          colorText: Colors.white);
+      Get.snackbar(
+        'Failed',
+        _msg(e),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+      );
     } finally {
       actionLoading.value = false;
     }

@@ -272,7 +272,7 @@ class _ReelCard extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       color: reel.isPublished
-                          ? Colors.green.withOpacity(0.8)
+                          ? AppTheme.primary.withOpacity(0.8)
                           : Colors.grey.withOpacity(0.8),
                       borderRadius: BorderRadius.circular(4),
                     ),

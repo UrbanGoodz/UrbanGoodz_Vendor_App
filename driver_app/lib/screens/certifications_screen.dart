@@ -11,8 +11,9 @@ class CertificationsScreen extends StatefulWidget {
 }
 
 class _CertificationsScreenState extends State<CertificationsScreen> {
-  final CertificationsController controller =
-      Get.put(CertificationsController());
+  final CertificationsController controller = Get.put(
+    CertificationsController(),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +42,7 @@ class _CertificationsScreenState extends State<CertificationsScreen> {
                   _StatBadge(
                     label: 'Valid',
                     count: controller.validCount.value,
-                    color: Colors.green,
+                    color: AppTheme.primary,
                   ),
                   const SizedBox(width: 10),
                   _StatBadge(
@@ -58,15 +59,16 @@ class _CertificationsScreenState extends State<CertificationsScreen> {
                 ],
               ),
               const SizedBox(height: 20),
-              const Text('All Certifications',
-                  style:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              const Text(
+                'All Certifications',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 12),
               ...controller.certifications.map((cert) {
                 Color statusColor;
                 switch (cert.status) {
                   case 'valid':
-                    statusColor = Colors.green;
+                    statusColor = AppTheme.primary;
                     break;
                   case 'expired':
                     statusColor = Colors.red;
@@ -84,13 +86,12 @@ class _CertificationsScreenState extends State<CertificationsScreen> {
                   decoration: BoxDecoration(
                     color: AppTheme.white,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: statusColor.withAlpha(60),
-                    ),
+                    border: Border.all(color: statusColor.withAlpha(60)),
                     boxShadow: [
                       BoxShadow(
-                          color: AppTheme.dark.withAlpha(10),
-                          blurRadius: 6)
+                        color: AppTheme.dark.withAlpha(10),
+                        blurRadius: 6,
+                      ),
                     ],
                   ),
                   child: Column(
@@ -109,8 +110,8 @@ class _CertificationsScreenState extends State<CertificationsScreen> {
                               cert.status == 'valid'
                                   ? Icons.verified
                                   : cert.status == 'expired'
-                                      ? Icons.error_outline
-                                      : Icons.hourglass_empty,
+                                  ? Icons.error_outline
+                                  : Icons.hourglass_empty,
                               color: statusColor,
                               size: 22,
                             ),
@@ -120,21 +121,28 @@ class _CertificationsScreenState extends State<CertificationsScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(cert.name,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14)),
-                                Text(cert.issuingAuthority,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: AppTheme.dark
-                                            .withAlpha(150))),
+                                Text(
+                                  cert.name,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                Text(
+                                  cert.issuingAuthority,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: AppTheme.dark.withAlpha(150),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
                           Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 4),
+                              horizontal: 10,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
                               color: statusColor.withAlpha(30),
                               borderRadius: BorderRadius.circular(12),
@@ -154,29 +162,37 @@ class _CertificationsScreenState extends State<CertificationsScreen> {
                       const SizedBox(height: 10),
                       Row(
                         children: [
-                          Icon(Icons.calendar_today,
-                              size: 14,
-                              color: AppTheme.dark.withAlpha(120)),
+                          Icon(
+                            Icons.calendar_today,
+                            size: 14,
+                            color: AppTheme.dark.withAlpha(120),
+                          ),
                           const SizedBox(width: 4),
-                          Text('Issued: ${cert.issueDate}',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color:
-                                      AppTheme.dark.withAlpha(120))),
+                          Text(
+                            'Issued: ${cert.issueDate}',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppTheme.dark.withAlpha(120),
+                            ),
+                          ),
                           const SizedBox(width: 16),
-                          Icon(Icons.event,
-                              size: 14,
+                          Icon(
+                            Icons.event,
+                            size: 14,
+                            color: cert.status == 'expired'
+                                ? Colors.red
+                                : AppTheme.dark.withAlpha(120),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            'Expires: ${cert.expiryDate}',
+                            style: TextStyle(
+                              fontSize: 12,
                               color: cert.status == 'expired'
                                   ? Colors.red
-                                  : AppTheme.dark.withAlpha(120)),
-                          const SizedBox(width: 4),
-                          Text('Expires: ${cert.expiryDate}',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: cert.status == 'expired'
-                                    ? Colors.red
-                                    : AppTheme.dark.withAlpha(120),
-                              )),
+                                  : AppTheme.dark.withAlpha(120),
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 10),
@@ -185,27 +201,35 @@ class _CertificationsScreenState extends State<CertificationsScreen> {
                           if (cert.isRequired)
                             Container(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 3),
+                                horizontal: 8,
+                                vertical: 3,
+                              ),
                               decoration: BoxDecoration(
                                 color: AppTheme.dark.withAlpha(20),
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              child: const Text('REQUIRED',
-                                  style: TextStyle(
-                                      fontSize: 9,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppTheme.dark)),
+                              child: const Text(
+                                'REQUIRED',
+                                style: TextStyle(
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppTheme.dark,
+                                ),
+                              ),
                             ),
                           const Spacer(),
-                          if (cert.status == 'valid' && cert.documentUrl.isNotEmpty)
+                          if (cert.status == 'valid' &&
+                              cert.documentUrl.isNotEmpty)
                             TextButton.icon(
                               onPressed: () {},
-                              icon: const Icon(Icons.file_present,
-                                  size: 16),
-                              label: const Text('View',
-                                  style: TextStyle(fontSize: 12)),
+                              icon: const Icon(Icons.file_present, size: 16),
+                              label: const Text(
+                                'View',
+                                style: TextStyle(fontSize: 12),
+                              ),
                               style: TextButton.styleFrom(
-                                  foregroundColor: Colors.blue),
+                                foregroundColor: AppTheme.primary,
+                              ),
                             ),
                           if (cert.status == 'expired')
                             ElevatedButton(
@@ -213,13 +237,18 @@ class _CertificationsScreenState extends State<CertificationsScreen> {
                                   controller.renewCertification(cert.id),
                               style: ElevatedButton.styleFrom(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 6),
+                                  horizontal: 16,
+                                  vertical: 6,
+                                ),
                                 backgroundColor: AppTheme.primary,
                               ),
-                              child: const Text('Renew',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600)),
+                              child: const Text(
+                                'Renew',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                             ),
                           if (cert.status == 'pending')
                             ElevatedButton(
@@ -227,13 +256,18 @@ class _CertificationsScreenState extends State<CertificationsScreen> {
                                   controller.uploadDocument(cert.id),
                               style: ElevatedButton.styleFrom(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 6),
-                                backgroundColor: Colors.blue,
+                                  horizontal: 16,
+                                  vertical: 6,
+                                ),
+                                backgroundColor: AppTheme.primary,
                               ),
-                              child: const Text('Upload',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600)),
+                              child: const Text(
+                                'Upload',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                             ),
                         ],
                       ),
@@ -246,9 +280,9 @@ class _CertificationsScreenState extends State<CertificationsScreen> {
                               value: 0.3,
                               minHeight: 4,
                               backgroundColor: AppTheme.beige,
-                              valueColor:
-                                  const AlwaysStoppedAnimation<Color>(
-                                      AppTheme.primary),
+                              valueColor: const AlwaysStoppedAnimation<Color>(
+                                AppTheme.primary,
+                              ),
                             ),
                           ),
                         ),
@@ -285,21 +319,27 @@ class _StatBadge extends StatelessWidget {
           color: AppTheme.white,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
-            BoxShadow(color: AppTheme.dark.withAlpha(15), blurRadius: 8)
+            BoxShadow(color: AppTheme.dark.withAlpha(15), blurRadius: 8),
           ],
         ),
         child: Column(
           children: [
-            Text('$count',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: color,
-                )),
+            Text(
+              '$count',
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: color,
+              ),
+            ),
             const SizedBox(height: 4),
-            Text(label,
-                style: TextStyle(
-                    fontSize: 13, color: AppTheme.dark.withAlpha(150))),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 13,
+                color: AppTheme.dark.withAlpha(150),
+              ),
+            ),
           ],
         ),
       ),

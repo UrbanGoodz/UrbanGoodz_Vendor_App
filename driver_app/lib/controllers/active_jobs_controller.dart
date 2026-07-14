@@ -48,12 +48,18 @@ class ActiveJobsController extends GetxController {
       final updated = await _api.acceptLoad(jobId);
       if (updated.isNotEmpty) {
         fetchActiveJobs();
-        Get.snackbar('Job Accepted', 'You are now working on this job.',
-            snackPosition: SnackPosition.BOTTOM);
+        Get.snackbar(
+          'Job Accepted',
+          'You are now working on this job.',
+          snackPosition: SnackPosition.BOTTOM,
+        );
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to accept job: $e',
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Error',
+        'Failed to accept job: $e',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 
@@ -63,11 +69,17 @@ class ActiveJobsController extends GetxController {
       if (jobId == null) return;
       await _api.startActiveJob(jobId);
       fetchActiveJobs();
-      Get.snackbar('Job Started', 'Head to the pickup location.',
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Job Started',
+        'Head to the pickup location.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     } catch (e) {
-      Get.snackbar('Error', 'Failed to start job: $e',
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Error',
+        'Failed to start job: $e',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 
@@ -77,11 +89,17 @@ class ActiveJobsController extends GetxController {
       if (jobId == null) return;
       await _api.completeActiveJob(jobId);
       fetchActiveJobs();
-      Get.snackbar('Job Completed', 'Great work! Earnings have been added.',
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Job Completed',
+        'Great work! Earnings have been added.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     } catch (e) {
-      Get.snackbar('Error', 'Failed to complete job: $e',
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Error',
+        'Failed to complete job: $e',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 
@@ -91,11 +109,17 @@ class ActiveJobsController extends GetxController {
       if (jobId == null) return;
       await _api.cancelActiveJob(jobId);
       fetchActiveJobs();
-      Get.snackbar('Job Cancelled', 'The job has been removed from your list.',
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Job Cancelled',
+        'The job has been removed from your list.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     } catch (e) {
-      Get.snackbar('Error', 'Failed to cancel job: $e',
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Error',
+        'Failed to cancel job: $e',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 }

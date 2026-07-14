@@ -95,7 +95,7 @@ class _ServiceProviderToolsScreenState
             mainAxisSize: MainAxisSize.min,
             children: [
               DropdownButtonFormField<String>(
-                initialValue: category,
+                value: category,
                 items:
                     const [
                           'barber',
