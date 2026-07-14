@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urban_goodz_vendor/controllers/vendor_auth_controller.dart';
+import 'package:urban_goodz_vendor/repositories/api_client.dart';
 import 'package:urban_goodz_vendor/screens/dashboard_screen.dart';
 import 'package:urban_goodz_vendor/screens/vendor_onboarding_screen.dart';
 import 'package:urban_goodz_vendor/theme/app_theme.dart';
 
 void main() {
+  Get.put(ApiClient());
   runApp(const MyApp());
 }
 

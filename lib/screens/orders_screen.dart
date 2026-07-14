@@ -284,41 +284,13 @@ class OrdersScreen extends StatelessWidget {
               backgroundColor: AppTheme.primary,
               foregroundColor: AppTheme.dark,
             ),
-            onPressed: () {
+            onPressed: () async {
               final amt = double.tryParse(amountController.text) ?? 0.0;
               final notes = notesController.text;
               final est = timeController.text;
 
-              // Find and update item in list
-              final idx = auth.sizingQuoteRequests.indexWhere((r) => r.id == request.id);
-              if (idx != -1) {
-                final current = auth.sizingQuoteRequests[idx];
-                final updated = FashionFitQuoteRequest(
-                  id: current.id,
-                  customerName: current.customerName,
-                  customerPhone: current.customerPhone,
-                  chestSize: current.chestSize,
-                  waistSize: current.waistSize,
-                  inseam: current.inseam,
-                  gender: current.gender,
-                  requestType: current.requestType,
-                  status: 'quoted',
-                  date: current.date,
-                  quoteAmount: amt,
-                  notes: notes.isNotEmpty ? notes : null,
-                  estCompletion: est,
-                );
-                auth.sizingQuoteRequests[idx] = updated;
-              }
-
               Navigator.pop(context);
-              Get.snackbar(
-                'Quote Submitted',
-                'Your alteration quote of \$${amt.toStringAsFixed(2)} was submitted.',
-                snackPosition: SnackPosition.BOTTOM,
-                backgroundColor: Colors.green,
-                colorText: Colors.white,
-              );
+              await auth.submitFashionFitQuote(request.id, amt, est, notes);
             },
             child: const Text('SUBMIT QUOTE'),
           ),
