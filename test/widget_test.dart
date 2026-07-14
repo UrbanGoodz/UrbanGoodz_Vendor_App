@@ -1,30 +1,30 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility that Flutter provides. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
+import 'package:get/get.dart';
 import 'package:sixam_mart/main.dart';
 
+import 'helpers/test_bootstrap.dart';
+
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp(languages: null, body: null));
+  late Map<String, Map<String, String>> languages;
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  setUp(() async {
+    Get.testMode = true;
+    languages = await initTestDependencies();
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+  tearDown(resetGetx);
+
+  testWidgets('Urban Goodz app renders GetMaterialApp on startup', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(MyApp(languages: languages, body: null));
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.byType(GetMaterialApp), findsOneWidget);
+
+    // Advance past any pending timers (drift database init, splash async work).
+    await tester.pump(const Duration(seconds: 1));
+    await tester.pump();
   });
 }
