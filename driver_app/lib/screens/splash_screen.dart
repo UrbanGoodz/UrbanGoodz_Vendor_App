@@ -1,29 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:urban_goodz_driver/theme/app_theme.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.light,
+      systemNavigationBarColor: AppTheme.dark,
+      systemNavigationBarIconBrightness: Brightness.light,
+    ));
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final logoSize = size.width * 0.35;
+
     return Scaffold(
       backgroundColor: AppTheme.dark,
-      body: Center(
+      body: SizedBox.expand(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              width: 140,
-              height: 140,
+              width: logoSize,
+              height: logoSize,
               decoration: BoxDecoration(
                 color: AppTheme.primary,
-                borderRadius: BorderRadius.circular(28),
+                borderRadius: BorderRadius.circular(logoSize * 0.2),
               ),
-              child: const Center(
+              child: Center(
                 child: Text(
                   'UG',
                   style: TextStyle(
-                    fontSize: 56,
+                    fontSize: logoSize * 0.4,
                     fontWeight: FontWeight.w900,
                     color: AppTheme.dark,
                     letterSpacing: 2,
@@ -31,27 +54,27 @@ class SplashScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 28),
-            const Text(
+            SizedBox(height: size.height * 0.04),
+            Text(
               'Urban Goodz',
               style: TextStyle(
-                fontSize: 32,
+                fontSize: size.width * 0.08,
                 fontWeight: FontWeight.w800,
                 color: AppTheme.white,
                 letterSpacing: 1.5,
               ),
             ),
-            const SizedBox(height: 8),
-            const Text(
-              'Driver',
+            SizedBox(height: size.height * 0.01),
+            Text(
+              'DRIVER',
               style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
+                fontSize: size.width * 0.045,
+                fontWeight: FontWeight.w600,
                 color: AppTheme.primary,
-                letterSpacing: 3,
+                letterSpacing: 4,
               ),
             ),
-            const SizedBox(height: 48),
+            SizedBox(height: size.height * 0.08),
             SizedBox(
               width: 32,
               height: 32,

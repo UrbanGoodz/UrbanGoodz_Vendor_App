@@ -11,7 +11,9 @@ import 'package:urban_goodz_driver/theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  try {
+    await Firebase.initializeApp();
+  } catch (_) {}
   runApp(const MyApp());
 }
 
