@@ -25,13 +25,7 @@ class DriverAuthController extends GetxController {
   static const _phoneKey = 'driver_phone';
   static const _emailKey = 'driver_email';
 
-  @override
-  void onInit() {
-    super.onInit();
-    _restoreSession();
-  }
-
-  Future<void> _restoreSession() async {
+  Future<void> restoreSession() async {
     final prefs = await SharedPreferences.getInstance();
     final savedToken = prefs.getString(_tokenKey) ?? '';
     if (savedToken.isNotEmpty) {
