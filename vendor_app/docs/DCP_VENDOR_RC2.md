@@ -16,5 +16,6 @@ Build: RC2 release APK PASS; package/version/permission/hash verified; no ADB ta
 Commits: Vendor source/test/docs/artifact commits pushed (8ed1d71, 73f5edd, 1607615, fbefff3, 0ec6cb1, 4b74f24, 6fa96e7).
 17: Push: Complete — branch up to date with origin/reconcile/vendor-rescue-20260731.
 18: V1 Milestone SHA: fb4fef4c077cb8bfd4bf26f362e090914b443122 (feat(vendor): implement V1 authentication, token handling, logout, and profile financial state).
-19: Blockers: Live backend deployment/data/approved accounts, external AI/sandbox payment credentials, and an attached Android target are required for runtime E2E.
-20: Exact next action: Proceed to Milestone V2 (Onboarding, account enforcement and store enforcement).
+19: V2 Milestone SHA: 21764367ab9c84548f2f7bc0a6485bf0004671f5 (feat(vendor): implement V2 store onboarding, merchant registration, and store enforcement).
+20: Blockers: Live backend deployment/data/approved accounts, external AI/sandbox payment credentials, and an attached Android target are required for runtime E2E.
+21: Exact next action: Proceed to Milestone V3 (Order ownership and order lifecycle).
