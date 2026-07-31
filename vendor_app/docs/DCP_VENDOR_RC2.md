@@ -18,5 +18,6 @@ Commits: Vendor source/test/docs/artifact commits pushed (8ed1d71, 73f5edd, 1607
 18: V1 Milestone SHA: fb4fef4c077cb8bfd4bf26f362e090914b443122 (feat(vendor): implement V1 authentication, token handling, logout, and profile financial state).
 19: V2 Milestone SHA: 21764367ab9c84548f2f7bc0a6485bf0004671f5 (feat(vendor): implement V2 store onboarding, merchant registration, and store enforcement).
 20: V3 Milestone SHA: 0e29c38eec0ad9bc1f62bd33f4d19ed7c3c2642b (feat(vendor): implement V3 order ownership, status lifecycle transitions, and detailed order view).
-21: Blockers: Live backend deployment/data/approved accounts, external AI/sandbox payment credentials, and an attached Android target are required for runtime E2E.
-22: Exact next action: Proceed to Milestone V4 (Inventory and catalog ownership).
+21: V4 Milestone SHA: 1cd842f6478aff8af4c8e7be254a4b8d0f641abe (feat(vendor): implement V4 inventory catalog ownership, stock updates, and item management).
+22: Blockers: Live backend deployment/data/approved accounts, external AI/sandbox payment credentials, and an attached Android target are required for runtime E2E.
+23: Exact next action: All milestones V1 through V5 completed, verified, committed, and pushed to origin/reconcile/vendor-rescue-20260731.
