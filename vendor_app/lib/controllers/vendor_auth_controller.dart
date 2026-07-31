@@ -131,6 +131,48 @@ class VendorAuthController extends GetxController {
     }
   }
 
+  Future<bool> registerStore({
+    required String fName,
+    required String lName,
+    required String emailInput,
+    required String phoneInput,
+    required String passwordInput,
+    required String businessNameInput,
+    required String addressInput,
+    required String category,
+  }) async {
+    isLoading.value = true;
+    errorMessage.value = null;
+    try {
+      await repository.registerStore(
+        fName: fName,
+        lName: lName,
+        email: emailInput.trim(),
+        phone: phoneInput.trim(),
+        password: passwordInput,
+        businessName: businessNameInput,
+        address: addressInput,
+        category: category,
+      );
+      Get.snackbar(
+        'Registration Submitted',
+        'Application placed successfully. Pending Admin review.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return true;
+    } on VendorApiException catch (error) {
+      errorMessage.value = error.message;
+      Get.snackbar('Registration Failed', error.message);
+      return false;
+    } catch (error) {
+      errorMessage.value = 'Registration error: $error';
+      Get.snackbar('Registration Error', error.toString());
+      return false;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   Future<void> refreshProfile() async {
     final profile = await repository.profile();
     final storeValue = profile['stores'];

@@ -14,6 +14,7 @@ Notifications: FCM initial registration, token refresh, persisted notification l
 Tests: Flutter analyze PASS; 9 Flutter tests PASS (contract tests for Fashion Fit API, privacy, no-local-engine).
 Build: RC2 release APK PASS; package/version/permission/hash verified; no ADB target for install/launch.
 Commits: Vendor source/test/docs/artifact commits pushed (8ed1d71, 73f5edd, 1607615, fbefff3, 0ec6cb1, 4b74f24, 6fa96e7).
-Push: Complete — branch up to date with origin/vendor-driver-tester-sprint.
-Blockers: Live backend deployment/data/approved accounts, external AI/sandbox payment credentials, and an attached Android target are required for runtime E2E.
-Exact next action: Complete and test the Customer guided Fashion Fit camera workflow on a live device against the deployed Fashion Fit AI backend.
+17: Push: Complete — branch up to date with origin/reconcile/vendor-rescue-20260731.
+18: V1 Milestone SHA: fb4fef4c077cb8bfd4bf26f362e090914b443122 (feat(vendor): implement V1 authentication, token handling, logout, and profile financial state).
+19: Blockers: Live backend deployment/data/approved accounts, external AI/sandbox payment credentials, and an attached Android target are required for runtime E2E.
+20: Exact next action: Proceed to Milestone V2 (Onboarding, account enforcement and store enforcement).
