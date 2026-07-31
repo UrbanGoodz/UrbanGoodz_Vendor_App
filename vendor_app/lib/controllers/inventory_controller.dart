@@ -141,6 +141,17 @@ class InventoryController extends GetxController {
     }
   }
 
+  Future<bool> addItem(InventoryItemModel item) async {
+    return saveProduct(
+      name: item.name,
+      description: item.description,
+      categoryId: item.category,
+      price: item.price,
+      stock: item.stockQuantity,
+      imagePath: item.imageUrl.startsWith('http') ? null : (item.imageUrl.isEmpty ? null : item.imageUrl),
+    );
+  }
+
   static InventoryItemModel fromJson(Map<String, dynamic> json) =>
       InventoryItemModel(
         id: json['id']?.toString() ?? '',
