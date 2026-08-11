@@ -13,6 +13,8 @@ import 'package:urban_goodz_vendor/screens/revenue_tracking_screen.dart';
 import 'package:urban_goodz_vendor/screens/service_bookings_screen.dart';
 import 'package:urban_goodz_vendor/screens/reels_screen.dart';
 import 'package:urban_goodz_vendor/screens/notifications_support_screen.dart';
+import 'package:urban_goodz_vendor/features/digital_human/controllers/digital_human_controller.dart';
+import 'package:urban_goodz_vendor/features/digital_human/widgets/ai_assistant_panel.dart';
 
 class DashboardScreen extends StatelessWidget {
   DashboardScreen({super.key});
@@ -121,6 +123,17 @@ class _DashboardTab extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildStoreHeader(c),
+              const SizedBox(height: 16),
+              Obx(
+                () => AiAssistantPanel(
+                  controller: Get.put(
+                    DigitalHumanController(),
+                    tag: 'digitalHuman',
+                  ),
+                  dailyBrief: c.brief.value,
+                  briefLoading: c.isGeneratingBrief.value,
+                ),
+              ),
               const SizedBox(height: 16),
               _buildAIBriefCard(c),
               const SizedBox(height: 16),
