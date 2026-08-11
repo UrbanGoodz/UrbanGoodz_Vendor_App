@@ -92,6 +92,22 @@
       "live_avatar": false,
       "facial_expression": true,
       "body_animation": true
+    },
+    "hedra": {
+      "voice": false,
+      "video": true,
+      "live_avatar": false,
+      "lip_sync": true,
+      "free_tier_credits_per_month": 300
+    },
+    "liveportrait": {
+      "voice": false,
+      "video": true,
+      "live_avatar": true,
+      "lip_sync": true,
+      "real_time_conversation": true,
+      "open_source": true,
+      "unlimited_free_tier": true
     }
   }
 }
