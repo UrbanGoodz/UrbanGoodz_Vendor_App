@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urban_goodz_vendor/controllers/dashboard_controller.dart';
 import 'package:urban_goodz_vendor/controllers/vendor_auth_controller.dart';
+import 'package:urban_goodz_vendor/models/daily_brief_model.dart';
 import 'package:urban_goodz_vendor/theme/app_theme.dart';
 import 'package:urban_goodz_vendor/screens/orders_screen.dart';
 import 'package:urban_goodz_vendor/screens/inventory_screen.dart';
@@ -121,6 +122,8 @@ class _DashboardTab extends StatelessWidget {
             children: [
               _buildStoreHeader(c),
               const SizedBox(height: 16),
+              _buildAIBriefCard(c),
+              const SizedBox(height: 16),
               _buildMetricsGrid(c),
               const SizedBox(height: 20),
               _buildRevenueChart(c),
@@ -206,6 +209,310 @@ class _DashboardTab extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildAIBriefCard(DashboardController c) {
+    return Obx(
+      () {
+        final brief = c.brief.value;
+        final briefError = c.briefError.value;
+        return Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [AppTheme.dark, Color(0xFF232323)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Row(
+                children: [
+                  Icon(Icons.auto_awesome, color: AppTheme.primary, size: 20),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      'AI Daily Operations Brief',
+                      style: TextStyle(
+                        color: AppTheme.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              if (c.isGeneratingBrief.value)
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 24),
+                  child: Center(
+                    child: CircularProgressIndicator(color: AppTheme.primary),
+                  ),
+                )
+              else if (briefError != null)
+                _buildBriefError(briefError, c)
+              else if (brief == null)
+                _buildBriefCta(c)
+              else
+                _buildBriefContent(brief, c),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildBriefCta(DashboardController c) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Your automated morning briefing: order throughput, revenue, '
+          'inventory alerts, and staff recommendations.',
+          style: TextStyle(
+            color: AppTheme.white.withOpacity(0.7),
+            fontSize: 13,
+          ),
+        ),
+        const SizedBox(height: 12),
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton.icon(
+            onPressed: c.generateBrief,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.primary,
+              foregroundColor: AppTheme.dark,
+            ),
+            icon: const Icon(Icons.bolt, size: 18),
+            label: const Text('Generate Brief'),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBriefError(String message, DashboardController c) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Icon(Icons.error_outline, color: Colors.redAccent, size: 18),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                message,
+                style: TextStyle(
+                  color: AppTheme.white.withOpacity(0.9),
+                  fontSize: 13,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        OutlinedButton.icon(
+          onPressed: c.generateBrief,
+          style: OutlinedButton.styleFrom(
+            foregroundColor: AppTheme.primary,
+            side: const BorderSide(color: AppTheme.primary),
+          ),
+          icon: const Icon(Icons.refresh, size: 18),
+          label: const Text('Try Again'),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBriefContent(DailyBriefModel brief, DashboardController c) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (brief.greeting.isNotEmpty) ...[
+          Text(
+            brief.greeting,
+            style: const TextStyle(
+              color: AppTheme.white,
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 6),
+        ],
+        if (brief.todaysOutlook.isNotEmpty)
+          Text(
+            brief.todaysOutlook,
+            style: TextStyle(
+              color: AppTheme.white.withOpacity(0.75),
+              fontSize: 13,
+            ),
+          ),
+        if (brief.keyMetrics.isNotEmpty) ...[
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: brief.keyMetrics
+                .map((metric) => _buildMetricChip(metric))
+                .toList(),
+          ),
+        ],
+        if (brief.actionItems.isNotEmpty) ...[
+          const SizedBox(height: 12),
+          ...brief.actionItems.map(
+            (item) => Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(top: 2),
+                    child: Icon(
+                      Icons.check_circle_outline,
+                      color: AppTheme.primary,
+                      size: 15,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      item,
+                      style: TextStyle(
+                        color: AppTheme.white.withOpacity(0.85),
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+        if (brief.revenueForecast.isNotEmpty) ...[
+          const SizedBox(height: 12),
+          _buildBriefLine(
+            Icons.trending_up,
+            'Revenue Forecast',
+            brief.revenueForecast,
+          ),
+        ],
+        if (brief.staffRecommendations.isNotEmpty) ...[
+          const SizedBox(height: 12),
+          _buildBriefLine(
+            Icons.groups,
+            'Staff Recommendations',
+            brief.staffRecommendations.join(', '),
+          ),
+        ],
+        if (brief.summary.isNotEmpty) ...[
+          const SizedBox(height: 12),
+          Text(
+            brief.summary,
+            style: TextStyle(
+              color: AppTheme.white.withOpacity(0.6),
+              fontSize: 11,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+        ],
+        const SizedBox(height: 8),
+        Align(
+          alignment: Alignment.centerRight,
+          child: TextButton.icon(
+            onPressed: c.generateBrief,
+            style: TextButton.styleFrom(
+              foregroundColor: AppTheme.primary,
+              padding: EdgeInsets.zero,
+            ),
+            icon: const Icon(Icons.refresh, size: 16),
+            label: const Text(
+              'Regenerate',
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMetricChip(DailyBriefMetric metric) {
+    final Color color;
+    switch (metric.status) {
+      case 'warning':
+        color = Colors.orange;
+        break;
+      case 'critical':
+        color = Colors.redAccent;
+        break;
+      default:
+        color = AppTheme.accent;
+    }
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.15),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: color.withOpacity(0.5)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            metric.label,
+            style: TextStyle(
+              color: AppTheme.white.withOpacity(0.7),
+              fontSize: 11,
+            ),
+          ),
+          const SizedBox(width: 6),
+          Text(
+            metric.value,
+            style: TextStyle(
+              color: color,
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBriefLine(IconData icon, String label, String value) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, color: AppTheme.primary, size: 16),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: TextStyle(
+                  color: AppTheme.white.withOpacity(0.6),
+                  fontSize: 11,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                value,
+                style: TextStyle(
+                  color: AppTheme.white.withOpacity(0.9),
+                  fontSize: 13,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 

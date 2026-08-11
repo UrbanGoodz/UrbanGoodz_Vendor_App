@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:urban_goodz_vendor/models/daily_brief_model.dart';
 import 'package:urban_goodz_vendor/services/vendor_api_client.dart';
 
 class VendorRepository {
@@ -176,6 +177,20 @@ class VendorRepository {
 
   Future<void> updateFcmToken(String token) async =>
       api.put('vendor/update-fcm-token', body: {'fcm_token': token});
+
+  Future<DailyBriefModel> dailyBrief() async {
+    final data = _map(
+      await api.get('urban-goodz/cross-app/ai/vendor/daily-brief'),
+    );
+    final brief = data['brief'];
+    if (brief is! Map) {
+      return const DailyBriefModel(
+        success: false,
+        error: 'Malformed daily brief response.',
+      );
+    }
+    return DailyBriefModel.fromJson(Map<String, dynamic>.from(brief));
+  }
 
   Future<List<Map<String, dynamic>>> notifications() async =>
       _list(await api.get('vendor/notifications'));
