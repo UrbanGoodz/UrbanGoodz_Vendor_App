@@ -98,7 +98,9 @@
       "video": true,
       "live_avatar": false,
       "lip_sync": true,
-      "free_tier_credits_per_month": 300
+      "free_tier_credits_per_month": 300,
+      "hedra_api_key_env": "HEDRA_API_KEY",
+      "api_endpoint": "https://api.hedra.com/v1/characters"
     },
     "liveportrait": {
       "voice": false,

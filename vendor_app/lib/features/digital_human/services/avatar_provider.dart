@@ -106,7 +106,8 @@ class AvatarProviderRegistry {
 
 /// Photorealistic Hedra AI Video Avatar Provider (Free Tier: 300 credits/mo).
 class HedraAvatarProvider implements VideoProvider {
-  HedraAvatarProvider({this.apiKey = ''});
+  HedraAvatarProvider({String? apiKey})
+      : apiKey = apiKey ?? const String.fromEnvironment('HEDRA_API_KEY');
 
   final String apiKey;
   bool _initialized = false;
