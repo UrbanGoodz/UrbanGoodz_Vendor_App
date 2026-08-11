@@ -11,9 +11,10 @@ import '../services/voice_readiness.dart';
 /// hooks, and the viseme timeline used for lip-sync preview.
 class DigitalHumanController extends GetxController {
   DigitalHumanController({
-    this._voiceGateway = const DigitalHumanVoiceGateway(),
-    this._emotionMapper = const EmotionMapper(),
-  }) {
+    DigitalHumanVoiceGateway voiceGateway = const DigitalHumanVoiceGateway(),
+    EmotionMapper emotionMapper = const EmotionMapper(),
+  })  : _voiceGateway = voiceGateway,
+        _emotionMapper = emotionMapper {
     statusMessage.value = _statusFor(state.value);
   }
 
