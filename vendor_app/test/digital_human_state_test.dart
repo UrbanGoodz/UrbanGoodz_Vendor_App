@@ -148,7 +148,26 @@ void main() {
       final monique = PersonaProfiles.monique;
       final skylar = PersonaProfiles.skylar;
       expect(monique.name, 'Monique');
-      expect(monique.role, 'AI Concierge');
+      expect(monique.role, 'The Face of Urban Goodz');
+      expect(monique.behaviors, contains('Confident and playful'));
+      expect(monique.behaviors,
+          contains('Knows what is happening before everybody else'));
+      expect(monique.personalityFormula,
+          contains('40% charismatic best friend'));
+      expect(monique.catchphrases, contains("Baby, let me put you on."));
+      expect(monique.catchphrase(), "How you doin'? What's GOOD?");
+      expect(monique.commentaryLines,
+          contains("Now see... this is exactly what I'm talking about."));
+      expect(monique.commentary(), contains('exactly what I\'m talking about'));
+      expect(monique.reactionFor('discovery'),
+          "Okay now... THIS is what I was looking for.");
+      expect(monique.reactionFor('average'),
+          "Mm... now let's not get carried away.");
+      expect(monique.reactionFor('poor_choice'),
+          "Baby... we're going to do better than that.");
+      expect(monique.reactionFor('unknown_category'), isNotEmpty);
+      expect(monique.identityFacets, contains('The insider.'));
+      expect(monique.identityFacets, contains('The commentator.'));
       expect(monique.signatureStates,
           containsAll([DigitalHumanState.sassy, DigitalHumanState.excited]));
       expect(skylar.name, 'Skylar');

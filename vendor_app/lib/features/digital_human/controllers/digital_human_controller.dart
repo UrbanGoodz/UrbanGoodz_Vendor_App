@@ -173,18 +173,40 @@ class DigitalHumanController extends GetxController {
     return greeting;
   }
 
+  /// Personality hook — the active persona's signature line.
+  String catchphrase() {
+    return PersonaProfiles.forPersona(activePersona).catchphrase();
+  }
+
+  /// Personality hook — an observational line with the inside scoop.
+  String commentary() {
+    return PersonaProfiles.forPersona(activePersona).commentary();
+  }
+
+  /// Personality hook — reaction for a situation (`discovery`, `average`,
+  /// `poor_choice`, ...) delivered like a friend with a point of view.
+  String reaction(String category) {
+    return PersonaProfiles.forPersona(activePersona).reactionFor(category);
+  }
+
   /// Personality hook — styles a daily brief summary with the active
-  /// persona's voice and resolved emotion.
+  /// persona's voice and resolved emotion. Pass [reaction] to open with a
+  /// situational reaction line instead of the standard briefing lead.
   String personalityResponse({
     required String briefSummary,
     String? mood,
+    String? reaction,
   }) {
     final profile = PersonaProfiles.forPersona(activePersona);
     final emotion = mood == null
         ? DigitalHumanEmotion.neutral
         : _emotionMapper.map(mood);
     final tag = _emotionMapper.personalityTag(emotion);
-    final lead = isPersonalityPaused.value ? profile.tagline : profile.briefingLines.first;
+    final lead = reaction != null
+        ? profile.reactionFor(reaction)
+        : isPersonalityPaused.value
+        ? profile.tagline
+        : profile.briefingLines.first;
     return '$lead $briefSummary — $tag.';
   }
 

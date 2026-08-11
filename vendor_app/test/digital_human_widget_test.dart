@@ -144,7 +144,7 @@ void main() {
         ),
       );
       await tester.pump();
-      expect(find.text('AI Concierge'), findsOneWidget);
+      expect(find.text('The Face of Urban Goodz'), findsOneWidget);
       expect(find.text('Monique'), findsWidgets);
       expect(find.textContaining('Voice is not enabled yet'), findsOneWidget);
     });

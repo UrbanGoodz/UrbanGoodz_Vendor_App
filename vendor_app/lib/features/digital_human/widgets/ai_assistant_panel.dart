@@ -8,7 +8,7 @@ import '../models/persona_profile.dart';
 import '../services/persona_profiles.dart';
 import 'digital_human_avatar_widget.dart';
 
-/// High-level assistant surface for the digital humans.
+/// High-level persona surface for the digital humans.
 ///
 /// Renders the avatar (Rive or painted fallback), the persona greeting, the
 /// status line, optional personality-styled Daily Brief summary, mood controls,
@@ -154,7 +154,7 @@ class AiAssistantPanel extends StatelessWidget {
         ),
         PopupMenuButton<DigitalHumanPersona>(
           icon: const Icon(Icons.swap_horiz, color: Colors.white70),
-          tooltip: 'Switch assistant',
+          tooltip: 'Switch personality',
           onSelected: (persona) => controller.activatePersona(persona),
           itemBuilder: (context) => [
             for (final persona in DigitalHumanPersona.values)

@@ -4,7 +4,7 @@
 /// playback, and lip-sync viseme streaming are NOT enabled yet. These are the
 /// integration seams the voice lane will implement; every default is a stub
 /// that reports "not available" so the app degrades gracefully to the
-/// on-screen assistant.
+/// on-screen personas.
 library;
 
 import 'dart:async';

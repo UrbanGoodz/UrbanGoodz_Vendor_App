@@ -11,7 +11,7 @@ arrive.
 
 | File               | Persona  | Role                          |
 | ------------------ | -------- | ----------------------------- |
-| `monique.riv`      | Monique  | Urban Goodz AI Concierge      |
+| `monique.riv`      | Monique  | The Face of Urban Goodz       |
 | `skylar.riv`       | Skylar   | Urban Goodz Chief of Staff    |
 
 ## State machine input contract

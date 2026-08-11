@@ -76,19 +76,45 @@ void main() {
       expect(controller.statusMessage.value, 'Speaking');
     });
 
-    test('personalityResponse styles the brief for the active persona', () {
+    test('personalityResponse styles the brief in the persona voice', () {
       final controller = DigitalHumanController();
       final line = controller.personalityResponse(
         briefSummary: 'Revenue is trending up 12%.',
       );
       expect(line, contains('Revenue is trending up 12%.'));
-      expect(line, contains('Here\'s the rundown'));
+      expect(line, contains('let me put you on'));
       controller.pausePersonality();
       final paused = controller.personalityResponse(
         briefSummary: 'Revenue is trending up 12%.',
       );
-      expect(paused, contains('front-of-house energy'));
+      expect(paused, contains('brings Urban Goodz to life'));
       expect(paused, contains('Revenue is trending up 12%.'));
+    });
+
+    test('catchphrase uses the active persona voice', () {
+      final controller = DigitalHumanController();
+      expect(controller.catchphrase(), "How you doin'? What's GOOD?");
+      controller.activatePersona(DigitalHumanPersona.skylar);
+      expect(controller.catchphrase(), isNotEmpty);
+    });
+
+    test('commentary and reaction hooks use the persona voice', () {
+      final controller = DigitalHumanController();
+      expect(controller.commentary(), contains('exactly what I\'m talking about'));
+      expect(controller.reaction('discovery'),
+          "Okay now... THIS is what I was looking for.");
+      expect(controller.reaction('poor_choice'),
+          "Baby... we're going to do better than that.");
+    });
+
+    test('personalityResponse can open with a situational reaction', () {
+      final controller = DigitalHumanController();
+      final line = controller.personalityResponse(
+        briefSummary: 'A new spot just opened downtown.',
+        reaction: 'discovery',
+      );
+      expect(line, startsWith('Okay now... THIS is what I was looking for.'));
+      expect(line, contains('A new spot just opened downtown.'));
     });
 
     test('greeting uses persona voice', () {

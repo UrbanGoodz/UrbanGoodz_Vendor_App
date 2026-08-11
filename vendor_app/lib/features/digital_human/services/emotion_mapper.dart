@@ -86,7 +86,7 @@ class EmotionMapper {
     }
   }
 
-  /// Short personality tag appended to the assistant's summary line.
+  /// Short personality tag appended to the persona's summary line.
   String personalityTag(DigitalHumanEmotion emotion) {
     switch (emotion) {
       case DigitalHumanEmotion.sassy:
