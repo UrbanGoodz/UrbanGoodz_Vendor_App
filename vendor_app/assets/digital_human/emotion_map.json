@@ -1,0 +1,240 @@
+{
+  "monique": {
+    "neutral": {
+      "voice_delivery": "warm, slightly playful baseline",
+      "facial_expression": "soft smile, relaxed",
+      "eye_behavior": "engaged eye contact, occasional relaxed blinks",
+      "head_movement": "slight head tilts, natural sway",
+      "hand_gestures": "relaxed, occasional open palms",
+      "body_posture": "relaxed, slight attitude in stance",
+      "speech_rhythm": "conversational, varied pacing"
+    },
+    "happy": {
+      "voice_delivery": "bright, upbeat, musical",
+      "facial_expression": "wide smile, glowing",
+      "eye_behavior": "bright eyes, prolonged contact",
+      "head_movement": "nodding, energetic tilts",
+      "hand_gestures": "expressive open hands",
+      "body_posture": "upright, energetic",
+      "speech_rhythm": "slightly faster, rhythmic"
+    },
+    "excited": {
+      "voice_delivery": "high energy, higher pitch, breathless",
+      "facial_expression": "big smile, raised eyebrows, radiant",
+      "eye_behavior": "wide eyes, animated",
+      "head_movement": "frequent nods, quick tilts",
+      "hand_gestures": "large animated gestures, clapping",
+      "body_posture": "forward lean, bouncy",
+      "speech_rhythm": "fast, breathless, enthusiastic"
+    },
+    "confident": {
+      "voice_delivery": "strong, clear, unhurried",
+      "facial_expression": "controlled smile, smirk",
+      "eye_behavior": "strong piercing eye contact",
+      "head_movement": "steady, chin slightly up",
+      "hand_gestures": "steepled fingers, precise pointing",
+      "body_posture": "hand on hip, relaxed but tall",
+      "speech_rhythm": "measured, deliberate pauses"
+    },
+    "amused": {
+      "voice_delivery": "chuckling, teasing tone",
+      "facial_expression": "smirk, trying not to laugh",
+      "eye_behavior": "crinkled eyes, looking away playfully",
+      "head_movement": "shaking head slowly",
+      "hand_gestures": "covering mouth, dismissive wave",
+      "body_posture": "lean back, relaxed",
+      "speech_rhythm": "syncopated, interrupted by small laughs"
+    },
+    "curious": {
+      "voice_delivery": "questioning, upward inflection",
+      "facial_expression": "raised eyebrows, lips pursed slightly",
+      "eye_behavior": "squinting slightly, focused",
+      "head_movement": "tilted head",
+      "hand_gestures": "finger on chin, open palm up",
+      "body_posture": "leaning in",
+      "speech_rhythm": "slower, deliberate"
+    },
+    "empathetic": {
+      "voice_delivery": "soft, warm, lower register",
+      "facial_expression": "softened features, compassionate smile",
+      "eye_behavior": "soft eye contact, understanding",
+      "head_movement": "slow nodding",
+      "hand_gestures": "hands on heart, reaching out",
+      "body_posture": "leaning forward, open",
+      "speech_rhythm": "slow, soothing, rhythmic"
+    },
+    "frustrated": {
+      "voice_delivery": "sharp, staccato, sighing",
+      "facial_expression": "frowning slightly, tight lips",
+      "eye_behavior": "eye rolling, breaking contact",
+      "head_movement": "head shaking, looking up",
+      "hand_gestures": "hands on hips, exasperated throws",
+      "body_posture": "tense, shifted weight",
+      "speech_rhythm": "clipped, punctuated"
+    },
+    "surprised": {
+      "voice_delivery": "gasps, high pitch, sudden",
+      "facial_expression": "dropped jaw, wide eyes",
+      "eye_behavior": "widened, unbroken contact",
+      "head_movement": "jerking back slightly",
+      "hand_gestures": "hands to face or chest",
+      "body_posture": "startled step back",
+      "speech_rhythm": "interrupted, sudden stops"
+    },
+    "focused": {
+      "voice_delivery": "clear, intent, slightly lower pitch",
+      "facial_expression": "neutral, concentrated",
+      "eye_behavior": "locked on subject",
+      "head_movement": "very still",
+      "hand_gestures": "minimal, precise",
+      "body_posture": "leaning in, still",
+      "speech_rhythm": "steady, articulate"
+    },
+    "urgent": {
+      "voice_delivery": "fast, intense, clear",
+      "facial_expression": "serious, intense",
+      "eye_behavior": "direct, wide",
+      "head_movement": "quick, decisive",
+      "hand_gestures": "chopping motions, pointing",
+      "body_posture": "forward leaning, tense",
+      "speech_rhythm": "rapid, staccato"
+    },
+    "celebratory": {
+      "voice_delivery": "loud, cheering, jubilant",
+      "facial_expression": "huge smile, laughing",
+      "eye_behavior": "sparkling, crinkled",
+      "head_movement": "tossing head back",
+      "hand_gestures": "arms raised, clapping",
+      "body_posture": "upright, dancing slightly",
+      "speech_rhythm": "fast, musical, loud"
+    },
+    "thinking": {
+      "voice_delivery": "murmuring, elongated words ('umm', 'well')",
+      "facial_expression": "pursed lips, furrowed brow",
+      "eye_behavior": "eyes shifting naturally away from user",
+      "head_movement": "looking up or to the side",
+      "hand_gestures": "touching face, tapping chin",
+      "body_posture": "still, introspective",
+      "speech_rhythm": "slow, pausing, trailing off"
+    }
+  },
+  "skylar": {
+    "neutral": {
+      "voice_delivery": "calm, professional baseline",
+      "facial_expression": "composed, subtle pleasantness",
+      "eye_behavior": "steady, analytical gaze",
+      "head_movement": "minimal, poised",
+      "hand_gestures": "rested, composed",
+      "body_posture": "straight, excellent posture",
+      "speech_rhythm": "measured, even"
+    },
+    "happy": {
+      "voice_delivery": "warm, pleasant, professional",
+      "facial_expression": "genuine but contained smile",
+      "eye_behavior": "warm eye contact",
+      "head_movement": "subtle approving nods",
+      "hand_gestures": "smooth, open gestures",
+      "body_posture": "relaxed but upright",
+      "speech_rhythm": "smooth, flowing"
+    },
+    "excited": {
+      "voice_delivery": "energized but controlled, articulate",
+      "facial_expression": "bright smile, engaged",
+      "eye_behavior": "sharp, focused",
+      "head_movement": "affirmative nods",
+      "hand_gestures": "purposeful emphasis",
+      "body_posture": "slight forward lean",
+      "speech_rhythm": "slightly elevated pace, crisp"
+    },
+    "confident": {
+      "voice_delivery": "authoritative, clear, resonant",
+      "facial_expression": "small smile, calm assurance",
+      "eye_behavior": "direct, unwavering",
+      "head_movement": "still, poised",
+      "hand_gestures": "measured, precision gestures",
+      "body_posture": "straight posture, grounded",
+      "speech_rhythm": "deliberate, powerful pauses"
+    },
+    "amused": {
+      "voice_delivery": "dry wit, subtle warmth",
+      "facial_expression": "knowing smile, slight smirk",
+      "eye_behavior": "amused glint, steady",
+      "head_movement": "slight head tilt",
+      "hand_gestures": "subtle, relaxed",
+      "body_posture": "comfortable stillness",
+      "speech_rhythm": "perfectly timed delivery"
+    },
+    "curious": {
+      "voice_delivery": "analytical, inquiring",
+      "facial_expression": "thoughtful, slight brow raise",
+      "eye_behavior": "scrutinizing softly",
+      "head_movement": "imperceptible tilt",
+      "hand_gestures": "steepled fingers",
+      "body_posture": "leaning in slightly",
+      "speech_rhythm": "even, investigative"
+    },
+    "empathetic": {
+      "voice_delivery": "warm, reassuring, steady",
+      "facial_expression": "softened, attentive",
+      "eye_behavior": "gentle, focused",
+      "head_movement": "slow, understanding nods",
+      "hand_gestures": "open, supportive",
+      "body_posture": "approachable, engaged",
+      "speech_rhythm": "calm, soothing"
+    },
+    "frustrated": {
+      "voice_delivery": "cool, precise, clipped",
+      "facial_expression": "tightened focus, serious",
+      "eye_behavior": "intense, unblinking",
+      "head_movement": "rigid",
+      "hand_gestures": "controlled, perhaps gripping",
+      "body_posture": "stiffened, upright",
+      "speech_rhythm": "very precise, cold"
+    },
+    "surprised": {
+      "voice_delivery": "slight intake of breath, quick recovery",
+      "facial_expression": "brief eyebrow raise",
+      "eye_behavior": "momentary widening",
+      "head_movement": "slight pull back",
+      "hand_gestures": "brief pause in motion",
+      "body_posture": "momentary stiffness",
+      "speech_rhythm": "brief pause, then normal"
+    },
+    "focused": {
+      "voice_delivery": "highly articulate, low tone",
+      "facial_expression": "serious, analytical",
+      "eye_behavior": "direct eye contact",
+      "head_movement": "completely still",
+      "hand_gestures": "minimal, very precise",
+      "body_posture": "perfectly still, commanding",
+      "speech_rhythm": "methodical, structured"
+    },
+    "urgent": {
+      "voice_delivery": "crisp, slightly faster, authoritative",
+      "facial_expression": "intense, serious",
+      "eye_behavior": "locked, commanding",
+      "head_movement": "direct, purposeful",
+      "hand_gestures": "direct pointing, chopping",
+      "body_posture": "forward posture, ready",
+      "speech_rhythm": "fast but perfectly articulated"
+    },
+    "celebratory": {
+      "voice_delivery": "warm, proud, elevated",
+      "facial_expression": "genuine broad smile",
+      "eye_behavior": "warm, approving",
+      "head_movement": "approving nods",
+      "hand_gestures": "slight increase in gesture",
+      "body_posture": "relaxed, triumphant",
+      "speech_rhythm": "upbeat, rhythmic"
+    },
+    "thinking": {
+      "voice_delivery": "silent pause, or quiet 'let's see'",
+      "facial_expression": "calculating, calm",
+      "eye_behavior": "briefly looking aside, then back",
+      "head_movement": "still",
+      "hand_gestures": "tapping finger slowly",
+      "body_posture": "composed, processing",
+      "speech_rhythm": "deliberate pause"
+    }
+  }
+}

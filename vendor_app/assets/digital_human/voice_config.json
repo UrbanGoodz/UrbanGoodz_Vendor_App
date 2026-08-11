@@ -1,0 +1,97 @@
+{
+  "provider": "elevenlabs",
+  "model_id": "eleven_turbo_v2_5",
+  "output_format": "mp3_44100_128",
+  "environment_variables": [
+    "ELEVENLABS_API_KEY",
+    "MONIQUE_ELEVENLABS_VOICE_ID",
+    "SKYLAR_ELEVENLABS_VOICE_ID"
+  ],
+  "characters": {
+    "monique": {
+      "voice_name": "Sassy Aeristia",
+      "voice_id": "",
+      "voice_settings": {
+        "stability": 0.35,
+        "similarity_boost": 0.82,
+        "style": 0.75,
+        "use_speaker_boost": true
+      }
+    },
+    "skylar": {
+      "voice_name": "TBD — Confident Black Southern woman executive",
+      "voice_id": "",
+      "voice_direction": {
+        "character": "Confident Black Southern woman with commanding executive presence",
+        "tone": "intelligent, sophisticated, warm, authoritative, unmistakably human",
+        "pitch": "confident medium-low to medium",
+        "resonance": "controlled",
+        "articulation": "crisp",
+        "cadence": "natural Southern — present but never exaggerated",
+        "pacing": "deliberate, purposeful, never rushed",
+        "presence": "strong conversational presence, calm under pressure",
+        "personality_in_voice": "executive sass, pleasantly blunt, subtly playful when appropriate",
+        "anti_patterns": [
+          "never robotic",
+          "never repetitive cadence",
+          "never generic virtual assistant",
+          "never news anchor",
+          "never corporate IVR",
+          "never exaggerated Southern accent",
+          "never elderly sounding",
+          "never overly youthful",
+          "never sound like Monique"
+        ],
+        "impression": "She's got this."
+      },
+      "voice_settings": {
+        "stability": 0.65,
+        "similarity_boost": 0.78,
+        "style": 0.40,
+        "use_speaker_boost": true
+      }
+    }
+  },
+  "providers": {
+    "elevenlabs": {
+      "voice": true,
+      "video": false,
+      "live_avatar": false,
+      "lip_sync": true
+    },
+    "heygen": {
+      "voice": false,
+      "video": true,
+      "live_avatar": false,
+      "lip_sync": true
+    },
+    "did": {
+      "voice": false,
+      "video": true,
+      "live_avatar": false,
+      "lip_sync": true
+    },
+    "newportai": {
+      "voice": false,
+      "video": false,
+      "live_avatar": true,
+      "lip_sync": true,
+      "real_time_conversation": true
+    },
+    "rive": {
+      "voice": false,
+      "video": false,
+      "live_avatar": false,
+      "facial_expression": true,
+      "body_animation": true,
+      "state_machines": true
+    },
+    "metahuman": {
+      "voice": false,
+      "video": false,
+      "live_avatar": false,
+      "facial_expression": true,
+      "body_animation": true
+    }
+  }
+}

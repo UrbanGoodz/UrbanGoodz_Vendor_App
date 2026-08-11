@@ -39,7 +39,16 @@ enum DigitalHumanState {
   explaining,
   executive,
   analysis,
-  alert;
+  alert,
+  confident,
+  amused,
+  curious,
+  empathetic,
+  frustrated,
+  surprised,
+  focused,
+  urgent,
+  celebratory;
 
   bool get isCore =>
       this == DigitalHumanState.idle ||
@@ -54,7 +63,9 @@ enum DigitalHumanState {
       this == DigitalHumanState.excited ||
       this == DigitalHumanState.explaining ||
       this == DigitalHumanState.analysis ||
-      this == DigitalHumanState.alert;
+      this == DigitalHumanState.alert ||
+      this == DigitalHumanState.urgent ||
+      this == DigitalHumanState.celebratory;
 
   /// Human readable label for the given persona.
   String label(DigitalHumanPersona persona) {
@@ -89,6 +100,24 @@ enum DigitalHumanState {
             : 'Speaking';
       case DigitalHumanState.alert:
         return persona == DigitalHumanPersona.skylar ? 'Alert' : 'Speaking';
+      case DigitalHumanState.confident:
+        return 'Confident';
+      case DigitalHumanState.amused:
+        return 'Amused';
+      case DigitalHumanState.curious:
+        return 'Curious';
+      case DigitalHumanState.empathetic:
+        return 'Empathetic';
+      case DigitalHumanState.frustrated:
+        return 'Frustrated';
+      case DigitalHumanState.surprised:
+        return 'Surprised';
+      case DigitalHumanState.focused:
+        return 'Focused';
+      case DigitalHumanState.urgent:
+        return 'Urgent';
+      case DigitalHumanState.celebratory:
+        return 'Celebratory';
     }
   }
 }
@@ -103,7 +132,17 @@ enum DigitalHumanEmotion {
   analysis(5),
   alert(6),
   concerned(7),
-  happy(8);
+  happy(8),
+  confident(9),
+  amused(10),
+  curious(11),
+  empathetic(12),
+  frustrated(13),
+  surprised(14),
+  focused(15),
+  urgent(16),
+  celebratory(17),
+  thinking(18);
 
   final int value;
   const DigitalHumanEmotion(this.value);
@@ -235,6 +274,26 @@ class DigitalHumanStateModel {
         return persona == DigitalHumanPersona.skylar
             ? _skylarStateFor(emotion)
             : DigitalHumanState.speaking;
+      case DigitalHumanEmotion.confident:
+        return DigitalHumanState.confident;
+      case DigitalHumanEmotion.amused:
+        return DigitalHumanState.amused;
+      case DigitalHumanEmotion.curious:
+        return DigitalHumanState.curious;
+      case DigitalHumanEmotion.empathetic:
+        return DigitalHumanState.empathetic;
+      case DigitalHumanEmotion.frustrated:
+        return DigitalHumanState.frustrated;
+      case DigitalHumanEmotion.surprised:
+        return DigitalHumanState.surprised;
+      case DigitalHumanEmotion.focused:
+        return DigitalHumanState.focused;
+      case DigitalHumanEmotion.urgent:
+        return DigitalHumanState.urgent;
+      case DigitalHumanEmotion.celebratory:
+        return DigitalHumanState.celebratory;
+      case DigitalHumanEmotion.thinking:
+        return DigitalHumanState.thinking;
       case DigitalHumanEmotion.neutral:
         return DigitalHumanState.idle;
     }
