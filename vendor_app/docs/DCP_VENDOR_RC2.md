@@ -17,3 +17,21 @@ Commits: Vendor source/test/docs/artifact commits pushed (8ed1d71, 73f5edd, 1607
 Push: Complete — branch up to date with origin/vendor-driver-tester-sprint.
 Blockers: Live backend deployment/data/approved accounts, external AI/sandbox payment credentials, and an attached Android target are required for runtime E2E.
 Exact next action: Complete and test the Customer guided Fashion Fit camera workflow on a live device against the deployed Fashion Fit AI backend.
+
+---
+
+## DCP UPDATE — VENDOR PRODUCTION PROMOTION COMPLETE (2026-08-09)
+
+Status: PROMOTED to production (fast-forward, no merge/squash/rewrite/force).
+
+- Production repo: UrbanGoodz_Vendor_App (remote `vendor-origin`)
+- Production branch: `main`
+- Old production SHA: `4b8323d0af096620f7a2cdd71d8b06153a645856`
+- New production SHA: `eb5ddea7e8314eeac931433584bc7e4b0c57428b` (candidate `origin/vendor-driver-tester-sprint`)
+- Commits ahead: 36 (35 non-merge + 1 merge `f0778c0`); divergence behind: 0
+- Push result: `4b8323d..eb5ddea origin/vendor-driver-tester-sprint -> main` (exit 0, no rejected hooks)
+- Final gates: flutter pub get PASS; flutter analyze PASS (0 issues); flutter test PASS (53/53); release APK build PASS (57.7 MB); apksigner verify PASS (SHA-256 `f53191…a7b5` matches upload keystore); package `com.urbangoodz.vendor` version `3.9.3+10`; realtime disabled by default (fails closed, no production Pusher keys).
+- APK artifact: `app-release-eb5ddea-v3.9.3+10.apk` (archived under C:\UG\evidence\vendor-release\apk).
+- Rollback point: `4b8323d0af096620f7a2cdd71d8b06153a645856` (force-reset `vendor-origin/main` to this SHA; no data loss, no migrations).
+- Remaining risks: physical device smoke install/launch not executed (no ADB target available); origin remote (private monorepo) unreachable due to invalid stored PAT — re-authenticate `origin` before next cross-repo release; realtime Pusher enablement deferred until production keys are provisioned.
+- Full report: `VENDOR_PRODUCTION_PROMOTION_COMPLETE.md` (same directory).
