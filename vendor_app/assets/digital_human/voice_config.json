@@ -107,7 +107,10 @@
       "lip_sync": true,
       "real_time_conversation": true,
       "open_source": true,
-      "unlimited_free_tier": true
+      "unlimited_free_tier": true,
+      "provider_host": "huggingface",
+      "huggingface_api_key_env": "HUGGINGFACE_API_KEY",
+      "api_endpoint": "https://api-inference.huggingface.co/models/KwaiVGI/LivePortrait"
     }
   }
 }

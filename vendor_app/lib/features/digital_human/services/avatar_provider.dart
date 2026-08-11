@@ -155,9 +155,13 @@ class HedraAvatarProvider implements VideoProvider {
 
 /// Photorealistic LivePortrait 100% Free Open-Source Real-Time Avatar Provider.
 class LivePortraitAvatarProvider implements LiveAvatarProvider {
-  LivePortraitAvatarProvider({this.endpointUrl = ''});
+  LivePortraitAvatarProvider({
+    this.endpointUrl = 'https://api-inference.huggingface.co/models/KwaiVGI/LivePortrait',
+    String? apiKey,
+  }) : apiKey = apiKey ?? const String.fromEnvironment('HUGGINGFACE_API_KEY');
 
   final String endpointUrl;
+  final String apiKey;
   bool _activeSession = false;
 
   /// Returns true if a live avatar streaming session is active.
