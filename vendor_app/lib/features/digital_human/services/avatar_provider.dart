@@ -160,6 +160,9 @@ class LivePortraitAvatarProvider implements LiveAvatarProvider {
   final String endpointUrl;
   bool _activeSession = false;
 
+  /// Returns true if a live avatar streaming session is active.
+  bool get isSessionActive => _activeSession;
+
   @override
   AvatarProviderId get id => AvatarProviderId.liveportrait;
 
