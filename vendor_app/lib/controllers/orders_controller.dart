@@ -91,6 +91,25 @@ class OrdersController extends GetxController {
     }
   }
 
+  Future<void> assignDriver(String orderId, String driverId) async {
+    try {
+      await repository.api.post(
+        'order-anywhere/admin/requests/$orderId/assign-driver',
+        body: {
+          'driver_id': int.tryParse(driverId) ?? 1,
+          'admin_notes': 'Assigned via Vendor mobile portal.',
+        },
+      );
+      Get.snackbar('Driver Assigned', 'Driver has been linked to the order.');
+      await fetchOrders();
+    } on VendorApiException catch (error) {
+      errorMessage.value = error.message;
+      Get.snackbar('Assignment failed', error.message);
+    } catch (e) {
+      errorMessage.value = 'Driver assignment failed: $e';
+    }
+  }
+
   static VendorOrderModel fromJson(Map<String, dynamic> json) {
     final customerValue = json['customer'];
     final customer = customerValue is Map

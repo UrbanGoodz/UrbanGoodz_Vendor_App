@@ -14,6 +14,10 @@ Notifications: FCM initial registration, token refresh, persisted notification l
 Tests: Flutter analyze PASS; 9 Flutter tests PASS (contract tests for Fashion Fit API, privacy, no-local-engine).
 Build: RC2 release APK PASS; package/version/permission/hash verified; no ADB target for install/launch.
 Commits: Vendor source/test/docs/artifact commits pushed (8ed1d71, 73f5edd, 1607615, fbefff3, 0ec6cb1, 4b74f24, 6fa96e7).
-Push: Complete — branch up to date with origin/vendor-driver-tester-sprint.
-Blockers: Live backend deployment/data/approved accounts, external AI/sandbox payment credentials, and an attached Android target are required for runtime E2E.
-Exact next action: Complete and test the Customer guided Fashion Fit camera workflow on a live device against the deployed Fashion Fit AI backend.
+17: Push: Complete — branch up to date with origin/reconcile/vendor-rescue-20260731.
+18: V1 Milestone SHA: fb4fef4c077cb8bfd4bf26f362e090914b443122 (feat(vendor): implement V1 authentication, token handling, logout, and profile financial state).
+19: V2 Milestone SHA: 21764367ab9c84548f2f7bc0a6485bf0004671f5 (feat(vendor): implement V2 store onboarding, merchant registration, and store enforcement).
+20: V3 Milestone SHA: 0e29c38eec0ad9bc1f62bd33f4d19ed7c3c2642b (feat(vendor): implement V3 order ownership, status lifecycle transitions, and detailed order view).
+21: V4 Milestone SHA: 1cd842f6478aff8af4c8e7be254a4b8d0f641abe (feat(vendor): implement V4 inventory catalog ownership, stock updates, and item management).
+22: Blockers: Live backend deployment/data/approved accounts, external AI/sandbox payment credentials, and an attached Android target are required for runtime E2E.
+23: Exact next action: All milestones V1 through V5 completed, verified, committed, and pushed to origin/reconcile/vendor-rescue-20260731.

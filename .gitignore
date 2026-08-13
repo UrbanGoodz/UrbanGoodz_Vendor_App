@@ -9,6 +9,11 @@
 .history
 .svn/
 
+# Repository hygiene - should never be tracked
+node_modules/
+test-results/
+playwright-report/
+
 # IntelliJ related
 *.iml
 *.ipr

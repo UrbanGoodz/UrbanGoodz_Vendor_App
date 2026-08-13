@@ -71,6 +71,22 @@ class RevenueTrackingController extends GetxController {
   }
 
   Future<void> requestPayout(double amount) async {
+    errorMessage.value = null;
+    if (amount < 1.00) {
+      errorMessage.value = 'Withdrawal amount must be at least \$1.00.';
+      if (Get.context != null) {
+        Get.snackbar('Payout failed', errorMessage.value!);
+      }
+      return;
+    }
+    if (availableForPayout.value > 0 && amount > availableForPayout.value) {
+      errorMessage.value =
+          'Withdrawal amount exceeds available balance (\$${availableForPayout.value.toStringAsFixed(2)}).';
+      if (Get.context != null) {
+        Get.snackbar('Payout failed', errorMessage.value!);
+      }
+      return;
+    }
     try {
       final methods = await repository.withdrawalMethods();
       if (methods.isEmpty) {
@@ -88,13 +104,17 @@ class RevenueTrackingController extends GetxController {
       }
       await repository.requestWithdrawal(amount, methodId);
       await fetchRevenue();
-      Get.snackbar(
-        'Payout requested',
-        'Your withdrawal request was submitted.',
-      );
+      if (Get.context != null) {
+        Get.snackbar(
+          'Payout requested',
+          'Your withdrawal request was submitted.',
+        );
+      }
     } on VendorApiException catch (error) {
       errorMessage.value = error.message;
-      Get.snackbar('Payout failed', error.message);
+      if (Get.context != null) {
+        Get.snackbar('Payout failed', error.message);
+      }
     }
   }
 

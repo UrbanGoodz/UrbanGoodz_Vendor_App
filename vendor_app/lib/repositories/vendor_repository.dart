@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:urban_goodz_vendor/models/daily_brief_model.dart';
 import 'package:urban_goodz_vendor/services/vendor_api_client.dart';
 
 class VendorRepository {
@@ -35,6 +36,54 @@ class VendorRepository {
       };
     }
     return body;
+  }
+
+  Future<Map<String, dynamic>> registerStore({
+    required String fName,
+    required String lName,
+    required String email,
+    required String phone,
+    required String password,
+    required String businessName,
+    required String address,
+    required String category,
+  }) async {
+    return _map(
+      await api.post(
+        'auth/vendor/register',
+        body: {
+          'f_name': fName,
+          'l_name': lName,
+          'email': email,
+          'phone': phone,
+          'password': password,
+          'minimum_delivery_time': '30',
+          'maximum_delivery_time': '45',
+          'delivery_time_type': 'min',
+          'latitude': '29.7604',
+          'longitude': '-95.3698',
+          'zone_id': '1',
+          'module_id': '1',
+          'business_plan': 'commission',
+          'translations': jsonEncode([
+            {
+              'translationable_type': 'App\\Models\\Store',
+              'key': 'name',
+              'value': businessName,
+              'locale': 'en'
+            },
+            {
+              'translationable_type': 'App\\Models\\Store',
+              'key': 'address',
+              'value': address,
+              'locale': 'en'
+            }
+          ]),
+          'logo': 'default.png',
+          'cover_photo': 'default.png',
+        },
+      ),
+    );
   }
 
   Future<Map<String, dynamic>> profile() async =>
@@ -201,6 +250,20 @@ class VendorRepository {
 
   Future<void> updateFcmToken(String token) async =>
       api.put('vendor/update-fcm-token', body: {'fcm_token': token});
+
+  Future<DailyBriefModel> dailyBrief() async {
+    final data = _map(
+      await api.get('urban-goodz/cross-app/ai/vendor/daily-brief'),
+    );
+    final brief = data['brief'];
+    if (brief is! Map) {
+      return const DailyBriefModel(
+        success: false,
+        error: 'Malformed daily brief response.',
+      );
+    }
+    return DailyBriefModel.fromJson(Map<String, dynamic>.from(brief));
+  }
 
   Future<List<Map<String, dynamic>>> notifications() async =>
       _list(await api.get('vendor/notifications'));

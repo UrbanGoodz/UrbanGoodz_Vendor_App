@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:urban_goodz_vendor/controllers/inventory_controller.dart';
 import 'package:urban_goodz_vendor/controllers/orders_controller.dart';
 import 'package:urban_goodz_vendor/controllers/vendor_auth_controller.dart';
+import 'package:urban_goodz_vendor/models/daily_brief_model.dart';
 import 'package:urban_goodz_vendor/models/inventory_item_model.dart';
 import 'package:urban_goodz_vendor/models/vendor_order_model.dart';
 import 'package:urban_goodz_vendor/models/vendor_store_model.dart';
@@ -28,6 +29,10 @@ class DashboardController extends GetxController {
   final isLoading = false.obs;
   final errorMessage = RxnString();
   final notificationCount = 0.obs;
+
+  final brief = Rxn<DailyBriefModel>();
+  final isGeneratingBrief = false.obs;
+  final briefError = RxnString();
 
   /// True when no day in the window carries usable revenue, including when the
   /// series is empty. The chart renders an empty state instead of bars.
@@ -155,6 +160,26 @@ class DashboardController extends GetxController {
     } on VendorApiException catch (error) {
       errorMessage.value = error.message;
       Get.snackbar('Store status failed', error.message);
+    }
+  }
+
+  Future<void> generateBrief() async {
+    isGeneratingBrief.value = true;
+    briefError.value = null;
+    try {
+      final result = await repository.dailyBrief();
+      if (result.success) {
+        brief.value = result;
+      } else {
+        brief.value = null;
+        briefError.value =
+            result.error ?? 'Could not generate the daily brief right now.';
+      }
+    } on VendorApiException catch (error) {
+      brief.value = null;
+      briefError.value = error.message;
+    } finally {
+      isGeneratingBrief.value = false;
     }
   }
 
