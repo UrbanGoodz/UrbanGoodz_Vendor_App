@@ -89,6 +89,16 @@ void main() {
   });
 
   group('the dashboard chart renders for every revenue state', () {
+    // The AI assistant panel's avatar runs three real, continuous
+    // AnimationControllers (breathing/blink/pulse idle animation), so
+    // pumpAndSettle can never settle here by design. Pump a bounded number
+    // of frames instead, enough for the fetch/setState chain to complete.
+    Future<void> pumpSettled(WidgetTester tester) async {
+      for (var i = 0; i < 10; i++) {
+        await tester.pump(const Duration(milliseconds: 50));
+      }
+    }
+
     Future<DashboardController> pumpDashboard(WidgetTester tester) async {
       Get.testMode = true;
       SharedPreferences.setMockInitialValues({});
@@ -101,7 +111,7 @@ void main() {
       await tester.pumpWidget(
         GetMaterialApp(theme: AppTheme.lightTheme, home: DashboardScreen()),
       );
-      await tester.pumpAndSettle();
+      await pumpSettled(tester);
       return Get.find<DashboardController>();
     }
 
@@ -122,7 +132,7 @@ void main() {
       final controller = await pumpDashboard(tester);
 
       controller.revenueChart.clear();
-      await tester.pumpAndSettle();
+      await pumpSettled(tester);
 
       expect(controller.hasNoRevenue, isTrue);
       expect(find.byKey(const Key('revenue_chart_empty')), findsOneWidget);
@@ -134,7 +144,7 @@ void main() {
       final controller = await pumpDashboard(tester);
 
       controller.revenueChart.assignAll([0, 500, 1000, 250, 0, 0, 0]);
-      await tester.pumpAndSettle();
+      await pumpSettled(tester);
 
       expect(find.byKey(const Key('revenue_chart_empty')), findsNothing);
       // The chart's row is a fixed 140px; an overflow here is the defect.
@@ -169,7 +179,7 @@ void main() {
       final controller = await pumpDashboard(tester);
 
       controller.revenueChart.assignAll([100, 200, 300]);
-      await tester.pumpAndSettle();
+      await pumpSettled(tester);
 
       expect(find.byKey(const Key('revenue_bar_2')), findsOneWidget);
       expect(find.byKey(const Key('revenue_bar_3')), findsNothing);
