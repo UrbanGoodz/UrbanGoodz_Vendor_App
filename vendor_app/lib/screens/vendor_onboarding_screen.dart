@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:urban_goodz_vendor/controllers/vendor_auth_controller.dart';
+import 'package:urban_goodz_vendor/screens/vendor_password_reset_screen.dart';
 import 'package:urban_goodz_vendor/theme/app_theme.dart';
 
 class VendorOnboardingScreen extends StatefulWidget {
@@ -55,6 +56,17 @@ class _VendorOnboardingScreenState extends State<VendorOnboardingScreen> {
     _businessNameController.dispose();
     _addressController.dispose();
     super.dispose();
+  }
+
+  /// Opens the live password-recovery flow against
+  /// auth/vendor/{forgot-password,verify-token,reset-password}, rather than
+  /// fabricating a "reset link sent" confirmation with no backend call.
+  void _openPasswordRecovery() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => VendorPasswordResetScreen(initialEmail: _loginEmailController.text),
+      ),
+    );
   }
 
   @override
@@ -172,6 +184,7 @@ class _VendorOnboardingScreenState extends State<VendorOnboardingScreen> {
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
+                    key: const Key('vendor_login_email'),
                     controller: _loginEmailController,
                     keyboardType: TextInputType.emailAddress,
                     autofillHints: const [AutofillHints.email],
@@ -184,6 +197,7 @@ class _VendorOnboardingScreenState extends State<VendorOnboardingScreen> {
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
+                    key: const Key('vendor_login_password'),
                     controller: _loginPasswordController,
                     obscureText: true,
                     autofillHints: const [AutofillHints.password],
@@ -194,11 +208,26 @@ class _VendorOnboardingScreenState extends State<VendorOnboardingScreen> {
                     ),
                     validator: (val) => val == null || val.isEmpty ? 'Password is required' : null,
                   ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Semantics(
+                      label: 'vendor_forgot_password',
+                      child: TextButton(
+                        key: const Key('vendor_forgot_password'),
+                        onPressed: _openPasswordRecovery,
+                        child: const Text(
+                          'Forgot Password?',
+                          style: TextStyle(fontSize: 12, color: AppTheme.primary, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 12),
                   Obx(
                     () => authController.errorMessage.value == null
                         ? const SizedBox.shrink()
                         : Container(
+                            key: const Key('vendor_auth_error'),
                             padding: const EdgeInsets.all(12),
                             color: Colors.red.withOpacity(.08),
                             child: Text(
@@ -210,6 +239,7 @@ class _VendorOnboardingScreenState extends State<VendorOnboardingScreen> {
                   const SizedBox(height: 24),
 
                   Obx(() => ElevatedButton(
+                    key: const Key('vendor_login_submit'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppTheme.primary,
                       foregroundColor: AppTheme.dark,

@@ -4,22 +4,36 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:urban_goodz_vendor/repositories/vendor_repository.dart';
 import 'package:urban_goodz_vendor/services/vendor_api_client.dart';
+import 'package:urban_goodz_vendor/services/vendor_realtime_service.dart';
+import 'package:urban_goodz_vendor/controllers/dashboard_controller.dart';
+import 'package:urban_goodz_vendor/controllers/orders_controller.dart';
+import 'package:urban_goodz_vendor/controllers/revenue_tracking_controller.dart';
 import 'dart:async';
 
 class VendorAuthController extends GetxController {
-  VendorAuthController(this.repository, this.api);
+  VendorAuthController(this.repository, this.api, [this.realtime]);
 
   static const _tokenKey = 'vendor_api_token';
   static const _emailKey = 'vendor_email';
 
   final VendorRepository repository;
   final VendorApiClient api;
+  final VendorRealtimeService? realtime;
 
   final isLoggedIn = false.obs;
   final isInitialized = false.obs;
   final isLoading = false.obs;
   final errorMessage = RxnString();
+
+  /// One of: unknown | approved | pending | suspended | store_missing |
+  /// denied | subscription_required. Every value maps to a state the backend
+  /// actually emits; none is invented.
   final approvalStatus = 'unknown'.obs;
+  final vendorId = 0.obs;
+
+  /// True when the backend answered 200 with a `subscribed` payload instead
+  /// of a usable session (store_business_model == 'none').
+  final requiresSubscription = false.obs;
 
   final businessName = ''.obs;
   final ownerName = ''.obs;
@@ -46,6 +60,7 @@ class VendorAuthController extends GetxController {
 
   final sizingQuoteRequests = <FashionFitQuoteRequest>[].obs;
   StreamSubscription<String>? _tokenRefreshSubscription;
+  String _sessionToken = '';
 
   @override
   void onInit() {
@@ -73,31 +88,94 @@ class VendorAuthController extends GetxController {
   }
 
   Future<void> _restoreSession() async {
-    final preferences = await SharedPreferences.getInstance();
-    final token = preferences.getString(_tokenKey);
-    email.value = preferences.getString(_emailKey) ?? '';
-    if (token != null && token.isNotEmpty) {
-      api.setToken(token);
-      try {
-        await refreshProfile();
-        isLoggedIn.value = true;
-        await _registerFcmToken();
-      } on VendorApiException catch (error) {
-        if (error.statusCode == 401 || error.statusCode == 403) {
+    try {
+      final preferences = await SharedPreferences.getInstance();
+      final token = preferences.getString(_tokenKey);
+      email.value = preferences.getString(_emailKey) ?? '';
+      if (token != null && token.isNotEmpty) {
+        _sessionToken = token;
+        api.setToken(token);
+        try {
+          await refreshProfile().timeout(const Duration(seconds: 15));
+          isLoggedIn.value = true;
+          await _connectRealtime();
+          await _registerFcmToken();
+        } on VendorApiException catch (error) {
+          if (error.statusCode == 401 || error.statusCode == 403) {
+            await _clearSession();
+          } else {
+            errorMessage.value = error.message;
+          }
+        } catch (_) {
           await _clearSession();
-        } else {
-          errorMessage.value = error.message;
         }
       }
+    } catch (_) {
+    } finally {
+      isInitialized.value = true;
     }
-    isInitialized.value = true;
+  }
+
+  /// Extracts the machine-readable error code the backend emits, e.g.
+  /// `auth-001`, `auth-002`, `store_inactive`, `store_missing`.
+  ///
+  /// Preferred over matching on `message`, which is passed through
+  /// `translate()` server-side and therefore changes with the vendor's
+  /// language.
+  static String? _errorCode(VendorApiException error) {
+    final body = error.body;
+    if (body is! Map) return null;
+    final errors = body['errors'];
+    if (errors is List && errors.isNotEmpty && errors.first is Map) {
+      return (errors.first as Map)['code']?.toString();
+    }
+    return null;
+  }
+
+  /// Maps a login failure to an account state.
+  ///
+  /// Only states the backend actually emits are used. `VendorLoginController`
+  /// + `storeSubscriptionCheck` produce exactly:
+  ///   auth-001       401  credentials rejected (or rental addon unavailable)
+  ///   auth-002       403  registration not approved yet
+  ///   store_inactive 403  store or owner not active -> suspended
+  ///   store_missing  403  no store assigned to the vendor
+  /// There is no "rejected" state in the backend, so none is invented here.
+  static String _accountStateFor(VendorApiException error) {
+    switch (_errorCode(error)) {
+      case 'auth-002':
+        return 'pending';
+      case 'store_inactive':
+        return 'suspended';
+      case 'store_missing':
+        return 'store_missing';
+      case 'auth-001':
+        return 'denied';
+      default:
+        return error.statusCode == 403 ? 'denied' : 'unknown';
+    }
   }
 
   Future<bool> login(String emailAddress, String password) async {
     isLoading.value = true;
     errorMessage.value = null;
+    requiresSubscription.value = false;
+    approvalStatus.value = 'unknown';
     try {
       final result = await repository.login(emailAddress.trim(), password);
+
+      // A store on `store_business_model == 'none'` gets HTTP 200 carrying a
+      // `subscribed` payload rather than a normal session. It contains a
+      // token, so it must be rejected explicitly or the vendor would land on
+      // a dashboard they have no active subscription for.
+      if (result['requires_subscription'] == true) {
+        requiresSubscription.value = true;
+        approvalStatus.value = 'subscription_required';
+        errorMessage.value =
+            'This store needs an active subscription before you can sign in.';
+        return false;
+      }
+
       final token = result['token']?.toString();
       if (token == null || token.isEmpty) {
         throw const VendorApiException(
@@ -106,24 +184,27 @@ class VendorAuthController extends GetxController {
         );
       }
       api.setToken(token);
+      _sessionToken = token;
       final preferences = await SharedPreferences.getInstance();
       await preferences.setString(_tokenKey, token);
       await preferences.setString(_emailKey, emailAddress.trim());
       email.value = emailAddress.trim();
+      // Identity comes from GET vendor/profile; the login response carries
+      // only token, zone_wise_topic and module_type.
       await refreshProfile();
+      approvalStatus.value = 'approved';
       isLoggedIn.value = true;
+      await _connectRealtime();
       await _registerFcmToken();
       return true;
     } on VendorApiException catch (error) {
-      approvalStatus.value = error.message.toLowerCase().contains('approved')
-          ? 'pending'
-          : error.message.toLowerCase().contains('suspended')
-          ? 'suspended'
-          : 'denied';
+      approvalStatus.value = _accountStateFor(error);
       errorMessage.value = error.message;
+      await _clearSession();
       return false;
     } catch (error) {
       errorMessage.value = 'Unable to reach the Vendor API: $error';
+      await _clearSession();
       return false;
     } finally {
       isLoading.value = false;
@@ -175,6 +256,7 @@ class VendorAuthController extends GetxController {
 
   Future<void> refreshProfile() async {
     final profile = await repository.profile();
+    vendorId.value = int.tryParse(profile['id']?.toString() ?? '') ?? 0;
     final storeValue = profile['stores'];
     final store = storeValue is Map
         ? Map<String, dynamic>.from(storeValue)
@@ -289,12 +371,38 @@ class VendorAuthController extends GetxController {
   }
 
   Future<void> _clearSession() async {
+    await realtime?.disconnect();
     api.setToken(null);
+    _sessionToken = '';
     final preferences = await SharedPreferences.getInstance();
     await preferences.remove(_tokenKey);
     businessName.value = '';
     ownerName.value = '';
+    vendorId.value = 0;
     sizingQuoteRequests.clear();
+  }
+
+  Future<void> _connectRealtime() async {
+    await realtime?.connect(
+      vendorId: vendorId.value,
+      bearerToken: _sessionToken,
+      onOrderUpdated: (_) {
+        if (Get.isRegistered<OrdersController>()) {
+          unawaited(Get.find<OrdersController>().fetchOrders());
+        }
+        if (Get.isRegistered<DashboardController>()) {
+          unawaited(Get.find<DashboardController>().fetchDashboard());
+        }
+      },
+      onPaymentUpdated: (_) {
+        if (Get.isRegistered<RevenueTrackingController>()) {
+          unawaited(Get.find<RevenueTrackingController>().fetchRevenue());
+        }
+        if (Get.isRegistered<DashboardController>()) {
+          unawaited(Get.find<DashboardController>().fetchDashboard());
+        }
+      },
+    );
   }
 
   static bool _bool(Object? value) =>
