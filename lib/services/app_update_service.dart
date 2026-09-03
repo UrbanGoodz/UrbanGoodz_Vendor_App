@@ -120,7 +120,7 @@ class AppUpdateService {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.system_update_force, size: 80, color: Colors.white),
+                      const Icon(Icons.system_update, size: 80, color: Colors.white),
                       const SizedBox(height: 24),
                       const Text(
                         'UPDATE REQUIRED',

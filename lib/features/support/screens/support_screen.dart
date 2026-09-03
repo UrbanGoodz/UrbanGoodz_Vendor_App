@@ -44,7 +44,17 @@ class _SupportScreenState extends State<SupportScreen> {
             SupportButtonWidget(
               icon: Icons.location_on, title: 'address'.tr, color: Colors.blue,
               info: Get.find<SplashController>().configModel!.address,
-              onTap: () {},
+              onTap: () async {
+                final String? address = Get.find<SplashController>().configModel!.address;
+                if(address != null && address.isNotEmpty) {
+                  final String url = 'https://www.google.com/maps/search/?api=1&query=${Uri.encodeComponent(address)}';
+                  if(await canLaunchUrlString(url)) {
+                    launchUrlString(url);
+                  }else {
+                    showCustomSnackBar('${'can_not_launch'.tr} $address');
+                  }
+                }
+              },
             ),
             const SizedBox(height: Dimensions.paddingSizeSmall),
 
