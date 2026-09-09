@@ -233,13 +233,6 @@ class RevenueTrackingScreen extends StatelessWidget {
                   color: AppTheme.dark,
                 ),
               ),
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  'View All',
-                  style: TextStyle(color: AppTheme.primary, fontSize: 12),
-                ),
-              ),
             ],
           ),
           const SizedBox(height: 8),

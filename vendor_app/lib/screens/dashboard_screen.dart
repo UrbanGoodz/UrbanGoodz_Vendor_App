@@ -687,7 +687,7 @@ class _DashboardTab extends StatelessWidget {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () => Get.to(() => const OrdersScreen()),
                 child: const Text(
                   'View All',
                   style: TextStyle(color: AppTheme.primary),
