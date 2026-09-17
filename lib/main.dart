@@ -23,6 +23,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
+import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
 import 'package:sixam_mart/features/home/widgets/cookies_view.dart';
 import 'helper/get_di.dart' as di;
 import 'package:flutter/foundation.dart' show kIsWeb, kDebugMode;
@@ -32,6 +34,16 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterL
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  if (GetPlatform.isAndroid) {
+    // Default TextureView rendering hits "mali_gralloc: Unrecognized and/or
+    // unsupported format" and freezes/blanks the map on Mali-GPU devices.
+    // Hybrid Composition (SurfaceView-backed) avoids that buffer path.
+    final mapsImplementation = GoogleMapsFlutterPlatform.instance;
+    if (mapsImplementation is GoogleMapsFlutterAndroid) {
+      mapsImplementation.useAndroidViewSurface = true;
+    }
+  }
 
   if (kIsWeb) {
     usePathUrlStrategy();
