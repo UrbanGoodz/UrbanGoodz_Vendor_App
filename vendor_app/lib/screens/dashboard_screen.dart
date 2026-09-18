@@ -4,6 +4,7 @@ import 'package:urban_goodz_vendor/controllers/dashboard_controller.dart';
 import 'package:urban_goodz_vendor/controllers/vendor_auth_controller.dart';
 import 'package:urban_goodz_vendor/models/daily_brief_model.dart';
 import 'package:urban_goodz_vendor/theme/app_theme.dart';
+import 'package:urban_goodz_vendor/screens/fleet_screen.dart';
 import 'package:urban_goodz_vendor/screens/orders_screen.dart';
 import 'package:urban_goodz_vendor/screens/inventory_screen.dart';
 import 'package:urban_goodz_vendor/screens/promotions_screen.dart';
@@ -831,6 +832,11 @@ class _DashboardTab extends StatelessWidget {
               onTap: () => Get.to(() => const OrdersScreen()),
             ),
             _ActionButton(
+              label: 'Fleet',
+              icon: Icons.local_shipping,
+              onTap: () => Get.to(() => const FleetScreen()),
+            ),
+            _ActionButton(
               label: 'Inventory',
               icon: Icons.inventory_2,
               onTap: () => Get.to(() => const InventoryScreen()),
@@ -1101,15 +1107,15 @@ class _ProfileTab extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildDeliveryStatusRow(
-                      'Vendor Delivery',
-                      'Pending Urban Goodz Approval',
-                      Colors.orange,
-                    ),
-                    _buildDeliveryStatusRow(
-                      'Active Driver',
-                      'Pending Approval',
-                      Colors.orange,
+                    // Was two hardcoded "Pending Approval" rows that never
+                    // reflected real driver state; the fleet screen does.
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: const Icon(Icons.local_shipping, color: AppTheme.primary),
+                      title: const Text('My Fleet'),
+                      subtitle: const Text('Your drivers, their approval and who is on which order'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () => Get.to(() => const FleetScreen()),
                     ),
                     _buildDeliveryStatusRow(
                       'Delivery Fee Payout',

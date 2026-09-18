@@ -506,6 +506,59 @@ class VendorRepository {
         body: {'conversation_id': conversationId, 'message': message},
       );
 
+  // ---------------------------------------------------------------------
+  // Fleet: the vendor's own drivers.
+  //
+  // Contract read from VendorDriverManagementController (routes nested under
+  // urban-goodz/cross-app/ai, confirmed with `php artisan route:list`):
+  //
+  //   GET  .../vendor/drivers                    {success, data:[driver]}
+  //        driver: id, name, phone, approval_status, network_dispatch_status,
+  //                active, current_orders, active_order_id, active_order_status
+  //   GET  .../vendor/drivers/summary            {success, data:{drivers:{...},
+  //                                               deliveries_today:{...}}}
+  //   GET  .../vendor/drivers/assignable-orders  {success, data:[order]}
+  //   POST .../vendor/drivers                    {f_name, l_name?, phone,
+  //                                               email?, password} -> 201
+  //   POST .../vendor/drivers/{id}/assign        {order_id} -> 200 | 422
+  //   POST .../vendor/drivers/{id}/release       {order_id} -> 200 | 422
+  //
+  // 422 bodies are {success:false, message}; VendorApiClient surfaces the
+  // message.
+  static const _fleet = 'urban-goodz/cross-app/ai/vendor/drivers';
+
+  Future<List<Map<String, dynamic>>> fleetDrivers() async =>
+      _list(_map(await api.get(_fleet))['data']);
+
+  Future<Map<String, dynamic>> fleetSummary() async =>
+      _map(_map(await api.get('$_fleet/summary'))['data']);
+
+  Future<List<Map<String, dynamic>>> assignableOrders() async =>
+      _list(_map(await api.get('$_fleet/assignable-orders'))['data']);
+
+  Future<void> addFleetDriver({
+    required String fName,
+    String? lName,
+    required String phone,
+    String? email,
+    required String password,
+  }) async => api.post(
+    _fleet,
+    body: {
+      'f_name': fName,
+      if (lName != null && lName.isNotEmpty) 'l_name': lName,
+      'phone': phone,
+      if (email != null && email.isNotEmpty) 'email': email,
+      'password': password,
+    },
+  );
+
+  Future<void> assignFleetDriver(int driverId, int orderId) async =>
+      api.post('$_fleet/$driverId/assign', body: {'order_id': orderId});
+
+  Future<void> releaseFleetDriver(int driverId, int orderId) async =>
+      api.post('$_fleet/$driverId/release', body: {'order_id': orderId});
+
   static Map<String, dynamic> _map(Object? value) =>
       value is Map ? Map<String, dynamic>.from(value) : <String, dynamic>{};
 
