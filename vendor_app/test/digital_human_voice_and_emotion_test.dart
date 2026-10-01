@@ -43,10 +43,9 @@ class MockHttpClient extends http.BaseClient {
 // initialize/dispose), not a hand-waved partial one.
 class DummyAvatarProvider implements AvatarProvider {
   DummyAvatarProvider({
-    AvatarProviderId id = AvatarProviderId.rive,
-    Set<AvatarCapability> capabilities = const {},
-  })  : _id = id,
-        _capabilities = capabilities;
+    this._id = AvatarProviderId.rive,
+    this._capabilities = const {},
+  });
 
   final AvatarProviderId _id;
   final Set<AvatarCapability> _capabilities;
