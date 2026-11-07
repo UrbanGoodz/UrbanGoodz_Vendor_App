@@ -19,42 +19,67 @@ class VendorAiAssistantController extends GetxController {
     super.onInit();
   }
 
+  /// Sections whose request failed on the last load. The screen must say so
+  /// instead of showing an empty state, which would read as "nothing to do".
+  final unavailableSections = <String>{}.obs;
+
+  static const sectionBrief = 'brief';
+  static const sectionCatalog = 'catalog';
+  static const sectionActions = 'actions';
+  static const sectionSettlement = 'settlement';
+
+  bool isUnavailable(String section) => unavailableSections.contains(section);
+
   Future<void> fetchAssistantBrief() async {
     isLoading.value = true;
     errorMessage.value = '';
-    try {
-      // 1. Fetch Daily Brief
-      final briefRes = await _client.get('/urban-goodz/cross-app/ai/vendor/daily-brief');
-      if (briefRes is Map) {
-        dailyBrief.value = briefRes['brief']?.toString() ?? 'Daily brief temporarily unavailable.';
-      }
+    unavailableSections.clear();
 
-      // 2. Fetch Catalog Suggestions & Alerts
-      final catalogRes = await _client.get('/urban-goodz/cross-app/ai/vendor/catalog-suggestions');
-      if (catalogRes is Map && catalogRes['suggestions'] is List) {
-        catalogSuggestions.value = List<Map<String, dynamic>>.from(
-          (catalogRes['suggestions'] as List).map((s) => Map<String, dynamic>.from(s))
-        );
+    // Each section loads on its own: one missing or failing endpoint must not
+    // blank the others, and a failure is never presented as an empty result.
+    Future<void> load(String section, Future<void> Function() run) async {
+      try {
+        await run();
+      } catch (_) {
+        unavailableSections.add(section);
       }
-
-      // 3. Fetch Recommended Actions
-      final actionsRes = await _client.get('/urban-goodz/cross-app/ai/vendor/recommended-actions');
-      if (actionsRes is Map && actionsRes['actions'] is List) {
-        recommendedActions.value = List<Map<String, dynamic>>.from(
-          (actionsRes['actions'] as List).map((a) => Map<String, dynamic>.from(a))
-        );
-      }
-
-      // 4. Fetch Settlement Brief
-      final settlementRes = await _client.get('/urban-goodz/cross-app/ai/vendor/settlement-metrics');
-      if (settlementRes is Map) {
-        settlementBrief.value = Map<String, dynamic>.from(settlementRes);
-      }
-    } catch (e) {
-      errorMessage.value = 'Failed to load Vendor AI briefing.';
-    } finally {
-      isLoading.value = false;
     }
+
+    await Future.wait([
+      load(sectionBrief, () async {
+        final res = await _client.get('/urban-goodz/cross-app/ai/vendor/daily-brief');
+        if (res is! Map) throw const FormatException('unexpected daily brief response');
+        dailyBrief.value = res['brief']?.toString() ?? 'Daily brief temporarily unavailable.';
+      }),
+      load(sectionCatalog, () async {
+        final res = await _client.get('/urban-goodz/cross-app/ai/vendor/catalog-suggestions');
+        if (res is! Map || res['suggestions'] is! List) {
+          throw const FormatException('unexpected catalog response');
+        }
+        catalogSuggestions.value = List<Map<String, dynamic>>.from(
+          (res['suggestions'] as List).map((s) => Map<String, dynamic>.from(s)),
+        );
+      }),
+      load(sectionActions, () async {
+        final res = await _client.get('/urban-goodz/cross-app/ai/vendor/recommended-actions');
+        if (res is! Map || res['actions'] is! List) {
+          throw const FormatException('unexpected actions response');
+        }
+        recommendedActions.value = List<Map<String, dynamic>>.from(
+          (res['actions'] as List).map((a) => Map<String, dynamic>.from(a)),
+        );
+      }),
+      load(sectionSettlement, () async {
+        final res = await _client.get('/urban-goodz/cross-app/ai/vendor/settlement-metrics');
+        if (res is! Map) throw const FormatException('unexpected settlement response');
+        settlementBrief.value = Map<String, dynamic>.from(res);
+      }),
+    ]);
+
+    if (unavailableSections.length == 4) {
+      errorMessage.value = 'Failed to load Vendor AI briefing.';
+    }
+    isLoading.value = false;
   }
 
   Future<void> applyCatalogChange(int itemId, Map<String, dynamic> changes) async {

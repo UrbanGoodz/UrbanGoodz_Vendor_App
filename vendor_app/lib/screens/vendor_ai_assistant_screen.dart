@@ -146,10 +146,13 @@ class _VendorAiAssistantScreenState extends State<VendorAiAssistantScreen> {
             ],
           ),
           const SizedBox(height: 8),
-          Text(
-            controller.dailyBrief.value,
-            style: const TextStyle(fontSize: 14, height: 1.4),
-          ),
+          if (controller.isUnavailable(VendorAiAssistantController.sectionBrief))
+            const _SectionUnavailable()
+          else
+            Text(
+              controller.dailyBrief.value,
+              style: const TextStyle(fontSize: 14, height: 1.4),
+            ),
         ],
       ),
     );
@@ -161,7 +164,9 @@ class _VendorAiAssistantScreenState extends State<VendorAiAssistantScreen> {
       children: [
         const Text('Recommended Actions', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         const SizedBox(height: 8),
-        if (controller.recommendedActions.isEmpty)
+        if (controller.isUnavailable(VendorAiAssistantController.sectionActions))
+          const _SectionUnavailable()
+        else if (controller.recommendedActions.isEmpty)
           const Text('No recommended operational changes at this time.', style: TextStyle(color: Colors.grey))
         else
           ...controller.recommendedActions.map((action) {
@@ -190,7 +195,9 @@ class _VendorAiAssistantScreenState extends State<VendorAiAssistantScreen> {
       children: [
         const Text('Catalog & Price Recommendations', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         const SizedBox(height: 8),
-        if (controller.catalogSuggestions.isEmpty)
+        if (controller.isUnavailable(VendorAiAssistantController.sectionCatalog))
+          const _SectionUnavailable()
+        else if (controller.catalogSuggestions.isEmpty)
           const Text('All catalog item listings are fully optimized.', style: TextStyle(color: Colors.grey))
         else
           ...controller.catalogSuggestions.map((suggestion) {
@@ -219,6 +226,17 @@ class _VendorAiAssistantScreenState extends State<VendorAiAssistantScreen> {
   }
 
   Widget _buildSettlementsSection() {
+    if (controller.isUnavailable(VendorAiAssistantController.sectionSettlement)) {
+      return const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Settlements & Financial Brief', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          SizedBox(height: 8),
+          // Never show 0.00 / N/A for figures that did not load.
+          _SectionUnavailable(),
+        ],
+      );
+    }
     final brief = controller.settlementBrief;
     final lastSettlement = brief['last_settlement'] ?? 0.0;
     final nextSettlementDate = brief['next_settlement_date'] ?? 'N/A';
@@ -325,6 +343,29 @@ class _VendorAiAssistantScreenState extends State<VendorAiAssistantScreen> {
           )
         ],
       )
+    );
+  }
+}
+
+/// Shown instead of an empty state when a section's data could not be loaded,
+/// so "unavailable" is never mistaken for "nothing to report".
+class _SectionUnavailable extends StatelessWidget {
+  const _SectionUnavailable();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
+      key: Key('vendor_ai_section_unavailable'),
+      children: [
+        Icon(Icons.cloud_off_outlined, size: 18, color: Colors.grey),
+        SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            'This section is temporarily unavailable. Pull down to retry.',
+            style: TextStyle(color: Colors.grey),
+          ),
+        ),
+      ],
     );
   }
 }
