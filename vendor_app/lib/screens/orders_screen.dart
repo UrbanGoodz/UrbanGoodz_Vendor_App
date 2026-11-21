@@ -513,7 +513,9 @@ class _OrderCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: 70,
+            // 70px wrapped "Payment" onto 2 lines ("Paymen"/"t"); the
+            // longest label here ("Payment") needs a touch more room.
+            width: 80,
             child: Text(
               label,
               style: TextStyle(

@@ -10,7 +10,16 @@ class InventoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final InventoryController c = Get.put(InventoryController());
+    // Get.put() inside build() installed a brand-new controller on every
+    // rebuild, orphaning whatever fetchInventory() call was still in flight
+    // on the previous instance: its eventual items.assignAll() fired against
+    // an Obx that had already rebuilt onto the new controller, which GetX
+    // flags as "improper use of a GetX" rather than silently updating -
+    // ending with the item count in the header but no item cards. Get.find()
+    // reuses the same instance across rebuilds; Get.put() only runs once.
+    final InventoryController c = Get.isRegistered<InventoryController>()
+        ? Get.find<InventoryController>()
+        : Get.put(InventoryController());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Inventory'),
@@ -82,29 +91,38 @@ class InventoryScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          Obx(
-            () => PopupMenuButton<String>(
+          Obx(() {
+            // Obx only subscribes to observables actually read while this
+            // builder runs. itemBuilder below is a lazy callback the
+            // PopupMenuButton only invokes once the menu is opened, so a
+            // c.sortBy.value read placed there never runs during Obx's
+            // build pass: Obx ends up with zero subscriptions, and the
+            // "improper use of a GetX" throw it raises for that case was
+            // taking out this whole screen's layout. Reading it here first
+            // forces the subscription to register.
+            final currentSort = c.sortBy.value;
+            return PopupMenuButton<String>(
               icon: const Icon(Icons.sort, color: AppTheme.dark),
               onSelected: (v) => c.sortItems(v),
               itemBuilder: (_) => [
                 CheckedPopupMenuItem(
                   value: 'name',
-                  checked: c.sortBy.value == 'name',
+                  checked: currentSort == 'name',
                   child: const Text('Sort by Name'),
                 ),
                 CheckedPopupMenuItem(
                   value: 'price',
-                  checked: c.sortBy.value == 'price',
+                  checked: currentSort == 'price',
                   child: const Text('Sort by Price'),
                 ),
                 CheckedPopupMenuItem(
                   value: 'stock',
-                  checked: c.sortBy.value == 'stock',
+                  checked: currentSort == 'stock',
                   child: const Text('Sort by Stock'),
                 ),
               ],
-            ),
-          ),
+            );
+          }),
         ],
       ),
     );
